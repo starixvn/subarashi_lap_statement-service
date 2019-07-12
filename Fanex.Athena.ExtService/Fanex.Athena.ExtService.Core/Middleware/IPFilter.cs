@@ -25,7 +25,7 @@ namespace Fanex.Athena.ExtService.Core.Middleware
             var ipAddress = context.Connection.RemoteIpAddress;
             var whiteListIPList = _applicationOptions.WhiteList;
 
-            var isInWhiteListIPList = whiteListIPList.Where(x => IPAddress.Parse(x).Equals(ipAddress)).Any();
+            var isInWhiteListIPList = whiteListIPList.Any(x => IPAddress.Parse(x).Equals(ipAddress));
             if (!isInWhiteListIPList)
             {
                 context.Response.StatusCode = (int)HttpStatusCode.Forbidden;

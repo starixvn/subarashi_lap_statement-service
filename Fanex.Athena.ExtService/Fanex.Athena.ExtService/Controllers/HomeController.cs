@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Fanex.Athena.ExtService.Models;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Fanex.Athena.ExtService.Models;
+
+using System.Diagnostics;
 
 namespace Fanex.Athena.ExtService.Controllers
 {
+
     public class HomeController : Controller
     {
         public IActionResult Index()
@@ -22,6 +22,7 @@ namespace Fanex.Athena.ExtService.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
