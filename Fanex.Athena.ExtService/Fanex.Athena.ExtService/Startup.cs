@@ -37,6 +37,7 @@ namespace Fanex.Athena.ExtService
         {
             services.Configure<TokenManagement>(Configuration.GetSection("tokenManagement"));
             services.Configure<ApplicationOptions>(Configuration.GetSection("ApplicationOptions"));
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.Configure<List<User>>(Configuration.GetSection("Users"));
             var token = Configuration.GetSection("tokenManagement").Get<TokenManagement>();
             var secret = Encoding.ASCII.GetBytes(token.Secret);

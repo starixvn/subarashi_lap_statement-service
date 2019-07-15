@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
+
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
+
 using System.Threading.Tasks;
 
 namespace Fanex.Athena.ExtService.Core.Middleware
