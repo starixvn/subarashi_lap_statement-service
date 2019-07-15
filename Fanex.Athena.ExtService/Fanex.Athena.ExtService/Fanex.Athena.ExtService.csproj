@@ -23,4 +23,20 @@
     <ProjectReference Include="..\Fanex.Athena.ExtService.Core\Fanex.Athena.ExtService.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="www\js\source\common\languages\ViewResources.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ViewResources.txt</LastGenOutput>
+    </None>
+    <None Update="www\js\source\common\languages\ViewResources.txt">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ViewResources.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
 </Project>
