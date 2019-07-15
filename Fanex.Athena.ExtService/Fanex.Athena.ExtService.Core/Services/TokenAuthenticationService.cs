@@ -34,7 +34,8 @@ namespace Fanex.Athena.ExtService.Core.Services
                 _tokenManagement.Issuer,
                 _tokenManagement.Audience,
                 claim,
-                expires: DateTime.Now.AddMinutes(_tokenManagement.AccessExpiration),
+                notBefore:DateTime.UtcNow,
+                expires: DateTime.UtcNow.AddMinutes(_tokenManagement.AccessExpiration),
                 signingCredentials: credentials
             );
             token = new JwtSecurityTokenHandler().WriteToken(jwtToken);

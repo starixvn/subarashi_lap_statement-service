@@ -9,4 +9,4 @@ namespace Fanex.Athena.ExtService.Core.Models.DTO
         public string LoggingService { get; set; }
     }
 }
-}
+
