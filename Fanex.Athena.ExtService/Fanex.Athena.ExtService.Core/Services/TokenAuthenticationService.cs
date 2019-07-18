@@ -21,7 +21,10 @@ namespace Fanex.Athena.ExtService.Core.Services
         public bool IsAuthenticated(TokenRequest request, out string token)
         {
             token = string.Empty;
-            if (!_userManagementService.IsValidUser(request.Username, request.Password)) return false;
+            if (!_userManagementService.IsValidUser(request.Username, request.Password))
+            {
+                return false;
+            }
 
             var claim = new[]
             {
