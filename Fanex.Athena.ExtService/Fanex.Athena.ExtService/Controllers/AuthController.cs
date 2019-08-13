@@ -24,7 +24,7 @@ namespace Fanex.Athena.ExtService.Controllers
                 return BadRequest("Invalid Request");
             }
 
-            return _authService.IsAuthenticated(request, out string token) ? Ok(token) 
+            return _authService.IsAuthenticated(request, out Token token) ? Ok(token)
                 : (ActionResult)BadRequest("Invalid Request");
         }
     }

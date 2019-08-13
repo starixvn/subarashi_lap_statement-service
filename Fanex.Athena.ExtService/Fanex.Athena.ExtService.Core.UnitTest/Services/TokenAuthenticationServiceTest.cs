@@ -39,7 +39,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTest.Services
             };
             _mockUserManagement.Setup(x => x.IsValidUser(token.Username, token.Password)).Returns(false);
             //Action
-            var result = _authenticateService.IsAuthenticated(token, out string tokenResult);
+            var result = _authenticateService.IsAuthenticated(token, out Token tokenResult);
             //Assert
 
             Assert.False(result);
@@ -56,11 +56,11 @@ namespace Fanex.Athena.ExtService.Core.UnitTest.Services
             };
             _mockUserManagement.Setup(x => x.IsValidUser(token.Username, token.Password)).Returns(true);
             //Action
-            var result = _authenticateService.IsAuthenticated(token, out string tokenResult);
+            var result = _authenticateService.IsAuthenticated(token, out Token tokenResult);
             //Assert
 
             Assert.True(result);
-            Assert.NotNull(tokenResult);
+            Assert.NotNull(tokenResult.AccessToken);
         }
     }
 }

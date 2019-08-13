@@ -18,9 +18,9 @@ namespace Fanex.Athena.ExtService.Core.Services
             _userManagementService = service;
             _tokenManagement = tokenManagementAccessor.Value;
         }
-        public bool IsAuthenticated(TokenRequest request, out string token)
+        public bool IsAuthenticated(TokenRequest request, out Token token)
         {
-            token = string.Empty;
+            token = new Token();
             if (!_userManagementService.IsValidUser(request.Username, request.Password))
             {
                 return false;
@@ -37,11 +37,11 @@ namespace Fanex.Athena.ExtService.Core.Services
                 _tokenManagement.Issuer,
                 _tokenManagement.Audience,
                 claim,
-                notBefore:DateTime.UtcNow,
+                notBefore: DateTime.UtcNow,
                 expires: DateTime.UtcNow.AddMinutes(_tokenManagement.AccessExpiration),
                 signingCredentials: credentials
             );
-            token = new JwtSecurityTokenHandler().WriteToken(jwtToken);
+            token.AccessToken = new JwtSecurityTokenHandler().WriteToken(jwtToken);
             return true;
         }
     }
