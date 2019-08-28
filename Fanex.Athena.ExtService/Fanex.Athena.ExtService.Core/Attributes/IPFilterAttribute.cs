@@ -3,7 +3,7 @@ using System.Linq;
 using System.Net;
 
 using Fanex.Athena.ExtService.Core.Models.DTO;
-using Microsoft.AspNetCore.Authorization;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Options;
