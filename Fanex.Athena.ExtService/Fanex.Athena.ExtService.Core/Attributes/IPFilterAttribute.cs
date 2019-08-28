@@ -28,7 +28,12 @@ namespace Fanex.Athena.ExtService.Core.Attributes
             var isInWhiteListIPList = !whiteListIPList.Any() || whiteListIPList.Any(x => IPAddress.Parse(x).Equals(ipAddress));
             if (!isInWhiteListIPList)
             {
-                context.Result = new ForbidResult();
+                var result = new ContentResult
+                {
+                    Content = $"The IP Address: {ipAddress} was blocked"
+                };
+
+                context.Result = result;
             }
         }
     }
