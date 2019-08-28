@@ -5,6 +5,7 @@ using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Fanex.Athena.ExtService.Core.Attributes;
 using Fanex.Athena.ExtService.Core.Middleware;
 using Fanex.Athena.ExtService.Core.Models;
 using Fanex.Athena.ExtService.Core.Models.DTO;
@@ -89,6 +90,7 @@ namespace Fanex.Athena.ExtService
 
             services.AddScoped<IAuthenticateService, TokenAuthenticationService>();
             services.AddScoped<IUserManagementService, UserManagementService>();
+            services.AddScoped<IPFilterAttribute>();
         }
 
 
@@ -109,7 +111,6 @@ namespace Fanex.Athena.ExtService
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-            //app.UseIPFilter();
             app.UseJWTokenOnPage();
             app.UseAuthentication();
 

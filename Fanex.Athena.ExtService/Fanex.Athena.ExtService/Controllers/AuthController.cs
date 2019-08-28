@@ -1,4 +1,5 @@
-﻿using Fanex.Athena.ExtService.Core.Models;
+﻿using Fanex.Athena.ExtService.Core.Attributes;
+using Fanex.Athena.ExtService.Core.Models;
 using Fanex.Athena.ExtService.Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Fanex.Athena.ExtService.Controllers
 {
     [ApiController]
+    [ServiceFilter(typeof(IPFilterAttribute))]
     public class AuthController : ControllerBase
     {
         private readonly IAuthenticateService _authService;
