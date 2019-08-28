@@ -47,11 +47,13 @@ namespace Fanex.Athena.ExtService
             var appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
 
             LogManager
-        .SetDefaultLogCategory(appSettings.LogCategory)
-        .Use(new List<ILogEngine>
-         {
-                             new RabbitMQLogging(appSettings.RabbitMQ)
-         });
+            .SetDefaultLogCategory(appSettings.LogCategory)
+            .Use(new List<ILogEngine>
+             {
+                new RabbitMQLogging(appSettings.RabbitMQ)
+             });
+
+            services.AddHealthChecks();
 
             var token = Configuration.GetSection("tokenManagement").Get<TokenManagement>();
             var secret = Encoding.ASCII.GetBytes(token.Secret);
@@ -118,7 +120,7 @@ namespace Fanex.Athena.ExtService
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-
+            app.UseHealthChecks("/health");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
