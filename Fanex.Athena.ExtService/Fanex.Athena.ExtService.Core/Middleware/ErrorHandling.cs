@@ -22,6 +22,7 @@ namespace Fanex.Athena.ExtService.Core.Middleware
             {
                 context.Response.StatusCode = 500;
                 context.Response.ContentType = "application/json";
+                Logging.Logger.Log.Error(error.Error.Message, error.Error);
                 await context.Response.WriteAsync(JsonConvert.SerializeObject(new
                 {
                     State = "Internal Server Error",

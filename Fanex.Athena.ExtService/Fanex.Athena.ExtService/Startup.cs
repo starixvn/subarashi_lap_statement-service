@@ -10,6 +10,8 @@ using Fanex.Athena.ExtService.Core.Middleware;
 using Fanex.Athena.ExtService.Core.Models;
 using Fanex.Athena.ExtService.Core.Models.DTO;
 using Fanex.Athena.ExtService.Core.Services;
+using Fanex.Logging;
+using Fanex.Logging.RabbitMQ;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -41,6 +43,15 @@ namespace Fanex.Athena.ExtService
             services.Configure<ApplicationOptions>(Configuration.GetSection("ApplicationOptions"));
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.Configure<List<User>>(Configuration.GetSection("Users"));
+
+            var appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
+
+            LogManager
+        .SetDefaultLogCategory(appSettings.LogCategory)
+        .Use(new List<ILogEngine>
+         {
+                             new RabbitMQLogging(appSettings.RabbitMQ)
+         });
 
             var token = Configuration.GetSection("tokenManagement").Get<TokenManagement>();
             var secret = Encoding.ASCII.GetBytes(token.Secret);
