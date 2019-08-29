@@ -17,7 +17,10 @@ namespace Fanex.Athena.ExtService.Core.Services
         }
         public bool IsValidUser(string username, string password)
         {
-            return _users.Any(x => x.UserName.Equals(username) && x.Password.Equals(password));
+            return _users.Any(x => (
+            x.UserName.Equals(username)
+            )
+            && x.Password.Equals(password));
         }
     }
 }

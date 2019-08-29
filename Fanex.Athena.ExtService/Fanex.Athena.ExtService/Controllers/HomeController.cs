@@ -1,9 +1,8 @@
-﻿using Fanex.Athena.ExtService.Models;
+﻿using System.Diagnostics;
 
-using Microsoft.AspNetCore.Authorization;
+using Fanex.Athena.ExtService.Models;
+
 using Microsoft.AspNetCore.Mvc;
-
-using System.Diagnostics;
 
 namespace Fanex.Athena.ExtService.Controllers
 {

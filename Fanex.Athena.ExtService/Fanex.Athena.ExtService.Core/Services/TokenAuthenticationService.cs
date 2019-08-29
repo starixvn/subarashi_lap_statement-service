@@ -21,14 +21,23 @@ namespace Fanex.Athena.ExtService.Core.Services
         public bool IsAuthenticated(TokenRequest request, out Token token)
         {
             token = new Token();
-            if (!_userManagementService.IsValidUser(request.Username, request.Password))
+            var siteName = request.Username;
+            var realUserName = request.Username;
+
+            if (request.Username.Contains("@"))
+            {
+                var temp = request.Username.Split('@');
+                siteName = temp[0];
+                realUserName = temp[1];
+            }
+
+            if (!_userManagementService.IsValidUser(realUserName, request.Password))
             {
                 return false;
             }
-
             var claim = new[]
             {
-                new Claim(ClaimTypes.Name, request.Username)
+                new Claim(ClaimTypes.Name, siteName)
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenManagement.Secret));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
