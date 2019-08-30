@@ -5,6 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="SpConfig\FanexSpName.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="SpConfig\FanexSpName.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Fanex.Data.SqlServer" Version="4.0.1" />
     <PackageReference Include="Fanex.Logging" Version="2.0.1" />
     <PackageReference Include="Fanex.Logging.RabbitMQ" Version="1.0.1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
@@ -20,23 +31,13 @@
     <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="5.5.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.5.0" />
+    <PackageReference Include="T4.TemplateFileManager" Version="2.2.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Fanex.Athena.ExtService.BetList\Fanex.Athena.ExtService.BetList.csproj" />
     <ProjectReference Include="..\Fanex.Athena.ExtService.Core\Fanex.Athena.ExtService.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="www\js\source\common\languages\ViewResources.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ViewResources.txt</LastGenOutput>
-    </None>
-    <None Update="www\js\source\common\languages\ViewResources.txt">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ViewResources.tt</DependentUpon>
-    </None>
+    <ProjectReference Include="..\Fanex.Athena.ExtService.Resources\Fanex.Athena.ExtService.Resources.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,7 +45,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="www\css\" />
+    <Folder Include="wwwroot\js\build\dev\" />
+    <Folder Include="wwwroot\lib\" />
+    <Folder Include="www\js\source\vendors\" />
   </ItemGroup>
 
 </Project>

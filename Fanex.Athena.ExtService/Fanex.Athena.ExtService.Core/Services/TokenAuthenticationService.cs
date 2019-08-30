@@ -1,6 +1,9 @@
 ﻿using Fanex.Athena.ExtService.Core.Models;
+using Fanex.Athena.ExtService.Core.Models.DTO;
+using Fanex.Athena.ExtService.Shared.DTO;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -35,10 +38,11 @@ namespace Fanex.Athena.ExtService.Core.Services
             {
                 return false;
             }
+          
             var claim = new[]
             {
-                new Claim(ClaimTypes.Name, siteName)
-            };
+                new Claim(ClaimTypes.Name, siteName),
+             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenManagement.Secret));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 

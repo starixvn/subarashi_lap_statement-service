@@ -28,7 +28,12 @@ namespace Fanex.Athena.ExtService
                  config.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
                  config.AddEnvironmentVariables();
              })
-                .UseStartup<Startup>();
+             .UseKestrel(x =>
+             {
+                 x.AddServerHeader = false;
+             })
+              .UseIISIntegration()
+             .UseStartup<Startup>();
 
 
     }

@@ -61,7 +61,8 @@
     "webpack-build-notifier": "^0.1.30",
     "webpack-cli": "^3.1.0",
     "webpack-merge": "^4.1.0",
-    "webpack-visualizer-plugin": "^0.1.11"
+    "webpack-visualizer-plugin": "^0.1.11",
+    "jest-cli": "^24.5.0"
   },
   "scripts": {
     "stats": "webpack --config www/webpackconfig/build/webpack.dev.conf.js --json > stats.json",
@@ -69,51 +70,15 @@
     "test-new": "karma start karma-new.conf.js --reporters kjhtml,junit,dots,coverage",
     "build-dev": "webpack --config www/webpackconfig/build/webpack.dev.conf.js",
     "build-pro": "webpack --config www/webpackconfig/build/webpack.pro.conf.js",
-    "build-react-dev": "webpack --config www/webpackconfig/build/webpack.react.dev.conf.js",
-    "build-react-pro": "webpack --config www/webpackconfig/build/webpack.react.pro.conf.js",
-    "build-react-both": "webpack --config www/webpackconfig/build/webpack.react.pro.conf.js && webpack --config www/webpackconfig/build/webpack.react.dev.conf.js",
-    "test-react": "jest --coverage --setupTestFrameworkScriptFile=raf/polyfill",
-    "test-react-one": "jest \".*1\\.test\\.js\" --watch --u  --setupTestFrameworkScriptFile=raf/polyfill",
-    "test-react-watch": "jest --watch --setupTestFrameworkScriptFile=raf/polyfill",
-    "jest-install": "npm install jest-cli -g",
-    "jest-uss": "jest --updateSnapshot",
     "lint": "eslint ./www/js/source/reactpages"
   },
   "author": "Sparta",
   "license": "vn",
-  "dependencies": {
-    "@9softstudio/react-breadcrumb": "^1.0.2",
-    "@9softstudio/react-grid": "^1.0.10",
-    "@9softstudio/react-multiselect": "^1.0.10",
-    "@9softstudio/react-simple-tab": "^1.0.0",
-    "axios": "^0.16.2",
-    "classnames": "^2.2.5",
-    "jest-cli": "^24.5.0",
-    "moment": "^2.19.3",
-    "prop-types": "^15.5.10",
-    "react": "^16.8.4",
-    "react-date-range": "^0.9.4",
-    "react-dom": "^16.8.4",
-    "react-redux": "^6.0.1",
-    "react-select": "^1.2.1",
-    "react-toastify": "^4.5.1",
-    "redux": "^4.0.1",
-    "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.2.0",
-    "resolve-url-loader": "^2.1.0",
-    "xlsx-style-sparta": "^0.8.20"
-  },
+  "dependencies": {},
   "jest": {
     "testMatch": [
       "<rootDir>/www/**/__tests__/**/*.test.js?(x)",
       "<rootDir>/www/**/?(*.)(spec|test).js?(x)"
-    ],
-    "collectCoverageFrom": [
-      "www/js/source/reactpages/**/*.{js,jsx}",
-      "!www/js/source/reactpages/**/index.{js,jsx}"
-    ],
-    "moduleNameMapper": {
-      "@jsroot(.*)$": "<rootDir>/www/js/source/reactpages/$1"
-    }
+    ]
   }
 }

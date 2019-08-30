@@ -10,6 +10,10 @@ using Fanex.Athena.ExtService.Core.Middleware;
 using Fanex.Athena.ExtService.Core.Models;
 using Fanex.Athena.ExtService.Core.Models.DTO;
 using Fanex.Athena.ExtService.Core.Services;
+using Fanex.Athena.ExtService.Shared.Models.DTO;
+using Fanex.Athena.ExtService.Shared.Services;
+using Fanex.Data;
+using Fanex.Data.SqlServer;
 using Fanex.Logging;
 using Fanex.Logging.RabbitMQ;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -53,8 +57,17 @@ namespace Fanex.Athena.ExtService
                 new RabbitMQLogging(appSettings.RabbitMQ)
              });
 
-            services.AddHealthChecks();
 
+            var conns = GetConnectionString();
+
+            DbSettingProviderManager
+              .StartNewSession()
+              .WithSqlServer(resourcePath: "~/SpConfig")
+              .Use(conns)
+              .Run();
+
+            services.AddHealthChecks();
+            services.AddMemoryCache();
             var token = Configuration.GetSection("tokenManagement").Get<TokenManagement>();
             var secret = Encoding.ASCII.GetBytes(token.Secret);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -101,9 +114,32 @@ namespace Fanex.Athena.ExtService
                     .RequireAuthenticatedUser().Build());
             });
 
+            services.AddAntiforgery(options =>
+            {
+                // Set Cookie properties using CookieBuilder properties†.
+                options.FormFieldName = "__RequestVerificationToken";
+                options.HeaderName = "X-CSRF-TOKEN-LAP-EXT";
+                options.SuppressXFrameOptionsHeader = false;
+            });
+
             services.AddScoped<IAuthenticateService, TokenAuthenticationService>();
             services.AddScoped<IUserManagementService, UserManagementService>();
             services.AddScoped<IPFilterAttribute>();
+            services.AddSingleton<ICommonService, CommonService>();
+            services.AddSingleton<IBetListApiClient, BetListApiClient>();
+        }
+
+        private Dictionary<string, ConnectionConfiguration> GetConnectionString()
+        {
+            var connectionStrings = new Dictionary<string, ConnectionConfiguration>
+            {
+                {
+                    "DBEXT.bodb02.bodbLicenseeNet",
+                    new ConnectionConfiguration("DBEXT.bodb02.bodbLicenseeNet",
+                Configuration.GetConnectionString("DBEXT.bodb02.bodbLicenseeNet"))
+                }
+            };
+            return connectionStrings;
         }
 
 
@@ -117,7 +153,7 @@ namespace Fanex.Athena.ExtService
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/utility/Error");
                 app.UseHsts();
             }
             app.UseHealthChecks("/health");
