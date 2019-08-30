@@ -10981,7 +10981,49 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿/*global _lan
         function resolveClientUrl(relativeUrl) {
             return _rootUrl + relativeUrl;
         }
+        function clone(obj) {
+            /// <summary>
+            ///
+            /// The below function will work adequatly for the six simple types I mentioned,
+            /// as long as data in the objects and arrays form a tree structure.That is, there isn't
+            /// more than one reference to the same data in the object.
+            /// Handle the 3 simple types, and null or undefined
+            /// </summary>
+            /// <param name="obj"></param>
+            /// <returns type=""></returns>
 
+            if (null == obj || 'object' !== typeof obj) {
+                return obj;
+            }
+            // Handle Date
+            if (obj instanceof Date) {
+                const date = new Date();
+                date.setTime(obj.getTime());
+                return date;
+            }
+
+            // Handle Array
+            if (obj instanceof Array) {
+                const array = [];
+                for (let i = 0, len = obj.length; i < len; i++) {
+                    array[i] = clone(obj[i]);
+                }
+                return array;
+            }
+
+            // Handle Object
+            if (obj instanceof Object) {
+                const copy = {};
+                for (let attr in obj) {
+                    if (obj.hasOwnProperty(attr)) {
+                        copy[attr] = clone(obj[attr]);
+                    }
+                }
+                return copy;
+            }
+
+            throw new Error('Unable to copy obj! Its type isn\'t supported.');
+        }
         function initialize() {
             REQUEST_VERIFICATION_TOKEN = $('input[name=__RequestVerificationToken]').val();
             initEvent();

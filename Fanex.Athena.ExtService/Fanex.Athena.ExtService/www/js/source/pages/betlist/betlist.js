@@ -50,8 +50,6 @@
             initialize: function () {
                 Site.initialize();
 
-                _isShowSumStake = $('#IsShowSumStake').val() === '1';
-
                 _sortColumnName = _sortColumnName || $('#SortBy').val();
                 _sortOrder = _sortOrder || $('#SortOrder').val();
 
@@ -286,11 +284,13 @@
 
             showSystemParlayDetail: function (transId, refNo, betId, custId, betTeam, baseCurrency) {
                 if (Number(transId) === 0) { return; }
-
+               
                 let url = Site.resolveClientUrl('SystemParlayBetList/Detail');
                 url = QueryString.setParam(url, 'refno', refNo);
                 url = QueryString.setParam(url, 'betteam', betTeam);
                 url = QueryString.setParam(url, 'basecurrency', baseCurrency);
+                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
+                url = QueryString.setParam(url, 'lang', $("#lang").val());
 
                 showDetailPopUp(url, { width: 775, height: 500, title: betTeam });
             },

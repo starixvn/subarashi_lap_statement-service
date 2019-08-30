@@ -1,6 +1,6 @@
 ﻿@using Fanex.Athena.ExtService.Resources
 @using Microsoft.Extensions.Configuration
-@using Fanex.Athena.ExtService.Shared.Models.DTO
+@using Fanex.Athena.ExtService.Shared.Model.DTO
 @inject IConfiguration Configuration
 
 @{
@@ -16,7 +16,10 @@
 }
 @section Scripts
     {
-
+    <script src="@Url.Content($"~/js/build/{env}/pages/betlist/refno.chunk.js")"></script>
+        <script type="text/javascript">
+         
+        </script>
 }
 @model Fanex.Athena.ExtService.BetList.Models.BetList.RefNoViewModel
 <div id="container" class="container-fluid">
@@ -72,7 +75,7 @@
                                         <th>@ViewResources.Stake</th>
                                         <th>
                                             @(Model.Info.IsAllowedCustomerComm ?
-                                                                 $"{ ViewResources.WinLoss}/{ ViewResources.Comm}" : @ViewResources.WinLoss)
+                                                                         $"{ ViewResources.WinLoss}/{ ViewResources.Comm}" : @ViewResources.WinLoss)
                                         </th>
                                         <th>
                                             @ViewResources.LicenseeWL/@ViewResources.Comm

@@ -172,6 +172,12 @@
   <data name="SystemId" xml:space="preserve">
     <value>System ID</value>
   </data>
+  <data name="SystemParlay" xml:space="preserve">
+    <value>System Parlay</value>
+  </data>
+  <data name="SystemParlayDetailNote" xml:space="preserve">
+    <value>Win Loss is rounded for reference only. Therefore, Sub Total amount may be different from the sum of Win Loss when it sums all the actual Win Loss amounts.</value>
+  </data>
   <data name="TransTime" xml:space="preserve">
     <value>Trans.Time</value>
   </data>

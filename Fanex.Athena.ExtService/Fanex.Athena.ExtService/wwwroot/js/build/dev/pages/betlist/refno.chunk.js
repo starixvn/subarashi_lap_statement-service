@@ -57,7 +57,7 @@
 /******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 	// Promise = chunk loading, 0 = chunk loaded
 /******/ 	var installedChunks = {
-/******/ 		"wwwroot/js/build/dev/pages/betlist/betlist": 0
+/******/ 		"wwwroot/js/build/dev/pages/betlist/refno": 0
 /******/ 	};
 /******/
 /******/ 	var deferredModules = [];
@@ -456,8 +456,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
             initialize: function () {
                 Site.initialize();
 
-                _isShowSumStake = $('#IsShowSumStake').val() === '1';
-
                 _sortColumnName = _sortColumnName || $('#SortBy').val();
                 _sortOrder = _sortOrder || $('#SortOrder').val();
 
@@ -692,11 +690,13 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
 
             showSystemParlayDetail: function (transId, refNo, betId, custId, betTeam, baseCurrency) {
                 if (Number(transId) === 0) { return; }
-
+               
                 let url = Site.resolveClientUrl('SystemParlayBetList/Detail');
                 url = QueryString.setParam(url, 'refno', refNo);
                 url = QueryString.setParam(url, 'betteam', betTeam);
                 url = QueryString.setParam(url, 'basecurrency', baseCurrency);
+                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
+                url = QueryString.setParam(url, 'lang', $("#lang").val());
 
                 showDetailPopUp(url, { width: 775, height: 500, title: betTeam });
             },
@@ -887,17 +887,38 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
 
 /***/ }),
 
-/***/ 0:
-/*!******************************************************!*\
-  !*** multi ./www/js/source/pages/betlist/betlist.js ***!
-  \******************************************************/
+/***/ "./www/js/source/pages/betlist/refno.js":
+/*!**********************************************!*\
+  !*** ./www/js/source/pages/betlist/refno.js ***!
+  \**********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! ./www/js/source/pages/betlist/betlist.js */"./www/js/source/pages/betlist/betlist.js");
+/* WEBPACK VAR INJECTION */(function($) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! ./betlist */ "./www/js/source/pages/betlist/betlist.js")], __WEBPACK_AMD_DEFINE_RESULT__ = (function (BetList) {
+    'use strict';
+
+    $(function () {
+        BetList.initialize();
+    });
+
+  
+}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js-exposed")))
+
+/***/ }),
+
+/***/ 0:
+/*!****************************************************!*\
+  !*** multi ./www/js/source/pages/betlist/refno.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! ./www/js/source/pages/betlist/refno.js */"./www/js/source/pages/betlist/refno.js");
 
 
 /***/ })
 
 /******/ });
-//# sourceMappingURL=betlist.chunk.js.map
+//# sourceMappingURL=refno.chunk.js.map

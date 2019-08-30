@@ -39,7 +39,9 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
                 Info = licenseeInfo,
                 BalanceUp = balanceUp,
                 BaseCurrency = bc,
-                UserName = urs
+                UserName = urs,
+                AccessToken = HttpContext.Request.Query["access_token"],
+                Lang = lang
             };
 
             if (refId > 0)

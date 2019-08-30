@@ -170,6 +170,12 @@
   <data name="SystemId" xml:space="preserve">
     <value>系統帳號</value>
   </data>
+  <data name="SystemParlay" xml:space="preserve">
+    <value>複式過關</value>
+  </data>
+  <data name="SystemParlayDetailNote" xml:space="preserve">
+    <value>輸贏的進位值僅供參考。因此，所有輸贏相加的總計有可能和小計有差數。</value>
+  </data>
   <data name="TransTime" xml:space="preserve">
     <value>交易時間</value>
   </data>

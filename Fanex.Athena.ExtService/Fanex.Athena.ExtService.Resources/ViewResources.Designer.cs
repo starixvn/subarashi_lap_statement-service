@@ -214,6 +214,24 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to System Parlay.
+        /// </summary>
+        public static string SystemParlay {
+            get {
+                return ResourceManager.GetString("SystemParlay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Win Loss is rounded for reference only. Therefore, Sub Total amount may be different from the sum of Win Loss when it sums all the actual Win Loss amounts..
+        /// </summary>
+        public static string SystemParlayDetailNote {
+            get {
+                return ResourceManager.GetString("SystemParlayDetailNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Trans.Time.
         /// </summary>
         public static string TransTime {

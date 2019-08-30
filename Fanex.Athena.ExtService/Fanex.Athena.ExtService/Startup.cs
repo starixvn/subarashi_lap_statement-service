@@ -10,7 +10,7 @@ using Fanex.Athena.ExtService.Core.Middleware;
 using Fanex.Athena.ExtService.Core.Models;
 using Fanex.Athena.ExtService.Core.Models.DTO;
 using Fanex.Athena.ExtService.Core.Services;
-using Fanex.Athena.ExtService.Shared.Models.DTO;
+using Fanex.Athena.ExtService.Shared.Model.DTO;
 using Fanex.Athena.ExtService.Shared.Services;
 using Fanex.Data;
 using Fanex.Data.SqlServer;

@@ -1,14 +1,16 @@
 ﻿@using Microsoft.Extensions.Configuration
-@using Fanex.Athena.ExtService.Shared.Models.DTO
+@using Fanex.Athena.ExtService.Shared.Model.DTO
 @inject IConfiguration Configuration
+@using Fanex.Athena.ExtService.Shared.Model.ViewModels
 @{
     Layout = null;
 
     var appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
     var langCode = System.Globalization.CultureInfo.CurrentUICulture.IetfLanguageTag;
     var env = appSettings.Environment.Equals("PROD") ? "pro" : "dev";
-   
+
 }
+@model BaseViewModel
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,6 +23,10 @@
 </head>
 <body>
     <input type="hidden" id="RootUrl" value="@Url.Content("~/")" />
+    <input type="hidden" id="access_token" value="@Model.AccessToken" />
+    <input type="hidden" id="lang" value="@Model.Lang" />
+    <input type="hidden" id="baseCurrency" value="@Model.BaseCurrency" />
+
     @Html.AntiForgeryToken()
     <div class="loading" style="display: none">
         <div class="icon-loading">

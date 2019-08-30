@@ -26,13 +26,14 @@ function generateConfig(environment) {
             [`${jsPath}/language-zh-CN`]: pathConfig.scriptPaths.languageCN,
             [`${jsPath}/language-zh-TW`]: pathConfig.scriptPaths.languageTW,
             [`${jsPath}/language-zh-Hans`]: pathConfig.scriptPaths.languageHans,
-            [`${jsPath}/pages/betlist/betlist`]: [pathConfig.scriptPaths.betlist],
+            [`${jsPath}/pages/betlist/refno`]: [pathConfig.scriptPaths.betlist_refno],
 
             [`${cssPath}/main`]: pathConfig.cssPaths.main,
             [`${cssPath}/pages/utility/error`]: pathConfig.cssPaths.error,
             [`${cssPath}/um`]: pathConfig.cssPaths.um,
             [`${cssPath}/pages/betlist/betlistLayout`]: pathConfig.cssPaths.betlistLayout,
             [`${cssPath}/pages/betlist/betlistRefno`]: pathConfig.cssPaths.betlistRefno,
+            [`${cssPath}/pages/betlist/systemparlaydetail`]: pathConfig.cssPaths.systemparlaydetail,
 
         },
         output: {

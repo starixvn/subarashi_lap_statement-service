@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using Fanex.Athena.ExtService.Shared.Models.DTO;
+using Fanex.Athena.ExtService.Shared.Model.DTO;
 
 using Microsoft.Extensions.Options;
 
@@ -52,6 +52,11 @@ namespace Fanex.Athena.ExtService.Shared.Services
 
         }
 
+        public async Task<string> PostAsyncString(string path, object value, string language, int timeout = 0)
+        {
+            return await HandleAsync(path, value, language, async (x) => await Task.FromResult(x.Content).ConfigureAwait(false)
+            , timeout).ConfigureAwait(false);
+        }
         public async Task<T> PostAsync<T>(string path, object value, string language, int timeout = 0)
         {
             return await HandleAsync<T>(

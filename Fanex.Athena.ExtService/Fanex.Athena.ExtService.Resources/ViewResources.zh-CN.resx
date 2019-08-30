@@ -170,6 +170,12 @@
   <data name="SystemId" xml:space="preserve">
     <value>系统账号</value>
   </data>
+  <data name="SystemParlay" xml:space="preserve">
+    <value>复式过关</value>
+  </data>
+  <data name="SystemParlayDetailNote" xml:space="preserve">
+    <value>输赢的进位值仅供参考。因此，所有输赢相加的总计有可能和小计有差数。</value>
+  </data>
   <data name="TransTime" xml:space="preserve">
     <value>交易时间</value>
   </data>
