@@ -676,7 +676,8 @@ table tbody tr.row-group-level1 td {
     text-transform: capitalize; }
   .betlist-container .result {
     color: #1BA4ED;
-    cursor: pointer; }
+    cursor: pointer;
+    display: none; }
   .betlist-container .ip {
     display: none; }
   .betlist-container .selected {
