@@ -16,7 +16,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>@ViewData["Title"] - LAP - External service</title>
+    <title>LAP - External service</title>
     <meta name="description" content="The Risk & Forecast System" />
     <link href="@Url.Content($"~/css/build/{env}/main.css")" rel="stylesheet" />
     @RenderSection("pagecss", required: false)
@@ -43,6 +43,9 @@
         @RenderBody()
     </div>
     <script src="@Url.Content($"~/js/build/{env}/language.chunk.js")"></script>
+    <script type="text/javascript">
+        window._pageLanguage = '@Model.Lang';
+    </script>
     @if (langCode != "en-US")
     {
         <script src="@Url.Content($"~/js/build/{env}/language-" + langCode + ".chunk.js")"></script>

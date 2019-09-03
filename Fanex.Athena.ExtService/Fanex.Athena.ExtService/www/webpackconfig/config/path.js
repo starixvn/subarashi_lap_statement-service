@@ -11,6 +11,7 @@ var cssPaths = {
     betlistLayout: ["./www/css/source/pages/betlist/betlistcommon.main.scss"],
     betlistRefno: ["./www/css/source/pages/betlist/refno.scss"],
     systemparlaydetail: ["./www/css/source/pages/betlist/systemparlaydetail.scss"],
+    cashouthistory: ["./www/css/source/pages/betlist/cashouthistory.main.scss", "./www/css/source/extensions/popup-ex.scss"],
 
 };
 

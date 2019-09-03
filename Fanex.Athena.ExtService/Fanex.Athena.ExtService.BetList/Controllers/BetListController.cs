@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using Fanex.Athena.ExtService.BetList.Models.BetList;
+using Fanex.Athena.ExtService.BetList.Models.DTO;
+using Fanex.Athena.ExtService.BetList.Models.MetaModel;
+using Fanex.Athena.ExtService.BetList.Models.ViewModel;
 using Fanex.Athena.ExtService.Shared;
-using Fanex.Athena.ExtService.Shared.DTO;
 using Fanex.Athena.ExtService.Shared.Model.DataDomain;
 using Fanex.Athena.ExtService.Shared.Services;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace Fanex.Athena.ExtService.BetList.Controllers
 {
@@ -29,8 +29,6 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         }
         public async Task<IActionResult> RefNo(long refId, string bc, string urs, string lang = DefaultLang, bool exct = true)
         {
-            ViewData["Title"] = "Bet List by RefNo";
-
             var siteName = HttpContext.User.Identity.Name;
             var licenseeInfo = _commonService.GetLicenseeInfo(siteName, 0);
             var balanceUp = _commonService.GetBalanceUp();

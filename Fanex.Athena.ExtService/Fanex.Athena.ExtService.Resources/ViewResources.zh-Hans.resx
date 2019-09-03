@@ -131,6 +131,24 @@
   <data name="BettingTicketCenter_RefnoTabNote2" xml:space="preserve">
     <value>关于快乐彩以及彩票：请输入用户名，以便搜寻{0}之后的注单</value>
   </data>
+  <data name="BoughtAmount" xml:space="preserve">
+    <value>买入金额</value>
+  </data>
+  <data name="BoughtStake" xml:space="preserve">
+    <value>买入本金</value>
+  </data>
+  <data name="BoughtTicketsList" xml:space="preserve">
+    <value>买入注单</value>
+  </data>
+  <data name="CashOutAmount" xml:space="preserve">
+    <value>预先兑现金额</value>
+  </data>
+  <data name="CashOutStake" xml:space="preserve">
+    <value>即时兑现本金</value>
+  </data>
+  <data name="CashOutTicketsList" xml:space="preserve">
+    <value>即时兑现注单</value>
+  </data>
   <data name="Choice" xml:space="preserve">
     <value>选择</value>
   </data>
@@ -154,6 +172,9 @@
   </data>
   <data name="OddsType" xml:space="preserve">
     <value>赔率类型</value>
+  </data>
+  <data name="OriginalBetTicket" xml:space="preserve">
+    <value>原始注单</value>
   </data>
   <data name="Platform" xml:space="preserve">
     <value>平台</value>

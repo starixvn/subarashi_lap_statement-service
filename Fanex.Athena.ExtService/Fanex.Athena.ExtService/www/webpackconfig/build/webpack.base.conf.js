@@ -34,6 +34,7 @@ function generateConfig(environment) {
             [`${cssPath}/pages/betlist/betlistLayout`]: pathConfig.cssPaths.betlistLayout,
             [`${cssPath}/pages/betlist/betlistRefno`]: pathConfig.cssPaths.betlistRefno,
             [`${cssPath}/pages/betlist/systemparlaydetail`]: pathConfig.cssPaths.systemparlaydetail,
+            [`${cssPath}/pages/betlist/cashouthistory`]: pathConfig.cssPaths.cashouthistory,
 
         },
         output: {

@@ -10673,6 +10673,8 @@ module.exports = g;
 /***/ (function(module, exports) {
 
 ﻿window._language_en_US = {
+    CashOutDetails: "Cash Out Details",
+    BoughtDetails:"Bought Details"
 };
 
 /***/ }),
@@ -10684,7 +10686,11 @@ module.exports = g;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-﻿window._language_zh_CN = {};
+﻿window._language_zh_CN = {
+    CashOutDetails: "即时兑现详情",
+    BoughtDetails: "买入详情"
+
+};
 
 /***/ }),
 
@@ -10695,7 +10701,12 @@ module.exports = g;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-﻿window._language_zh_Hans = {};
+﻿window._language_zh_Hans = {
+    CashOutDetails: "即时兑现详情",
+    BoughtDetails: "买入详情"
+
+
+};
 
 /***/ }),
 
@@ -10706,7 +10717,10 @@ module.exports = g;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-﻿window._language_zh_TW = {};
+﻿window._language_zh_TW = {
+    CashOutDetails: "即時兌現詳情",
+    BoughtDetails: "買入詳情"
+};
 
 /***/ }),
 

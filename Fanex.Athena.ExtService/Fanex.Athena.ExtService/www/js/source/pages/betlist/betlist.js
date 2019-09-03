@@ -411,8 +411,7 @@
             },
 
             viewCashOutHistory: function (transId, refNo, betType, betdaqId) {
-                const $baseCurrency = $('#BaseCurrency');
-                const baseCurrency = $baseCurrency.length ? $baseCurrency.val() : $.parseJSON($(BETLIST_META_MODEL).val()).BaseCurrency;
+                const baseCurrency = $('#BaseCurrency');
 
                 const isCashOut = betdaqId < 1 || betType === BETTYPE_CASHOUT;
                 let url = Site.resolveClientUrl('CashOutBetList/Detail');
@@ -422,7 +421,8 @@
                 url = QueryString.setParam(url, 'betdaqId', betdaqId);
                 url = QueryString.setParam(url, 'BaseCurrency', baseCurrency);
                 url = QueryString.setParam(url, 'isCashout', isCashOut);
-
+                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
+                url = QueryString.setParam(url, 'lang', $("#lang").val());
                 const popH = Math.min($(window).height() - 100, 550);
                 const title = isCashOut ? Site.getSingleResource('CashOutDetails') : Site.getSingleResource('BoughtDetails');
 
@@ -461,6 +461,7 @@
 
                 window.showNewCombMP = _me.showNewParlayDetail;
                 window.showCombMPDetail = _me.showSystemParlayDetail;
+                window.ViewCashOutHistory = _me.viewCashOutHistory;
                 window.showAGCasinoDetails = _me.showAGCasinoDetails;
                 window.showRnGCasinoDetails = _me.showRnGCasinoDetails;
                 window.showVoidBridgeDetails = _me.showVoidBridgeDetails;
@@ -469,7 +470,6 @@
                 window.showTodayRunningBetsDetails = _me.showAllBetDetails;
                 window.showColossusBetsDetails = _me.showColossusBetsDetails;
                 window.showGlobalGaming = _me.showGlobalGamingDetails;
-                window.ViewCashOutHistory = _me.viewCashOutHistory;
                 window.ShowBonusDetails = _me.showBonusDetails;
                 window.showPPDetails = _me.showPPDetails;
 

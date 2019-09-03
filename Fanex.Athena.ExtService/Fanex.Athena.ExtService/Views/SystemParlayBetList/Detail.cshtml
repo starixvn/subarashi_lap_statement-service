@@ -1,6 +1,7 @@
 ﻿
-@using Fanex.Athena.ExtService.BetList.Models.BetList
-@using Fanex.Athena.ExtService.Resources@using Microsoft.Extensions.Configuration
+@using Fanex.Athena.ExtService.BetList.Models.ViewModel
+@using Fanex.Athena.ExtService.Resources
+@using Microsoft.Extensions.Configuration
 @using Fanex.Athena.ExtService.Shared.Model.DTO
 @inject IConfiguration Configuration
 
@@ -17,8 +18,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>@string.Format("LAP - {0}", ViewResources.SystemParlay)</title>
-    <link href="@Url.Content($"/css/build/{env}/main.css")" rel="stylesheet" />
-    <link href="@Url.Content($"/css/build/{env}/pages/betlist/systemparlaydetail.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content($"~/css/build/{env}/main.css")" rel="stylesheet" />
+    <link href="@Url.Content($"~/css/build/{env}/pages/betlist/systemparlaydetail.css")" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <div class="system-parlay-detail-container">

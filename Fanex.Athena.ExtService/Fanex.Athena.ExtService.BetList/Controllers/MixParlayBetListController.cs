@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using Fanex.Athena.ExtService.BetList.Models.BetList;
+
+using Fanex.Athena.ExtService.BetList.Models.DTO;
+using Fanex.Athena.ExtService.BetList.Models.MetaModel;
+using Fanex.Athena.ExtService.BetList.Models.ViewModel;
 using Fanex.Athena.ExtService.Shared.Services;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

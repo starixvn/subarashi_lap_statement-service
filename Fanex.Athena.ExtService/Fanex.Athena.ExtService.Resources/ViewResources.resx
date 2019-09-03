@@ -133,6 +133,24 @@
     <value>For RNG Keno, Lottery: Please provide username also in order to search ticket later than {0}</value>
     <comment>103555</comment>
   </data>
+  <data name="BoughtAmount" xml:space="preserve">
+    <value>Bought Amount</value>
+  </data>
+  <data name="BoughtStake" xml:space="preserve">
+    <value>Bought Stake</value>
+  </data>
+  <data name="BoughtTicketsList" xml:space="preserve">
+    <value>Bought Ticket[s]</value>
+  </data>
+  <data name="CashOutAmount" xml:space="preserve">
+    <value>Cash Out Amount</value>
+  </data>
+  <data name="CashOutStake" xml:space="preserve">
+    <value>Cash Out Stake</value>
+  </data>
+  <data name="CashOutTicketsList" xml:space="preserve">
+    <value>Cash Out Ticket[s]</value>
+  </data>
   <data name="Choice" xml:space="preserve">
     <value>Choice</value>
   </data>
@@ -156,6 +174,9 @@
   </data>
   <data name="OddsType" xml:space="preserve">
     <value>Odds Type</value>
+  </data>
+  <data name="OriginalBetTicket" xml:space="preserve">
+    <value>Original Bet Ticket</value>
   </data>
   <data name="Platform" xml:space="preserve">
     <value>Platform</value>

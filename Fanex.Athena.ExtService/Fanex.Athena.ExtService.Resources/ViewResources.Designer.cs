@@ -97,6 +97,60 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bought Amount.
+        /// </summary>
+        public static string BoughtAmount {
+            get {
+                return ResourceManager.GetString("BoughtAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bought Stake.
+        /// </summary>
+        public static string BoughtStake {
+            get {
+                return ResourceManager.GetString("BoughtStake", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bought Ticket[s].
+        /// </summary>
+        public static string BoughtTicketsList {
+            get {
+                return ResourceManager.GetString("BoughtTicketsList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cash Out Amount.
+        /// </summary>
+        public static string CashOutAmount {
+            get {
+                return ResourceManager.GetString("CashOutAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cash Out Stake.
+        /// </summary>
+        public static string CashOutStake {
+            get {
+                return ResourceManager.GetString("CashOutStake", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cash Out Ticket[s].
+        /// </summary>
+        public static string CashOutTicketsList {
+            get {
+                return ResourceManager.GetString("CashOutTicketsList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Choice.
         /// </summary>
         public static string Choice {
@@ -165,6 +219,15 @@ namespace Fanex.Athena.ExtService.Resources {
         public static string OddsType {
             get {
                 return ResourceManager.GetString("OddsType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Original Bet Ticket.
+        /// </summary>
+        public static string OriginalBetTicket {
+            get {
+                return ResourceManager.GetString("OriginalBetTicket", resourceCulture);
             }
         }
         
