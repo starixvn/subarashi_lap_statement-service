@@ -35,6 +35,7 @@
     "jasmine-jquery": "^2.1.1",
     "jasmine-reporters": "^2.0.0",
     "jest": "^24.5.0",
+    "jest-cli": "^24.5.0",
     "jquery": "^3.1.1",
     "karma": "^0.13.22",
     "karma-chrome-launcher": "^2.2.0",
@@ -61,8 +62,7 @@
     "webpack-build-notifier": "^0.1.30",
     "webpack-cli": "^3.1.0",
     "webpack-merge": "^4.1.0",
-    "webpack-visualizer-plugin": "^0.1.11",
-    "jest-cli": "^24.5.0"
+    "webpack-visualizer-plugin": "^0.1.11"
   },
   "scripts": {
     "stats": "webpack --config www/webpackconfig/build/webpack.dev.conf.js --json > stats.json",

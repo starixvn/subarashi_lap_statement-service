@@ -10674,7 +10674,18 @@ module.exports = g;
 
 ﻿window._language_en_US = {
     CashOutDetails: "Cash Out Details",
-    BoughtDetails:"Bought Details"
+    BoughtDetails: "Bought Details",
+    TicketDetailOf: "Ticket detail of {0}",
+    DetailedBetlist: "Detailed Bet list",
+    ProductVB: "Macau Games",
+    ProductCS: "RNG Casino",
+    ProductAB: "AllBet",
+    AGCasino: "AG Casino",
+    ProductFW: "Fishing World",
+    ProductPP: "",
+    TransactionDetail: "",
+    ErrorProcessingMsg: "Sorry, an error occurred while processing your request.",
+    Result:"Results"
 };
 
 /***/ }),
@@ -10688,7 +10699,20 @@ module.exports = g;
 
 ﻿window._language_zh_CN = {
     CashOutDetails: "即时兑现详情",
-    BoughtDetails: "买入详情"
+    BoughtDetails: "买入详情",
+    TicketDetailOf: "Ticket detail of {0}",
+    DetailedBetlist: "Detailed Bet list",
+    ProductVB: "Macau Games",
+    ProductCS: "娱乐城",
+    ProductAB: "AllBet",
+    AGCasino: "AG Casino",
+    ProductFW: "Fishing World",
+    ProductPP: "PP",
+    TransactionDetail: "Transaction Detail",
+    ErrorProcessingMsg: "对不起, 处理您的请求时有错误发生。",
+    Result: "赛果"
+
+
 
 };
 
@@ -10703,7 +10727,21 @@ module.exports = g;
 
 ﻿window._language_zh_Hans = {
     CashOutDetails: "即时兑现详情",
-    BoughtDetails: "买入详情"
+    BoughtDetails: "买入详情",
+    TicketDetailOf: "Ticket detail of {0}",
+    DetailedBetlist: "Detailed Bet list",
+    ProductVB: "Macau Games",
+    ProductCS: "娱乐城",
+    ProductAB: "AllBet",
+    AGCasino: "AG Casino",
+    ProductFW: "Fishing World",
+    ProductPP: "PP",
+    TransactionDetail: "Transaction Detail",
+    ErrorProcessingMsg: "对不起, 处理您的请求时有错误发生。",
+    Result: "赛果"
+
+
+
 
 
 };
@@ -10719,7 +10757,21 @@ module.exports = g;
 
 ﻿window._language_zh_TW = {
     CashOutDetails: "即時兌現詳情",
-    BoughtDetails: "買入詳情"
+    BoughtDetails: "買入詳情",
+    TicketDetailOf: "Ticket detail of {0}",
+    DetailedBetlist: "Detailed Bet list",
+    ProductVB: "Macau Games",
+    ProductCS: "娛樂城",
+    ProductAB: "AllBet",
+    AGCasino: "AG Casino",
+    ProductFW: "Fishing World",
+    ProductPP: "PP",
+    TransactionDetail: "Transaction Detail",
+    ErrorProcessingMsg: "對不起，處理您的請求時有錯誤發生。",
+    Result: "賽果"
+
+
+
 };
 
 /***/ }),

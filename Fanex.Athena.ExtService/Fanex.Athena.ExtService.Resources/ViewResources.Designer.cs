@@ -61,6 +61,15 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to AG Casino.
+        /// </summary>
+        public static string AGCasino {
+            get {
+                return ResourceManager.GetString("AGCasino", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Base Currency.
         /// </summary>
         public static string BaseCurrency {
@@ -160,6 +169,15 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Member owned {0}% of this ticket&lt;br/&gt;Member sold {1}% of this ticket for {2}.
+        /// </summary>
+        public static string ColossusBetBetListDetailMsg {
+            get {
+                return ResourceManager.GetString("ColossusBetBetListDetailMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Comm.
         /// </summary>
         public static string Comm {
@@ -169,11 +187,47 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Commission.
+        /// </summary>
+        public static string Commission {
+            get {
+                return ResourceManager.GetString("Commission", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date.
+        /// </summary>
+        public static string Date {
+            get {
+                return ResourceManager.GetString("Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Detailed Bet list.
+        /// </summary>
+        public static string DetailedBetlist {
+            get {
+                return ResourceManager.GetString("DetailedBetlist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to External ID.
         /// </summary>
         public static string ExternalId {
             get {
                 return ResourceManager.GetString("ExternalId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Grand Total.
+        /// </summary>
+        public static string GrandTotal {
+            get {
+                return ResourceManager.GetString("GrandTotal", resourceCulture);
             }
         }
         
@@ -291,6 +345,24 @@ namespace Fanex.Athena.ExtService.Resources {
         public static string SystemParlayDetailNote {
             get {
                 return ResourceManager.GetString("SystemParlayDetailNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total.
+        /// </summary>
+        public static string Total {
+            get {
+                return ResourceManager.GetString("Total", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transaction Type.
+        /// </summary>
+        public static string TransactionType {
+            get {
+                return ResourceManager.GetString("TransactionType", resourceCulture);
             }
         }
         

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 {
-   public class MixParlayDetailMetaModel
+    public class MixParlayDetailMetaModel
     {
         public long TransId { get; set; }
 

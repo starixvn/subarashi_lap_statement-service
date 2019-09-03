@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AGCasino" xml:space="preserve">
+    <value>AG Casino</value>
+  </data>
   <data name="BaseCurrency" xml:space="preserve">
     <value>Base Currency</value>
     <comment>84932</comment>
@@ -154,11 +157,26 @@
   <data name="Choice" xml:space="preserve">
     <value>Choice</value>
   </data>
+  <data name="ColossusBetBetListDetailMsg" xml:space="preserve">
+    <value>Member owned {0}% of this ticket&lt;br/&gt;Member sold {1}% of this ticket for {2}</value>
+  </data>
   <data name="Comm" xml:space="preserve">
     <value>Comm</value>
   </data>
+  <data name="Commission" xml:space="preserve">
+    <value>Commission</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="DetailedBetlist" xml:space="preserve">
+    <value>Detailed Bet list</value>
+  </data>
   <data name="ExternalId" xml:space="preserve">
     <value>External ID</value>
+  </data>
+  <data name="GrandTotal" xml:space="preserve">
+    <value>Grand Total</value>
   </data>
   <data name="LicenseeWL" xml:space="preserve">
     <value>Licensee WL</value>
@@ -198,6 +216,12 @@
   </data>
   <data name="SystemParlayDetailNote" xml:space="preserve">
     <value>Win Loss is rounded for reference only. Therefore, Sub Total amount may be different from the sum of Win Loss when it sums all the actual Win Loss amounts.</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="TransactionType" xml:space="preserve">
+    <value>Transaction Type</value>
   </data>
   <data name="TransTime" xml:space="preserve">
     <value>Trans.Time</value>
