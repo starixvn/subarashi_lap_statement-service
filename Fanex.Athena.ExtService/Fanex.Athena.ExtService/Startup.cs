@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
@@ -23,6 +24,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -156,6 +158,31 @@ namespace Fanex.Athena.ExtService
                 app.UseExceptionHandler("/utility/Error");
                 app.UseHsts();
             }
+            var supportedCultures = new[]
+            {
+                new CultureInfo("en-US"),
+                new CultureInfo("zh-TW"),
+                new CultureInfo("zh-Hans"),
+                new CultureInfo("zh-CN"),
+
+            };
+            var requestLocalizationOptions = new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("en-US"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures,
+
+            };
+            var customQueryStringRequestCultureProvider = new QueryStringRequestCultureProvider
+            {
+                UIQueryStringKey = "lang"
+            };
+            requestLocalizationOptions.RequestCultureProviders = new List<IRequestCultureProvider>
+            {
+                customQueryStringRequestCultureProvider
+            };
+            app.UseRequestLocalization(requestLocalizationOptions);
+
             app.UseHealthChecks("/health");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -164,7 +191,7 @@ namespace Fanex.Athena.ExtService
             app.UseAuthentication();
             app.UseMvc(routes =>
             {
-                
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}")
