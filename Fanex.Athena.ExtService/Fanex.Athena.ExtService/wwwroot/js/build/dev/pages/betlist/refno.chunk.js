@@ -600,7 +600,10 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
             },
 
             showMixParlayDetail: function (transId, divEvent, custid) {
-                const url = Site.resolveClientUrl('api/MixParlayBetList/Detail?transId=' + transId + '&custId=' + custid);
+                let url = Site.resolveClientUrl('api/MixParlayBetList/Detail?transId=' + transId + '&custId=' + custid);
+                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
+                url = QueryString.setParam(url, 'lang', $("#lang").val());
+
                 if (divEvent.css('display') === 'none') {
                     $.ajax({
                         type: 'GET',
@@ -649,7 +652,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                     url = QueryString.setParam(url, 'betcheck', betcheck);
                     url = QueryString.setParam(url, 'betteam', betteam);
                     url = QueryString.setParam(url, 'custId', custId);
-
+                    url = QueryString.setParam(url, 'access_token', $("#access_token").val());
+                    url = QueryString.setParam(url, 'lang', $("#lang").val());
                     $.ajax({
                         type: 'GET',
                         contentType: 'application/json',
@@ -657,7 +661,9 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                         cache: false,
                         url: url,
                         success: function (response) {
-                            let length = response.Data === null ? 0 : response.Data.length;
+                            let length = response.Data === null ? 0 : response.data.length;
+                            console.log(length);
+
                             if (length > 0) {
                                 let choice = '';
                                 $.each(response.Texts, function (index, item) {
@@ -666,7 +672,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
 
                                 choice += '<div class="line"></div>';
 
-                                $.each(response.Data, function (index, item) {
+                                $.each(response.data, function (index, item) {
                                     choice += item;
                                     if (index < length - 1) {
                                         choice += '<div class="line"></div>';

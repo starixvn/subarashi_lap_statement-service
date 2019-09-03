@@ -1,4 +1,7 @@
 ﻿using System;
+using System.IO;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 using Fanex.Athena.ExtService.Shared.Model.DTO;
@@ -68,5 +71,6 @@ namespace Fanex.Athena.ExtService.Shared.Services
                       return await Task.FromResult(JsonConvert.DeserializeObject<T>(x.Content)).ConfigureAwait(false);
                   }, timeout).ConfigureAwait(false);
         }
+
     }
 }
