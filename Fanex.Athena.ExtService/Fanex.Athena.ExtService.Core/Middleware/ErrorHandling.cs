@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 
 using Newtonsoft.Json;
-
+using System;
 using System.Threading.Tasks;
 
 namespace Fanex.Athena.ExtService.Core.Middleware
@@ -20,17 +20,30 @@ namespace Fanex.Athena.ExtService.Core.Middleware
 
             if (error != null && error.Error != null)
             {
-                context.Response.StatusCode = 500;
-                context.Response.ContentType = "application/json";
-                Logging.Logger.Log.Error(error.Error.Message, error.Error);
-                await context.Response.WriteAsync(JsonConvert.SerializeObject(new
-                {
-                    State = "Internal Server Error",
-                    Msg = error.Error.Message
-                }));
+                await HandleError(context, error.Error);
             }
 
-            await _next.Invoke(context);
+            try
+            {
+                await _next.Invoke(context);
+
+            }
+            catch (Exception exception)
+            {
+                await HandleError(context, exception);
+            }
+        }
+
+        private static async Task HandleError(HttpContext context, Exception error)
+        {
+            context.Response.StatusCode = 500;
+            context.Response.ContentType = "application/json";
+            Logging.Logger.Log.Error(error.Message, error);
+            await context.Response.WriteAsync(JsonConvert.SerializeObject(new
+            {
+                State = "Internal Server Error",
+                Msg = error.Message
+            }));
         }
     }
 
