@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using Fanex.Athena.ExtService.BetList.Models.DTO;
-using Fanex.Athena.ExtService.Shared.DTO;
-using Fanex.Athena.ExtService.Shared.Model.ViewModels;
+using Fanex.Athena.ExtService.Common.DTO;
+using Fanex.Athena.ExtService.Common.Model.ViewModels;
 
 namespace Fanex.Athena.ExtService.BetList.Models.ViewModel
 {
@@ -14,10 +14,6 @@ namespace Fanex.Athena.ExtService.BetList.Models.ViewModel
         public BetListTotalData Total { get; set; }
 
         public string LeagueName { get; set; }
-
-        public string BaseCurrency { get; set; }
-
-        public LicenseeInfo Info { get; set; }
 
         public bool HasTotalRow { get; set; }
         public bool HasLicWl { get; set; }

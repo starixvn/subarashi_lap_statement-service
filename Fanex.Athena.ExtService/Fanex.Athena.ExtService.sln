@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fanex.Athena.ExtService.Bet
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fanex.Athena.ExtService.Resources", "Fanex.Athena.ExtService.Resources\Fanex.Athena.ExtService.Resources.csproj", "{EF7D2C2F-B1DD-46E3-BF9F-FC5CB6E403AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.Athena.ExtService.Shared", "Fanex.Athena.ExtService.Shared\Fanex.Athena.ExtService.Shared.csproj", "{609C0E1B-10E6-4197-A72A-A9C2F87A79D7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.Athena.ExtService.Common", "Fanex.Athena.ExtService.Common\Fanex.Athena.ExtService.Common.csproj", "{D1FCB0C9-16B8-4CF0-8469-D5046BE72576}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,10 +49,10 @@ Global
 		{EF7D2C2F-B1DD-46E3-BF9F-FC5CB6E403AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF7D2C2F-B1DD-46E3-BF9F-FC5CB6E403AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF7D2C2F-B1DD-46E3-BF9F-FC5CB6E403AB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{609C0E1B-10E6-4197-A72A-A9C2F87A79D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{609C0E1B-10E6-4197-A72A-A9C2F87A79D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{609C0E1B-10E6-4197-A72A-A9C2F87A79D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{609C0E1B-10E6-4197-A72A-A9C2F87A79D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1FCB0C9-16B8-4CF0-8469-D5046BE72576}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1FCB0C9-16B8-4CF0-8469-D5046BE72576}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1FCB0C9-16B8-4CF0-8469-D5046BE72576}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1FCB0C9-16B8-4CF0-8469-D5046BE72576}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

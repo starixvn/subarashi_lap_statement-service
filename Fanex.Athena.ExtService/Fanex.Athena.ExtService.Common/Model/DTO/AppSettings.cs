@@ -1,4 +1,4 @@
-﻿namespace Fanex.Athena.ExtService.Shared.Model.DTO
+﻿namespace Fanex.Athena.ExtService.Common.Model.DTO
 {
     public class AppSettings
     {

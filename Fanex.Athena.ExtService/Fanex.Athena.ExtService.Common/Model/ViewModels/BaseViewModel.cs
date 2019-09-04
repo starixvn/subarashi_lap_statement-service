@@ -1,6 +1,6 @@
-﻿using Fanex.Athena.ExtService.Shared.DTO;
+﻿using Fanex.Athena.ExtService.Common.DTO;
 
-namespace Fanex.Athena.ExtService.Shared.Model.ViewModels
+namespace Fanex.Athena.ExtService.Common.Model.ViewModels
 {
     public class BaseViewModel
     {

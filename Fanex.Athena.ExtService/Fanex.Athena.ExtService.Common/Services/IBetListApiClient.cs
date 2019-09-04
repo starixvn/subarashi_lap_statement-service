@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Fanex.Athena.ExtService.Shared.Services
+namespace Fanex.Athena.ExtService.Common.Services
 {
     public interface IBetListApiClient
     {

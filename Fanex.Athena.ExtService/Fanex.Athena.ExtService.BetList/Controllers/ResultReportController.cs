@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
-using Fanex.Athena.ExtService.Shared.Model.ViewModels;
-using Fanex.Athena.ExtService.Shared.Services;
+using Fanex.Athena.ExtService.Common.Model.ViewModels;
+using Fanex.Athena.ExtService.Common.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

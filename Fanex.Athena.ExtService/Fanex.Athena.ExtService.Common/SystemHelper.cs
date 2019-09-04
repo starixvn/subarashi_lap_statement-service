@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Fanex.Athena.ExtService.Shared.DTO;
-using Fanex.Athena.ExtService.Shared.Model.DataDomain;
+using Fanex.Athena.ExtService.Common.DTO;
+using Fanex.Athena.ExtService.Common.Model.DataDomain;
 
-namespace Fanex.Athena.ExtService.Shared
+namespace Fanex.Athena.ExtService.Common
 {
     public static class SystemHelper
     {

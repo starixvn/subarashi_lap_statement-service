@@ -1,27 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
-using Fanex.Athena.ExtService.Shared.DTO;
-using Fanex.Athena.ExtService.Shared.Model.DTO;
+using System.Threading.Tasks;
+using Fanex.Athena.ExtService.Common.DTO;
+using Fanex.Athena.ExtService.Common.Model.DTO;
 using Fanex.Data;
 
 using Microsoft.Extensions.Caching.Memory;
 
-namespace Fanex.Athena.ExtService.Shared.Services
+namespace Fanex.Athena.ExtService.Common.Services
 {
     public class CommonService : ICommonService
     {
-        private const int CacheTimeoutSeconds = 120;
+        private const int CacheTimeout120Seconds = 120;
+        private const int CacheTimeout300Seconds = 300;
 
         private const string BalanceUpCacheKey = "EXT_LAP_CACHE_BALANCEUP";
-
+        private const string LicenseeExtInfoCacheKey = "__LicenseeExtInfoCacheKey_";
         private readonly IMemoryCache _cache;
         public CommonService(IMemoryCache memoryCache)
         {
             _cache = memoryCache;
         }
-        public LicenseeInfo GetLicenseeInfo(string siteName, int custId = 0)
+        public async Task<LicenseeInfo> GetLicenseeInfoAsync(string siteName, int custId = 0)
+        {
+            _cache.TryGetValue(LicenseeExtInfoCacheKey, out LicenseeInfo result);
+
+            if (result is null)
+            {
+                result = await GetLicenseeInfoFromDB(siteName, custId);
+                _cache.Set(LicenseeExtInfoCacheKey, result, DateTimeOffset.Now.AddSeconds(CacheTimeout300Seconds));
+            }
+
+            return result;
+        }
+
+        private static async Task<LicenseeInfo> GetLicenseeInfoFromDB(string siteName, int custId)
         {
             const string UspName = "Lrf_LicenseeSelExtInfo";
+
             var result = new LicenseeInfo
             {
                 SiteName = siteName
@@ -30,7 +46,7 @@ namespace Fanex.Athena.ExtService.Shared.Services
             {
                 db.SetParameterValue("siteName", siteName);
                 db.SetParameterValue("custId", custId);
-                using (var reader = db.ExecuteReader())
+                using (var reader = await db.ExecuteReaderAsync())
                 {
                     var currencies = new List<CurrencyInfo>();
                     while (reader.Read())
@@ -51,10 +67,11 @@ namespace Fanex.Athena.ExtService.Shared.Services
 
                 }
             }
+
             return result;
         }
 
-        public BalanceUp GetBalanceUp()
+        public async Task<BalanceUp> GetBalanceUpAsync()
         {
             var balanceup = _cache.Get<BalanceUp>(BalanceUpCacheKey);
 
@@ -63,19 +80,19 @@ namespace Fanex.Athena.ExtService.Shared.Services
                 return balanceup;
             }
 
-            balanceup = GetBalanceUpDayFromDb();
-            _cache.Set(BalanceUpCacheKey, balanceup, DateTimeOffset.Now.AddSeconds(CacheTimeoutSeconds));
+            balanceup = await GetBalanceUpDayFromDb();
+            _cache.Set(BalanceUpCacheKey, balanceup, DateTimeOffset.Now.AddSeconds(CacheTimeout120Seconds));
             return balanceup;
         }
 
-        private static BalanceUp GetBalanceUpDayFromDb()
+        private static async Task<BalanceUp> GetBalanceUpDayFromDb()
         {
             const string UspName = "Lrf_SelBalanceUpDay";
 
             using (var db = ObjectDbFactory.CreateInstance(UspName))
             {
                 var balanceUp = new BalanceUp();
-                using (var reader = db.ExecuteReader())
+                using (var reader = await db.ExecuteReaderAsync())
                 {
                     if (reader.Read())
                     {

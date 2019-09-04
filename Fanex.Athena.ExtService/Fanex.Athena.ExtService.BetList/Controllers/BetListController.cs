@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Fanex.Athena.ExtService.BetList.Models.DTO;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.BetList.Models.ViewModel;
-using Fanex.Athena.ExtService.Shared;
-using Fanex.Athena.ExtService.Shared.Model.DataDomain;
-using Fanex.Athena.ExtService.Shared.Services;
+using Fanex.Athena.ExtService.Common;
+using Fanex.Athena.ExtService.Common.Model.DataDomain;
+using Fanex.Athena.ExtService.Common.Services;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,8 +30,8 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         public async Task<IActionResult> RefNo(long refId, string bc, string urs, string lang = DefaultLang, bool exct = true)
         {
             var siteName = HttpContext.User.Identity.Name;
-            var licenseeInfo = _commonService.GetLicenseeInfo(siteName, 0);
-            var balanceUp = _commonService.GetBalanceUp();
+            var licenseeInfo = await _commonService.GetLicenseeInfoAsync(siteName, 0);
+            var balanceUp = await _commonService.GetBalanceUpAsync();
             var viewModel = new RefNoViewModel
             {
                 Info = licenseeInfo,

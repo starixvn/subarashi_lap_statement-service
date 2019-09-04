@@ -1,4 +1,4 @@
-﻿namespace Fanex.Athena.ExtService.Shared.Model.DataDomain
+﻿namespace Fanex.Athena.ExtService.Common.Model.DataDomain
 {
     public static class BaseCurrencyType
     {

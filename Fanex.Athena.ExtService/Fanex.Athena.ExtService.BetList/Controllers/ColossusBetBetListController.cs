@@ -4,15 +4,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.BetList.Models.ViewModel;
-using Fanex.Athena.ExtService.Shared;
-using Fanex.Athena.ExtService.Shared.Services;
+using Fanex.Athena.ExtService.Common;
+using Fanex.Athena.ExtService.Common.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fanex.Athena.ExtService.BetList.Controllers
 {
     [Authorize]
-    public class ColossusBetBetListController: Controller
+    public class ColossusBetBetListController : Controller
     {
         private readonly ICommonService _commonService;
         private readonly IBetListApiClient _betListApiClient;
@@ -26,7 +26,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         [ResponseCache(NoStore = true, Duration = 0, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> Detail(ColossusBetDetailMetaModel metaModel)
         {
-            var licenseeInfo = _commonService.GetLicenseeInfo(HttpContext.User.Identity.Name);
+            var licenseeInfo = await _commonService.GetLicenseeInfoAsync(HttpContext.User.Identity.Name, metaModel.CustId);
             metaModel.AgentListXml = SystemHelper.GenerateAgentListXml(licenseeInfo);
 
             var viewModel = await _betListApiClient.PostAsync<ColossusBetDetailViewModel>("/ColossusBetBetList/Detail",

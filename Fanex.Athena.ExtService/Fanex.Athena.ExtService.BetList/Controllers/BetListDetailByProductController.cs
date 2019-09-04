@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.BetList.Models.ViewModel;
-using Fanex.Athena.ExtService.Shared;
-using Fanex.Athena.ExtService.Shared.Services;
+using Fanex.Athena.ExtService.Common;
+using Fanex.Athena.ExtService.Common.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,7 +27,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         [HttpPost]
         public async Task<IActionResult> Detail(BetListDetailByProductMetaModel metaModel)
         {
-            var licenseeInfo = _commonService.GetLicenseeInfo(HttpContext.User.Identity.Name);
+            var licenseeInfo = await _commonService.GetLicenseeInfoAsync(HttpContext.User.Identity.Name, metaModel.CustId);
 
             metaModel.CurrencyList = licenseeInfo.Currencies.GroupBy(x => x.CurrencyId)
 .ToDictionary(x => x.Key, x => x.FirstOrDefault().CurrencyName);

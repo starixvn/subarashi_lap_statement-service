@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.BetList.Models.ViewModel;
-using Fanex.Athena.ExtService.Shared;
-using Fanex.Athena.ExtService.Shared.Services;
+using Fanex.Athena.ExtService.Common;
+using Fanex.Athena.ExtService.Common.Services;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,8 +23,8 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         [HttpGet]
         public async Task<IActionResult> Detail(SystemParlayDetailMetaModel metaModel)
         {
-            var balanceUp = _commonService.GetBalanceUp();
-            var licenseeInfo = _commonService.GetLicenseeInfo(HttpContext.User.Identity.Name);
+            var balanceUp = await _commonService.GetBalanceUpAsync();
+            var licenseeInfo = await _commonService.GetLicenseeInfoAsync(HttpContext.User.Identity.Name);
             metaModel.BalanceUpDay = DateTime.SpecifyKind(balanceUp.BalanceUpDay.Date, DateTimeKind.Utc);
             metaModel.MoveBetsDay = DateTime.SpecifyKind(balanceUp.MoveBetsDay.Date, DateTimeKind.Utc);
             metaModel.AgentListXml = SystemHelper.GenerateAgentListXml(licenseeInfo);

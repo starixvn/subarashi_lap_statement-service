@@ -11,8 +11,8 @@ using Fanex.Athena.ExtService.Core.Middleware;
 using Fanex.Athena.ExtService.Core.Models;
 using Fanex.Athena.ExtService.Core.Models.DTO;
 using Fanex.Athena.ExtService.Core.Services;
-using Fanex.Athena.ExtService.Shared.Model.DTO;
-using Fanex.Athena.ExtService.Shared.Services;
+using Fanex.Athena.ExtService.Common.Model.DTO;
+using Fanex.Athena.ExtService.Common.Services;
 using Fanex.Data;
 using Fanex.Data.SqlServer;
 using Fanex.Logging;
@@ -171,16 +171,15 @@ namespace Fanex.Athena.ExtService
                 DefaultRequestCulture = new RequestCulture("en-US"),
                 SupportedCultures = supportedCultures,
                 SupportedUICultures = supportedCultures,
-
-            };
-            var customQueryStringRequestCultureProvider = new QueryStringRequestCultureProvider
+                RequestCultureProviders = new List<IRequestCultureProvider>
+            {
+                new QueryStringRequestCultureProvider
             {
                 UIQueryStringKey = "lang"
+            }
+            }
             };
-            requestLocalizationOptions.RequestCultureProviders = new List<IRequestCultureProvider>
-            {
-                customQueryStringRequestCultureProvider
-            };
+
             app.UseRequestLocalization(requestLocalizationOptions);
 
             app.UseHealthChecks("/health");

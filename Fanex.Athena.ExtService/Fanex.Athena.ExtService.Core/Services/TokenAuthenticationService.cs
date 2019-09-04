@@ -1,11 +1,7 @@
 ﻿using Fanex.Athena.ExtService.Core.Models;
-using Fanex.Athena.ExtService.Core.Models.DTO;
-using Fanex.Athena.ExtService.Shared.DTO;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
