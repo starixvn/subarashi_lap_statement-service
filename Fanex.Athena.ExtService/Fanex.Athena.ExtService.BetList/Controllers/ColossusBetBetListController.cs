@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.BetList.Models.ViewModel;
 using Fanex.Athena.ExtService.Common;
+using Fanex.Athena.ExtService.Common.Model.ViewModels;
 using Fanex.Athena.ExtService.Common.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Fanex.Athena.ExtService.BetList.Controllers
 {
     [Authorize]
-    public class ColossusBetBetListController : Controller
+    public class ColossusBetBetListController : BaseController
     {
         private readonly ICommonService _commonService;
         private readonly IBetListApiClient _betListApiClient;
@@ -34,7 +35,11 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
                 metaModel.Lang
                 ).ConfigureAwait(false);
 
-            return this.View("~/Views/Desktop/BetList/ColossusBetDetail/Main.cshtml", viewModel);
+            AssignCommonViewModelData(metaModel, viewModel);
+
+            return this.View(viewModel);
         }
+
+
     }
 }

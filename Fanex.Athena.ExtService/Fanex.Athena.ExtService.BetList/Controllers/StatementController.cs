@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Fanex.Athena.ExtService.BetList.Controllers
 {
     [Authorize]
-    public class StatementController : Controller
+    public class StatementController : BaseController
     {
 
         public IActionResult Summary()

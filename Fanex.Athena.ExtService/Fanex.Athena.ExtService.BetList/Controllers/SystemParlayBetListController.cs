@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Fanex.Athena.ExtService.BetList.Controllers
 {
     [Authorize]
-    public class SystemParlayBetListController : Controller
+    public class SystemParlayBetListController : BaseController
     {
         private readonly ICommonService _commonService;
         private readonly IBetListApiClient _betListApiClient;

@@ -14,7 +14,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
 {
     [Authorize]
 
-    public class BetListDetailByProductController : Controller
+    public class BetListDetailByProductController : BaseController
     {
         private readonly ICommonService _commonService;
         private readonly IBetListApiClient _betListApiClient;
@@ -37,10 +37,8 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             var result =
                  await _betListApiClient.PostAsync<BetListResultViewModel>("/BetList/GetBetList", metaModel, metaModel.Lang).ConfigureAwait(false);
             result.HasTotalRow = metaModel.HasTotal;
-            result.Lang = metaModel.Lang;
-            result.AccessToken = HttpContext.Request.Query["access_token"];
-            result.BaseCurrency = metaModel.BaseCurrency;
-
+            AssignCommonViewModelData(metaModel, result);
+            
             return View(result);
 
         }

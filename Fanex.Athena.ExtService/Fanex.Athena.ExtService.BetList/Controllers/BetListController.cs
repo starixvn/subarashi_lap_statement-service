@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Fanex.Athena.ExtService.BetList.Controllers
 {
     [Authorize]
-    public class BetListController : Controller
+    public class BetListController : BaseController
     {
         private const string DefaultBaseCurrency = "EUR";
         private const string DefaultLang = "en-US";
@@ -62,7 +62,6 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
 
                 viewModel.Data = result.Data ?? new List<TicketText>();
             }
-
             return View(viewModel);
         }
 

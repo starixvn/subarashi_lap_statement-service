@@ -4,10 +4,8 @@ using System.Text;
 
 namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 {
-    public class CashOutBetListDetailMetaModel
+    public class CashOutBetListDetailMetaModel :BaseMetaModel
     {
-        public string BaseCurrency { get; set; }
-        public string Lang { get; set; }
         public long TransId { get; set; }
 
         public long RefNo { get; set; }
@@ -15,8 +13,6 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
         public int BetType { get; set; }
 
         public long BetdaqId { get; set; }
-
-        public string AgentListXml { get; set; }
 
         public bool IsCashOut { get; set; }
 

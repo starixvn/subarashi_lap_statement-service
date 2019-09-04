@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using Fanex.Athena.ExtService.BetList.Models.DTO;
+using Fanex.Athena.ExtService.Common.Model.ViewModels;
 
 namespace Fanex.Athena.ExtService.BetList.Models.ViewModel
 {
-    public class ColossusBetDetailViewModel
+    public class ColossusBetDetailViewModel : BaseViewModel
     {
         public IEnumerable<ColossusBetDetail> DataList { get; set; }
 

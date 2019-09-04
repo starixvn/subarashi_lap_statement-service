@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Fanex.Athena.ExtService.BetList.Controllers
 {
     [Authorize]
-    public class CashOutBetListController : Controller
+    public class CashOutBetListController : BaseController
     {
         private readonly ICommonService _commonService;
         private readonly IBetListApiClient _betListApiClient;
@@ -37,9 +37,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
                 metaModel, metaModel.Lang).ConfigureAwait(false);
             viewModel.Info = licenseeInfo;
 
-            viewModel.BaseCurrency = metaModel.BaseCurrency;
-            viewModel.AccessToken = HttpContext.Request.Query["access_token"];
-            viewModel.Lang = metaModel.Lang;
+            AssignCommonViewModelData(metaModel, viewModel);
             return View(viewModel);
         }
     }
