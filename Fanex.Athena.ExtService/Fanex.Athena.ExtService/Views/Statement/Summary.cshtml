@@ -5,6 +5,7 @@
 @using Fanex.Athena.ExtService.BetList.Models.DataDomain
 @inject IConfiguration Configuration
 @using Fanex.Athena.ExtService.Common.TagHelpers
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @addTagHelper Fanex.Athena.ExtService.Common.TagHelpers.MoneyTagHelper,Fanex.Athena.ExtService.Common.TagHelpers
 @{
     var appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
@@ -42,7 +43,7 @@
                                 <thead>
                                     <tr class="first-row">
                                         <td></td>
-                                        <td style="width:180px"></td>
+                                        <td></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
@@ -67,7 +68,7 @@
                                 <tbody>
                                     <tr class="first-row">
                                         <td></td>
-                                        <td style="width:180px"></td>
+                                        <td></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
@@ -80,10 +81,14 @@
                                         {
                                             previousBalance = StatementHelper.GetBalance(previousBalance, item);
                                             <tr>
-                                                <td class="center-align">@Html.Raw(item.WinLostDate.ToString("MM/dd/yyyy"))</td>
-                                                <td class="center-align">
+                                                <td class="left-align">
+                                                    @($"{item.WinLostDate:dddd}")
+                                                    <br />
+                                                    @($"{item.WinLostDate:MM/dd/yyyy}")
+                                                </td>
+                                                <td class="left-align">
                                                     <span class='bl-underdog'>
-                                                       - @TransDescValue.RemarkValues[item.TransDesc].Invoke()
+                                                        - @TransDescValue.RemarkValues[item.TransDesc].Invoke()
                                                     </span>
                                                 </td>
                                                 <td class="right-align">
