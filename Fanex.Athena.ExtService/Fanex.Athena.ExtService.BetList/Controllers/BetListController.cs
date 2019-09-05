@@ -17,7 +17,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
     [Authorize]
     public class BetListController : BaseController
     {
-        private const string DefaultBaseCurrency = "EUR";
+        private const string DefaultBaseCurrency = string.Empty;
         private const string DefaultLang = "en-US";
         private readonly ICommonService _commonService;
         private readonly IBetListApiClient _betListApiClient;
