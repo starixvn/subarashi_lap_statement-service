@@ -229,4 +229,37 @@
   <data name="WinLoss" xml:space="preserve">
     <value>Win Loss</value>
   </data>
+  <data name="Balance" xml:space="preserve">
+    <value>Balance</value>
+  </data>
+  <data name="Credit_Debit" xml:space="preserve">
+    <value>Credit/Debit</value>
+  </data>
+  <data name="Remark" xml:space="preserve">
+    <value>Remark</value>
+  </data>
+  <data name="Statement" xml:space="preserve">
+    <value>Statement</value>
+  </data>
+  <data name="Turnover" xml:space="preserve">
+    <value>Turnover</value>
+  </data>
+  <data name="NumberofRecords" xml:space="preserve">
+    <value>Number of Records</value>
+  </data>
+  <data name="BettingStatement" xml:space="preserve">
+    <value>Betting Statement</value>
+  </data>
+  <data name="GrandPrize" xml:space="preserve">
+    <value>Grand Prize</value>
+  </data>
+  <data name="OPENINGBALANCE" xml:space="preserve">
+    <value>OPENING BALANCE</value>
+  </data>
+  <data name="OutstandingBet" xml:space="preserve">
+    <value>Outstanding Bet</value>
+  </data>
+  <data name="Void_CancelledBet" xml:space="preserve">
+    <value>Void/Cancelled Bet</value>
+  </data>
 </root>

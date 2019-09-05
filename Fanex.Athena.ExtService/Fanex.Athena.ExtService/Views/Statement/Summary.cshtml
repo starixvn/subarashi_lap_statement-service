@@ -1,1 +1,116 @@
-﻿
+﻿@using Fanex.Athena.ExtService.Resources
+@using Microsoft.Extensions.Configuration
+@using Fanex.Athena.ExtService.Common.Model.DTO
+@using Fanex.Athena.ExtService.BetList.Helper
+@using Fanex.Athena.ExtService.BetList.Models.DataDomain
+@inject IConfiguration Configuration
+@using Fanex.Athena.ExtService.Common.TagHelpers
+@addTagHelper Fanex.Athena.ExtService.Common.TagHelpers.MoneyTagHelper,Fanex.Athena.ExtService.Common.TagHelpers
+@{
+    var appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
+    var env = appSettings.Environment.Equals("PROD") ? "pro" : "dev";
+
+}
+@section pagecss
+    {
+    <link href="@Url.Content($"~/css/build/{env}/pages/betlist/betlistLayout.css")" rel="stylesheet" />
+    <link href="@Url.Content($"~/css/build/{env}/pages/betlist/betlistRefno.css")" rel="stylesheet" />
+
+}
+@section Scripts
+    {
+    <script src="@Url.Content($"~/js/build/{env}/pages/betlist/refno.chunk.js")"></script>
+    <script type="text/javascript">
+
+    </script>
+}
+@model Fanex.Athena.ExtService.BetList.Models.ViewModel.SummaryStatementViewModel
+<div id="container" class="container-fluid">
+    <div>
+        <div class="betlist-container result-content">
+            <div class="report-title-container">
+                <p class="report-title">
+                    @ViewResources.Statement - @ViewResources.BaseCurrency: @Model.BaseCurrency?.ToUpperInvariant() -
+                    @ViewResources.NumberofRecords : @Model.TotalRows
+                </p>
+            </div>
+            <div>
+                <div class="table-container">
+                    <div class="header-content">
+                        <div class="table-wrapper">
+                            <table class="table">
+                                <thead>
+                                    <tr class="first-row">
+                                        <td></td>
+                                        <td style="width:180px"></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr style="height:32px;">
+                                        <th>@ViewResources.Date</th>
+                                        <th>@ViewResources.Remark</th>
+                                        <th>@ViewResources.Turnover</th>
+                                        <th>@ViewResources.Credit_Debit</th>
+                                        <th>@ViewResources.Commission</th>
+                                        <th>@ViewResources.Balance</th>
+
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="body-content" style="padding-right:17px;">
+                        <div class="table-wrapper">
+                            <table class="table">
+                                <tbody>
+                                    <tr class="first-row">
+                                        <td></td>
+                                        <td style="width:180px"></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    @if (Model.DataList != null && Model.DataList.Any())
+                                    {
+                                        decimal previousBalance = 0;
+                                        foreach (var item in Model.DataList)
+                                        {
+                                            previousBalance = StatementHelper.GetBalance(previousBalance, item);
+                                            <tr>
+                                                <td class="center-align">@Html.Raw(item.WinLostDate.ToString("MM/dd/yyyy"))</td>
+                                                <td class="center-align">
+                                                    <span class='bl-underdog'>
+                                                        @item.TransType.ToUpperInvariant()
+                                                        <br />- @TransDescValue.RemarkValues[item.TransDesc].Invoke()
+                                                    </span>
+                                                </td>
+                                                <td class="right-align">
+                                                    <Money>@item.TurnOver</Money>
+
+                                                </td>
+                                                <td class="right-align">
+                                                    <Money>@StatementHelper.GetCreditDebit(item)</Money>
+
+                                                </td>
+                                                <td class="right-align">
+                                                    <Money>@item.Commission</Money>
+
+                                                </td>
+                                                <td class="right-align">
+                                                    <Money>@previousBalance</Money>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

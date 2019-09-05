@@ -11,12 +11,13 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
     [Authorize]
     public class BaseController : Controller
     {
-        protected void AssignCommonViewModelData(BaseMetaModel metaModel, BaseViewModel viewModel)
+        protected void AssignCommonViewModelData(IBaseMetaModel metaModel, BaseViewModel viewModel)
         {
             viewModel.BaseCurrency = metaModel.BaseCurrency;
             viewModel.AccessToken = HttpContext.Request.Query["access_token"];
             viewModel.Lang = metaModel.Lang;
-            
+
         }
+
     }
 }

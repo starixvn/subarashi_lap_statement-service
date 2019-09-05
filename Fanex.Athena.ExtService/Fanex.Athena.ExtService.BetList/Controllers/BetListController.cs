@@ -17,8 +17,6 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
     [Authorize]
     public class BetListController : BaseController
     {
-        private const string DefaultBaseCurrency = "";
-        private const string DefaultLang = "en-US";
         private readonly ICommonService _commonService;
         private readonly IBetListApiClient _betListApiClient;
 
@@ -27,7 +25,8 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             _commonService = commonService;
             _betListApiClient = betListApiClient;
         }
-        public async Task<IActionResult> RefNo(long refId, string bc, string urs, string lang = DefaultLang, bool exct = true)
+        public async Task<IActionResult> RefNo(long refId, string bc, string urs,
+            string lang = SystemConstants.DefaultLangCode, bool exct = true)
         {
             var siteName = HttpContext.User.Identity.Name;
             var licenseeInfo = await _commonService.GetLicenseeInfoAsync(siteName, 0);
@@ -47,7 +46,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
                 var metaModel = new RefNoBetListMetaModel
                 {
                     BaseCurrency = SystemConstants.BaseCurrencyList.Values.Any(x =>
-                    x.Equals(bc, StringComparison.OrdinalIgnoreCase)) ? bc : DefaultBaseCurrency,
+                    x.Equals(bc, StringComparison.OrdinalIgnoreCase)) ? bc : SystemConstants.DefaultBaseCurrency,
                     RefNo = refId,
                     UserName = urs,
                     AgentListXml = SystemHelper.GenerateAgentListXml(licenseeInfo, exct),

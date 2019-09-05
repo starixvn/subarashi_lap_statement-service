@@ -1,4 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Threading.Tasks;
+
+using Fanex.Athena.ExtService.BetList.Models.MetaModel;
+using Fanex.Athena.ExtService.BetList.Models.ViewModel;
+using Fanex.Athena.ExtService.BetList.Services;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fanex.Athena.ExtService.BetList.Controllers
@@ -7,11 +13,15 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
     public class StatementController : BaseController
     {
 
-        public IActionResult Summary()
+        [HttpGet]
+        public async Task<IActionResult> Summary([FromServices] ISummaryStatementService service,
+            SummaryStatementMetaModel metalModel)
         {
-            var siteName = HttpContext.User.Identity.Name;
-            ViewBag.SiteName = siteName;
-            return View();
+
+            var viewModel = metalModel.IsValid ? await service.QueryAsync(metalModel).ConfigureAwait(false)
+                : new SummaryStatementViewModel();
+            AssignCommonViewModelData(metalModel, viewModel);
+            return View(viewModel);
         }
         public IActionResult ByGroup()
         {
@@ -19,5 +29,6 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             ViewBag.SiteName = siteName;
             return View();
         }
+
     }
 }

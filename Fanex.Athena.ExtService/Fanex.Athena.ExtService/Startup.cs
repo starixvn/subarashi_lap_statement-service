@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-
+using Fanex.Athena.ExtService.BetList.Services;
 using Fanex.Athena.ExtService.Common.Model.DTO;
 using Fanex.Athena.ExtService.Common.Services;
 using Fanex.Athena.ExtService.Core.Attributes;
@@ -126,6 +126,7 @@ namespace Fanex.Athena.ExtService
             services.AddScoped<IPFilterAttribute>();
             services.AddSingleton<ICommonService, CommonService>();
             services.AddSingleton<IBetListApiClient, BetListApiClient>();
+            services.AddScoped<ISummaryStatementService, SummaryStatementService>();
         }
 
         private Dictionary<string, ConnectionConfiguration> GetConnectionString()
@@ -136,6 +137,13 @@ namespace Fanex.Athena.ExtService
                     "DBEXT.bodb02.bodbLicenseeNet",
                     new ConnectionConfiguration("DBEXT.bodb02.bodbLicenseeNet",
                 Configuration.GetConnectionString("DBEXT.bodb02.bodbLicenseeNet"))
+
+                },
+                {
+                    "DBACC.bodb02.bodbLicenseeNet",
+                    new ConnectionConfiguration("DBACC.bodb02.bodbLicenseeNet",
+                Configuration.GetConnectionString("DBACC.bodb02.bodbLicenseeNet"))
+
                 }
             };
             return connectionStrings;

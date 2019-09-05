@@ -16,5 +16,8 @@ namespace Fanex.Athena.ExtService.Common.Model.DataDomain
             { BaseCurrencyType.INH,"INH" },
 
         };
+
+        public const string DefaultBaseCurrency = "EUR";
+        public const string DefaultLangCode = "en-US";
     }
 }

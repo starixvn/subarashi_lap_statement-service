@@ -224,4 +224,19 @@
   <data name="WinLoss" xml:space="preserve">
     <value>输赢</value>
   </data>
+  <data name="Balance" xml:space="preserve">
+    <value>余额</value>
+  </data>
+  <data name="Credit_Debit" xml:space="preserve">
+    <value>贷记/借记</value>
+  </data>
+  <data name="Remark" xml:space="preserve">
+    <value>备注</value>
+  </data>
+  <data name="Statement" xml:space="preserve">
+    <value>账目</value>
+  </data>
+  <data name="Turnover" xml:space="preserve">
+    <value>交易额</value>
+  </data>
 </root>
