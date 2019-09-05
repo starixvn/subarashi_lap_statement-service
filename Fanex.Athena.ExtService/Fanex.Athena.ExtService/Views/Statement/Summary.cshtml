@@ -83,8 +83,7 @@
                                                 <td class="center-align">@Html.Raw(item.WinLostDate.ToString("MM/dd/yyyy"))</td>
                                                 <td class="center-align">
                                                     <span class='bl-underdog'>
-                                                        @item.TransType.ToUpperInvariant()
-                                                        <br />- @TransDescValue.RemarkValues[item.TransDesc].Invoke()
+                                                       - @TransDescValue.RemarkValues[item.TransDesc].Invoke()
                                                     </span>
                                                 </td>
                                                 <td class="right-align">
