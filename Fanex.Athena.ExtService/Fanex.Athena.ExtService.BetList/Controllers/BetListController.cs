@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Fanex.Athena.ExtService.BetList.Models.DTO;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.BetList.Models.ViewModel;
 using Fanex.Athena.ExtService.Common;
-using Fanex.Athena.ExtService.Common.Model.DataDomain;
+using Fanex.Athena.ExtService.Common.Models.DataDomain;
 using Fanex.Athena.ExtService.Common.Services;
 
 using Microsoft.AspNetCore.Authorization;
@@ -61,11 +62,14 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
 
                 viewModel.Data = result.Data ?? new List<TicketText>();
             }
+            ViewBag.Title = "Bet List By RefNo";
             return View(viewModel);
         }
 
         public IActionResult ByGroup()
         {
+            ViewBag.Title = "Bet List By Group";
+
             var siteName = HttpContext.User.Identity.Name;
             ViewBag.SiteName = siteName;
             return View();

@@ -38,7 +38,9 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
                  await _betListApiClient.PostAsync<BetListResultViewModel>("/BetList/GetBetList", metaModel, metaModel.Lang).ConfigureAwait(false);
             result.HasTotalRow = metaModel.HasTotal;
             AssignCommonViewModelData(metaModel, result);
-            
+
+            ViewBag.Title = "Bet List - Product";
+
             return View(result);
 
         }

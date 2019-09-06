@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace Fanex.Athena.ExtService.Common.Model.DTO
-{
+namespace Fanex.Athena.ExtService.Common.Models.DTO
+{ 
     public class CurrencyInfo
     {
         [JsonProperty("Id")]

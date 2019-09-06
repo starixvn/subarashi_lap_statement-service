@@ -38,6 +38,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             viewModel.Info = licenseeInfo;
 
             AssignCommonViewModelData(metaModel, viewModel);
+            ViewBag.Title = "Cash Out BetList";
             return View(viewModel);
         }
     }

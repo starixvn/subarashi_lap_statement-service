@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.BetList.Models.ViewModel;
 using Fanex.Athena.ExtService.Common;
-using Fanex.Athena.ExtService.Common.Model.ViewModels;
+using Fanex.Athena.ExtService.Common.Models.ViewModels;
 using Fanex.Athena.ExtService.Common.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -36,6 +36,8 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
                 ).ConfigureAwait(false);
 
             AssignCommonViewModelData(metaModel, viewModel);
+
+            ViewBag.Title = "Colossus Bet";
 
             return this.View(viewModel);
         }

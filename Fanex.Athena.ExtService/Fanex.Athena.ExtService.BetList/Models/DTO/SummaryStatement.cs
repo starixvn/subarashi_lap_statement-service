@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Fanex.Athena.ExtService.BetList.Models.DTO
 {
-    public class SummaryStatement
+    public class SummaryStatement : IStatementValue
     {
         public int RowNum { get; set; }
         public DateTime WinLostDate { get; set; }

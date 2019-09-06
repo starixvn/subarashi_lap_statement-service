@@ -1,12 +1,9 @@
 ﻿@using Fanex.Athena.ExtService.Resources
 @using Microsoft.Extensions.Configuration
-@using Fanex.Athena.ExtService.Common.Model.DTO
+@using Fanex.Athena.ExtService.Common.Models.DTO
 @using Fanex.Athena.ExtService.BetList.Helper
 @using Fanex.Athena.ExtService.BetList.Models.DataDomain
 @inject IConfiguration Configuration
-@using Fanex.Athena.ExtService.Common.TagHelpers
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@addTagHelper Fanex.Athena.ExtService.Common.TagHelpers.MoneyTagHelper,Fanex.Athena.ExtService.Common.TagHelpers
 @{
     var appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
     var env = appSettings.Environment.Equals("PROD") ? "pro" : "dev";
@@ -31,7 +28,7 @@
         <div class="betlist-container result-content">
             <div class="report-title-container">
                 <p class="report-title">
-                    @ViewResources.Statement - @ViewResources.BaseCurrency: @Model.BaseCurrency?.ToUpperInvariant() -
+                    @ViewResources.Statement, @ViewResources.BaseCurrency: @Model.BaseCurrency?.ToUpperInvariant(),
                     @ViewResources.NumberofRecords : @Model.TotalRows
                 </p>
             </div>
@@ -80,31 +77,50 @@
                                         foreach (var item in Model.DataList)
                                         {
                                             previousBalance = StatementHelper.GetBalance(previousBalance, item);
+                                            var remarkValue = $"- {TransDescValue.RemarkValues[item.TransDesc].Invoke()}";
+
                                             <tr>
                                                 <td class="left-align">
                                                     @($"{item.WinLostDate:dddd}")
                                                     <br />
                                                     @($"{item.WinLostDate:MM/dd/yyyy}")
                                                 </td>
-                                                <td class="left-align">
-                                                    <span class='bl-underdog'>
-                                                        - @TransDescValue.RemarkValues[item.TransDesc].Invoke()
+                                                <td class="left-align .detail">
+                                                    <span class='underdog'>
+                                                        @if (item.TransType == TransTypeValue.BET)
+                                                        {
+                                                            <a class="detail-link" href="@Url.Action("ByGroup","Statement",new {
+                                                                                        bc = Model.BaseCurrency,
+                                                                                        lang = Model.Lang,
+                                                                                        access_token = Model.AccessToken,
+                                                                                        wd=item.WinLostDate.ToString("MM/dd/yyyy"),
+                                                                                        cid=Model.CustId,
+                                                                                        mv = TransDescValue.MaptoModeView[item.TransDesc]
+
+                                                                                    })">
+                                                                @remarkValue
+                                                            </a>
+                                                        }
+                                                        else
+                                                        {
+                                                            @remarkValue
+                                                        }
                                                     </span>
                                                 </td>
                                                 <td class="right-align">
-                                                    <Money>@item.TurnOver</Money>
+                                                    <money>@item.TurnOver</money>
 
                                                 </td>
                                                 <td class="right-align">
-                                                    <Money>@StatementHelper.GetCreditDebit(item)</Money>
+                                                    <money>@StatementHelper.GetCreditDebit(item)</money>
 
                                                 </td>
                                                 <td class="right-align">
-                                                    <Money>@item.Commission</Money>
+                                                    <money>@item.Commission</money>
 
                                                 </td>
                                                 <td class="right-align">
-                                                    <Money>@previousBalance</Money>
+                                                    <money>@previousBalance</money>
                                                 </td>
                                             </tr>
                                         }

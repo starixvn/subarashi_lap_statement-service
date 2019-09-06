@@ -4,8 +4,9 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+
 using Fanex.Athena.ExtService.BetList.Services;
-using Fanex.Athena.ExtService.Common.Model.DTO;
+using Fanex.Athena.ExtService.Common.Models.DTO;
 using Fanex.Athena.ExtService.Common.Services;
 using Fanex.Athena.ExtService.Core.Attributes;
 using Fanex.Athena.ExtService.Core.Middleware;
@@ -127,6 +128,8 @@ namespace Fanex.Athena.ExtService
             services.AddSingleton<ICommonService, CommonService>();
             services.AddSingleton<IBetListApiClient, BetListApiClient>();
             services.AddScoped<ISummaryStatementService, SummaryStatementService>();
+            services.AddScoped<IStatementByGroupService, StatementByGroupService>();
+
         }
 
         private Dictionary<string, ConnectionConfiguration> GetConnectionString()

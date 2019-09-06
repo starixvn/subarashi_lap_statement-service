@@ -239,4 +239,36 @@
   <data name="Turnover" xml:space="preserve">
     <value>交易额</value>
   </data>
+  <data name="ProductCC" xml:space="preserve">
+    <value>嘻嘻俱乐部</value>
+    <comment>115449</comment>
+  </data>
+  <data name="ProductCO" xml:space="preserve">
+    <value>即时兑现</value>
+    <comment>93729</comment>
+  </data>
+  <data name="ProductCS" xml:space="preserve">
+    <value>娱乐城</value>
+    <comment>#49196</comment>
+  </data>
+  <data name="ProductKN" xml:space="preserve">
+    <value>快乐彩</value>
+    <comment>113398</comment>
+  </data>
+  <data name="ProductNG" xml:space="preserve">
+    <value>百练赛</value>
+    <comment>#49196</comment>
+  </data>
+  <data name="ProductSB" xml:space="preserve">
+    <value>体育博彩</value>
+    <comment>#49196</comment>
+  </data>
+  <data name="ProductVS" xml:space="preserve">
+    <value>虚拟运动</value>
+    <comment>#49196</comment>
+  </data>
+  <data name="ProductVS2" xml:space="preserve">
+    <value>虚拟运动2</value>
+    <comment>83759</comment>
+  </data>
 </root>

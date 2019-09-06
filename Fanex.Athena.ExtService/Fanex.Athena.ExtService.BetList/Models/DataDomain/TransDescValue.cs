@@ -16,11 +16,19 @@ namespace Fanex.Athena.ExtService.BetList.Models.DataDomain
 
         public static readonly IDictionary<string, Func<string>> RemarkValues = new Dictionary<string, Func<string>> {
 
-            { TransDescValue.BetStatement, () => ViewResources.BettingStatement },
-            { TransDescValue.VoidCancell,() => ViewResources.Void_CancelledBet },
-            { TransDescValue.Outstanding,() => ViewResources.OutstandingBet },
-            { TransDescValue.GrandPrize,() => ViewResources.GrandPrize },
-            { TransDescValue.OpeningBalance,() => ViewResources.OPENINGBALANCE }
+            { BetStatement, () => ViewResources.BettingStatement },
+            { VoidCancell,() => ViewResources.Void_CancelledBet },
+            { Outstanding,() => ViewResources.OutstandingBet },
+            { GrandPrize,() => ViewResources.GrandPrize },
+            { OpeningBalance,() => ViewResources.OPENINGBALANCE }
+        };
+
+        public static readonly IDictionary<string, int> MaptoModeView = new Dictionary<string, int> {
+
+            { BetStatement,1 },
+            { VoidCancell,2 },
+            { Outstanding,3 },
+
         };
     }
 }

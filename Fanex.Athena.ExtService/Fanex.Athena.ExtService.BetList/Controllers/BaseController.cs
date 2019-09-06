@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Fanex.Athena.ExtService.BetList.Models.MetaModel;
-using Fanex.Athena.ExtService.Common.Model.ViewModels;
+﻿using Fanex.Athena.ExtService.BetList.Models.MetaModel;
+using Fanex.Athena.ExtService.Common.Models.ViewModels;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

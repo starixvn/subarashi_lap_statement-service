@@ -1,8 +1,8 @@
 ﻿using System;
-using Fanex.Athena.ExtService.BetList.Models.MetaModel;
-using Fanex.Athena.ExtService.Common.Model.DataDomain;
+
+using Fanex.Athena.ExtService.Common.Models.DataDomain;
+
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 {

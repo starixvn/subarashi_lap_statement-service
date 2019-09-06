@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Fanex.Athena.ExtService.Common.Model.DTO;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace Fanex.Athena.ExtService.Common.DTO
+namespace Fanex.Athena.ExtService.Common.Models.DTO
 {
     public class LicenseeInfo
     {

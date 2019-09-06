@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Fanex.Athena.ExtService.BetList.Models.DTO;
-using Fanex.Athena.ExtService.Common.Model.ViewModels;
-
+using Fanex.Athena.ExtService.Common.Models.ViewModels;
 namespace Fanex.Athena.ExtService.BetList.Models.ViewModel
 {
     public class CashOutBetListDetailViewModel : BaseViewModel

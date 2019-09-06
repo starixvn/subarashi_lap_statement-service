@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+
 using Fanex.Athena.ExtService.BetList.Models.DataDomain;
 using Fanex.Athena.ExtService.BetList.Models.DTO;
 
@@ -8,7 +7,7 @@ namespace Fanex.Athena.ExtService.BetList.Helper
 {
     public static class StatementHelper
     {
-        public static decimal GetBalance(Decimal previousBalance, SummaryStatement item)
+        public static decimal GetBalance(Decimal previousBalance, IStatementValue item)
         {
             switch (item.TransType?.ToUpperInvariant())
             {
@@ -32,7 +31,7 @@ namespace Fanex.Athena.ExtService.BetList.Helper
             }
 
         }
-        public static decimal GetCreditDebit(SummaryStatement item)
+        public static decimal GetCreditDebit(IStatementValue item)
         {
             return item.TransDesc.Equals(TransDescValue.Outstanding, StringComparison.OrdinalIgnoreCase)
                 || item.TransType.Equals(TransTypeValue.BAL) ? 0 : item.TotalAmt;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
-using Fanex.Athena.ExtService.Common.Model.ViewModels;
+using Fanex.Athena.ExtService.Common.Models.ViewModels;
 using Fanex.Athena.ExtService.Common.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +23,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         [HttpGet]
         public async Task<IActionResult> ResultPopup(ResultPopupMetalModel metaModel)
         {
+
             var result = await _betListApiClient.PostAsyncString(
                  "/ResultReport/ResultPopup",
                  metaModel,
@@ -35,6 +36,9 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
                 AccessToken = HttpContext.Request.Query["access_token"],
                 Lang = metaModel.Lang
             };
+
+            ViewBag.Title = "Result";
+
             return View(viewModel);
 
 
@@ -94,6 +98,9 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
                 AccessToken = HttpContext.Request.Query["access_token"],
                 Lang = lang
             };
+
+            ViewBag.Title = "Result";
+
             return View(viewModel);
         }
 

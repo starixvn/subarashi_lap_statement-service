@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Fanex.Athena.ExtService.Common.Model.DataDomain
+namespace Fanex.Athena.ExtService.Common.Models.DataDomain
 {
     public class SystemConstants
     {
@@ -19,5 +19,6 @@ namespace Fanex.Athena.ExtService.Common.Model.DataDomain
 
         public const string DefaultBaseCurrency = "EUR";
         public const string DefaultLangCode = "en-US";
+
     }
 }

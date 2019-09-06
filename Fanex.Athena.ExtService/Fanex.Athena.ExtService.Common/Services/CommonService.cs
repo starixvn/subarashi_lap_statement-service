@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Fanex.Athena.ExtService.Common.DTO;
-using Fanex.Athena.ExtService.Common.Model.DTO;
+
+using Fanex.Athena.ExtService.Common.Models.DTO;
 using Fanex.Data;
 
 using Microsoft.Extensions.Caching.Memory;
@@ -44,8 +44,8 @@ namespace Fanex.Athena.ExtService.Common.Services
             };
             using (var db = ObjectDbFactory.CreateInstance(UspName))
             {
-                db.SetParameterValue("siteName", siteName);
-                db.SetParameterValue("custId", custId);
+                db.SetParameterValue(nameof(siteName), siteName);
+                db.SetParameterValue(nameof(custId), custId);
                 using (var reader = await db.ExecuteReaderAsync())
                 {
                     var currencies = new List<CurrencyInfo>();
