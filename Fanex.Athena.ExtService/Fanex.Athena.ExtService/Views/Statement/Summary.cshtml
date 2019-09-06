@@ -77,7 +77,8 @@
                                         foreach (var item in Model.DataList)
                                         {
                                             previousBalance = StatementHelper.GetBalance(previousBalance, item);
-                                            var remarkValue = $"- {TransDescValue.RemarkValues[item.TransDesc].Invoke()}";
+                                            var remarkValue = TransDescValue.RemarkValues.ContainsKey(item.TransDesc) ?
+                                                $"- {TransDescValue.RemarkValues[item.TransDesc].Invoke()}" : string.Empty;
 
                                             <tr>
                                                 <td class="left-align">

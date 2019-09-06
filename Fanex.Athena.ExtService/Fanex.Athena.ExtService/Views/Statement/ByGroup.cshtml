@@ -77,6 +77,8 @@
                                         foreach (var item in Model.DataList)
                                         {
                                             previousBalance = StatementHelper.GetBalance(previousBalance, item);
+                                            var remarkValue = TransDescValue.RemarkValues.ContainsKey(item.TransDesc) ?
+                                               TransDescValue.RemarkValues[item.TransDesc].Invoke() : string.Empty;
                                             <tr>
                                                 <td class="left-align">
                                                     @($"{item.WinLostDate:dddd}")
@@ -85,7 +87,7 @@
                                                 </td>
                                                 <td class="left-align">
                                                     <span class='bl-underdog'>
-                                                        @SystemHelper.GetProductName(item.ProductCode) - @TransDescValue.RemarkValues[item.TransDesc].Invoke()
+                                                        @SystemHelper.GetProductName(item.ProductCode) - remarkValue
                                                     </span>
                                                 </td>
                                                 <td class="right-align">
