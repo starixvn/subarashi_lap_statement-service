@@ -37,7 +37,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
 
         public IDictionary<int, string> UserCurrencyList { get; set; }
         public bool HasPlayerCom { get; set; }
-        public string AgentList { get; set; }
+        public string AgentListXml { get; set; }
 
     }
 }

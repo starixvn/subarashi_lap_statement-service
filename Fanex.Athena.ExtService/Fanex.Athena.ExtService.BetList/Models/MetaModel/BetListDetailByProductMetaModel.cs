@@ -27,7 +27,7 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
         [JsonProperty("CurrencyList")]
         public IDictionary<int, string> UserCurrencyList { get; set; }
         [JsonProperty("AgentListXml")]
-        public string AgentList { get; set; }
+        public string AgentListXml { get; set; }
         public string BaseCurrency { get; set; }
         public string Lang { get; set; }
     }

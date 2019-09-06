@@ -8,6 +8,6 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
     {
         IDictionary<int, string> UserCurrencyList { get; set; }
         bool HasPlayerCom { get; set; }
-        string AgentList { get; set; }
+        string AgentListXml { get; set; }
     }
 }

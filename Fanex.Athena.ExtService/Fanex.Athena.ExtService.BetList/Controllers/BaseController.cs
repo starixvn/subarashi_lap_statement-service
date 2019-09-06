@@ -24,7 +24,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         {
             metaModel.UserCurrencyList = GetUserCurrencyList(licenseeInfo);
             metaModel.HasPlayerCom = licenseeInfo.IsAllowedCustomerComm;
-            metaModel.AgentList = SystemHelper.GenerateAgentListXml(licenseeInfo);
+            metaModel.AgentListXml = SystemHelper.GenerateAgentListXml(licenseeInfo);
         }
         private static IDictionary<int, string> GetUserCurrencyList(LicenseeInfo licenseeInfo)
         {
