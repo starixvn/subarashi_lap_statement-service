@@ -8,5 +8,10 @@ namespace Fanex.Athena.ExtService.Core.Middleware
         {
             return builder.UseMiddleware<JWToken>();
         }
+
+        public static IApplicationBuilder UseErrorHandling(this IApplicationBuilder builder)
+        {
+            return builder.UseMiddleware<ErrorHandling>();
+        }
     }
 }

@@ -168,7 +168,7 @@ namespace Fanex.Athena.ExtService
             }
             else
             {
-                app.UseExceptionHandler("/utility/Error");
+                app.UseErrorHandling();
                 app.UseHsts();
             }
             var supportedCultures = new[]
