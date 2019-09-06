@@ -31,7 +31,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         [ResponseCache(Duration = SystemConstants.TwoMinInSecond, NoStore = false,
             VaryByQueryKeys = new[] { "refId", "urs", "lang", "bc" })]
         public async Task<IActionResult> RefNo(long refId, string bc, string urs,
-            string lang = SystemConstants.DefaultLangCode, bool exct = true)
+            string lang = SystemConstants.DefaultLangCode)
         {
             var siteName = HttpContext.User.Identity.Name;
             var licenseeInfo = await _commonService.GetLicenseeInfoAsync(siteName, 0);
@@ -53,11 +53,9 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
                     BaseCurrency = SystemConstants.BaseCurrencyList.Values.Any(x =>
                     x.Equals(bc, StringComparison.OrdinalIgnoreCase)) ? bc : SystemConstants.DefaultBaseCurrency,
                     RefNo = refId,
-                    UserName = urs,
-                    AgentListXml = SystemHelper.GenerateAgentListXml(licenseeInfo, exct),
-                    UserCurrencyList = GetUserCurrencyList(licenseeInfo),
-                    HasPlayerCom = licenseeInfo.IsAllowedCustomerComm
+                    UserName = urs
                 };
+                AssignCommonMetaModelValue(metaModel, licenseeInfo);
 
                 var result = await _betListApiClient.PostAsync<RefNoDataResult>("/BettingTicketCenter/GetByRefno",
                 metaModel,
@@ -68,11 +66,6 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             }
             ViewBag.Title = "Bet List By RefNo";
             return View(viewModel);
-        }
-
-        private static Dictionary<int, string> GetUserCurrencyList(LicenseeInfo licenseeInfo)
-        {
-            return licenseeInfo.Currencies.GroupBy(x => x.CurrencyId).ToDictionary(x => x.Key, x => x.FirstOrDefault().CurrencyName);
         }
 
         [HttpGet]
@@ -90,23 +83,9 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
 
             if (metaModel.IsValid)
             {
-                var param = new
-                {
-                    metaModel.BaseCurrency,
-                    metaModel.PageIndex,
-                    metaModel.PageSize,
-                    metaModel.CustId,
-                    metaModel.Date,
-                    metaModel.ProductCode,
-                    UserCurrencyList = GetUserCurrencyList(licenseeInfo),
-                    HasPlayerCom = licenseeInfo.IsAllowedCustomerComm,
-                    TransType = metaModel.ModeView,
-                    AgentList = SystemHelper.GenerateAgentListXml(licenseeInfo),
-                    metaModel.Sort
-
-                };
+                AssignCommonMetaModelValue(metaModel, licenseeInfo);
                 var result = await _betListApiClient.PostAsync<RefNoDataResult>("/BetListByProduct/Index",
-                param,
+                metaModel,
                 metaModel.Lang
             ).ConfigureAwait(false);
 
@@ -118,5 +97,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             viewModel.ProductCode = metaModel.ProductCode;
             return View(viewModel);
         }
+
+      
     }
 }

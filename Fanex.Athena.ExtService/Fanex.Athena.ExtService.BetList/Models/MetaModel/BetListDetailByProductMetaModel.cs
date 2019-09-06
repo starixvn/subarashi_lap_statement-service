@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 {
-    public class BetListDetailByProductMetaModel : BaseMetaModel
+    [JsonObject("BetListDetailByProductMetaModel")]
+    public class BetListDetailByProductMetaModel : IBaseBetListMetaModel
     {
         public long TransId { get; set; }
 
@@ -18,11 +20,15 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 
         public string UspKey { get; set; }
 
-        public IDictionary<int, string> CurrencyList { get; set; }
-
         public bool HasPlayerCom { get; set; }
         public bool HasTotal { get; set; }
         public bool HasLicWl { get; set; }
         public long RefCode { get; set; }
+        [JsonProperty("CurrencyList")]
+        public IDictionary<int, string> UserCurrencyList { get; set; }
+        [JsonProperty("AgentListXml")]
+        public string AgentList { get; set; }
+        public string BaseCurrency { get; set; }
+        public string Lang { get; set; }
     }
 }

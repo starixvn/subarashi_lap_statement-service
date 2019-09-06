@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 {
-    public class CashOutBetListDetailMetaModel :BaseMetaModel
+    [JsonObject("CashOutBetListDetailMetaModel")]
+    public class CashOutBetListDetailMetaModel : IBaseBetListMetaModel
     {
         public long TransId { get; set; }
 
@@ -20,5 +22,10 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 
         public IDictionary<int, string> UserCurrencyList { get; set; }
 
+        [JsonProperty("AgentListXml")]
+        public string AgentList { get; set; }
+        public string BaseCurrency { get; set; }
+        public string Lang { get; set; }
+        public bool HasPlayerCom { get; set; }
     }
 }

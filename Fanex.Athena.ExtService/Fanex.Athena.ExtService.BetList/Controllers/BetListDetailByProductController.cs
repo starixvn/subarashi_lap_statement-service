@@ -31,11 +31,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         {
             var licenseeInfo = await _commonService.GetLicenseeInfoAsync(HttpContext.User.Identity.Name, metaModel.CustId);
 
-            metaModel.CurrencyList = licenseeInfo.Currencies.GroupBy(x => x.CurrencyId)
-.ToDictionary(x => x.Key, x => x.FirstOrDefault().CurrencyName);
-            metaModel.HasPlayerCom = licenseeInfo.IsAllowedCustomerComm;
-            metaModel.AgentListXml = SystemHelper.GenerateAgentListXml(licenseeInfo);
-
+            AssignCommonMetaModelValue(metaModel, licenseeInfo);
             var result =
                  await _betListApiClient.PostAsync<BetListResultViewModel>("/BetList/GetBetList", metaModel, metaModel.Lang).ConfigureAwait(false);
             result.HasTotalRow = metaModel.HasTotal;
