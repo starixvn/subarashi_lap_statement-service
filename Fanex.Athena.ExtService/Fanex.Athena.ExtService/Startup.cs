@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -68,6 +69,10 @@ namespace Fanex.Athena.ExtService
 
             services.AddHealthChecks();
             services.AddMemoryCache();
+            services.AddResponseCaching(options =>
+            {
+                options.UseCaseSensitivePaths = true;
+            });
             var token = Configuration.GetSection("tokenManagement").Get<TokenManagement>();
             var secret = Encoding.ASCII.GetBytes(token.Secret);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -192,7 +197,9 @@ namespace Fanex.Athena.ExtService
 
             app.UseHealthChecks("/health");
             app.UseHttpsRedirection();
-            var cachePeriod = env.IsDevelopment() ? "600" : "7200";
+            const int OneDayInSecond = 86400;
+            const int TenMinInSecond = 600;
+            var cachePeriod = env.IsDevelopment() ? TenMinInSecond : OneDayInSecond;
             app.UseStaticFiles(new StaticFileOptions
             {
                 OnPrepareResponse = ctx =>
@@ -204,6 +211,7 @@ namespace Fanex.Athena.ExtService
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseJWTokenOnPage();
             app.UseAuthentication();
+            app.UseResponseCaching();
             app.UseMvc(routes =>
             {
 

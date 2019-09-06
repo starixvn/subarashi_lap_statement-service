@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Fanex.Athena.ExtService.BetList.Models.DTO;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.BetList.Models.ViewModel;
+using Fanex.Athena.ExtService.Common.Models.DataDomain;
 using Fanex.Athena.ExtService.Common.Services;
 
 using Microsoft.AspNetCore.Authorization;
@@ -22,6 +23,9 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             _commonService = commonService;
             _betListApiClient = betListApiClient;
         }
+
+        [ResponseCache(Duration = SystemConstants.TwoMinInSecond)]
+
         [HttpGet]
         public async Task<IActionResult> Detail(MixParlayDetailMetaModel metaModel)
         {
@@ -31,6 +35,8 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
                 , metaModel.Lang).ConfigureAwait(false);
             return Json(result);
         }
+
+        [ResponseCache(Duration = SystemConstants.TwoMinInSecond)]
 
         [HttpGet]
         public async Task<IActionResult> NewParlayDetail(

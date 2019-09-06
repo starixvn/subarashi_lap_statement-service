@@ -27,6 +27,8 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             _betListApiClient = betListApiClient;
         }
         [HttpGet]
+        [ResponseCache(Duration = SystemConstants.TwoMinInSecond, NoStore = false,
+            VaryByQueryKeys = new[] { "refId", "urs", "lang", "bc" })]
         public async Task<IActionResult> RefNo(long refId, string bc, string urs,
             string lang = SystemConstants.DefaultLangCode, bool exct = true)
         {
@@ -68,6 +70,9 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         }
 
         [HttpGet]
+        [ResponseCache(Duration = SystemConstants.TwoMinInSecond, NoStore = false,
+            VaryByQueryKeys = new[] { "cid", "lang", "bc", "wd", "pc" })]
+
         public async Task<IActionResult> ByGroup(BetListByGroupMetaModel metaModel)
         {
             var siteName = HttpContext.User.Identity.Name;

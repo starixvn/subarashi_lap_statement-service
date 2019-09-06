@@ -15,6 +15,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
     [Authorize]
     public class ColossusBetBetListController : BaseController
     {
+        private const int CacheIntTenSecond = 10;
         private readonly ICommonService _commonService;
         private readonly IBetListApiClient _betListApiClient;
         public ColossusBetBetListController(ICommonService commonService, IBetListApiClient betListApiClient)
@@ -24,7 +25,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         }
 
         [HttpGet]
-        [ResponseCache(NoStore = true, Duration = 0, Location = ResponseCacheLocation.None)]
+        [ResponseCache(Duration = CacheIntTenSecond)]
         public async Task<IActionResult> Detail(ColossusBetDetailMetaModel metaModel)
         {
             var licenseeInfo = await _commonService.GetLicenseeInfoAsync(HttpContext.User.Identity.Name, metaModel.CustId);

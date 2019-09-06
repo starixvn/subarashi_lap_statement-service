@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.BetList.Models.ViewModel;
 using Fanex.Athena.ExtService.Common;
+using Fanex.Athena.ExtService.Common.Models.DataDomain;
 using Fanex.Athena.ExtService.Common.Services;
 
 using Microsoft.AspNetCore.Authorization;
@@ -21,6 +22,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             _betListApiClient = betListApiClient;
         }
         [HttpGet]
+        [ResponseCache(Duration = SystemConstants.TwoMinInSecond)]
         public async Task<IActionResult> Detail(SystemParlayDetailMetaModel metaModel)
         {
             var balanceUp = await _commonService.GetBalanceUpAsync();
