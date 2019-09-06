@@ -38,11 +38,12 @@ namespace Fanex.Athena.ExtService.Core.Middleware
         {
             context.Response.StatusCode = 500;
             context.Response.ContentType = "application/json";
-            Logging.Logger.Log.Error(error.Message, error);
+            var errorMsg = $"Msg={error.Message}\n Stacktrace={error.StackTrace}";
+            Logging.Logger.Log.Error(errorMsg);
             await context.Response.WriteAsync(JsonConvert.SerializeObject(new
             {
                 State = "Internal Server Error",
-                Msg = error.Message
+                Msg = "Sorry, an error occurred while processing your request."
             }));
         }
     }
