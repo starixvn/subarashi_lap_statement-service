@@ -78,7 +78,7 @@
                                         {
                                             previousBalance = StatementHelper.GetBalance(previousBalance, item);
                                             var transDescText = TransDescValue.RemarkValues.ContainsKey(item.TransDesc) ?
-                                               TransDescValue.RemarkValues[item.TransDesc].Invoke() : item.TransDesc;
+                                               TransDescValue.RemarkValues[item.TransDesc].Invoke() : item.TransType.ToUpperInvariant();
                                             var remarkValue = $"{SystemHelper.GetProductName(item.ProductCode)} {transDescText}";
                                             <tr>
                                                 <td class="left-align">

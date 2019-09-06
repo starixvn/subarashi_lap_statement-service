@@ -78,7 +78,7 @@
                                         {
                                             previousBalance = StatementHelper.GetBalance(previousBalance, item);
                                             var remarkValue = TransDescValue.RemarkValues.ContainsKey(item.TransDesc) ?
-                                                $"- {TransDescValue.RemarkValues[item.TransDesc].Invoke()}" : item.TransDesc;
+                                                $"- {TransDescValue.RemarkValues[item.TransDesc].Invoke()}" : item.TransType.ToUpperInvariant();
 
                                             <tr>
                                                 <td class="left-align">
