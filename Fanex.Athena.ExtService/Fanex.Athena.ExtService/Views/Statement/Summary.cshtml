@@ -93,11 +93,11 @@
                                                             <a class="detail-link" href="@Url.Action("ByGroup","Statement",new {
                                                                                         bc = Model.BaseCurrency,
                                                                                         lang = Model.Lang,
-                                                                                        access_token = Model.AccessToken,
+
                                                                                         wd=item.WinLostDate.ToString("MM/dd/yyyy"),
                                                                                         cid=Model.CustId,
                                                                                         mv = TransDescValue.MaptoModeView[item.TransDesc]
-
+                                                                                          access_token = Model.AccessToken
                                                                                     })">
                                                                 @remarkValue
                                                             </a>

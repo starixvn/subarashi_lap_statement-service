@@ -36,5 +36,14 @@ namespace Fanex.Athena.ExtService.BetList.Helper
             return item.TransDesc.Equals(TransDescValue.Outstanding, StringComparison.OrdinalIgnoreCase)
                 || item.TransType.Equals(TransTypeValue.BAL) ? 0 : item.TotalAmt;
         }
+
+        public static bool HideBetListLink(string productCode)
+        {
+            const string AGCasino = "AGC";
+            const string GoldDeluxe = "GD";
+            const string Exchange = "BX";
+
+            return productCode == AGCasino || productCode == GoldDeluxe || productCode == Exchange;
+        }
     }
 }

@@ -26,6 +26,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             _commonService = commonService;
             _betListApiClient = betListApiClient;
         }
+        [HttpGet]
         public async Task<IActionResult> RefNo(long refId, string bc, string urs,
             string lang = SystemConstants.DefaultLangCode, bool exct = true)
         {
@@ -66,13 +67,23 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             return View(viewModel);
         }
 
-        public IActionResult ByGroup()
+        [HttpGet]
+        public async Task<IActionResult> ByGroup(BetListByGroupMetaModel metaModel)
         {
-            ViewBag.Title = "Bet List By Group";
-
             var siteName = HttpContext.User.Identity.Name;
-            ViewBag.SiteName = siteName;
-            return View();
+            var licenseeInfo = await _commonService.GetLicenseeInfoAsync(siteName, 0);
+            var viewModel = new BetListByProductViewModel
+            {
+                Info = licenseeInfo,
+            };
+
+            if (metaModel.IsValid)
+            {
+            }
+
+            ViewBag.Title = "Bet List By Group";
+            AssignCommonViewModelData(metaModel, viewModel);
+            return View(viewModel);
         }
     }
 }

@@ -77,8 +77,9 @@
                                         foreach (var item in Model.DataList)
                                         {
                                             previousBalance = StatementHelper.GetBalance(previousBalance, item);
-                                            var remarkValue = TransDescValue.RemarkValues.ContainsKey(item.TransDesc) ?
+                                            var transDescText = TransDescValue.RemarkValues.ContainsKey(item.TransDesc) ?
                                                TransDescValue.RemarkValues[item.TransDesc].Invoke() : item.TransDesc;
+                                            var remarkValue = $"{SystemHelper.GetProductName(item.ProductCode)} {transDescText}";
                                             <tr>
                                                 <td class="left-align">
                                                     @($"{item.WinLostDate:dddd}")
@@ -87,7 +88,25 @@
                                                 </td>
                                                 <td class="left-align">
                                                     <span class='bl-underdog'>
-                                                        @SystemHelper.GetProductName(item.ProductCode) - remarkValue
+                                                        @if (StatementHelper.HideBetListLink(item.ProductCode))
+                                                        {
+                                                            @transDescText
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <a class="detail-link" href="@Url.Action("ByGroup","BetList",new {
+                                                                                        bc = Model.BaseCurrency,
+                                                                                        lang = Model.Lang,
+                                                                                        wd=item.WinLostDate.ToString("MM/dd/yyyy"),
+                                                                                        cid=Model.CustId,
+                                                                                        pc = item.ProductCode,
+                                                                                         access_token = Model.AccessToken,
+                                                                                    })">
+                                                                @remarkValue
+                                                            </a>
+                                                        }
+
                                                     </span>
                                                 </td>
                                                 <td class="right-align">
