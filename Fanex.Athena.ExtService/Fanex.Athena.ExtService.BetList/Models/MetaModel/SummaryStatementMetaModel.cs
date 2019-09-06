@@ -15,11 +15,11 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
         [FromQuery(Name = "td")]
         public DateTime ToDate { get; set; }
         [FromQuery(Name = "ps")]
-        public int PageSize { get; set; } = 50;
+        public int PageSize { get; set; } = 500;
         [FromQuery(Name = "pi")]
         public int PageIndex { get; set; } = 1;
         [FromQuery(Name = "bc")]
-        public string BaseCurrency { get; set; } = SystemConstants.DefaultBaseCurrency;
+        public string BaseCurrency { get; set; }
         public string Lang { get; set; } = SystemConstants.DefaultLangCode;
 
         public bool IsValid => CustId > 0 && FromDate <= ToDate && (ToDate - FromDate).TotalDays <= 31
