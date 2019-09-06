@@ -1,4 +1,5 @@
 ﻿using System;
+using Fanex.Athena.ExtService.BetList.Models.DataDomain;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,7 +10,9 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         [FromQuery(Name = "bc")]
         public string BaseCurrency { get; set; }
         public string Lang { get; set; }
-        public bool IsValid => true;
+        public bool IsValid => PageIndex >
+            0 && PageSize > 0 && CustId > 0 && Date > DateTime.MinValue
+            && !string.IsNullOrEmpty(ProductCode) && TransDescValue.MaptoModeView.Values.Contains(ModeView);
 
         [FromQuery(Name = "pi")]
         public int PageIndex { get; set; } = 1;
@@ -29,7 +32,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         public string Sort { get; set; } = "Transid ASC";
 
         [FromQuery(Name = "mv")]
-        public string ModeView { get; set; }
+        public int ModeView { get; set; }
 
     }
 }
