@@ -165,6 +165,7 @@ namespace Fanex.Athena.ExtService
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                //app.UseErrorHandling();
 
             }
             else

@@ -38,7 +38,8 @@ namespace Fanex.Athena.ExtService.Core.Middleware
         {
             context.Response.StatusCode = 500;
             context.Response.ContentType = "application/json";
-            var errorMsg = $"Msg={error.Message}\n Stacktrace={error.StackTrace}";
+            var errorMsg = $"Msg={error.Message}\n Stacktrace={error.StackTrace}" +
+                $"\n Path={context.Request.Path}\n Query={context.Request.QueryString}";
             Logging.Logger.Log.Error(errorMsg);
             await context.Response.WriteAsync(JsonConvert.SerializeObject(new
             {
