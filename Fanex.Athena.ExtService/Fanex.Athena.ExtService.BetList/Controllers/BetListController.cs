@@ -8,6 +8,7 @@ using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.BetList.Models.ViewModel;
 using Fanex.Athena.ExtService.Common;
 using Fanex.Athena.ExtService.Common.Models.DataDomain;
+using Fanex.Athena.ExtService.Common.Models.DTO;
 using Fanex.Athena.ExtService.Common.Services;
 
 using Microsoft.AspNetCore.Authorization;
@@ -54,7 +55,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
                     RefNo = refId,
                     UserName = urs,
                     AgentListXml = SystemHelper.GenerateAgentListXml(licenseeInfo, exct),
-                    UserCurrencyList = licenseeInfo.Currencies.GroupBy(x => x.CurrencyId).ToDictionary(x => x.Key, x => x.FirstOrDefault().CurrencyName),
+                    UserCurrencyList = GetUserCurrencyList(licenseeInfo),
                     HasPlayerCom = licenseeInfo.IsAllowedCustomerComm
                 };
 
@@ -67,6 +68,11 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             }
             ViewBag.Title = "Bet List By RefNo";
             return View(viewModel);
+        }
+
+        private static Dictionary<int, string> GetUserCurrencyList(LicenseeInfo licenseeInfo)
+        {
+            return licenseeInfo.Currencies.GroupBy(x => x.CurrencyId).ToDictionary(x => x.Key, x => x.FirstOrDefault().CurrencyName);
         }
 
         [HttpGet]
@@ -84,10 +90,32 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
 
             if (metaModel.IsValid)
             {
+                var param = new
+                {
+                    metaModel.BaseCurrency,
+                    metaModel.PageIndex,
+                    metaModel.PageSize,
+                    metaModel.CustId,
+                    metaModel.Date,
+                    metaModel.ProductCode,
+                    UserCurrencyList = GetUserCurrencyList(licenseeInfo),
+                    HasPlayerCom = licenseeInfo.IsAllowedCustomerComm,
+                    TransType = metaModel.ModeView,
+                    AgentList = SystemHelper.GenerateAgentListXml(licenseeInfo),
+                    metaModel.Sort
+
+                };
+                var result = await _betListApiClient.PostAsync<RefNoDataResult>("/BetListByProduct/Index",
+                param,
+                metaModel.Lang
+            ).ConfigureAwait(false);
+
+                viewModel.Data = result.Data ?? new List<TicketText>();
             }
 
             ViewBag.Title = "Bet List By Group";
             AssignCommonViewModelData(metaModel, viewModel);
+            viewModel.ProductCode = metaModel.ProductCode;
             return View(viewModel);
         }
     }

@@ -52,6 +52,8 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
                     break;
                 default: viewModel.TransDesc = ViewResources.Statement; break;
             }
+            viewModel.CustId = metalModel.CustId;
+            viewModel.ModeView = metalModel.ModeView;
             return View(viewModel);
         }
 
