@@ -30,8 +30,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         [HttpGet]
         [ResponseCache(Duration = SystemConstants.TwoMinInSecond, NoStore = false,
             VaryByQueryKeys = new[] { "refId", "urs", "lang", "bc" })]
-        public async Task<IActionResult> RefNo(long refId, string bc, string urs,
-            string lang = SystemConstants.DefaultLangCode)
+        public async Task<IActionResult> RefNo(RefNoBetListMetaModel metaModel)
         {
             var siteName = HttpContext.User.Identity.Name;
             var licenseeInfo = await _commonService.GetLicenseeInfoAsync(siteName, 0);
@@ -40,31 +39,25 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             {
                 Info = licenseeInfo,
                 BalanceUp = balanceUp,
-                BaseCurrency = bc,
-                UserName = urs,
-                AccessToken = HttpContext.Request.Query["access_token"],
-                Lang = lang
-            };
+                UserName = metaModel.UserName,
 
-            if (refId > 0)
+            };
+            if (metaModel.IsValid)
             {
-                var metaModel = new RefNoBetListMetaModel
-                {
-                    BaseCurrency = SystemConstants.BaseCurrencyList.Values.Any(x =>
-                    x.Equals(bc, StringComparison.OrdinalIgnoreCase)) ? bc : SystemConstants.DefaultBaseCurrency,
-                    RefNo = refId,
-                    UserName = urs
-                };
+
                 AssignCommonMetaModelValue(metaModel, licenseeInfo);
 
                 var result = await _betListApiClient.PostAsync<RefNoDataResult>("/BettingTicketCenter/GetByRefno",
                 metaModel,
-                lang
+                metaModel.Lang
                 ).ConfigureAwait(false);
 
                 viewModel.Data = result.Data ?? new List<TicketText>();
             }
             ViewBag.Title = "Bet List By RefNo";
+
+            AssignCommonViewModelData(metaModel, viewModel);
+
             return View(viewModel);
         }
 
@@ -98,6 +91,6 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             return View(viewModel);
         }
 
-      
+
     }
 }
