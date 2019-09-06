@@ -5,7 +5,6 @@ using Newtonsoft.Json;
 
 namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 {
-    [JsonObject("CashOutBetListDetailMetaModel")]
     public class CashOutBetListDetailMetaModel : IBaseBetListMetaModel
     {
         public long TransId { get; set; }
@@ -21,8 +20,6 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
         public bool HasPlayerComm { get; set; }
 
         public IDictionary<int, string> UserCurrencyList { get; set; }
-
-        [JsonProperty("AgentListXml")]
         public string AgentListXml { get; set; }
         public string BaseCurrency { get; set; }
         public string Lang { get; set; }
