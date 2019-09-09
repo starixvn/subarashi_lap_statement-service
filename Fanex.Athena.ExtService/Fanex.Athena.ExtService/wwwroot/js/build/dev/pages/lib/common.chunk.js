@@ -11100,7 +11100,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿/*global _lan
             $.ajaxSetup({
                 cache: false,
                 headers: {
-                    '__RequestVerificationToken': REQUEST_VERIFICATION_TOKEN,
+                    'X-CSRF-TOKEN-LAP-EXT': REQUEST_VERIFICATION_TOKEN,
                     "Authorization": "Bearer " + $("#access_token").val()
                 },
                 statusCode: {
