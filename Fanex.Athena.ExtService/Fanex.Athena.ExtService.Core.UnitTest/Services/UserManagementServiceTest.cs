@@ -12,7 +12,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTest.Services
     public class UserManagementServiceTest
     {
         private readonly IUserManagementService _userManagementService;
-        private List<User> users = new List<User> { new User { UserName = "alex", Password = "1234" } };
+        private readonly List<User> users = new List<User> { new User { UserName = "alex", Password = "1234" } };
         public UserManagementServiceTest()
         {
             var mock = new Mock<IOptions<List<User>>>();

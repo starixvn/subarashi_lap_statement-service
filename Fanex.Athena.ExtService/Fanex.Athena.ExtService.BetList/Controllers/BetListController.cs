@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Fanex.Athena.ExtService.BetList.Models.DTO;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.BetList.Models.ViewModel;
-using Fanex.Athena.ExtService.Common;
 using Fanex.Athena.ExtService.Common.Models.DataDomain;
-using Fanex.Athena.ExtService.Common.Models.DTO;
 using Fanex.Athena.ExtService.Common.Services;
 
 using Microsoft.AspNetCore.Authorization;
@@ -27,6 +23,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             _commonService = commonService;
             _betListApiClient = betListApiClient;
         }
+
         [HttpGet]
         [ResponseCache(Duration = SystemConstants.ThirtySecond, NoStore = false,
             VaryByQueryKeys = new[] { "refId", "urs", "lang", "bc" })]
@@ -64,7 +61,6 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         [HttpGet]
         [ResponseCache(Duration = SystemConstants.ThirtySecond, NoStore = false,
             VaryByQueryKeys = new[] { "cid", "lang", "bc", "wd", "pc" })]
-
         public async Task<IActionResult> ByGroup(BetListByGroupMetaModel metaModel)
         {
             var siteName = HttpContext.User.Identity.Name;
@@ -90,7 +86,6 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             viewModel.ProductCode = metaModel.ProductCode;
             return View(viewModel);
         }
-
 
     }
 }
