@@ -26,7 +26,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         }
 
         [HttpPost]
-        [ResponseCache(Duration = SystemConstants.TwoMinInSecond)]
+        [ResponseCache(Duration = SystemConstants.ThirtySecond)]
         public async Task<IActionResult> Detail(BetListDetailByProductMetaModel metaModel)
         {
             var licenseeInfo = await _commonService.GetLicenseeInfoAsync(HttpContext.User.Identity.Name, metaModel.CustId);

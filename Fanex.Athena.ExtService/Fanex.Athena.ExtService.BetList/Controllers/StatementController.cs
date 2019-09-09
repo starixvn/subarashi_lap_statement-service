@@ -15,7 +15,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
     {
 
         [HttpGet]
-        [ResponseCache(Duration = SystemConstants.TwoMinInSecond, NoStore = false,
+        [ResponseCache(Duration = SystemConstants.ThirtySecond, NoStore = false,
             VaryByQueryKeys = new[] { "cid", "fd", "td", "bc", "ps", "pi", "bc", "lang" })]
         public async Task<IActionResult> Summary([FromServices] ISummaryStatementService service,
             SummaryStatementMetaModel metalModel)
@@ -28,7 +28,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             return View(viewModel);
         }
 
-        [ResponseCache(Duration = SystemConstants.TwoMinInSecond, NoStore = false,
+        [ResponseCache(Duration = SystemConstants.ThirtySecond, NoStore = false,
     VaryByQueryKeys = new[] { "cid", "wd", "bc", "mv", "lang" })]
 
         [HttpGet]

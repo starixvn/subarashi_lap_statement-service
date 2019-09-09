@@ -24,7 +24,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             _betListApiClient = betListApiClient;
         }
 
-        [ResponseCache(Duration = SystemConstants.TwoMinInSecond)]
+        [ResponseCache(Duration = SystemConstants.ThirtySecond)]
 
         [HttpGet]
         public async Task<IActionResult> Detail(MixParlayDetailMetaModel metaModel)
@@ -36,7 +36,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             return Json(result);
         }
 
-        [ResponseCache(Duration = SystemConstants.TwoMinInSecond)]
+        [ResponseCache(Duration = SystemConstants.ThirtySecond)]
 
         [HttpGet]
         public async Task<IActionResult> NewParlayDetail(

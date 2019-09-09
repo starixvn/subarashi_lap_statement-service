@@ -22,7 +22,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         }
 
         [HttpGet]
-        [ResponseCache(Duration =SystemConstants.TwoMinInSecond)]
+        [ResponseCache(Duration = SystemConstants.ThirtySecond)]
         public async Task<IActionResult> ResultPopup(ResultPopupMetalModel metaModel)
         {
 
@@ -46,7 +46,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
 
         }
 
-        [ResponseCache(Duration = SystemConstants.TwoMinInSecond)]
+        [ResponseCache(Duration = SystemConstants.ThirtySecond, VaryByQueryKeys = new[] { "refNo", "lang" })]
         [HttpPost]
         public async Task<IActionResult> ShowRngCasinoSingleWalletResult(string refNo, string lang)
         {
@@ -60,7 +60,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             return Content(result, "application/json");
         }
 
-        [ResponseCache(Duration = SystemConstants.TwoMinInSecond)]
+        [ResponseCache(Duration = SystemConstants.ThirtySecond, VaryByQueryKeys = new[] { "custId", "lang", "gamePlayId" })]
         [HttpGet]
         public async Task<string> VoidbridgeResult(string custId, string gamePlayId, string lang)
         {
@@ -74,7 +74,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
                 model, lang).ConfigureAwait(false);
         }
 
-        [ResponseCache(Duration = SystemConstants.TwoMinInSecond)]
+        [ResponseCache(Duration = SystemConstants.ThirtySecond, VaryByQueryKeys = new[] { "custId", "lang", "gamePlayId" })]
         [HttpGet]
         public async Task<string> PPResultPopup(string custId, string gamePlayId, string lang)
         {
@@ -86,7 +86,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             };
             return await _betListApiClient.PostAsyncString("/PPResultPopup/Index", model, lang).ConfigureAwait(false);
         }
-        [ResponseCache(Duration = SystemConstants.TwoMinInSecond)]
+        [ResponseCache(Duration = SystemConstants.ThirtySecond, VaryByQueryKeys = new[] { "transDesc", "lang", "gamePlbetCheckayId", "betType" })]
         [HttpGet]
         public async Task<ActionResult> AllBetResult(string transDesc, string betCheck, string betType, string lang)
         {
@@ -109,7 +109,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
 
             return View(viewModel);
         }
-        [ResponseCache(Duration = SystemConstants.TwoMinInSecond)]
+        [ResponseCache(Duration = SystemConstants.ThirtySecond, VaryByQueryKeys = new[] { "custId", "lang", "gameId" })]
         [HttpGet]
         public async Task<string> GlobalGamingResult(string custId, string gameId, string lang)
         {

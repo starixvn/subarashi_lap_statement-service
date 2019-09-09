@@ -28,7 +28,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             _betListApiClient = betListApiClient;
         }
         [HttpGet]
-        [ResponseCache(Duration = SystemConstants.TwoMinInSecond, NoStore = false,
+        [ResponseCache(Duration = SystemConstants.ThirtySecond, NoStore = false,
             VaryByQueryKeys = new[] { "refId", "urs", "lang", "bc" })]
         public async Task<IActionResult> RefNo(RefNoBetListMetaModel metaModel)
         {
@@ -62,7 +62,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         }
 
         [HttpGet]
-        [ResponseCache(Duration = SystemConstants.TwoMinInSecond, NoStore = false,
+        [ResponseCache(Duration = SystemConstants.ThirtySecond, NoStore = false,
             VaryByQueryKeys = new[] { "cid", "lang", "bc", "wd", "pc" })]
 
         public async Task<IActionResult> ByGroup(BetListByGroupMetaModel metaModel)

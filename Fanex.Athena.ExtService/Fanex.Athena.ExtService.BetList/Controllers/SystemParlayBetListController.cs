@@ -22,7 +22,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             _betListApiClient = betListApiClient;
         }
         [HttpGet]
-        [ResponseCache(Duration = SystemConstants.TwoMinInSecond)]
+        [ResponseCache(Duration = SystemConstants.ThirtySecond)]
         public async Task<IActionResult> Detail(SystemParlayDetailMetaModel metaModel)
         {
             var balanceUp = await _commonService.GetBalanceUpAsync();

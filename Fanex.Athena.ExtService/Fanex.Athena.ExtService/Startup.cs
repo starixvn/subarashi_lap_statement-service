@@ -132,8 +132,8 @@ namespace Fanex.Athena.ExtService
             services.AddScoped<IPFilterAttribute>();
             services.AddSingleton<ICommonService, CommonService>();
             services.AddSingleton<IBetListApiClient, BetListApiClient>();
-            services.AddScoped<ISummaryStatementService, SummaryStatementService>();
-            services.AddScoped<IStatementByGroupService, StatementByGroupService>();
+            services.AddTransient<ISummaryStatementService, SummaryStatementService>();
+            services.AddTransient<IStatementByGroupService, StatementByGroupService>();
 
         }
 

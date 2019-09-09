@@ -33,7 +33,7 @@ namespace Fanex.Athena.ExtService.Common
                 resourceManager.IgnoreCase = true;
                 return resourceManager.GetString(resourceKey);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return string.Empty;
             }
