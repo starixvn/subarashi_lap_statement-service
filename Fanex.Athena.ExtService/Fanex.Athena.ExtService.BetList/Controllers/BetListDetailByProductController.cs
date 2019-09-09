@@ -25,7 +25,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             _betListApiClient = betListApiClient;
         }
 
-        [HttpPost]
+        [HttpGet]
         [ResponseCache(Duration = SystemConstants.ThirtySecond)]
         public async Task<IActionResult> Detail(BetListDetailByProductMetaModel metaModel)
         {

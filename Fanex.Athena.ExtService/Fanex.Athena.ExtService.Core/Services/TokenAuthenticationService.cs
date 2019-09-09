@@ -17,9 +17,9 @@ namespace Fanex.Athena.ExtService.Core.Services
             _userManagementService = service;
             _tokenManagement = tokenManagementAccessor.Value;
         }
-        public bool IsAuthenticated(TokenRequest request, out Token token)
+        public Tuple<bool, Token> IsAuthenticated(TokenRequest request)
         {
-            token = new Token();
+            var token = new Token();
             var siteName = request.Username;
             var realUserName = request.Username;
 
@@ -32,9 +32,9 @@ namespace Fanex.Athena.ExtService.Core.Services
 
             if (!_userManagementService.IsValidUser(realUserName, request.Password))
             {
-                return false;
+                return Tuple.Create<bool, Token>(false, token);
             }
-          
+
             var claim = new[]
             {
                 new Claim(ClaimTypes.Name, siteName),
@@ -51,7 +51,7 @@ namespace Fanex.Athena.ExtService.Core.Services
                 signingCredentials: credentials
             );
             token.AccessToken = new JwtSecurityTokenHandler().WriteToken(jwtToken);
-            return true;
+            return Tuple.Create<bool, Token>(true, token);
         }
     }
 }

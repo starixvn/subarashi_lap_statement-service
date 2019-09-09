@@ -20,7 +20,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTest.Services
             Secret = "04242b2d1c59118f33c9e3d01a776a7e50b9495b7dffbff6525c6f6cd7755d16",
             RefreshExpiration = 30
         };
-        private Mock<IUserManagementService> _mockUserManagement = new Mock<IUserManagementService>();
+        private readonly Mock<IUserManagementService> _mockUserManagement = new Mock<IUserManagementService>();
         public TokenAuthenticationServiceTest()
         {
             var mockTokenManagement = new Mock<IOptions<TokenManagement>>();
@@ -39,10 +39,10 @@ namespace Fanex.Athena.ExtService.Core.UnitTest.Services
             };
             _mockUserManagement.Setup(x => x.IsValidUser(token.Username, token.Password)).Returns(false);
             //Action
-            var result = _authenticateService.IsAuthenticated(token, out Token tokenResult);
+            var result = _authenticateService.IsAuthenticated(token);
             //Assert
 
-            Assert.False(result);
+            Assert.False(result.Item1);
         }
 
         [Fact]
@@ -56,11 +56,11 @@ namespace Fanex.Athena.ExtService.Core.UnitTest.Services
             };
             _mockUserManagement.Setup(x => x.IsValidUser(token.Username, token.Password)).Returns(true);
             //Action
-            var result = _authenticateService.IsAuthenticated(token, out Token tokenResult);
+            var result = _authenticateService.IsAuthenticated(token);
             //Assert
 
-            Assert.True(result);
-            Assert.NotNull(tokenResult.AccessToken);
+            Assert.True(result.Item1);
+            Assert.NotNull(result.Item2);
         }
     }
 }

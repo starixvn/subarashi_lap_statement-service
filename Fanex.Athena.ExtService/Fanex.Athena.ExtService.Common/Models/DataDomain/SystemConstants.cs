@@ -2,8 +2,13 @@
 
 namespace Fanex.Athena.ExtService.Common.Models.DataDomain
 {
-    public class SystemConstants
+    public static class SystemConstants
     {
+
+        public const string DefaultBaseCurrency = "";
+        public const string DefaultLangCode = "en-US";
+        public const int DefaultPageSize = 500;
+        public const int ThirtySecond = 30;
         public static readonly IDictionary<int, string> BaseCurrencyList = new Dictionary<int, string> {
 
             { BaseCurrencyType.Eur,"EUR" },
@@ -16,10 +21,5 @@ namespace Fanex.Athena.ExtService.Common.Models.DataDomain
             { BaseCurrencyType.INH,"INH" },
 
         };
-
-        public const string DefaultBaseCurrency = "";
-        public const string DefaultLangCode = "en-US";
-        public const int ThirtySecond = 30;
-        public const int DefaultPageSize = 500;
     }
 }

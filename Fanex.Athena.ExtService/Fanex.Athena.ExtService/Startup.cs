@@ -215,8 +215,8 @@ namespace Fanex.Athena.ExtService
 
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}")
-                    .MapRoute(name: "api", template: "api/{controller}/{action}/{id?}"); ;
+                    template: "{controller=Home}/{action=Index}/{id?}"
+                    ).MapRoute(name: "api", template: "api/{controller}/{action}/{id?}");
             });
         }
     }

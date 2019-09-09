@@ -7,6 +7,6 @@ namespace Fanex.Athena.ExtService.Core.Services
 {
     public interface IAuthenticateService
     {
-        bool IsAuthenticated(TokenRequest request, out Token token);
+        Tuple<bool, Token> IsAuthenticated(TokenRequest request);
     }
 }
