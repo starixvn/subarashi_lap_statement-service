@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Fanex.Athena.ExtService.BetList.Models.DataDomain
 {
-    public class TransTypeValue
+    public static class TransTypeValue
     {
         public const string BAL = "BAL";
         public const string BET = "BET";

@@ -1,10 +1,10 @@
 ﻿using Fanex.Athena.ExtService.Core.Models;
 using Fanex.Athena.ExtService.Core.Services;
+
 using Microsoft.Extensions.Options;
+
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Text;
+
 using Xunit;
 
 namespace Fanex.Athena.ExtService.Core.UnitTest.Services
@@ -12,7 +12,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTest.Services
     public class TokenAuthenticationServiceTest
     {
         private readonly IAuthenticateService _authenticateService;
-        private TokenManagement _tokenManagement = new TokenManagement
+        private readonly TokenManagement _tokenManagement = new TokenManagement
         {
             AccessExpiration = 30,
             Audience = "test",

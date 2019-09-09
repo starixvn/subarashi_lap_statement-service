@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Fanex.Athena.ExtService.BetList.Models.DataDomain;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
+using Fanex.Athena.ExtService.Common.Models.DataDomain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fanex.Athena.ExtService.BetList.Controllers
@@ -11,15 +12,22 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         [FromQuery(Name = "bc")]
         public string BaseCurrency { get; set; }
         public string Lang { get; set; }
-        public bool IsValid => PageIndex >
-            0 && PageSize > 0 && CustId > 0 && Date > DateTime.MinValue
-            && !string.IsNullOrEmpty(ProductCode) && TransDescValue.MaptoModeView.Values.Contains(TransType);
+        public bool IsValid
+        {
+            get
+            {
+                var pagingValidation = PageIndex > 0 & PageSize > 0;
+                var mainValidation = CustId > 0 && Date > DateTime.MinValue;
+                var productAndModeValidation = !string.IsNullOrEmpty(ProductCode) && TransDescValue.MaptoModeView.Values.Contains(TransType);
+                return pagingValidation && mainValidation && productAndModeValidation;
+            }
+        }
 
         [FromQuery(Name = "pi")]
         public int PageIndex { get; set; } = 1;
 
         [FromQuery(Name = "ps")]
-        public int PageSize { get; set; } = 500;
+        public int PageSize { get; set; } = SystemConstants.DefaultPageSize;
 
         [FromQuery(Name = "cid")]
         public int CustId { get; set; }

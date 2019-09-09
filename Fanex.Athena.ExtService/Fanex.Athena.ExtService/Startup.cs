@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -74,7 +73,6 @@ namespace Fanex.Athena.ExtService
                 options.UseCaseSensitivePaths = true;
             });
             var token = Configuration.GetSection("tokenManagement").Get<TokenManagement>();
-            var secret = Encoding.ASCII.GetBytes(token.Secret);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddAuthentication(x =>
             {
@@ -165,8 +163,6 @@ namespace Fanex.Athena.ExtService
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                //app.UseErrorHandling();
-
             }
             else
             {

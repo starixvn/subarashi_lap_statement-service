@@ -9,6 +9,7 @@ namespace Fanex.Athena.ExtService.Core.Middleware
 {
     public class ErrorHandling
     {
+        private const int ServerErrorCode = 500;
         private readonly RequestDelegate _next;
         public ErrorHandling(RequestDelegate next)
         {
@@ -36,7 +37,7 @@ namespace Fanex.Athena.ExtService.Core.Middleware
 
         private static async Task HandleError(HttpContext context, Exception error)
         {
-            context.Response.StatusCode = 500;
+            context.Response.StatusCode = ServerErrorCode;
             context.Response.ContentType = "application/json";
             var errorMsg = $"Msg={error.Message}\n Stacktrace={error.StackTrace}" +
                 $"\n Path={context.Request.Path}\n Query={context.Request.QueryString}";

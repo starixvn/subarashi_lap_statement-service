@@ -16,21 +16,27 @@ namespace Fanex.Athena.ExtService.BetList.Helper
                 case TransTypeValue.GP:
                     return previousBalance + item.TotalAmt;
                 case TransTypeValue.BET:
-                    switch (item.TransDesc)
-                    {
-                        case TransDescValue.BetStatement:
-                            return previousBalance + item.TotalAmt + item.Commission;
-                        case TransDescValue.Outstanding:
-                            return previousBalance - item.TurnOver;
-                        case TransDescValue.VoidCancell:
-                            return previousBalance;
-                        default:
-                            return 0;
-                    }
+                    return GetBalanceForBETTranstype(previousBalance, item);
                 default: return previousBalance + item.TotalAmt;
             }
 
         }
+
+        private static decimal GetBalanceForBETTranstype(decimal previousBalance, IStatementValue item)
+        {
+            switch (item.TransDesc)
+            {
+                case TransDescValue.BetStatement:
+                    return previousBalance + item.TotalAmt + item.Commission;
+                case TransDescValue.Outstanding:
+                    return previousBalance - item.TurnOver;
+                case TransDescValue.VoidCancell:
+                    return previousBalance;
+                default:
+                    return 0;
+            }
+        }
+
         public static decimal GetCreditDebit(IStatementValue item)
         {
             return item.TransDesc.Equals(TransDescValue.Outstanding, StringComparison.OrdinalIgnoreCase)

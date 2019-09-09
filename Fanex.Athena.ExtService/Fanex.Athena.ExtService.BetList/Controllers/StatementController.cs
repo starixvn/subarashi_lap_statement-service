@@ -41,16 +41,18 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             AssignCommonViewModelData(metalModel, viewModel);
             switch (metalModel.ModeView)
             {
-                case 1:
+                case TransDescValue.ModeViewBetStatement:
                     viewModel.TransDesc = TransDescValue.RemarkValues[TransDescValue.BetStatement].Invoke();
                     break;
-                case 2:
+                case TransDescValue.ModeViewCancell:
                     viewModel.TransDesc = TransDescValue.RemarkValues[TransDescValue.VoidCancell].Invoke();
                     break;
-                case 3:
+                case TransDescValue.ModeViewOutstanding:
                     viewModel.TransDesc = TransDescValue.RemarkValues[TransDescValue.Outstanding].Invoke();
                     break;
-                default: viewModel.TransDesc = ViewResources.Statement; break;
+                default:
+                    viewModel.TransDesc = ViewResources.Statement;
+                    break;
             }
             viewModel.CustId = metalModel.CustId;
             viewModel.ModeView = metalModel.ModeView;

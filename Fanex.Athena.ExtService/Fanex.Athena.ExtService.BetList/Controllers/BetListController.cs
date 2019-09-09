@@ -33,7 +33,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         public async Task<IActionResult> RefNo(RefNoBetListMetaModel metaModel)
         {
             var siteName = HttpContext.User.Identity.Name;
-            var licenseeInfo = await _commonService.GetLicenseeInfoAsync(siteName, 0);
+            var licenseeInfo = await _commonService.GetLicenseeInfoAsync(siteName);
             var balanceUp = await _commonService.GetBalanceUpAsync();
             var viewModel = new RefNoViewModel
             {
@@ -68,7 +68,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         public async Task<IActionResult> ByGroup(BetListByGroupMetaModel metaModel)
         {
             var siteName = HttpContext.User.Identity.Name;
-            var licenseeInfo = await _commonService.GetLicenseeInfoAsync(siteName, 0);
+            var licenseeInfo = await _commonService.GetLicenseeInfoAsync(siteName);
             var viewModel = new BetListByProductViewModel
             {
                 Info = licenseeInfo,

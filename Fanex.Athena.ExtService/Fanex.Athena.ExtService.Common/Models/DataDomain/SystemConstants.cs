@@ -20,5 +20,6 @@ namespace Fanex.Athena.ExtService.Common.Models.DataDomain
         public const string DefaultBaseCurrency = "";
         public const string DefaultLangCode = "en-US";
         public const int ThirtySecond = 30;
+        public const int DefaultPageSize = 500;
     }
 }

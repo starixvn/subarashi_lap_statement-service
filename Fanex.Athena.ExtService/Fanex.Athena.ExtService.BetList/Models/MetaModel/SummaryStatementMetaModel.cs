@@ -8,6 +8,7 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 {
     public class SummaryStatementMetaModel : IBaseMetaModel
     {
+        const int TotalDaysLimit = 31;
         [FromQuery(Name = "cid")]
         public int CustId { get; set; }
         [FromQuery(Name = "fd")]
@@ -15,14 +16,23 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
         [FromQuery(Name = "td")]
         public DateTime ToDate { get; set; }
         [FromQuery(Name = "ps")]
-        public int PageSize { get; set; } = 500;
+        public int PageSize { get; set; } = SystemConstants.DefaultPageSize;
         [FromQuery(Name = "pi")]
         public int PageIndex { get; set; } = 1;
         [FromQuery(Name = "bc")]
         public string BaseCurrency { get; set; } = SystemConstants.DefaultBaseCurrency;
         public string Lang { get; set; } = SystemConstants.DefaultLangCode;
 
-        public bool IsValid => CustId > 0 && FromDate <= ToDate && (ToDate - FromDate).TotalDays <= 31
-            && PageSize >= 1 && PageSize >= 1;
+        public bool IsValid
+        {
+            get
+            {
+                var pagingValidation = PageSize > 0 && PageSize > 0;
+                var mainValidation = CustId > 0 && FromDate <= ToDate && (ToDate - FromDate).TotalDays <= TotalDaysLimit;
+
+                return pagingValidation && mainValidation;
+
+            }
+        }
     }
 }
