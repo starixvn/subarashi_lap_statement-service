@@ -65,10 +65,13 @@ define(['jquery', 'common/querystring', 'common/popup', 'extensions/prototype',]
             _rootUrl = $('#RootUrl').val();
         }
         function initEvent() {
-
+            var token = 
             $.ajaxSetup({
                 cache: false,
-                headers: { '__RequestVerificationToken': REQUEST_VERIFICATION_TOKEN },
+                headers: {
+                    '__RequestVerificationToken': REQUEST_VERIFICATION_TOKEN,
+                    "Authorization": "Bearer " + $("#access_token").val()
+                },
                 statusCode: {
                     0: function () {
                         unBlockUI();

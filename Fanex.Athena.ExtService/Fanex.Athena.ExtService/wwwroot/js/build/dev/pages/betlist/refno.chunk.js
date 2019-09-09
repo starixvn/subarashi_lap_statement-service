@@ -496,7 +496,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
 
             viewRngCasinoResult: function (title, refno) {
                 let url = Site.resolveClientUrl('ResultReport/ShowRngCasinoSingleWalletResult');
-                let token = $("#access_token").val();
 
                 const params = {
                     'refNo': refno,
@@ -510,9 +509,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                     data: JSON.stringify(params),
                     cache: false,
                     url: url,
-                    beforeSend: function (request) {
-                        request.setRequestHeader("Authorization", "Bearer " + token);
-                    },
                     success: function (response) {
                         const result = response.Result;
                         if (response.Success) {

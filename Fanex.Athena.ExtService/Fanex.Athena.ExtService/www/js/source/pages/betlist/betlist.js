@@ -90,7 +90,6 @@
 
             viewRngCasinoResult: function (title, refno) {
                 let url = Site.resolveClientUrl('ResultReport/ShowRngCasinoSingleWalletResult');
-                let token = $("#access_token").val();
 
                 const params = {
                     'refNo': refno,
@@ -104,9 +103,6 @@
                     data: JSON.stringify(params),
                     cache: false,
                     url: url,
-                    beforeSend: function (request) {
-                        request.setRequestHeader("Authorization", "Bearer " + token);
-                    },
                     success: function (response) {
                         const result = response.Result;
                         if (response.Success) {

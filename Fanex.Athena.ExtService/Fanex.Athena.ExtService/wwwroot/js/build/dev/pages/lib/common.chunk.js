@@ -11096,10 +11096,13 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿/*global _lan
             _rootUrl = $('#RootUrl').val();
         }
         function initEvent() {
-
+            var token = 
             $.ajaxSetup({
                 cache: false,
-                headers: { '__RequestVerificationToken': REQUEST_VERIFICATION_TOKEN },
+                headers: {
+                    '__RequestVerificationToken': REQUEST_VERIFICATION_TOKEN,
+                    "Authorization": "Bearer " + $("#access_token").val()
+                },
                 statusCode: {
                     0: function () {
                         unBlockUI();
