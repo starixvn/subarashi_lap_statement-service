@@ -40,7 +40,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
 
             ViewBag.Title = "Colossus Bet";
 
-            return this.View(viewModel);
+            return View(viewModel);
         }
 
 

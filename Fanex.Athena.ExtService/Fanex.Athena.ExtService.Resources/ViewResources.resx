@@ -165,9 +165,6 @@
   <data name="Date" xml:space="preserve">
     <value>Date</value>
   </data>
-  <data name="DetailedBetlist" xml:space="preserve">
-    <value>Detailed Bet list</value>
-  </data>
   <data name="ExternalId" xml:space="preserve">
     <value>External ID</value>
   </data>

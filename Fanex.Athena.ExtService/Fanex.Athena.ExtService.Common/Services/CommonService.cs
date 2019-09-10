@@ -24,9 +24,9 @@ namespace Fanex.Athena.ExtService.Common.Services
         public async Task<LicenseeInfo> GetLicenseeInfoAsync(string siteName, int custId = 0)
         {
             var realCacheKey = LicenseeExtInfoCacheKey + siteName;
-            _cache.TryGetValue(realCacheKey, out LicenseeInfo result);
+            var hasValueFromCache = _cache.TryGetValue(realCacheKey, out LicenseeInfo result);
 
-            if (result is null)
+            if (!hasValueFromCache || result is null)
             {
                 result = await GetLicenseeInfoFromDB(siteName, custId);
                 _cache.Set(realCacheKey, result, DateTimeOffset.Now.AddSeconds(CacheTimeout300Seconds));

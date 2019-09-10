@@ -31,8 +31,9 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         {
             await AssignUserCurrency(metaModel);
 
-            var result = await _betListApiClient.PostAsync<IList<TicketText>>("/MixParlayBetList/Detail", metaModel
-                , metaModel.Lang).ConfigureAwait(false);
+            var result = await _betListApiClient.PostAsync<IList<TicketText>>("/MixParlayBetList/Detail",
+                metaModel,
+                metaModel.Lang).ConfigureAwait(false);
             return Json(result);
         }
 
@@ -42,7 +43,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         public async Task<IActionResult> NewParlayDetail(
             NewParlayDetailMetaModel metaModel)
         {
-           await AssignUserCurrency(metaModel);
+            await AssignUserCurrency(metaModel);
             var result = await _betListApiClient.PostAsync<NewParlayDetailViewModel>("/MixParlayBetList/NewParlayDetail",
                 metaModel, metaModel.Lang).ConfigureAwait(false);
             return Json(result);

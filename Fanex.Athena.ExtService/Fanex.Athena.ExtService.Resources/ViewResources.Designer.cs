@@ -223,15 +223,6 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Detailed Bet list.
-        /// </summary>
-        public static string DetailedBetlist {
-            get {
-                return ResourceManager.GetString("DetailedBetlist", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to External ID.
         /// </summary>
         public static string ExternalId {

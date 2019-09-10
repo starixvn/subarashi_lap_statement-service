@@ -1,49 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Claims;
-using System.Security.Principal;
 using System.Threading.Tasks;
+
 using Fanex.Athena.ExtService.BetList.Controllers;
 using Fanex.Athena.ExtService.BetList.Models.DTO;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.BetList.Models.ViewModel;
-using Fanex.Athena.ExtService.Common.Models.DTO;
-using Fanex.Athena.ExtService.Common.Services;
-using Microsoft.AspNetCore.Http;
+
 using Microsoft.AspNetCore.Mvc;
+
 using Moq;
+
 using Xunit;
 
 namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
 {
     public class BetListControllerTest : BaseControllerTest
     {
-        private readonly Mock<ICommonService> _commonService;
-        private readonly Mock<IBetListApiClient> _betListApiClient;
-        public BetListControllerTest() : base()
-        {
-            _commonService = new Mock<ICommonService>();
-            _commonService.Setup(x => x.GetLicenseeInfoAsync(SiteName, It.IsAny<int>()))
-                .Returns(Task.FromResult(new LicenseeInfo
-                {
-                    SiteName = SiteName,
-                    Currencies = new CurrencyInfo[] { new CurrencyInfo {
-                        CurrencyId =1,
-                        CurrencyName="UUS",
-                        AgentId=100
-                    } },
-                    IsAllowedCustomerComm = true
-
-                }));
-
-            _commonService.Setup(x => x.GetBalanceUpAsync()).Returns(Task.FromResult(
-                new BalanceUp { BalanceUpDay = DateTime.Now, MoveBetsDay = DateTime.Now }
-                ));
-
-            _betListApiClient = new Mock<IBetListApiClient>();
-
-        }
-
         [Fact]
         public async Task RefNo_WhenExecute_AlwayAssignCommonViewModelValue()
         {
@@ -54,7 +27,6 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
 
             IActionResult expectedResult = null;
             var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName, 0);
-            var balanceUp = await _commonService.Object.GetBalanceUpAsync();
             //Action
             using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object))
             {
@@ -67,7 +39,6 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             var viewModel = Assert.IsType<RefNoViewModel>(viewResult.Model);
             var title = Assert.IsAssignableFrom<string>(viewResult.ViewData["Title"]);
             Assert.Equal(viewModel.Info, licenseeInfo);
-            Assert.Equal(viewModel.BalanceUp, balanceUp);
             Assert.Equal(viewModel.UserName, UserName);
             Assert.Equal(viewModel.BaseCurrency, metalModel.BaseCurrency);
             Assert.Equal(viewModel.Lang, metalModel.Lang);
@@ -108,10 +79,11 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             {
                 Data = new List<TicketText> { new TicketText() }
             };
-            _betListApiClient.Setup(x => x.PostAsync<RefNoDataResult>("/BettingTicketCenter/GetByRefn",
-                It.IsAny<RefNoBetListMetaModel>(), It.IsAny<string>(), 0))
+            _betListApiClient.Setup(x => x.PostAsync<RefNoDataResult>("/BettingTicketCenter/GetByRefno",
+                It.IsAny<RefNoBetListMetaModel>(), It.IsAny<string>(), It.IsAny<int>()))
                 .Returns(Task.FromResult(apiResult));
             IActionResult expectedResult = null;
+
             //Action
             using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object))
             {
@@ -122,6 +94,95 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             //Assert
             var viewResult = Assert.IsType<ViewResult>(expectedResult);
             var viewModel = Assert.IsType<RefNoViewModel>(viewResult.Model);
+            Assert.NotNull(viewModel.Data);
+            Assert.Equal(apiResult.Data, viewModel.Data);
+        }
+
+        [Fact]
+        public async Task ByGroup_WhenExecute_AlwayAssignCommonViewModelValue()
+        {
+            //Arrange
+            const string Title = "Bet List By Group";
+            const string ProductCode = "SB";
+            var metalModel = new BetListByGroupMetaModel { ProductCode = ProductCode };
+
+            IActionResult expectedResult = null;
+            var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName, 0);
+            //Action
+            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object))
+            {
+                controller.ControllerContext = _controllerContext.Object;
+                expectedResult = await controller.ByGroup(metalModel).ConfigureAwait(false);
+            }
+
+            //Assert
+            var viewResult = Assert.IsType<ViewResult>(expectedResult);
+            var viewModel = Assert.IsType<BetListByProductViewModel>(viewResult.Model);
+            var title = Assert.IsAssignableFrom<string>(viewResult.ViewData["Title"]);
+            Assert.Equal(viewModel.Info, licenseeInfo);
+            Assert.Equal(viewModel.BaseCurrency, metalModel.BaseCurrency);
+            Assert.Equal(viewModel.Lang, metalModel.Lang);
+            Assert.Equal(viewModel.AccessToken, AccessToken);
+            Assert.Equal(viewModel.ProductCode, ProductCode);
+
+            Assert.Equal(title, Title);
+
+        }
+
+        [Fact]
+        public async Task ByGroup_InValidMetalModel_ReturnEmptyData()
+        {
+            //Arrange
+            var metalModel = new BetListByGroupMetaModel { };
+
+            IActionResult expectedResult = null;
+            //Action
+            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object))
+            {
+                controller.ControllerContext = _controllerContext.Object;
+                expectedResult = await controller.ByGroup(metalModel).ConfigureAwait(false);
+            }
+
+            //Assert
+            var viewResult = Assert.IsType<ViewResult>(expectedResult);
+            var viewModel = Assert.IsType<BetListByProductViewModel>(viewResult.Model);
+            Assert.Null(viewModel.Data);
+        }
+
+        [Fact]
+        public async Task ByGroup_ValidMetalModel_ReturnCorrectDataList()
+        {
+            //Arrange
+            var metalModel = new BetListByGroupMetaModel
+            {
+                ProductCode = "SB",
+                PageIndex = 1,
+                PageSize = 500,
+                TransType = 1,
+                CustId = 100,
+                Date = DateTime.Now
+            };
+            var apiResult = new RefNoDataResult
+            {
+                Data = new List<TicketText> { new TicketText() }
+            };
+
+            _betListApiClient.Setup(x => x.PostAsync<RefNoDataResult>("/BetListByProduct/Index",
+                It.IsAny<BetListByGroupMetaModel>(), It.IsAny<string>(), It.IsAny<int>()))
+                .Returns(Task.FromResult(apiResult));
+
+            IActionResult expectedResult = null;
+
+            //Action
+            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object))
+            {
+                controller.ControllerContext = _controllerContext.Object;
+                expectedResult = await controller.ByGroup(metalModel).ConfigureAwait(false);
+            }
+
+            //Assert
+            var viewResult = Assert.IsType<ViewResult>(expectedResult);
+            var viewModel = Assert.IsType<BetListByProductViewModel>(viewResult.Model);
             Assert.NotNull(viewModel.Data);
             Assert.Equal(apiResult.Data, viewModel.Data);
         }

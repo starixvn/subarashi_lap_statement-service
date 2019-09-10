@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.Common.Models.DataDomain;
 using Fanex.Athena.ExtService.Common.Models.ViewModels;
 using Fanex.Athena.ExtService.Common.Services;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -89,7 +88,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         }
         [ResponseCache(Duration = SystemConstants.ThirtySecond, VaryByQueryKeys = new[] { "transDesc", "lang", "gamePlbetCheckayId", "betType" })]
         [HttpGet]
-        public async Task<ActionResult> AllBetResult(string transDesc, string betCheck, string betType, string lang)
+        public async Task<IActionResult> AllBetResult(string transDesc, string betCheck, string betType, string lang)
         {
             var model = new
             {
