@@ -115,15 +115,6 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to For RNG Keno, Lottery: Please provide username also in order to search ticket later than {0}.
-        /// </summary>
-        public static string BettingTicketCenter_RefnoTabNote2 {
-            get {
-                return ResourceManager.GetString("BettingTicketCenter_RefnoTabNote2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Bought Amount.
         /// </summary>
         public static string BoughtAmount {

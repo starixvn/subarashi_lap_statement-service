@@ -132,10 +132,6 @@
     <value>For Sportsbook, the search result includes the related Bonus/Cash tickets.</value>
     <comment>80941</comment>
   </data>
-  <data name="BettingTicketCenter_RefnoTabNote2" xml:space="preserve">
-    <value>For RNG Keno, Lottery: Please provide username also in order to search ticket later than {0}</value>
-    <comment>103555</comment>
-  </data>
   <data name="BoughtAmount" xml:space="preserve">
     <value>Bought Amount</value>
   </data>

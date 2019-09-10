@@ -31,11 +31,9 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         {
             var siteName = HttpContext.User.Identity.Name;
             var licenseeInfo = await _commonService.GetLicenseeInfoAsync(siteName);
-            var balanceUp = await _commonService.GetBalanceUpAsync();
             var viewModel = new RefNoViewModel
             {
                 Info = licenseeInfo,
-                BalanceUp = balanceUp,
                 UserName = metaModel.UserName,
 
             };

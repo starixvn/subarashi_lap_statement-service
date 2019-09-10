@@ -9,8 +9,6 @@ namespace Fanex.Athena.ExtService.BetList.Models.ViewModel
     public class RefNoViewModel : BaseViewModel
     {
         public string UserName { get; set; }
-        public BalanceUp BalanceUp { get; set; }
-
         public IList<TicketText> Data { get; set; }
     }
 }

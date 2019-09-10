@@ -120,20 +120,6 @@
   <data name="AGCasino" xml:space="preserve">
     <value>AG Casino</value>
   </data>
-  <data name="BaseCurrency" xml:space="preserve">
-    <value>基礎貨幣</value>
-    <comment>84932</comment>
-  </data>
-  <data name="BettingTicketCenter" xml:space="preserve">
-    <value>注單中心</value>
-    <comment>80941</comment>
-  </data>
-  <data name="BettingTicketCenter_RefnoTabNote1" xml:space="preserve">
-    <value>在體育的搜尋結果將包含相關的紅利與現金注單</value>
-  </data>
-  <data name="BettingTicketCenter_RefnoTabNote2" xml:space="preserve">
-    <value>關於快樂彩以及彩票：請輸入用戶名，以便搜尋{0}之後的注單</value>
-  </data>
   <data name="BoughtAmount" xml:space="preserve">
     <value>買入金額</value>
   </data>

@@ -103,9 +103,13 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
         {
             //Arrange
             const string UserName = "Any";
-            var metalModel = new RefNoBetListMetaModel { UserName = UserName };
-            var apiResult = new List<TicketText> { new TicketText { } };
-            _betListApiClient.Setup(x => x.PostAsync<RefNoDataResult>("/BettingTicketCenter/GetByRefn", metalModel, metalModel.Lang))
+            var metalModel = new RefNoBetListMetaModel { UserName = UserName, RefNo = 100 };
+            var apiResult = new RefNoDataResult
+            {
+                Data = new List<TicketText> { new TicketText() }
+            };
+            _betListApiClient.Setup(x => x.PostAsync<RefNoDataResult>("/BettingTicketCenter/GetByRefn",
+                It.IsAny<RefNoBetListMetaModel>(), It.IsAny<string>(), 0))
                 .Returns(Task.FromResult(apiResult));
             IActionResult expectedResult = null;
             //Action
@@ -118,7 +122,8 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             //Assert
             var viewResult = Assert.IsType<ViewResult>(expectedResult);
             var viewModel = Assert.IsType<RefNoViewModel>(viewResult.Model);
-            Assert.Null(viewModel.Data);
+            Assert.NotNull(viewModel.Data);
+            Assert.Equal(apiResult.Data, viewModel.Data);
         }
     }
 }
