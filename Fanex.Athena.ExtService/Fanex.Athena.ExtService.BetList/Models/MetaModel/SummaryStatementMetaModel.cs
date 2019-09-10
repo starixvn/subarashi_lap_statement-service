@@ -27,7 +27,7 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
         {
             get
             {
-                var pagingValidation = PageSize > 0 && PageSize > 0;
+                var pagingValidation = PageIndex > 0 && PageSize > 0;
                 var mainValidation = CustId > 0 && FromDate <= ToDate && (ToDate - FromDate).TotalDays <= TotalDaysLimit;
 
                 return pagingValidation && mainValidation;

@@ -1,4 +1,5 @@
-﻿using Fanex.Athena.ExtService.BetList.Helper;
+﻿using System;
+using Fanex.Athena.ExtService.BetList.Helper;
 using Fanex.Athena.ExtService.BetList.Models.DataDomain;
 using Fanex.Athena.ExtService.BetList.Models.DTO;
 
@@ -76,6 +77,24 @@ namespace Fanex.Athena.ExtService.BetList.UnitTest.Helper
             var result = StatementHelper.GetBalance(PreviousBalance, _statementValue.Object);
 
             //Assert
+            Assert.Equal(expectedValue, result);
+        }
+
+        [Theory]
+        [InlineData(TransTypeValue.BAL, TransDescValue.Outstanding, 0)]
+        [InlineData("ANY", TransDescValue.Outstanding, 0)]
+        [InlineData(TransTypeValue.BAL, "ANY", 0)]
+        [InlineData("ANY", "ANY", 100)]
+        public void GetCreditDebit_WhenCall_ReturnCorrectValue(string transType, string transDesc, decimal expectedValue)
+        {
+            //Arrange
+
+            _statementValue.Setup(x => x.TransType).Returns(transType);
+            _statementValue.Setup(x => x.TransDesc).Returns(transDesc);
+            //Action
+            var result = StatementHelper.GetCreditDebit(_statementValue.Object);
+
+            //Assert 
             Assert.Equal(expectedValue, result);
         }
     }
