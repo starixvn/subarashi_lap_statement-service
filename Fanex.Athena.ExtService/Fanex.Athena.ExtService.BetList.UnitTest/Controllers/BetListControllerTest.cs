@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using Fanex.Athena.ExtService.BetList.Controllers;
+using Fanex.Athena.ExtService.BetList.Models.DTO;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.BetList.Models.ViewModel;
 using Fanex.Athena.ExtService.Common.Models.DTO;
@@ -72,6 +74,51 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             Assert.Equal(viewModel.AccessToken, AccessToken);
             Assert.Equal(title, Title);
 
+        }
+
+
+        [Fact]
+        public async Task RefNo_InValidMetalModel_ReturnEmptyData()
+        {
+            //Arrange
+            const string UserName = "Any";
+            var metalModel = new RefNoBetListMetaModel { UserName = UserName };
+
+            IActionResult expectedResult = null;
+            //Action
+            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object))
+            {
+                controller.ControllerContext = _controllerContext.Object;
+                expectedResult = await controller.RefNo(metalModel).ConfigureAwait(false);
+            }
+
+            //Assert
+            var viewResult = Assert.IsType<ViewResult>(expectedResult);
+            var viewModel = Assert.IsType<RefNoViewModel>(viewResult.Model);
+            Assert.Null(viewModel.Data);
+        }
+
+        [Fact]
+        public async Task RefNo_ValidMetalModel_ReturnCorrectDataList()
+        {
+            //Arrange
+            const string UserName = "Any";
+            var metalModel = new RefNoBetListMetaModel { UserName = UserName };
+            var apiResult = new List<TicketText> { new TicketText { } };
+            _betListApiClient.Setup(x => x.PostAsync<RefNoDataResult>("/BettingTicketCenter/GetByRefn", metalModel, metalModel.Lang))
+                .Returns(Task.FromResult(apiResult));
+            IActionResult expectedResult = null;
+            //Action
+            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object))
+            {
+                controller.ControllerContext = _controllerContext.Object;
+                expectedResult = await controller.RefNo(metalModel).ConfigureAwait(false);
+            }
+
+            //Assert
+            var viewResult = Assert.IsType<ViewResult>(expectedResult);
+            var viewModel = Assert.IsType<RefNoViewModel>(viewResult.Model);
+            Assert.Null(viewModel.Data);
         }
     }
 }
