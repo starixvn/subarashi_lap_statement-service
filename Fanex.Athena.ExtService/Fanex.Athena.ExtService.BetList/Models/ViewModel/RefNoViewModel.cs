@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 
 using Fanex.Athena.ExtService.BetList.Models.DTO;
-using Fanex.Athena.ExtService.Common.Models.DTO;
 using Fanex.Athena.ExtService.Common.Models.ViewModels;
 
 namespace Fanex.Athena.ExtService.BetList.Models.ViewModel

@@ -10682,7 +10682,8 @@ module.exports = g;
     ProductAB: "AllBet",
     AGCasino: "AG Casino",
     ProductFW: "Fishing World",
-    ProductPP: "",
+    ProductCC:"Card Club",
+    ProductPP: "PP",
     TransactionDetail: "",
     ErrorProcessingMsg: "Sorry, an error occurred while processing your request.",
     Result:"Results"
@@ -10710,8 +10711,8 @@ module.exports = g;
     ProductPP: "PP",
     TransactionDetail: "Transaction Detail",
     ErrorProcessingMsg: "对不起, 处理您的请求时有错误发生。",
-    Result: "赛果"
-
+    Result: "赛果",
+    ProductCC: "嘻嘻俱乐部"
 
 
 };
@@ -10738,8 +10739,8 @@ module.exports = g;
     ProductPP: "PP",
     TransactionDetail: "Transaction Detail",
     ErrorProcessingMsg: "对不起, 处理您的请求时有错误发生。",
-    Result: "赛果"
-
+    Result: "赛果",
+    ProductCC: "嘻嘻俱乐部"
 
 
 
@@ -10768,8 +10769,8 @@ module.exports = g;
     ProductPP: "PP",
     TransactionDetail: "Transaction Detail",
     ErrorProcessingMsg: "對不起，處理您的請求時有錯誤發生。",
-    Result: "賽果"
-
+    Result: "賽果",
+    ProductCC: "嘻嘻俱樂部"
 
 
 };

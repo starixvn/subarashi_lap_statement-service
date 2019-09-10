@@ -893,7 +893,23 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
 
                 showDetailPopUp(url, { width: popW + 50, height: popH + 50, title: title });
             },
+            showVideoPokerGameDetails: function (transId, winlostDate, custId, transType) {
+                let url = Site.resolveClientUrl('BetListDetailByProduct/Detail');
+                url = QueryString.setParam(url, 'transId', transId);
+                url = QueryString.setParam(url, 'date', winlostDate);
+                url = QueryString.setParam(url, 'custId', custId);
+                url = QueryString.setParam(url, 'transType', transType);
+                url = QueryString.setParam(url, 'BaseCurrency', getBaseCurrency());
+                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
+                url = QueryString.setParam(url, 'lang', $("#lang").val());
+                url = QueryString.setParam(url, 'uspkey', 'Lrf_BetList_RNG_Detail');
 
+                const popH = Math.min($(window).height() - 100, 550);
+                const title = Site.getSingleResource('ProductCC') + ' - ' +
+                    Site.getSingleResource('DetailedBetlist');
+
+                showDetailPopUp(url, { width: 890, height: popH + 50, title: title });
+            },
             registerBetListGlobalFunctions: function () {
                 window.ViewResult = _me.viewResult;
                 // showMP and showCombMP are only for old tickets
@@ -922,6 +938,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 window.showGlobalGaming = _me.showGlobalGamingDetails;
                 window.ShowBonusDetails = _me.showBonusDetails;
                 window.showPPDetails = _me.showPPDetails;
+                window.showVideoPokerGameDetails = _me.showVideoPokerGameDetails;
 
                 const betList = {
                     ViewCasinoHandHistory: _me.ViewCasinoHandHistory

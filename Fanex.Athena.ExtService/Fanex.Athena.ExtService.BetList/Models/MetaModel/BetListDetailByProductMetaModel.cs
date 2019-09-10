@@ -13,10 +13,6 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 
         public int CustId { get; set; }
 
-        public DateTime MoveBetsDay { get; set; }
-
-        public DateTime BalanceUpDay { get; set; }
-
         public string UspKey { get; set; }
 
         public bool HasPlayerCom { get; set; }

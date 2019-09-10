@@ -11,8 +11,8 @@
     ProductPP: "PP",
     TransactionDetail: "Transaction Detail",
     ErrorProcessingMsg: "對不起，處理您的請求時有錯誤發生。",
-    Result: "賽果"
-
+    Result: "賽果",
+    ProductCC: "嘻嘻俱樂部"
 
 
 };
