@@ -29,6 +29,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
         public void Dispose()
         {
             _memoryCache.Dispose();
+            GC.SuppressFinalize(this);
         }
 
         [Fact]
