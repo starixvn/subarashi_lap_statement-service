@@ -277,15 +277,6 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number of Records.
-        /// </summary>
-        public static string NumberofRecords {
-            get {
-                return ResourceManager.GetString("NumberofRecords", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Odds.
         /// </summary>
         public static string Odds {

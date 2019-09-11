@@ -210,6 +210,7 @@ namespace Fanex.Athena.ExtService
             app.UseJWTokenOnPage();
             app.UseAuthentication();
             app.UseResponseCaching();
+            app.UseStatusCodePagesWithReExecute("/Error", "?code={0}");
             app.UseMvc(routes =>
             {
 

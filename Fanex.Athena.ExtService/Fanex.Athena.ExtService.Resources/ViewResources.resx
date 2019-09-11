@@ -237,9 +237,6 @@
   <data name="Turnover" xml:space="preserve">
     <value>Turnover</value>
   </data>
-  <data name="NumberofRecords" xml:space="preserve">
-    <value>Number of Records</value>
-  </data>
   <data name="BettingStatement" xml:space="preserve">
     <value>Betting Statement</value>
   </data>
