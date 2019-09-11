@@ -58,13 +58,16 @@ namespace Fanex.Athena.ExtService.Core.UnitTest.Services
                 Username = userName,
                 Password = pass
             };
-            _mockUserManagement.Setup(x => x.IsValidUser(token.Username, token.Password)).Returns(true);
+            _mockUserManagement.Setup(x => x.IsValidUser(It.IsAny<string>(), token.Password)).Returns(true);
             //Action
             var result = _authenticateService.IsAuthenticated(token);
             //Assert
 
             Assert.True(result.Item1);
             Assert.NotNull(result.Item2);
+            Assert.True(result.Item2.ExpiresIn == 0);
+            Assert.True(string.IsNullOrEmpty(result.Item2.TokenType));
+
         }
     }
 }

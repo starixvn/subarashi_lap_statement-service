@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Fanex.Athena.ExtService.Core.Middleware
 {
-    public class ErrorHandling
+    public class ErrorHandler
     {
         private const int ServerErrorCode = 500;
         private readonly RequestDelegate _next;
-        public ErrorHandling(RequestDelegate next)
+        public ErrorHandler(RequestDelegate next)
         {
             _next = next;
         }

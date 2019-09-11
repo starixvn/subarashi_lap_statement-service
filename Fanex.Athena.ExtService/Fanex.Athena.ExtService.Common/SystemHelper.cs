@@ -26,17 +26,13 @@ namespace Fanex.Athena.ExtService.Common
         }
         public static string GetProductName(string productCode)
         {
-            try
-            {
-                var resourceKey = "Product" + productCode;
-                var resourceManager = ViewResources.ResourceManager;
-                resourceManager.IgnoreCase = true;
-                return resourceManager.GetString(resourceKey);
-            }
-            catch (Exception)
-            {
-                return string.Empty;
-            }
+
+            var resourceKey = "Product" + productCode;
+            var resourceManager = ViewResources.ResourceManager;
+            resourceManager.IgnoreCase = true;
+            return resourceManager.GetString(resourceKey) ?? string.Empty;
+
+
         }
     }
 }
