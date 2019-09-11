@@ -47,7 +47,11 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             var title = Assert.IsAssignableFrom<string>(viewResult.ViewData["Title"]);
 
             Assert.NotNull(viewModel);
-
+            Assert.Equal(viewModel.OriginalTicketText, fakeResult.OriginalTicketText);
+            Assert.Equal(viewModel.CashOutTicketList, fakeResult.CashOutTicketList);
+            Assert.Equal(viewModel.CashOutTicketTextList, fakeResult.CashOutTicketTextList);
+            Assert.Equal(viewModel.IsCashOut, fakeResult.IsCashOut);
+            Assert.Equal(viewModel.IsHighlightOriginalTicket, fakeResult.IsHighlightOriginalTicket);
             Assert.Equal(viewModel.Info, licenseeInfo);
             Assert.Equal(viewModel.BaseCurrency, metalModel.BaseCurrency);
             Assert.Equal(viewModel.Lang, metalModel.Lang);

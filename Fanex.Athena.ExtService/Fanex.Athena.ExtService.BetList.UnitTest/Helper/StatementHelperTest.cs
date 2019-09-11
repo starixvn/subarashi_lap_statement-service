@@ -97,5 +97,21 @@ namespace Fanex.Athena.ExtService.BetList.UnitTest.Helper
             //Assert 
             Assert.Equal(expectedValue, result);
         }
+
+        [Theory]
+        [InlineData("", false)]
+        [InlineData("AGC", true)]
+        [InlineData("GD", true)]
+        [InlineData("BX", true)]
+        public void HideBetListLink_WhenCall_ReturnCorrectResult(string productCode, bool expectedValue)
+        {
+            //Arrange
+
+            //Action
+            var result = StatementHelper.HideBetListLink(productCode);
+
+            //Assert
+            Assert.Equal(expectedValue, result);
+        }
     }
 }

@@ -46,6 +46,13 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
 
             Assert.NotNull(metalModel.AgentListXml);
             Assert.NotNull(viewModel);
+            Assert.Equal(viewModel.DataList, fakeResult.DataList);
+            Assert.Equal(viewModel.TotalSoldPercent, fakeResult.TotalSoldPercent);
+            Assert.Equal(viewModel.TotalWinLoss, fakeResult.TotalWinLoss);
+            Assert.Equal(viewModel.TotalComm, fakeResult.TotalComm);
+            Assert.Equal(viewModel.TotalSoldWinLoss, fakeResult.TotalSoldWinLoss);
+            Assert.Equal(viewModel.IframeUrl, fakeResult.IframeUrl);
+
 
             Assert.Equal(viewModel.BaseCurrency, metalModel.BaseCurrency);
             Assert.Equal(viewModel.Lang, metalModel.Lang);

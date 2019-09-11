@@ -22,7 +22,7 @@ namespace Fanex.Athena.ExtService.Core.Middleware
             context.Request.Query.TryGetValue("access_token", out StringValues queryData);
             var token = queryData.FirstOrDefault();
 
-            if (!string.IsNullOrEmpty(token))
+            if (!string.IsNullOrEmpty(token) && !context.Request.Headers.ContainsKey("Authorization"))
             {
                 context.Request.Headers.Add("Authorization", "Bearer " + token);
             }

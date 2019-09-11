@@ -1,0 +1,727 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<coverage line-rate="0.5172" branch-rate="0.3725" version="1.9" timestamp="1568185557" lines-covered="75" lines-valid="145" branches-covered="19" branches-valid="51">
+  <sources>
+    <source></source>
+  </sources>
+  <packages>
+    <package name="Fanex.Athena.ExtService.Common" line-rate="0.5172" branch-rate="0.3725" complexity="73">
+      <classes>
+        <class name="Fanex.Athena.ExtService.Common.SystemHelper" filename="C:\Data\TeamProject\GIT_LAB\Sparta\LAP.EXT.SERVICE\Fanex.Athena.ExtService\Fanex.Athena.ExtService.Common\SystemHelper.cs" line-rate="0" branch-rate="0" complexity="7">
+          <methods>
+            <method name="GenerateAgentListXml" signature="(Fanex.Athena.ExtService.Common.Models.DTO.LicenseeInfo,System.Boolean)" line-rate="0" branch-rate="0">
+              <lines>
+                <line number="14" hits="0" branch="False" />
+                <line number="15" hits="0" branch="False" />
+                <line number="16" hits="0" branch="True" condition-coverage="0% (0/4)">
+                  <conditions>
+                    <condition number="13" type="jump" coverage="0%" />
+                    <condition number="35" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="17" hits="0" branch="False" />
+                <line number="19" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="129" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="20" hits="0" branch="False" />
+                <line number="21" hits="0" branch="False" />
+                <line number="22" hits="0" branch="False" />
+                <line number="24" hits="0" branch="False" />
+                <line number="25" hits="0" branch="False" />
+                <line number="26" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="GetProductName" signature="(System.String)" line-rate="0" branch-rate="1">
+              <lines>
+                <line number="28" hits="0" branch="False" />
+                <line number="30" hits="0" branch="False" />
+                <line number="31" hits="0" branch="False" />
+                <line number="32" hits="0" branch="False" />
+                <line number="33" hits="0" branch="False" />
+                <line number="34" hits="0" branch="False" />
+                <line number="36" hits="0" branch="False" />
+                <line number="37" hits="0" branch="False" />
+                <line number="38" hits="0" branch="False" />
+                <line number="40" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="14" hits="0" branch="False" />
+            <line number="15" hits="0" branch="False" />
+            <line number="16" hits="0" branch="True" condition-coverage="0% (0/4)">
+              <conditions>
+                <condition number="13" type="jump" coverage="0%" />
+                <condition number="35" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="17" hits="0" branch="False" />
+            <line number="19" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="129" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="20" hits="0" branch="False" />
+            <line number="21" hits="0" branch="False" />
+            <line number="22" hits="0" branch="False" />
+            <line number="24" hits="0" branch="False" />
+            <line number="25" hits="0" branch="False" />
+            <line number="26" hits="0" branch="False" />
+            <line number="28" hits="0" branch="False" />
+            <line number="30" hits="0" branch="False" />
+            <line number="31" hits="0" branch="False" />
+            <line number="32" hits="0" branch="False" />
+            <line number="33" hits="0" branch="False" />
+            <line number="34" hits="0" branch="False" />
+            <line number="36" hits="0" branch="False" />
+            <line number="37" hits="0" branch="False" />
+            <line number="38" hits="0" branch="False" />
+            <line number="40" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="Fanex.Athena.ExtService.Common.Services.BetListApiClient" filename="C:\Data\TeamProject\GIT_LAB\Sparta\LAP.EXT.SERVICE\Fanex.Athena.ExtService\Fanex.Athena.ExtService.Common\Services\BetListApiClient.cs" line-rate="0" branch-rate="1" complexity="1">
+          <methods>
+            <method name=".ctor" signature="(Microsoft.Extensions.Options.IOptions`1&lt;Fanex.Athena.ExtService.Common.Models.DTO.AppSettings&gt;)" line-rate="0" branch-rate="1">
+              <lines>
+                <line number="19" hits="0" branch="False" />
+                <line number="20" hits="0" branch="False" />
+                <line number="21" hits="0" branch="False" />
+                <line number="22" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="19" hits="0" branch="False" />
+            <line number="20" hits="0" branch="False" />
+            <line number="21" hits="0" branch="False" />
+            <line number="22" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="Fanex.Athena.ExtService.Common.Services.BetListApiClient/&lt;HandleAsync&gt;d__4`1" filename="C:\Data\TeamProject\GIT_LAB\Sparta\LAP.EXT.SERVICE\Fanex.Athena.ExtService\Fanex.Athena.ExtService.Common\Services\BetListApiClient.cs" line-rate="0" branch-rate="0" complexity="12">
+          <methods>
+            <method name="MoveNext" signature="()" line-rate="0" branch-rate="0">
+              <lines>
+                <line number="25" hits="0" branch="True" condition-coverage="0% (0/4)">
+                  <conditions>
+                    <condition number="8" type="jump" coverage="0%" />
+                    <condition number="14" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="27" hits="0" branch="False" />
+                <line number="28" hits="0" branch="False" />
+                <line number="29" hits="0" branch="False" />
+                <line number="30" hits="0" branch="False" />
+                <line number="32" hits="0" branch="False" />
+                <line number="33" hits="0" branch="False" />
+                <line number="34" hits="0" branch="False" />
+                <line number="35" hits="0" branch="False" />
+                <line number="36" hits="0" branch="False" />
+                <line number="37" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="183" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="38" hits="0" branch="False" />
+                <line number="39" hits="0" branch="False" />
+                <line number="40" hits="0" branch="False" />
+                <line number="41" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="251" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="43" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="374" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="44" hits="0" branch="False" />
+                <line number="45" hits="0" branch="False" />
+                <line number="46" hits="0" branch="False" />
+                <line number="49" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="473" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="51" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="25" hits="0" branch="True" condition-coverage="0% (0/4)">
+              <conditions>
+                <condition number="8" type="jump" coverage="0%" />
+                <condition number="14" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="27" hits="0" branch="False" />
+            <line number="28" hits="0" branch="False" />
+            <line number="29" hits="0" branch="False" />
+            <line number="30" hits="0" branch="False" />
+            <line number="32" hits="0" branch="False" />
+            <line number="33" hits="0" branch="False" />
+            <line number="34" hits="0" branch="False" />
+            <line number="35" hits="0" branch="False" />
+            <line number="36" hits="0" branch="False" />
+            <line number="37" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="183" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="38" hits="0" branch="False" />
+            <line number="39" hits="0" branch="False" />
+            <line number="40" hits="0" branch="False" />
+            <line number="41" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="251" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="43" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="374" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="44" hits="0" branch="False" />
+            <line number="45" hits="0" branch="False" />
+            <line number="46" hits="0" branch="False" />
+            <line number="49" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="473" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="51" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="Fanex.Athena.ExtService.Common.Services.BetListApiClient/&lt;&gt;c/&lt;&lt;PostAsyncString&gt;b__5_0&gt;d" filename="C:\Data\TeamProject\GIT_LAB\Sparta\LAP.EXT.SERVICE\Fanex.Athena.ExtService\Fanex.Athena.ExtService.Common\Services\BetListApiClient.cs" line-rate="0" branch-rate="0" complexity="4">
+          <methods>
+            <method name="MoveNext" signature="()" line-rate="0" branch-rate="0">
+              <lines>
+                <line number="55" hits="0" branch="True" condition-coverage="0% (0/4)">
+                  <conditions>
+                    <condition number="8" type="jump" coverage="0%" />
+                    <condition number="52" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="55" hits="0" branch="True" condition-coverage="0% (0/4)">
+              <conditions>
+                <condition number="8" type="jump" coverage="0%" />
+                <condition number="52" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+          </lines>
+        </class>
+        <class name="Fanex.Athena.ExtService.Common.Services.BetListApiClient/&lt;PostAsyncString&gt;d__5" filename="C:\Data\TeamProject\GIT_LAB\Sparta\LAP.EXT.SERVICE\Fanex.Athena.ExtService\Fanex.Athena.ExtService.Common\Services\BetListApiClient.cs" line-rate="0" branch-rate="1" complexity="1">
+          <methods>
+            <method name="MoveNext" signature="()" line-rate="0" branch-rate="1">
+              <lines>
+                <line number="54" hits="0" branch="False" />
+                <line number="56" hits="0" branch="False" />
+                <line number="57" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="54" hits="0" branch="False" />
+            <line number="56" hits="0" branch="False" />
+            <line number="57" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="Fanex.Athena.ExtService.Common.Services.BetListApiClient/&lt;&gt;c__6`1/&lt;&lt;PostAsync&gt;b__6_0&gt;d" filename="C:\Data\TeamProject\GIT_LAB\Sparta\LAP.EXT.SERVICE\Fanex.Athena.ExtService\Fanex.Athena.ExtService.Common\Services\BetListApiClient.cs" line-rate="0" branch-rate="0" complexity="4">
+          <methods>
+            <method name="MoveNext" signature="()" line-rate="0" branch-rate="0">
+              <lines>
+                <line number="65" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="8" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="66" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="58" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="67" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="65" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="8" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="66" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="58" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="67" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="Fanex.Athena.ExtService.Common.Services.BetListApiClient/&lt;PostAsync&gt;d__6`1" filename="C:\Data\TeamProject\GIT_LAB\Sparta\LAP.EXT.SERVICE\Fanex.Athena.ExtService\Fanex.Athena.ExtService.Common\Services\BetListApiClient.cs" line-rate="0" branch-rate="0" complexity="6">
+          <methods>
+            <method name="MoveNext" signature="()" line-rate="0" branch-rate="0">
+              <lines>
+                <line number="59" hits="0" branch="True" condition-coverage="0% (0/2)">
+                  <conditions>
+                    <condition number="8" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="60" hits="0" branch="True" condition-coverage="0% (0/4)">
+                  <conditions>
+                    <condition number="48" type="jump" coverage="0%" />
+                    <condition number="106" type="jump" coverage="0%" />
+                  </conditions>
+                </line>
+                <line number="61" hits="0" branch="False" />
+                <line number="62" hits="0" branch="False" />
+                <line number="63" hits="0" branch="False" />
+                <line number="64" hits="0" branch="False" />
+                <line number="68" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="59" hits="0" branch="True" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="8" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="60" hits="0" branch="True" condition-coverage="0% (0/4)">
+              <conditions>
+                <condition number="48" type="jump" coverage="0%" />
+                <condition number="106" type="jump" coverage="0%" />
+              </conditions>
+            </line>
+            <line number="61" hits="0" branch="False" />
+            <line number="62" hits="0" branch="False" />
+            <line number="63" hits="0" branch="False" />
+            <line number="64" hits="0" branch="False" />
+            <line number="68" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="Fanex.Athena.ExtService.Common.Services.CommonService" filename="C:\Data\TeamProject\GIT_LAB\Sparta\LAP.EXT.SERVICE\Fanex.Athena.ExtService\Fanex.Athena.ExtService.Common\Services\CommonService.cs" line-rate="1" branch-rate="1" complexity="1">
+          <methods>
+            <method name=".ctor" signature="(Microsoft.Extensions.Caching.Memory.IMemoryCache)" line-rate="1" branch-rate="1">
+              <lines>
+                <line number="20" hits="4" branch="False" />
+                <line number="21" hits="4" branch="False" />
+                <line number="22" hits="4" branch="False" />
+                <line number="23" hits="4" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="20" hits="4" branch="False" />
+            <line number="21" hits="4" branch="False" />
+            <line number="22" hits="4" branch="False" />
+            <line number="23" hits="4" branch="False" />
+          </lines>
+        </class>
+        <class name="Fanex.Athena.ExtService.Common.Services.CommonService/&lt;GetLicenseeInfoAsync&gt;d__6" filename="C:\Data\TeamProject\GIT_LAB\Sparta\LAP.EXT.SERVICE\Fanex.Athena.ExtService\Fanex.Athena.ExtService.Common\Services\CommonService.cs" line-rate="1" branch-rate="1" complexity="5">
+          <methods>
+            <method name="MoveNext" signature="()" line-rate="1" branch-rate="1">
+              <lines>
+                <line number="25" hits="2" branch="False" />
+                <line number="26" hits="2" branch="False" />
+                <line number="27" hits="2" branch="False" />
+                <line number="29" hits="2" branch="True" condition-coverage="100% (4/4)">
+                  <conditions>
+                    <condition number="80" type="jump" coverage="100%" />
+                    <condition number="96" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="30" hits="1" branch="False" />
+                <line number="31" hits="1" branch="True" condition-coverage="100% (1/1)">
+                  <conditions>
+                    <condition number="132" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="32" hits="1" branch="False" />
+                <line number="33" hits="1" branch="False" />
+                <line number="35" hits="2" branch="False" />
+                <line number="36" hits="2" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="25" hits="2" branch="False" />
+            <line number="26" hits="2" branch="False" />
+            <line number="27" hits="2" branch="False" />
+            <line number="29" hits="2" branch="True" condition-coverage="100% (4/4)">
+              <conditions>
+                <condition number="80" type="jump" coverage="100%" />
+                <condition number="96" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="30" hits="1" branch="False" />
+            <line number="31" hits="1" branch="True" condition-coverage="100% (1/1)">
+              <conditions>
+                <condition number="132" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="32" hits="1" branch="False" />
+            <line number="33" hits="1" branch="False" />
+            <line number="35" hits="2" branch="False" />
+            <line number="36" hits="2" branch="False" />
+          </lines>
+        </class>
+        <class name="Fanex.Athena.ExtService.Common.Services.CommonService/&lt;GetLicenseeInfoFromDB&gt;d__7" filename="C:\Data\TeamProject\GIT_LAB\Sparta\LAP.EXT.SERVICE\Fanex.Athena.ExtService\Fanex.Athena.ExtService.Common\Services\CommonService.cs" line-rate="1" branch-rate="1" complexity="7">
+          <methods>
+            <method name="MoveNext" signature="()" line-rate="1" branch-rate="1">
+              <lines>
+                <line number="39" hits="1" branch="False" />
+                <line number="42" hits="1" branch="False" />
+                <line number="43" hits="1" branch="False" />
+                <line number="44" hits="1" branch="False" />
+                <line number="45" hits="1" branch="False" />
+                <line number="46" hits="1" branch="True" condition-coverage="100% (1/1)">
+                  <conditions>
+                    <condition number="71" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="47" hits="1" branch="False" />
+                <line number="48" hits="1" branch="False" />
+                <line number="49" hits="1" branch="False" />
+                <line number="50" hits="1" branch="True" condition-coverage="100% (1/1)">
+                  <conditions>
+                    <condition number="155" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="51" hits="1" branch="False" />
+                <line number="52" hits="1" branch="False" />
+                <line number="53" hits="2" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="389" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="54" hits="1" branch="False" />
+                <line number="55" hits="1" branch="False" />
+                <line number="56" hits="1" branch="False" />
+                <line number="57" hits="1" branch="False" />
+                <line number="58" hits="1" branch="False" />
+                <line number="59" hits="1" branch="False" />
+                <line number="60" hits="1" branch="False" />
+                <line number="61" hits="1" branch="False" />
+                <line number="62" hits="1" branch="False" />
+                <line number="63" hits="1" branch="False" />
+                <line number="64" hits="1" branch="True" condition-coverage="100% (3/3)">
+                  <conditions>
+                    <condition number="425" type="jump" coverage="100%" />
+                    <condition number="445" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="65" hits="1" branch="False" />
+                <line number="66" hits="1" branch="False" />
+                <line number="67" hits="1" branch="False" />
+                <line number="69" hits="1" branch="False" />
+                <line number="70" hits="1" branch="False" />
+                <line number="72" hits="1" branch="False" />
+                <line number="73" hits="1" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="39" hits="1" branch="False" />
+            <line number="42" hits="1" branch="False" />
+            <line number="43" hits="1" branch="False" />
+            <line number="44" hits="1" branch="False" />
+            <line number="45" hits="1" branch="False" />
+            <line number="46" hits="1" branch="True" condition-coverage="100% (1/1)">
+              <conditions>
+                <condition number="71" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="47" hits="1" branch="False" />
+            <line number="48" hits="1" branch="False" />
+            <line number="49" hits="1" branch="False" />
+            <line number="50" hits="1" branch="True" condition-coverage="100% (1/1)">
+              <conditions>
+                <condition number="155" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="51" hits="1" branch="False" />
+            <line number="52" hits="1" branch="False" />
+            <line number="53" hits="2" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="389" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="54" hits="1" branch="False" />
+            <line number="55" hits="1" branch="False" />
+            <line number="56" hits="1" branch="False" />
+            <line number="57" hits="1" branch="False" />
+            <line number="58" hits="1" branch="False" />
+            <line number="59" hits="1" branch="False" />
+            <line number="60" hits="1" branch="False" />
+            <line number="61" hits="1" branch="False" />
+            <line number="62" hits="1" branch="False" />
+            <line number="63" hits="1" branch="False" />
+            <line number="64" hits="1" branch="True" condition-coverage="100% (3/3)">
+              <conditions>
+                <condition number="425" type="jump" coverage="100%" />
+                <condition number="445" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="65" hits="1" branch="False" />
+            <line number="66" hits="1" branch="False" />
+            <line number="67" hits="1" branch="False" />
+            <line number="69" hits="1" branch="False" />
+            <line number="70" hits="1" branch="False" />
+            <line number="72" hits="1" branch="False" />
+            <line number="73" hits="1" branch="False" />
+          </lines>
+        </class>
+        <class name="Fanex.Athena.ExtService.Common.Services.CommonService/&lt;GetBalanceUpAsync&gt;d__8" filename="C:\Data\TeamProject\GIT_LAB\Sparta\LAP.EXT.SERVICE\Fanex.Athena.ExtService\Fanex.Athena.ExtService.Common\Services\CommonService.cs" line-rate="1" branch-rate="1" complexity="3">
+          <methods>
+            <method name="MoveNext" signature="()" line-rate="1" branch-rate="1">
+              <lines>
+                <line number="76" hits="2" branch="False" />
+                <line number="77" hits="2" branch="False" />
+                <line number="79" hits="2" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="53" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="80" hits="1" branch="False" />
+                <line number="81" hits="1" branch="False" />
+                <line number="84" hits="1" branch="True" condition-coverage="100% (1/1)">
+                  <conditions>
+                    <condition number="86" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="85" hits="1" branch="False" />
+                <line number="86" hits="1" branch="False" />
+                <line number="87" hits="2" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="76" hits="2" branch="False" />
+            <line number="77" hits="2" branch="False" />
+            <line number="79" hits="2" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="53" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="80" hits="1" branch="False" />
+            <line number="81" hits="1" branch="False" />
+            <line number="84" hits="1" branch="True" condition-coverage="100% (1/1)">
+              <conditions>
+                <condition number="86" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="85" hits="1" branch="False" />
+            <line number="86" hits="1" branch="False" />
+            <line number="87" hits="2" branch="False" />
+          </lines>
+        </class>
+        <class name="Fanex.Athena.ExtService.Common.Services.CommonService/&lt;GetBalanceUpDayFromDb&gt;d__9" filename="C:\Data\TeamProject\GIT_LAB\Sparta\LAP.EXT.SERVICE\Fanex.Athena.ExtService\Fanex.Athena.ExtService.Common\Services\CommonService.cs" line-rate="1" branch-rate="1" complexity="4">
+          <methods>
+            <method name="MoveNext" signature="()" line-rate="1" branch-rate="1">
+              <lines>
+                <line number="90" hits="1" branch="False" />
+                <line number="93" hits="1" branch="True" condition-coverage="100% (1/1)">
+                  <conditions>
+                    <condition number="47" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="94" hits="1" branch="False" />
+                <line number="95" hits="1" branch="False" />
+                <line number="96" hits="1" branch="True" condition-coverage="100% (1/1)">
+                  <conditions>
+                    <condition number="91" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="97" hits="1" branch="False" />
+                <line number="98" hits="1" branch="True" condition-coverage="100% (2/2)">
+                  <conditions>
+                    <condition number="209" type="jump" coverage="100%" />
+                  </conditions>
+                </line>
+                <line number="99" hits="1" branch="False" />
+                <line number="100" hits="1" branch="False" />
+                <line number="101" hits="1" branch="False" />
+                <line number="102" hits="1" branch="False" />
+                <line number="104" hits="1" branch="False" />
+                <line number="107" hits="1" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="90" hits="1" branch="False" />
+            <line number="93" hits="1" branch="True" condition-coverage="100% (1/1)">
+              <conditions>
+                <condition number="47" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="94" hits="1" branch="False" />
+            <line number="95" hits="1" branch="False" />
+            <line number="96" hits="1" branch="True" condition-coverage="100% (1/1)">
+              <conditions>
+                <condition number="91" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="97" hits="1" branch="False" />
+            <line number="98" hits="1" branch="True" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="209" type="jump" coverage="100%" />
+              </conditions>
+            </line>
+            <line number="99" hits="1" branch="False" />
+            <line number="100" hits="1" branch="False" />
+            <line number="101" hits="1" branch="False" />
+            <line number="102" hits="1" branch="False" />
+            <line number="104" hits="1" branch="False" />
+            <line number="107" hits="1" branch="False" />
+          </lines>
+        </class>
+        <class name="Fanex.Athena.ExtService.Common.Models.ViewModels.BaseViewModel" filename="C:\Data\TeamProject\GIT_LAB\Sparta\LAP.EXT.SERVICE\Fanex.Athena.ExtService\Fanex.Athena.ExtService.Common\Models\ViewModels\BaseViewModel.cs" line-rate="0" branch-rate="1" complexity="4">
+          <methods>
+            <method name="get_Info" signature="()" line-rate="0" branch-rate="1">
+              <lines>
+                <line number="7" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="get_AccessToken" signature="()" line-rate="0" branch-rate="1">
+              <lines>
+                <line number="8" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="get_Lang" signature="()" line-rate="0" branch-rate="1">
+              <lines>
+                <line number="9" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="get_BaseCurrency" signature="()" line-rate="0" branch-rate="1">
+              <lines>
+                <line number="10" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="7" hits="0" branch="False" />
+            <line number="8" hits="0" branch="False" />
+            <line number="9" hits="0" branch="False" />
+            <line number="10" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="Fanex.Athena.ExtService.Common.Models.DTO.AppSettings" filename="C:\Data\TeamProject\GIT_LAB\Sparta\LAP.EXT.SERVICE\Fanex.Athena.ExtService\Fanex.Athena.ExtService.Common\Models\DTO\AppSettings.cs" line-rate="0" branch-rate="1" complexity="6">
+          <methods>
+            <method name="get_LogCategory" signature="()" line-rate="0" branch-rate="1">
+              <lines>
+                <line number="5" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="get_RabbitMQ" signature="()" line-rate="0" branch-rate="1">
+              <lines>
+                <line number="6" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="get_Environment" signature="()" line-rate="0" branch-rate="1">
+              <lines>
+                <line number="7" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="get_BetListApiHostUrl" signature="()" line-rate="0" branch-rate="1">
+              <lines>
+                <line number="8" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="get_BetListApiTokenValue" signature="()" line-rate="0" branch-rate="1">
+              <lines>
+                <line number="9" hits="0" branch="False" />
+              </lines>
+            </method>
+            <method name="get_BetListApiClientTimeOutMinutes" signature="()" line-rate="0" branch-rate="1">
+              <lines>
+                <line number="10" hits="0" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="5" hits="0" branch="False" />
+            <line number="6" hits="0" branch="False" />
+            <line number="7" hits="0" branch="False" />
+            <line number="8" hits="0" branch="False" />
+            <line number="9" hits="0" branch="False" />
+            <line number="10" hits="0" branch="False" />
+          </lines>
+        </class>
+        <class name="Fanex.Athena.ExtService.Common.Models.DTO.BalanceUp" filename="C:\Data\TeamProject\GIT_LAB\Sparta\LAP.EXT.SERVICE\Fanex.Athena.ExtService\Fanex.Athena.ExtService.Common\Models\DTO\BalanceUp.cs" line-rate="1" branch-rate="1" complexity="2">
+          <methods>
+            <method name="get_MoveBetsDay" signature="()" line-rate="1" branch-rate="1">
+              <lines>
+                <line number="7" hits="6" branch="False" />
+              </lines>
+            </method>
+            <method name="get_BalanceUpDay" signature="()" line-rate="1" branch-rate="1">
+              <lines>
+                <line number="9" hits="6" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="7" hits="6" branch="False" />
+            <line number="9" hits="6" branch="False" />
+          </lines>
+        </class>
+        <class name="Fanex.Athena.ExtService.Common.Models.DTO.CurrencyInfo" filename="C:\Data\TeamProject\GIT_LAB\Sparta\LAP.EXT.SERVICE\Fanex.Athena.ExtService\Fanex.Athena.ExtService.Common\Models\DTO\CurrencyInfo.cs" line-rate="1" branch-rate="1" complexity="3">
+          <methods>
+            <method name="get_CurrencyId" signature="()" line-rate="1" branch-rate="1">
+              <lines>
+                <line number="8" hits="4" branch="False" />
+              </lines>
+            </method>
+            <method name="get_CurrencyName" signature="()" line-rate="1" branch-rate="1">
+              <lines>
+                <line number="10" hits="4" branch="False" />
+              </lines>
+            </method>
+            <method name="get_AgentId" signature="()" line-rate="1" branch-rate="1">
+              <lines>
+                <line number="12" hits="4" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="8" hits="4" branch="False" />
+            <line number="10" hits="4" branch="False" />
+            <line number="12" hits="4" branch="False" />
+          </lines>
+        </class>
+        <class name="Fanex.Athena.ExtService.Common.Models.DTO.LicenseeInfo" filename="C:\Data\TeamProject\GIT_LAB\Sparta\LAP.EXT.SERVICE\Fanex.Athena.ExtService\Fanex.Athena.ExtService.Common\Models\DTO\LicenseeInfo.cs" line-rate="1" branch-rate="1" complexity="3">
+          <methods>
+            <method name="get_IsAllowedCustomerComm" signature="()" line-rate="1" branch-rate="1">
+              <lines>
+                <line number="8" hits="4" branch="False" />
+              </lines>
+            </method>
+            <method name="get_SiteName" signature="()" line-rate="1" branch-rate="1">
+              <lines>
+                <line number="10" hits="4" branch="False" />
+              </lines>
+            </method>
+            <method name="get_Currencies" signature="()" line-rate="1" branch-rate="1">
+              <lines>
+                <line number="13" hits="8" branch="False" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="8" hits="4" branch="False" />
+            <line number="10" hits="4" branch="False" />
+            <line number="13" hits="8" branch="False" />
+          </lines>
+        </class>
+      </classes>
+    </package>
+    <package name="Fanex.Athena.ExtService.Resources" line-rate="1" branch-rate="1" complexity="0">
+      <classes />
+    </package>
+  </packages>
+</coverage>

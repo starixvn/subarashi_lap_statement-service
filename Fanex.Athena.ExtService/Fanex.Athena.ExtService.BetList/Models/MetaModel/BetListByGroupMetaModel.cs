@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using Fanex.Athena.ExtService.BetList.Models.DataDomain;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.Common.Models.DataDomain;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fanex.Athena.ExtService.BetList.Controllers

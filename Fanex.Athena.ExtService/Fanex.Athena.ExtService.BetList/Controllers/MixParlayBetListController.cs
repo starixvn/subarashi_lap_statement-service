@@ -25,7 +25,6 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         }
 
         [ResponseCache(Duration = SystemConstants.ThirtySecond)]
-
         [HttpGet]
         public async Task<IActionResult> Detail(MixParlayDetailMetaModel metaModel)
         {

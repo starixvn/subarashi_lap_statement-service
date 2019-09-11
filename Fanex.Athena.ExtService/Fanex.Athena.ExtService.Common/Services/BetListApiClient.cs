@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Cache;
 using System.Threading.Tasks;
 using Fanex.Athena.ExtService.Common.Models.DTO;
 using Microsoft.Extensions.Options;
@@ -26,9 +27,8 @@ namespace Fanex.Athena.ExtService.Common.Services
             const int oneMinInMillisecond = 60000;
             var client = new RestClient
             {
-                BaseUrl = new Uri(_appSetting.BetListApiHostUrl)
+                BaseUrl = new Uri(_appSetting.BetListApiHostUrl),
             };
-
             var request = new RestRequest(path);
             request.AddHeader(KEYNAME, _appSetting.BetListApiTokenValue);
             request.AddHeader(LANGUAGEKEY, language);
@@ -47,7 +47,6 @@ namespace Fanex.Athena.ExtService.Common.Services
             }
 
             return await codeBlock(result).ConfigureAwait(false);
-
         }
 
         public async Task<string> PostAsyncString(string path, object value, string language, int timeout = 0)

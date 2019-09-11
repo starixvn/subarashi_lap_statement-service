@@ -76,6 +76,9 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
 
             Assert.NotNull(metalModel.UserCurrencyList);
             Assert.Equal(fakeResult, viewModel);
+            Assert.Equal(viewModel.Texts, fakeResult.Texts);
+            Assert.Equal(viewModel.Data, fakeResult.Data);
+
         }
 
     }

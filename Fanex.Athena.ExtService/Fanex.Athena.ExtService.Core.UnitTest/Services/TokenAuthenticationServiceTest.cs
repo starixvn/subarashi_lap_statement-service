@@ -28,14 +28,16 @@ namespace Fanex.Athena.ExtService.Core.UnitTest.Services
             _authenticateService = new TokenAuthenticationService(_mockUserManagement.Object, mockTokenManagement.Object);
         }
 
-        [Fact]
-        public void IsAuthenticated_InValidUser_ReturnFalse()
+        [Theory]
+        [InlineData("asx", "1234aa")]
+        [InlineData("12bet@asx", "1234aa")]
+        public void IsAuthenticated_InValidUser_ReturnFalse(string userName, string pass)
         {
             //Arrange
             var token = new TokenRequest
             {
-                Username = "asx",
-                Password = "13424"
+                Username = userName,
+                Password = pass
             };
             _mockUserManagement.Setup(x => x.IsValidUser(token.Username, token.Password)).Returns(false);
             //Action
@@ -45,14 +47,16 @@ namespace Fanex.Athena.ExtService.Core.UnitTest.Services
             Assert.False(result.Item1);
         }
 
-        [Fact]
-        public void IsAuthenticated_ValidUser_ReturnTrueAndNotNullToken()
+        [Theory]
+        [InlineData("asx", "1234aa")]
+        [InlineData("12bet@asx", "1234aa")]
+        public void IsAuthenticated_ValidUser_ReturnTrueAndNotNullToken(string userName, string pass)
         {
             //Arrange
             var token = new TokenRequest
             {
-                Username = "asx",
-                Password = "13424"
+                Username = userName,
+                Password = pass
             };
             _mockUserManagement.Setup(x => x.IsValidUser(token.Username, token.Password)).Returns(true);
             //Action
