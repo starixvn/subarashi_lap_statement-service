@@ -33,6 +33,68 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
         }
 
         [Fact]
+        public async Task GetBalanceUpAsync_WhenCall_ReturnCorrectResultAsync()
+        {
+            //Arrange
+            var balanceupInfo = new BalanceUp
+            {
+                BalanceUpDay = DateTime.Now,
+                MoveBetsDay = DateTime.Now
+            };
+
+            var mockIDataReader = new Mock<IDataReader>();
+
+            _memoryCache.Remove("EXT_LAP_CACHE_BALANCEUP");
+
+            mockIDataReader.Setup(m => m["balanceupday"]).Returns(balanceupInfo.BalanceUpDay);
+            mockIDataReader.Setup(m => m["movebetsday"]).Returns(balanceupInfo.MoveBetsDay);
+            mockIDataReader.SetupSequence(m => m.Read())
+              .Returns(true)
+              .Returns(false);
+
+            var mockObjectDB = new Mock<IObjectDb>();
+
+            mockObjectDB.Setup(x => x.ExecuteReaderAsync(It.IsAny<object>(), It.IsAny<DbTransaction>()))
+                .Returns(Task.FromResult(mockIDataReader.Object));
+
+            ObjectDbFactory.SwitchToTestingMode();
+            ObjectDbFactory.Mock((x, y) => mockObjectDB.Object);
+
+            var service = new CommonService(_memoryCache);
+
+
+            ///Action
+
+            var result = await service.GetBalanceUpAsync().ConfigureAwait(false);
+
+            ///Assert
+            Assert.Equal(result.BalanceUpDay, balanceupInfo.BalanceUpDay);
+            Assert.Equal(result.MoveBetsDay, balanceupInfo.MoveBetsDay);
+        }
+
+        [Fact]
+        public async Task GetBalanceUpAsync_WhenCall_ReturnDataFromCache()
+        {
+            //Arrange
+            var balanceupInfo = new BalanceUp
+            {
+                BalanceUpDay = DateTime.Now,
+                MoveBetsDay = DateTime.Now
+            };
+            _memoryCache.Set("EXT_LAP_CACHE_BALANCEUP", balanceupInfo);
+
+            var service = new CommonService(_memoryCache);
+
+            ///Action
+
+            var result = await service.GetBalanceUpAsync().ConfigureAwait(false);
+
+            ///Assert
+            Assert.Equal(result, balanceupInfo);
+
+        }
+
+        [Fact]
         public async Task GetLicenseeInfoAsync_WhenCall_AssignCorrectParrameterAndReturnCorrectResultAsync()
         {
             //Arrange
@@ -114,68 +176,6 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             Assert.Equal(result.Currencies[0].CurrencyId, CurrencyId);
             Assert.Equal(result.Currencies[0].CurrencyName, CurrencyName);
             Assert.Equal(result.Currencies[0].AgentId, AgentId);
-        }
-
-        [Fact]
-        public async Task GetBalanceUpAsync_WhenCall_ReturnDataFromCache()
-        {
-            //Arrange
-            var balanceupInfo = new BalanceUp
-            {
-                BalanceUpDay = DateTime.Now,
-                MoveBetsDay = DateTime.Now
-            };
-            _memoryCache.Set("EXT_LAP_CACHE_BALANCEUP", balanceupInfo);
-
-            var service = new CommonService(_memoryCache);
-
-            ///Action
-
-            var result = await service.GetBalanceUpAsync().ConfigureAwait(false);
-
-            ///Assert
-            Assert.Equal(result, balanceupInfo);
-
-        }
-
-        [Fact]
-        public async Task GetBalanceUpAsync_WhenCall_ReturnCorrectResultAsync()
-        {
-            //Arrange
-            var balanceupInfo = new BalanceUp
-            {
-                BalanceUpDay = DateTime.Now,
-                MoveBetsDay = DateTime.Now
-            };
-
-            var mockIDataReader = new Mock<IDataReader>();
-
-            _memoryCache.Remove("EXT_LAP_CACHE_BALANCEUP");
-
-            mockIDataReader.Setup(m => m["balanceupday"]).Returns(balanceupInfo.BalanceUpDay);
-            mockIDataReader.Setup(m => m["movebetsday"]).Returns(balanceupInfo.MoveBetsDay);
-            mockIDataReader.SetupSequence(m => m.Read())
-              .Returns(true)
-              .Returns(false);
-
-            var mockObjectDB = new Mock<IObjectDb>();
-
-            mockObjectDB.Setup(x => x.ExecuteReaderAsync(It.IsAny<object>(), It.IsAny<DbTransaction>()))
-                .Returns(Task.FromResult(mockIDataReader.Object));
-
-            ObjectDbFactory.SwitchToTestingMode();
-            ObjectDbFactory.Mock((x, y) => mockObjectDB.Object);
-
-            var service = new CommonService(_memoryCache);
-
-
-            ///Action
-
-            var result = await service.GetBalanceUpAsync().ConfigureAwait(false);
-
-            ///Assert
-            Assert.Equal(result.BalanceUpDay, balanceupInfo.BalanceUpDay);
-            Assert.Equal(result.MoveBetsDay, balanceupInfo.MoveBetsDay);
         }
 
     }
