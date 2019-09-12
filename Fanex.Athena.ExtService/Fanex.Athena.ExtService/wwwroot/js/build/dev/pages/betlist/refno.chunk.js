@@ -560,13 +560,10 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
             },
 
             viewAllBetResult: function (trasdesc, betcheck, bettype, title) {
-                console.log(trasdesc);
-                console.log(encodeURIComponent(trasdesc));
                 let url = Site.resolveClientUrl('ResultReport/AllBetResult?transdesc=' +
                     encodeURIComponent(trasdesc) + '&betcheck=' + betcheck + '&bettype=' + bettype);
-                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
-                url = QueryString.setParam(url, 'lang', $("#lang").val());
-                console.log(url);
+                url += "&access_token=" + $("#access_token").val();
+                url += "&lang=" + $("#lang").val();
                 Site.blockUI();
                 showResultPopUp(url, { width: 800, height: 380, title: title });
                 Site.unBlockUI();
