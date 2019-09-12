@@ -86,7 +86,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             };
             return await _betListApiClient.PostAsyncString("/PPResultPopup/Index", model, lang).ConfigureAwait(false);
         }
-        [ResponseCache(Duration = SystemConstants.ThirtySecond, VaryByQueryKeys = new[] { "transDesc", "lang", "gamePlbetCheckayId", "betType" })]
+        [ResponseCache(Duration = SystemConstants.ThirtySecond, VaryByQueryKeys = new[] { "transDesc", "lang", "betCheck", "betType" })]
         [HttpGet]
         public async Task<IActionResult> AllBetResult(string transDesc, string betCheck, string betType, string lang)
         {
