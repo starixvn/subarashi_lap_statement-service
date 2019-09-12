@@ -273,8 +273,6 @@
                         url: url,
                         success: function (response) {
                             let length = response.data === null ? 0 : response.data.length;
-                            console.log(length);
-
                             if (length > 0) {
                                 let choice = '';
                                 $.each(response.texts, function (index, item) {

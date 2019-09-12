@@ -11097,7 +11097,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿/*global _lan
             _rootUrl = $('#RootUrl').val();
         }
         function initEvent() {
-            var token = 
             $.ajaxSetup({
                 cache: false,
                 headers: {

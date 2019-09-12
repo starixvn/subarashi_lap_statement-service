@@ -65,7 +65,6 @@ define(['jquery', 'common/querystring', 'common/popup', 'extensions/prototype',]
             _rootUrl = $('#RootUrl').val();
         }
         function initEvent() {
-            var token = 
             $.ajaxSetup({
                 cache: false,
                 headers: {

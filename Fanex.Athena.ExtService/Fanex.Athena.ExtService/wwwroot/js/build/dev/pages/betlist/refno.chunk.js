@@ -679,8 +679,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                         url: url,
                         success: function (response) {
                             let length = response.data === null ? 0 : response.data.length;
-                            console.log(length);
-
                             if (length > 0) {
                                 let choice = '';
                                 $.each(response.texts, function (index, item) {
