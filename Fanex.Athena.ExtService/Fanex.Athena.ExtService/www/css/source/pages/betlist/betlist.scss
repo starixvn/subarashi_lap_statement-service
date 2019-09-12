@@ -305,4 +305,13 @@
         color: #003399;
         font-weight: normal;
     }
+
+    .rebate-bonus-icon {
+        background: url(images/rebateBonus.png) no-repeat scroll center center transparent;
+        display: inline-block;
+        height: 14px;
+        width: 14px;
+        position: relative;
+        top: 2px;
+    }
 }
