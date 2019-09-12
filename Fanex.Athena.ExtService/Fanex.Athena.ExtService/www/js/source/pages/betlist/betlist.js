@@ -154,7 +154,7 @@
             },
 
             viewAllBetResult: function (trasdesc, betcheck, bettype, title) {
-                console.log(transdecs);
+                console.log(trasdesc);
                 console.log(encodeURIComponent(trasdesc));
                 let url = Site.resolveClientUrl('ResultReport/AllBetResult?transdesc=' +
                     encodeURIComponent(trasdesc) + '&betcheck=' + betcheck + '&bettype=' + bettype);
