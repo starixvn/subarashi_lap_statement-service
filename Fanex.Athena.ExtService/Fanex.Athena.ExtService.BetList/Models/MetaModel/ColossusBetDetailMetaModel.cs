@@ -6,7 +6,7 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 {
     public class ColossusBetDetailMetaModel : IBaseMetaModel
     {
-        public int UserId { get; set; } = 1;
+        public int UserId { get; set; } = 982418;
 
         public int CustId { get; set; }
 
