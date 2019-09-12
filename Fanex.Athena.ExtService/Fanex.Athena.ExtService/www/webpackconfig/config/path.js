@@ -13,7 +13,7 @@ var cssPaths = {
     systemparlaydetail: ["./www/css/source/pages/betlist/systemparlaydetail.scss"],
     cashouthistory: ["./www/css/source/pages/betlist/cashouthistory.main.scss", "./www/css/source/extensions/popup-ex.scss"],
     betlistResult: ["./www/css/source/pages/betlist/result/betlist.result.scss"],
-
+    colossusbetdetail: ["./www/css/source/pages/betlist/colossusbetdetail.scss"]
 };
 
 var scriptPaths = {
