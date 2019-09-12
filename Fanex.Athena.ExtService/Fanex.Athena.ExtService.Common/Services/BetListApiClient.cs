@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Cache;
 using System.Threading.Tasks;
+using Fanex.Athena.ExtService.Common.Extensions;
 using Fanex.Athena.ExtService.Common.Models.DTO;
 using Microsoft.Extensions.Options;
 
@@ -33,6 +34,7 @@ namespace Fanex.Athena.ExtService.Common.Services
             request.AddHeader(KEYNAME, _appSetting.BetListApiTokenValue);
             request.AddHeader(LANGUAGEKEY, language);
             request.AddJsonBody(value);
+            request.JsonSerializer = RestSharpNewtonsoftJsonSerializer.Default;
             request.Method = Method.POST;
             if (timeout > 0)
             {

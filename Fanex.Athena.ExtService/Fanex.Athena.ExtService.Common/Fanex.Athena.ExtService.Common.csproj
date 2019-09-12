@@ -29,8 +29,4 @@
     <ProjectReference Include="..\Fanex.Athena.ExtService.Resources\Fanex.Athena.ExtService.Resources.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Extensions\" />
-  </ItemGroup>
-
 </Project>
