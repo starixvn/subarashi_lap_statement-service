@@ -139,7 +139,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             const string betCheck = "Any";
             const string betType = "Any";
 
-            const string fakeResult = "Any result data{rootUrl}";
+            const string fakeResult = "Any result data{rootUrl}/";
             const string fakeRootUrl = "RootURL";
             IActionResult result = null;
             _betListApiClient.Setup(x => x.PostAsyncString(

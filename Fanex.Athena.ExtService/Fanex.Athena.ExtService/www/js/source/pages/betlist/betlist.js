@@ -154,11 +154,13 @@
             },
 
             viewAllBetResult: function (trasdesc, betcheck, bettype, title) {
+                console.log(transdecs);
+                console.log(encodeURIComponent(trasdesc));
                 let url = Site.resolveClientUrl('ResultReport/AllBetResult?transdesc=' +
                     encodeURIComponent(trasdesc) + '&betcheck=' + betcheck + '&bettype=' + bettype);
                 url = QueryString.setParam(url, 'access_token', $("#access_token").val());
                 url = QueryString.setParam(url, 'lang', $("#lang").val());
-
+                console.log(url);
                 Site.blockUI();
                 showResultPopUp(url, { width: 800, height: 380, title: title });
                 Site.unBlockUI();

@@ -98,7 +98,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
                 languageCode = lang
             };
             var data = await _betListApiClient.PostAsyncString("/AllBetResultPopup/Index", model, lang).ConfigureAwait(false);
-            ViewBag.Data = data.Replace("{rootUrl}", Url.Content("~/"));
+            ViewBag.Data = data.Replace("{rootUrl}/", Url.Content("~/"));
             var viewModel = new BaseViewModel
             {
                 AccessToken = HttpContext.Request.Query["access_token"],
