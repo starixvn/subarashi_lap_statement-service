@@ -28,6 +28,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using RestSharp;
 
 namespace Fanex.Athena.ExtService
 {
@@ -129,7 +130,8 @@ namespace Fanex.Athena.ExtService
             services.AddScoped<IUserManagementService, UserManagementService>();
             services.AddScoped<IPFilterAttribute>();
             services.AddSingleton<ICommonService, CommonService>();
-            services.AddSingleton<IBetListApiClient, BetListApiClient>();
+            services.AddTransient<IRestClient, RestClient>();
+            services.AddTransient<IBetListApiClient, BetListApiClient>();
             services.AddTransient<ISummaryStatementService, SummaryStatementService>();
             services.AddTransient<IStatementByGroupService, StatementByGroupService>();
 

@@ -19,10 +19,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
         {
             //Arrange
             const string Title = "Result";
-            var metalModel = new ResultPopupMetalModel
-            {
-                Lang = "en-US"
-            };
+            var metalModel = Mock.Of<ResultPopupMetalModel>();
             var fakeResult = "Any result data";
             IActionResult result = null;
             _betListApiClient.Setup(x => x.PostAsyncString(
@@ -47,6 +44,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             Assert.Equal(title, Title);
             Assert.Equal(viewModel.Lang, metalModel.Lang);
             Assert.Equal(viewModel.AccessToken, AccessToken);
+            _betListApiClient.Verify(x => x.PostAsyncString("/ResultReport/ResultPopup", metalModel, metalModel.Lang, 0), Times.Once);
 
         }
         [Fact]

@@ -58,7 +58,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
 
         [HttpGet]
         [ResponseCache(Duration = SystemConstants.ThirtySecond, NoStore = false,
-            VaryByQueryKeys = new[] { "cid", "lang", "bc", "wd", "pc" })]
+            VaryByQueryKeys = new[] { "cid", "lang", "bc", "wd", "pc", "ps", "pi", "mv", "s" })]
         public async Task<IActionResult> ByGroup(BetListByGroupMetaModel metaModel)
         {
             var siteName = HttpContext.User.Identity.Name;

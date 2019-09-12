@@ -18,18 +18,17 @@ namespace Fanex.Athena.ExtService.Common.Services
         private const string LANGUAGEKEY = "Language";
 
         private readonly AppSettings _appSetting;
-        public BetListApiClient(IOptions<AppSettings> appSettingsAccessor)
+        private readonly IRestClient _restClient;
+        public BetListApiClient(IOptions<AppSettings> appSettingsAccessor, IRestClient restClient)
         {
             _appSetting = appSettingsAccessor.Value;
+            _restClient = restClient;
         }
         private async Task<T> HandleAsync<T>(string path, object value,
            string language, Func<IRestResponse, Task<T>> codeBlock, int timeout = 0)
         {
             const int oneMinInMillisecond = 60000;
-            var client = new RestClient
-            {
-                BaseUrl = new Uri(_appSetting.BetListApiHostUrl),
-            };
+            _restClient.BaseUrl = new Uri(_appSetting.BetListApiHostUrl);
             var request = new RestRequest(path);
             request.AddHeader(KEYNAME, _appSetting.BetListApiTokenValue);
             request.AddHeader(LANGUAGEKEY, language);
@@ -38,9 +37,9 @@ namespace Fanex.Athena.ExtService.Common.Services
             request.Method = Method.POST;
             if (timeout > 0)
             {
-                client.Timeout = oneMinInMillisecond * timeout;
+                _restClient.Timeout = oneMinInMillisecond * timeout;
             }
-            var result = await client.ExecuteTaskAsync(request).ConfigureAwait(false);
+            var result = await _restClient.ExecuteTaskAsync(request).ConfigureAwait(false);
 
             if (result.ResponseStatus != ResponseStatus.Completed)
             {

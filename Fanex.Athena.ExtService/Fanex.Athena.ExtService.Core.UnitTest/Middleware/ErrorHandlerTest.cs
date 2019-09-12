@@ -64,7 +64,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
 
             var errorHandler = new ErrorHandler(next: async (x) =>
             {
-
+                await Task.CompletedTask;
             });
 
             //Action
@@ -106,6 +106,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
 
             var errorHandler = new ErrorHandler(next: async (x) =>
             {
+                await Task.CompletedTask;
                 throw new Exception();
             });
 

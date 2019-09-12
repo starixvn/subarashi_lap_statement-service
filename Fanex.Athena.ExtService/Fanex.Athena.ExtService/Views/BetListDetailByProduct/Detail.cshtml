@@ -37,6 +37,10 @@
                                         <td style="width:350px"></td>
                                         <td></td>
                                         <td></td>
+                                        @if (Model.HasLicWl)
+                                        {
+                                            <td></td>
+                                        }
 
                                         <td></td>
                                         <td></td>
@@ -49,7 +53,7 @@
                                         <th>@ViewResources.Stake</th>
                                         <th>
                                             @(Model.Info.IsAllowedCustomerComm ?
-                                                                        $"{ ViewResources.WinLoss}/{ ViewResources.Comm}" : @ViewResources.WinLoss)
+                                                                                $"{ ViewResources.WinLoss}/{ ViewResources.Comm}" : @ViewResources.WinLoss)
                                         </th>
                                         @if (Model.HasLicWl)
                                         {
@@ -72,7 +76,10 @@
                                         <td style="width:350px"></td>
                                         <td></td>
                                         <td></td>
-
+                                        @if (Model.HasLicWl)
+                                        {
+                                            <td></td>
+                                        }
                                         <td></td>
                                         <td></td>
 

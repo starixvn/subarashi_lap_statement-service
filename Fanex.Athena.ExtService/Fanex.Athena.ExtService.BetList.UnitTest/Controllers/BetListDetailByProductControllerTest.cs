@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 
 using Fanex.Athena.ExtService.BetList.Controllers;
+using Fanex.Athena.ExtService.BetList.Models.DTO;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.BetList.Models.ViewModel;
 
@@ -24,7 +25,10 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
                 BaseCurrency = "ANY",
                 Lang = "en-US"
             };
-            var fakeResult = new BetListResultViewModel();
+            var fakeResult = new BetListResultViewModel
+            {
+                Total = new BetListTotalData()
+            };
             IActionResult result = null;
             _betListApiClient.Setup(x => x.PostAsync<BetListResultViewModel>(
                 "/BetList/GetBetList", It.IsAny<BetListDetailByProductMetaModel>(), It.IsAny<string>(), 0))
