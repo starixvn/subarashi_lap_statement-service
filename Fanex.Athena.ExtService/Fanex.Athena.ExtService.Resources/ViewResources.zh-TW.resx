@@ -257,4 +257,13 @@
     <value>虛擬運動2</value>
     <comment>83759</comment>
   </data>
+  <data name="BettingStatement" xml:space="preserve">
+    <value>投注詳情</value>
+  </data>
+  <data name="OutstandingBet" xml:space="preserve">
+    <value>未完成交易</value>
+  </data>
+  <data name="Void_CancelledBet" xml:space="preserve">
+    <value>作廢/取消注單</value>
+  </data>
 </root>
