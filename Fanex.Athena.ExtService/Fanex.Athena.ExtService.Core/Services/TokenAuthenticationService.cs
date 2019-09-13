@@ -1,9 +1,11 @@
 ﻿using Fanex.Athena.ExtService.Core.Models;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Fanex.Athena.ExtService.Core.Services
@@ -12,10 +14,14 @@ namespace Fanex.Athena.ExtService.Core.Services
     {
         private readonly IUserManagementService _userManagementService;
         private readonly TokenManagement _tokenManagement;
-        public TokenAuthenticationService(IUserManagementService service, IOptions<TokenManagement> tokenManagementAccessor)
+        private readonly IEncryptService _encryptService;
+        public TokenAuthenticationService(IUserManagementService service,
+            IEncryptService encryptService,
+            IOptions<TokenManagement> tokenManagementAccessor)
         {
             _userManagementService = service;
             _tokenManagement = tokenManagementAccessor.Value;
+            _encryptService = encryptService;
         }
         public Tuple<bool, Token> IsAuthenticated(TokenRequest request)
         {
@@ -50,7 +56,8 @@ namespace Fanex.Athena.ExtService.Core.Services
                 expires: DateTime.UtcNow.AddMinutes(_tokenManagement.AccessExpiration),
                 signingCredentials: credentials
             );
-            token.AccessToken = new JwtSecurityTokenHandler().WriteToken(jwtToken);
+
+            token.AccessToken = _encryptService.Encrypt(new JwtSecurityTokenHandler().WriteToken(jwtToken));
             return Tuple.Create<bool, Token>(true, token);
         }
     }

@@ -21,6 +21,7 @@ using Fanex.Logging.RabbitMQ;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
@@ -69,12 +70,24 @@ namespace Fanex.Athena.ExtService
 
             services.AddHealthChecks();
             services.AddMemoryCache();
+
             services.AddResponseCaching(options =>
             {
                 options.UseCaseSensitivePaths = true;
             });
+
+
+            /*DI*/
+            services.AddScoped<IAuthenticateService, TokenAuthenticationService>();
+            services.AddScoped<IUserManagementService, UserManagementService>();
+            services.AddScoped<IPFilterAttribute>();
+            services.AddSingleton<ICommonService, CommonService>();
+            services.AddTransient<IRestClient, RestClient>();
+            services.AddTransient<IBetListApiClient, BetListApiClient>();
+            services.AddTransient<ISummaryStatementService, SummaryStatementService>();
+            services.AddTransient<IStatementByGroupService, StatementByGroupService>();
+            services.AddTransient<IEncryptService, IEncryptService>();
             var token = Configuration.GetSection("tokenManagement").Get<TokenManagement>();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -95,7 +108,7 @@ namespace Fanex.Athena.ExtService
                     ValidateAudience = true,
                     RoleClaimType = ClaimsIdentity.DefaultNameClaimType,
                     RequireExpirationTime = true,
-                    ValidateLifetime = true
+                    ValidateLifetime = true,
 
                 };
                 x.Events = new JwtBearerEvents
@@ -107,6 +120,17 @@ namespace Fanex.Athena.ExtService
                             context.Response.Headers.Add("Token-Expired", "true");
                         }
                         return Task.CompletedTask;
+                    },
+                    OnMessageReceived = async context =>
+                    {
+                        if (!string.IsNullOrEmpty(context.Token))
+                        {
+                            var dataProtector = context.HttpContext.RequestServices.GetService<IEncryptService>();
+                            var encryptedToken = context.Token;
+                            var plainToken = dataProtector.Decrypt(encryptedToken);
+                            context.Token = plainToken;
+                            await Task.CompletedTask;
+                        }
                     }
                 };
             });
@@ -125,15 +149,7 @@ namespace Fanex.Athena.ExtService
                 options.HeaderName = "X-CSRF-TOKEN-LAP-EXT";
                 options.SuppressXFrameOptionsHeader = false;
             });
-
-            services.AddScoped<IAuthenticateService, TokenAuthenticationService>();
-            services.AddScoped<IUserManagementService, UserManagementService>();
-            services.AddScoped<IPFilterAttribute>();
-            services.AddSingleton<ICommonService, CommonService>();
-            services.AddTransient<IRestClient, RestClient>();
-            services.AddTransient<IBetListApiClient, BetListApiClient>();
-            services.AddTransient<ISummaryStatementService, SummaryStatementService>();
-            services.AddTransient<IStatementByGroupService, StatementByGroupService>();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
         }
 
