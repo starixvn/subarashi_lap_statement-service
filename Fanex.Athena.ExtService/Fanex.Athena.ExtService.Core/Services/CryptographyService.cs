@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using Fanex.Athena.ExtService.Core.Models.DTO;
@@ -18,11 +17,6 @@ namespace Fanex.Athena.ExtService.Core.Services
         {
             _key = Convert.FromBase64String(applicationOptionAccessor.Value.AesKey);
             _iv = Convert.FromBase64String(applicationOptionAccessor.Value.AesIV);
-            if (key.Length < KeySize || vector.Length < KeySize)
-            {
-                throw new ArgumentException("vector(IV)/key length must greater than 16");
-            }
-
         }
 
         public string Decrypt(string encryptedText)
@@ -34,15 +28,14 @@ namespace Fanex.Athena.ExtService.Core.Services
                 using (var decryptor = aes.CreateDecryptor(aes.Key, aes.IV))
                 {
                     var result = PerformCryptography(decryptor, data);
-                    return Encoding.ASCII.GetString(result);
+                    return Encoding.UTF8.GetString(result);
                 }
             }
         }
 
         public string Encrypt(string plaintext)
         {
-
-            var data = Encoding.ASCII.GetBytes(plaintext);
+            var data = Encoding.UTF8.GetBytes(plaintext);
 
             using (var aes = CreateAes())
             {
