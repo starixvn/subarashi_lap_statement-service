@@ -11,22 +11,29 @@ namespace Fanex.Athena.ExtService.Core.Services
         private const int KeySize = 16;
         private const int BufferSize = 81920; // 80k
         private readonly byte[] _key;
+        private readonly byte[] _iv;
 
-        public EncryptService(string key)
+        public EncryptService(string vector, string key)
         {
             if (string.IsNullOrEmpty(key))
             {
                 throw new ArgumentException("Encrypt/Decrypt key is required.", nameof(key));
             }
 
+            if (string.IsNullOrEmpty(vector))
+            {
+                throw new ArgumentException("Encrypt/Decrypt vector(IV) is required.", nameof(vector));
+            }
+
             _key = Encoding.ASCII.GetBytes(key).Take(KeySize).ToArray();
+            _iv = Encoding.ASCII.GetBytes(vector).Take(KeySize).ToArray();
         }
 
         public string Decrypt(string encryptedText)
         {
             var data = Convert.FromBase64String(encryptedText);
 
-            using (var aes = CreateAes(_key, _key))
+            using (var aes = CreateAes())
             {
                 using (var decryptor = aes.CreateDecryptor(aes.Key, aes.IV))
                 {
@@ -40,7 +47,7 @@ namespace Fanex.Athena.ExtService.Core.Services
         {
             var data = Encoding.ASCII.GetBytes(plaintext);
 
-            using (var aes = CreateAes(_key, _key))
+            using (var aes = CreateAes())
             {
                 using (var encryptor = aes.CreateEncryptor(aes.Key, aes.IV))
                 {
@@ -48,15 +55,6 @@ namespace Fanex.Athena.ExtService.Core.Services
                     return Convert.ToBase64String(result);
                 }
             }
-        }
-
-        private static SymmetricAlgorithm CreateAes(byte[] iv, byte[] key)
-        {
-            var aes = Aes.Create();
-            aes.Key = key;
-            aes.IV = iv;
-
-            return aes;
         }
 
         private static byte[] PerformCryptography(ICryptoTransform transform, byte[] data)
@@ -86,6 +84,15 @@ namespace Fanex.Athena.ExtService.Core.Services
                 stream.Write(data, offset, bytesToBeWrite);
                 offset += count;
             }
+        }
+
+        private SymmetricAlgorithm CreateAes()
+        {
+            var aes = Aes.Create();
+            aes.Key = _key;
+            aes.IV = _iv;
+
+            return aes;
         }
     }
 }

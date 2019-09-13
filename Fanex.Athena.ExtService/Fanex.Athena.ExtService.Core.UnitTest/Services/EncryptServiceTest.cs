@@ -7,11 +7,11 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Services
     public class EncryptServiceTest
     {
         [Theory]
-        [InlineData("abc-xyz-!@#-123", "test--key--@123.456")]
-        public void Encrypt_EncryptedText_DescryptCorrectly(string inputText, string key)
+        [InlineData("abc-xyz-!@#-123", "test--vector-123-*/+-089as", "test--key--@123.456")]
+        public void Encrypt_EncryptedText_DescryptCorrectly(string inputText, string vector, string key)
         {
             //Given
-            var service = new EncryptService(key);
+            var service = new EncryptService(vector, key);
 
             //When
             var encryptedText = service.Encrypt(inputText);
