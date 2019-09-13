@@ -21,7 +21,6 @@ using Fanex.Logging.RabbitMQ;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
@@ -29,6 +28,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+
 using RestSharp;
 
 namespace Fanex.Athena.ExtService
@@ -136,6 +136,7 @@ namespace Fanex.Athena.ExtService
             services.AddScoped<IUserManagementService, UserManagementService>();
             services.AddScoped<IPFilterAttribute>();
             services.AddSingleton<ICommonService, CommonService>();
+            services.AddSingleton<ILogger>(x => LogService.LoggerInstance);
             services.AddTransient<IRestClient, RestClient>();
             services.AddTransient<IBetListApiClient, BetListApiClient>();
             services.AddTransient<ISummaryStatementService, SummaryStatementService>();
