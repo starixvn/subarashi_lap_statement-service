@@ -35,6 +35,8 @@ namespace Fanex.Athena.ExtService
 {
     public class Startup
     {
+        const string ApplicationOptionSettingKey = "ApplicationOptions";
+        const string AppSettingKey = "AppSettings";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -46,11 +48,11 @@ namespace Fanex.Athena.ExtService
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<TokenManagement>(Configuration.GetSection("tokenManagement"));
-            services.Configure<ApplicationOptions>(Configuration.GetSection("ApplicationOptions"));
-            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.Configure<ApplicationOptions>(Configuration.GetSection(ApplicationOptionSettingKey));
+            services.Configure<AppSettings>(Configuration.GetSection(AppSettingKey));
             services.Configure<List<User>>(Configuration.GetSection("Users"));
 
-            var appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
+            var appSettings = Configuration.GetSection(AppSettingKey).Get<AppSettings>();
 
             LogManager
             .SetDefaultLogCategory(appSettings.LogCategory)
@@ -132,12 +134,12 @@ namespace Fanex.Athena.ExtService
             services.AddScoped<IAuthenticateService, TokenAuthenticationService>();
             services.AddScoped<IUserManagementService, UserManagementService>();
             services.AddScoped<IPFilterAttribute>();
+            services.AddSingleton<ICryptographyService, CryptographyService>();
             services.AddSingleton<ICommonService, CommonService>();
             services.AddTransient<IRestClient, RestClient>();
             services.AddTransient<IBetListApiClient, BetListApiClient>();
             services.AddTransient<ISummaryStatementService, SummaryStatementService>();
             services.AddTransient<IStatementByGroupService, StatementByGroupService>();
-            services.AddTransient<ICryptographyService, CryptographyService>();
         }
 
         private Dictionary<string, ConnectionConfiguration> GetConnectionString()

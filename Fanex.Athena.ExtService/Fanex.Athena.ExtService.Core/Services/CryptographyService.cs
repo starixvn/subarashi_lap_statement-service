@@ -3,6 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using Fanex.Athena.ExtService.Core.Models.DTO;
+using Microsoft.Extensions.Options;
 
 namespace Fanex.Athena.ExtService.Core.Services
 {
@@ -13,20 +15,10 @@ namespace Fanex.Athena.ExtService.Core.Services
         private readonly byte[] _key;
         private readonly byte[] _iv;
 
-        public CryptographyService(string vector, string key)
+        public CryptographyService(IOptions<ApplicationOptions> applicationOptionAccessor)
         {
-            if (string.IsNullOrEmpty(key))
-            {
-                throw new ArgumentException("Encrypt/Decrypt key is required.", nameof(key));
-            }
-
-            if (string.IsNullOrEmpty(vector))
-            {
-                throw new ArgumentException("Encrypt/Decrypt vector(IV) is required.", nameof(vector));
-            }
-
-            _key = Encoding.ASCII.GetBytes(key).Take(KeySize).ToArray();
-            _iv = Encoding.ASCII.GetBytes(vector).Take(KeySize).ToArray();
+            _key = Encoding.ASCII.GetBytes(applicationOptionAccessor.Value.AesKey).Take(KeySize).ToArray();
+            _iv = Encoding.ASCII.GetBytes(applicationOptionAccessor.Value.AesIV).Take(KeySize).ToArray();
         }
 
         public string Decrypt(string encryptedText)
