@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Fanex.Athena.ExtService.Core.Middleware;
 using Fanex.Logging;
-
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
-
 using Moq;
-
 using Newtonsoft.Json;
-
 using Xunit;
 
 namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
@@ -21,7 +18,8 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
     {
         private readonly Mock<HttpContext> _mockHttpContext;
         private readonly Mock<IExceptionHandlerFeature> _mockHandlerException;
-        readonly Mock<HttpResponse> _mockResponse;
+        private readonly Mock<HttpResponse> _mockResponse;
+
         public ErrorHandlerTest()
         {
             LogManager
@@ -36,6 +34,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
             _mockHttpContext.Setup(x => x.Request).Returns(new Mock<HttpRequest>().Object);
             _mockHandlerException = new Mock<IExceptionHandlerFeature>();
         }
+
         [Fact]
         public async Task Invoke_RequestError_ReturnErrorMessageAsync()
         {
@@ -62,19 +61,36 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
                 Msg = "Sorry, an error occurred while processing your request."
             });
 
-            var errorHandler = new ErrorHandler(next: async (x) =>
-            {
-                await Task.CompletedTask;
-            });
+            var errorHandler = new ErrorHandler(
+                async (x) => await Task.CompletedTask,
+                new Mock<ILogger>().Object);
 
             //Action
             await errorHandler.Invoke(_mockHttpContext.Object).ConfigureAwait(false);
 
             //Assert
-
             Assert.Equal(500, actualStatus);
             Assert.Equal("application/json", actualContentType);
             Assert.Equal(expectedResult, actualContent);
+        }
+
+        [Fact]
+        public async Task Invoke_RequestError_WriteLog()
+        {
+            //Arrange
+            _mockResponse.SetupGet(x => x.Body).Returns(Stream.Null);
+            _mockHandlerException.Setup(x => x.Error).Returns(new Exception());
+            _mockHttpContext.Setup(x => x.Features[typeof(IExceptionHandlerFeature)])
+                .Returns(_mockHandlerException.Object);
+
+            var mockLogger = new Mock<ILogger>();
+            var errorHandler = new ErrorHandler(async (x) => await Task.CompletedTask, mockLogger.Object);
+
+            //Action
+            await errorHandler.Invoke(_mockHttpContext.Object).ConfigureAwait(false);
+
+            //Assert
+            mockLogger.Verify(r => r.Error(It.IsAny<string>()));
         }
 
         [Fact]
@@ -104,11 +120,11 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
                 Msg = "Sorry, an error occurred while processing your request."
             });
 
-            var errorHandler = new ErrorHandler(next: async (x) =>
+            var errorHandler = new ErrorHandler(async (x) =>
             {
                 await Task.CompletedTask;
                 throw new Exception();
-            });
+            }, new Mock<ILogger>().Object);
 
             //Action
             await errorHandler.Invoke(_mockHttpContext.Object).ConfigureAwait(false);
@@ -118,6 +134,28 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
             Assert.Equal(500, actualStatus);
             Assert.Equal("application/json", actualContentType);
             Assert.Equal(expectedResult, actualContent);
+        }
+
+        [Fact]
+        public async Task Invoke_Exception_WriteLog()
+        {
+            //Arrange
+            _mockResponse.SetupGet(x => x.Body).Returns(Stream.Null);
+            _mockHttpContext.Setup(x => x.Features[typeof(IExceptionHandlerFeature)])
+                .Returns(new List<IExceptionHandlerFeature>());
+
+            var mockLogger = new Mock<ILogger>();
+            var errorHandler = new ErrorHandler(async (x) =>
+            {
+                await Task.CompletedTask;
+                throw new Exception();
+            }, mockLogger.Object);
+
+            //Action
+            await errorHandler.Invoke(_mockHttpContext.Object).ConfigureAwait(false);
+
+            //Assert
+            mockLogger.Verify(r => r.Error(It.IsAny<string>()));
         }
     }
 }
