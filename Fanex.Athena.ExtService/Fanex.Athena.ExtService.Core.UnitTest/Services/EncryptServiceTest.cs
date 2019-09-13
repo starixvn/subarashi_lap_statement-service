@@ -1,10 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Fanex.Athena.ExtService.Core.Services;
+using Xunit;
+
 
 namespace Fanex.Athena.ExtService.Core.UnitTests.Services
 {
-    class EncryptServiceTest
+    public class EncryptServiceTest
     {
+        [Theory]
+        [InlineData("abc-xyz-!@#-123", "test--key--@123.456")]
+        public void Encrypt_EncryptedText_DescryptCorrectly(string inputText, string key)
+        {
+            //Given
+            var service = new EncryptService(key);
+
+            //When
+            var encryptedText = service.Encrypt(inputText);
+            var actual = service.Decrypt(encryptedText);
+
+            //Then
+            Assert.Equal(inputText, actual);
+        }
     }
 }

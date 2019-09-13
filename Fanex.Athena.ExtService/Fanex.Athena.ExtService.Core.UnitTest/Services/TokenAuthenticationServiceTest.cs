@@ -1,10 +1,7 @@
 ﻿using Fanex.Athena.ExtService.Core.Models;
 using Fanex.Athena.ExtService.Core.Services;
-
 using Microsoft.Extensions.Options;
-
 using Moq;
-
 using Xunit;
 
 namespace Fanex.Athena.ExtService.Core.UnitTest.Services

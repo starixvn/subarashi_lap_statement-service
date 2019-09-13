@@ -14,14 +14,14 @@ namespace Fanex.Athena.ExtService.Core.Services
     {
         private readonly IUserManagementService _userManagementService;
         private readonly TokenManagement _tokenManagement;
-        private readonly IEncryptService _encryptService;
+        private readonly IEncryptService _CryptoService;
         public TokenAuthenticationService(IUserManagementService service,
-            IEncryptService encryptService,
+            IEncryptService CryptoService,
             IOptions<TokenManagement> tokenManagementAccessor)
         {
             _userManagementService = service;
             _tokenManagement = tokenManagementAccessor.Value;
-            _encryptService = encryptService;
+            _CryptoService = CryptoService;
         }
         public Tuple<bool, Token> IsAuthenticated(TokenRequest request)
         {
@@ -57,7 +57,7 @@ namespace Fanex.Athena.ExtService.Core.Services
                 signingCredentials: credentials
             );
 
-            token.AccessToken = _encryptService.Encrypt(new JwtSecurityTokenHandler().WriteToken(jwtToken));
+            token.AccessToken = _CryptoService.Encrypt(new JwtSecurityTokenHandler().WriteToken(jwtToken));
             return Tuple.Create<bool, Token>(true, token);
         }
     }
