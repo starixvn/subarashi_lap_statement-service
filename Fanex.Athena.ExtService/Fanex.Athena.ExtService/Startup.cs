@@ -190,12 +190,12 @@ namespace Fanex.Athena.ExtService
                 SupportedCultures = supportedCultures,
                 SupportedUICultures = supportedCultures,
                 RequestCultureProviders = new List<IRequestCultureProvider>
-            {
-                new QueryStringRequestCultureProvider
-            {
-                UIQueryStringKey = "lang"
-            }
-            }
+                {
+                    new QueryStringRequestCultureProvider
+                    {
+                        UIQueryStringKey = "lang"
+                    }
+                }
             };
 
             app.UseRequestLocalization(requestLocalizationOptions);

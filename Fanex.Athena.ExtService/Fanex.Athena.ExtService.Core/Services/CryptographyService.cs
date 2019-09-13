@@ -10,15 +10,14 @@ namespace Fanex.Athena.ExtService.Core.Services
 {
     public class CryptographyService : ICryptographyService
     {
-        private const int KeySize = 16;
         private const int BufferSize = 81920;
         private readonly byte[] _key;
         private readonly byte[] _iv;
 
         public CryptographyService(IOptions<ApplicationOptions> applicationOptionAccessor)
         {
-            _key = Encoding.ASCII.GetBytes(applicationOptionAccessor.Value.AesKey).Take(KeySize).ToArray();
-            _iv = Encoding.ASCII.GetBytes(applicationOptionAccessor.Value.AesIV).Take(KeySize).ToArray();
+            _key = Convert.FromBase64String(applicationOptionAccessor.Value.AesKey);
+            _iv = Convert.FromBase64String(applicationOptionAccessor.Value.AesIV);
         }
 
         public string Decrypt(string encryptedText)
@@ -37,6 +36,7 @@ namespace Fanex.Athena.ExtService.Core.Services
 
         public string Encrypt(string plaintext)
         {
+
             var data = Encoding.ASCII.GetBytes(plaintext);
 
             using (var aes = CreateAes())
@@ -80,10 +80,12 @@ namespace Fanex.Athena.ExtService.Core.Services
 
         private SymmetricAlgorithm CreateAes()
         {
-            var aes = Aes.Create("aes-128-cbc");
+            var aes = Aes.Create("AES");
             aes.Key = _key;
             aes.IV = _iv;
-
+            aes.Mode = CipherMode.CBC;
+            aes.Padding = PaddingMode.PKCS7;
+            
             return aes;
         }
     }
