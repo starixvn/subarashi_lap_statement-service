@@ -9,7 +9,7 @@ namespace Fanex.Athena.ExtService.Core.Services
     public class EncryptService : IEncryptService
     {
         private const int KeySize = 16;
-        private const int BufferSize = 81920; // 80k
+        private const int BufferSize = 81920;
         private readonly byte[] _key;
         private readonly byte[] _iv;
 
