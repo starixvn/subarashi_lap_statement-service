@@ -105,8 +105,9 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             const bool HasComm = true;
             var mockIDataReader = new Mock<IDataReader>();
             var realCacheKey = $"{LicenseeExtInfoCacheKey}{SiteName}_{custId}";
+            var realcacheKeyBySite = $"{LicenseeExtInfoCacheKey}{SiteName}_{0}";
             _memoryCache.Remove(realCacheKey);
-
+            _memoryCache.Remove(realcacheKeyBySite);
             mockIDataReader.Setup(m => m["CurrencyId"]).Returns(CurrencyId);
             mockIDataReader.Setup(m => m["AgentId"]).Returns(AgentId);
             mockIDataReader.Setup(m => m["CurrencyName"]).Returns(CurrencyName);
@@ -147,17 +148,19 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
 
         }
 
-        [Fact]
-        public async Task GetLicenseeInfoAsync_WhenCall_ReturnDataFromCache()
+        [Theory]
+        [InlineData(0, true)]
+        [InlineData(1, false)]
+        [InlineData(1, true)]
+        public async Task GetLicenseeInfoAsync_WhenCall_ReturnDataFromCache(int custId, bool isCachedBySiteName)
         {
             //Arrange
             const string SiteName = "12Bet";
-            const int CustId = 1;
             const int CurrencyId = 1;
             const int AgentId = 2;
             const string CurrencyName = "USD";
             const bool HasComm = true;
-            var realCacheKey = $"{LicenseeExtInfoCacheKey}{SiteName}_{CustId}";
+            var realCacheKey = $"{LicenseeExtInfoCacheKey}{SiteName}_{(isCachedBySiteName ? 0 : custId)}";
             var cacheResult = new LicenseeInfo
             {
 
@@ -172,7 +175,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
 
             ///Action
 
-            var result = await service.GetLicenseeInfoAsync(SiteName, CustId).ConfigureAwait(false);
+            var result = await service.GetLicenseeInfoAsync(SiteName, custId).ConfigureAwait(false);
 
             ///Assert
             Assert.Equal(result.SiteName, SiteName);

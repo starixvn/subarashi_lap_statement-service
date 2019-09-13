@@ -26,7 +26,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
             _mockHeader = new Mock<IHeaderDictionary>();
         }
         [Fact]
-        public async Task Invoke_WithoutTokenHeader_DecryptAndAddTokenToHeaderAsync()
+        public async Task Invoke_WithoutTokenHeader_AddTokenToHeaderAsync()
         {
             //Arrange
             StringValues actualToken = Token;
@@ -49,28 +49,6 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
             _mockRequest.Verify(x => x.Headers.Add("Authorization", "Bearer " + Token), Times.Once);
         }
 
-        [Fact]
-        public async Task Invoke_AlreadyHasTokenInHeader_DecryptAndAddTokenToHeader()
-        {
-            //Arrange
-            StringValues actualToken = Token;
-            var mockHeader = new Mock<IHeaderDictionary>();
-            mockHeader.Setup(x => x["Authorization"]).Returns(actualToken);
-            mockHeader.Setup(x => x.ContainsKey("Authorization")).Returns(true);
-            _mockRequest.Setup(x => x.Headers).Returns(mockHeader.Object);
-            _mockRequest.Setup(x => x.Query).Returns(_mockQueryCollection.Object);
-
-            _mockContext.Setup(x => x.Request).Returns(_mockRequest.Object);
-            var handler = new JWTokenHandler(next: async (context) =>
-            { await Task.CompletedTask; });
-
-            //Arrange
-            await handler.Invoke(_mockContext.Object).ConfigureAwait(false);
-
-            //Assert
-            _mockRequest.Verify(x => x.Headers.Remove("Authorization"), Times.Once);
-            _mockRequest.Verify(x => x.Headers.Add("Authorization", "Bearer " + Token), Times.Once);
-        }
 
         [Fact]
         public async Task Invoke_InValidTokenInHeader_NotAddTokenToHeaderAsync()

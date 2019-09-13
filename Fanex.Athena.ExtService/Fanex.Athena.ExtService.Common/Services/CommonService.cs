@@ -23,9 +23,14 @@ namespace Fanex.Athena.ExtService.Common.Services
         }
         public async Task<LicenseeInfo> GetLicenseeInfoAsync(string siteName, int custId = 0)
         {
+            LicenseeInfo result = null;
             var realCacheKey = $"{LicenseeExtInfoCacheKey}{siteName}_{custId}";
-            var hasValueFromCache = _cache.TryGetValue(realCacheKey, out LicenseeInfo result);
-
+            var hasValueFromCache = _cache.TryGetValue(realCacheKey, out result);
+            if (custId > 0 && !hasValueFromCache)
+            {
+                var cacheKeyBySiteName = $"{LicenseeExtInfoCacheKey}{siteName}_0";
+                hasValueFromCache = _cache.TryGetValue(cacheKeyBySiteName, out result);
+            }
             if (!hasValueFromCache || result is null)
             {
                 result = await GetLicenseeInfoFromDBAsync(siteName, custId);
@@ -41,7 +46,7 @@ namespace Fanex.Athena.ExtService.Common.Services
 
             }
 
-            return result;
+            return result ?? new LicenseeInfo { SiteName = siteName, Currencies = new CurrencyInfo[] { } };
         }
 
         private static async Task<LicenseeInfo> GetLicenseeInfoFromDBAsync(string siteName, int custId)
