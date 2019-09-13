@@ -1,6 +1,7 @@
 ﻿using System.Security.Cryptography;
 using Fanex.Athena.ExtService.Core.Models.DTO;
 using Fanex.Athena.ExtService.Core.Services;
+using Fanex.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using Xunit;
@@ -12,10 +13,12 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Services
     {
         private readonly ApplicationOptions _applicationOptions;
         private readonly Mock<IOptions<ApplicationOptions>> _mockOption;
+        private readonly Mock<ILogger> _mockLogger;
 
         public CryptographyServiceTest()
         {
             _applicationOptions = new ApplicationOptions { AesIV = "", AesKey = "" };
+            _mockLogger = new Mock<ILogger>();
             _mockOption = new Mock<IOptions<ApplicationOptions>>();
             _mockOption.SetupGet(r => r.Value).Returns(_applicationOptions);
         }
@@ -29,7 +32,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Services
             _applicationOptions.AesIV = vector;
             _applicationOptions.AesKey = key;
 
-            var service = new CryptographyService(_mockOption.Object);
+            var service = new CryptographyService(_mockOption.Object, _mockLogger.Object);
 
             //When
             var encryptedText = service.Encrypt(inputText);
@@ -45,7 +48,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Services
         public void Encrypt_NullOrEmpty_ReturnEmpty(string input)
         {
             //Given
-            var service = new CryptographyService(_mockOption.Object);
+            var service = new CryptographyService(_mockOption.Object, _mockLogger.Object);
 
             //When
             var actual = service.Encrypt(input);
@@ -60,7 +63,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Services
         public void Decrypt_NullOrEmpty_ReturnEmpty(string encryptedText)
         {
             //Given
-            var service = new CryptographyService(_mockOption.Object);
+            var service = new CryptographyService(_mockOption.Object, _mockLogger.Object);
 
             //When
             var actual = service.Decrypt(encryptedText);
@@ -74,7 +77,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Services
         {
             //Given
             var mockCrypto = new Mock<SymmetricAlgorithm>() { CallBase = false };
-            var mockService = new Mock<CryptographyService>(_mockOption.Object) { CallBase = false };
+            var mockService = new Mock<CryptographyService>(_mockOption.Object, _mockLogger.Object) { CallBase = false };
 
             mockService.Setup(r => r.CreateCryptographicObject()).Returns(mockCrypto.Object);
             mockCrypto.Setup(r => r.CreateDecryptor(It.IsAny<byte[]>(), It.IsAny<byte[]>()))
