@@ -6,14 +6,14 @@ using System.Text;
 
 namespace Fanex.Athena.ExtService.Core.Services
 {
-    public class EncryptService : IEncryptService
+    public class CryptographyService : ICryptographyService
     {
         private const int KeySize = 16;
         private const int BufferSize = 81920;
         private readonly byte[] _key;
         private readonly byte[] _iv;
 
-        public EncryptService(string vector, string key)
+        public CryptographyService(string vector, string key)
         {
             if (string.IsNullOrEmpty(key))
             {
@@ -88,7 +88,7 @@ namespace Fanex.Athena.ExtService.Core.Services
 
         private SymmetricAlgorithm CreateAes()
         {
-            var aes = Aes.Create();
+            var aes = Aes.Create("aes-128-cbc");
             aes.Key = _key;
             aes.IV = _iv;
 

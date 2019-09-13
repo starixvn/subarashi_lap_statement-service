@@ -9,11 +9,11 @@ namespace Fanex.Athena.ExtService.Core.Middleware
     public class JWTokenHandler
     {
         private readonly RequestDelegate _next;
-        private readonly IEncryptService _encryptService;
+        private readonly ICryptographyService _encryptService;
         const string HeaderAuthKey = "Authorization";
         const string SuffixTokenValue = "Bearer ";
 
-        public JWTokenHandler(RequestDelegate next, IEncryptService encryptService)
+        public JWTokenHandler(RequestDelegate next, ICryptographyService encryptService)
         {
             _next = next;
             _encryptService = encryptService;

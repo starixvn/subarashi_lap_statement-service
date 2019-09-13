@@ -14,9 +14,9 @@ namespace Fanex.Athena.ExtService.Core.Services
     {
         private readonly IUserManagementService _userManagementService;
         private readonly TokenManagement _tokenManagement;
-        private readonly IEncryptService _CryptoService;
+        private readonly ICryptographyService _CryptoService;
         public TokenAuthenticationService(IUserManagementService service,
-            IEncryptService CryptoService,
+            ICryptographyService CryptoService,
             IOptions<TokenManagement> tokenManagementAccessor)
         {
             _userManagementService = service;

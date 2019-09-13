@@ -16,7 +16,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
         private readonly Mock<HttpContext> _mockContext;
         private readonly Mock<HttpRequest> _mockRequest;
         private readonly Mock<IQueryCollection> _mockQueryCollection;
-        private readonly Mock<IEncryptService> _mockEncryptService;
+        private readonly Mock<ICryptographyService> _mockEncryptService;
         private readonly Mock<IHeaderDictionary> _mockHeader;
         const string Token = "ANYTOKEN";
         const string DecryptedToken = "ANYDECRYPTEDTOKEN";
@@ -25,7 +25,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
             _mockContext = new Mock<HttpContext>();
             _mockRequest = new Mock<HttpRequest>();
             _mockQueryCollection = new Mock<IQueryCollection>();
-            _mockEncryptService = new Mock<IEncryptService>();
+            _mockEncryptService = new Mock<ICryptographyService>();
             _mockEncryptService.Setup(x => x.Decrypt(It.IsAny<string>())).Returns(DecryptedToken);
             _mockHeader = new Mock<IHeaderDictionary>();
         }

@@ -137,7 +137,7 @@ namespace Fanex.Athena.ExtService
             services.AddTransient<IBetListApiClient, BetListApiClient>();
             services.AddTransient<ISummaryStatementService, SummaryStatementService>();
             services.AddTransient<IStatementByGroupService, StatementByGroupService>();
-            services.AddTransient<IEncryptService, EncryptService>();
+            services.AddTransient<ICryptographyService, CryptographyService>();
         }
 
         private Dictionary<string, ConnectionConfiguration> GetConnectionString()

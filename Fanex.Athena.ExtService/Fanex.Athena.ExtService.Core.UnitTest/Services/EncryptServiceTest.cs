@@ -11,7 +11,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Services
         public void Encrypt_EncryptedText_DescryptCorrectly(string inputText, string vector, string key)
         {
             //Given
-            var service = new EncryptService(vector, key);
+            var service = new CryptographyService(vector, key);
 
             //When
             var encryptedText = service.Encrypt(inputText);

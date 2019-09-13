@@ -18,12 +18,12 @@ namespace Fanex.Athena.ExtService.Core.UnitTest.Services
             RefreshExpiration = 30
         };
         private readonly Mock<IUserManagementService> _mockUserManagement = new Mock<IUserManagementService>();
-        private readonly Mock<IEncryptService> _mockEncryptService;
+        private readonly Mock<ICryptographyService> _mockEncryptService;
         public TokenAuthenticationServiceTest()
         {
             var mockTokenManagement = new Mock<IOptions<TokenManagement>>();
             mockTokenManagement.Setup(x => x.Value).Returns(_tokenManagement);
-            _mockEncryptService = new Mock<IEncryptService>();
+            _mockEncryptService = new Mock<ICryptographyService>();
             _mockEncryptService.Setup(x => x.Encrypt(It.IsAny<string>())).Returns("ANY");
             _authenticateService = new TokenAuthenticationService(_mockUserManagement.Object, _mockEncryptService.Object, mockTokenManagement.Object);
         }
