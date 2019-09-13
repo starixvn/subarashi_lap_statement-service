@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using Fanex.Athena.ExtService.Core.Services;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 
@@ -9,14 +9,12 @@ namespace Fanex.Athena.ExtService.Core.Middleware
     public class JWTokenHandler
     {
         private readonly RequestDelegate _next;
-        private readonly ICryptographyService _encryptService;
         const string HeaderAuthKey = "Authorization";
         const string SuffixTokenValue = "Bearer ";
 
-        public JWTokenHandler(RequestDelegate next, ICryptographyService encryptService)
+        public JWTokenHandler(RequestDelegate next)
         {
             _next = next;
-            _encryptService = encryptService;
         }
         public async Task Invoke(HttpContext context)
         {
@@ -24,12 +22,11 @@ namespace Fanex.Athena.ExtService.Core.Middleware
 
             if (!string.IsNullOrEmpty(token))
             {
-                var plainToken = _encryptService.Decrypt(token);
                 if (context.Request.Headers.ContainsKey(HeaderAuthKey))
                 {
                     context.Request.Headers.Remove(HeaderAuthKey);
                 }
-                context.Request.Headers.Add(HeaderAuthKey, SuffixTokenValue + plainToken);
+                context.Request.Headers.Add(HeaderAuthKey, SuffixTokenValue + token);
             }
 
             await _next.Invoke(context);

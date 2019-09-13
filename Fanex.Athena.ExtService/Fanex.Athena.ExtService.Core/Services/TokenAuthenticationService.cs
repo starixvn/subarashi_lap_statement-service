@@ -14,14 +14,11 @@ namespace Fanex.Athena.ExtService.Core.Services
     {
         private readonly IUserManagementService _userManagementService;
         private readonly TokenManagement _tokenManagement;
-        private readonly ICryptographyService _CryptoService;
         public TokenAuthenticationService(IUserManagementService service,
-            ICryptographyService CryptoService,
             IOptions<TokenManagement> tokenManagementAccessor)
         {
             _userManagementService = service;
             _tokenManagement = tokenManagementAccessor.Value;
-            _CryptoService = CryptoService;
         }
         public Tuple<bool, Token> IsAuthenticated(TokenRequest request)
         {
@@ -47,17 +44,20 @@ namespace Fanex.Athena.ExtService.Core.Services
              };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenManagement.Secret));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var encryptCredenction = new EncryptingCredentials(key, JwtConstants.DirectKeyUseAlg,
+                SecurityAlgorithms.Aes256CbcHmacSha512);
+            var handler = new JwtSecurityTokenHandler();
 
-            var jwtToken = new JwtSecurityToken(
-                _tokenManagement.Issuer,
-                _tokenManagement.Audience,
-                claim,
-                notBefore: DateTime.UtcNow,
-                expires: DateTime.UtcNow.AddMinutes(_tokenManagement.AccessExpiration),
-                signingCredentials: credentials
-            );
-
-            token.AccessToken = _CryptoService.Encrypt(new JwtSecurityTokenHandler().WriteToken(jwtToken));
+            var jwtToken = handler.CreateJwtSecurityToken(_tokenManagement.Issuer,
+                  _tokenManagement.Audience,
+                  new ClaimsIdentity(claim),
+                  DateTime.Now,
+                  DateTime.Now.AddMinutes(_tokenManagement.AccessExpiration),
+                  null,
+                  credentials,
+                  encryptCredenction
+                  );
+            token.AccessToken = new JwtSecurityTokenHandler().WriteToken(jwtToken);
             return Tuple.Create<bool, Token>(true, token);
         }
     }

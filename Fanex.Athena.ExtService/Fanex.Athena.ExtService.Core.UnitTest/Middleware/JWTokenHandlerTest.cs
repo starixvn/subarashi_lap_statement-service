@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+
 using Fanex.Athena.ExtService.Core.Middleware;
-using Fanex.Athena.ExtService.Core.Services;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
+
 using Moq;
+
 using Xunit;
 
 namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
@@ -16,17 +16,13 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
         private readonly Mock<HttpContext> _mockContext;
         private readonly Mock<HttpRequest> _mockRequest;
         private readonly Mock<IQueryCollection> _mockQueryCollection;
-        private readonly Mock<ICryptographyService> _mockEncryptService;
         private readonly Mock<IHeaderDictionary> _mockHeader;
         const string Token = "ANYTOKEN";
-        const string DecryptedToken = "ANYDECRYPTEDTOKEN";
         public JWTokenHandlerTest()
         {
             _mockContext = new Mock<HttpContext>();
             _mockRequest = new Mock<HttpRequest>();
             _mockQueryCollection = new Mock<IQueryCollection>();
-            _mockEncryptService = new Mock<ICryptographyService>();
-            _mockEncryptService.Setup(x => x.Decrypt(It.IsAny<string>())).Returns(DecryptedToken);
             _mockHeader = new Mock<IHeaderDictionary>();
         }
         [Fact]
@@ -43,13 +39,14 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
             _mockRequest.Setup(x => x.Query).Returns(_mockQueryCollection.Object);
 
             _mockContext.Setup(x => x.Request).Returns(_mockRequest.Object);
-            var handler = new JWTokenHandler(next: async (context) => { await Task.CompletedTask; }, encryptService: _mockEncryptService.Object);
+            var handler = new JWTokenHandler(next: async (context) => { await Task.CompletedTask; }
+            );
 
             //Arrange
             await handler.Invoke(_mockContext.Object).ConfigureAwait(false);
 
             //Assert
-            _mockRequest.Verify(x => x.Headers.Add("Authorization", "Bearer " + DecryptedToken), Times.Once);
+            _mockRequest.Verify(x => x.Headers.Add("Authorization", "Bearer " + Token), Times.Once);
         }
 
         [Fact]
@@ -64,14 +61,15 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
             _mockRequest.Setup(x => x.Query).Returns(_mockQueryCollection.Object);
 
             _mockContext.Setup(x => x.Request).Returns(_mockRequest.Object);
-            var handler = new JWTokenHandler(next: async (context) => { await Task.CompletedTask; }, encryptService: _mockEncryptService.Object);
+            var handler = new JWTokenHandler(next: async (context) =>
+            { await Task.CompletedTask; });
 
             //Arrange
             await handler.Invoke(_mockContext.Object).ConfigureAwait(false);
 
             //Assert
             _mockRequest.Verify(x => x.Headers.Remove("Authorization"), Times.Once);
-            _mockRequest.Verify(x => x.Headers.Add("Authorization", "Bearer " + DecryptedToken), Times.Once);
+            _mockRequest.Verify(x => x.Headers.Add("Authorization", "Bearer " + Token), Times.Once);
         }
 
         [Fact]
@@ -86,13 +84,17 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
             _mockRequest.Setup(x => x.Query).Returns(_mockQueryCollection.Object);
 
             _mockContext.Setup(x => x.Request).Returns(_mockRequest.Object);
-            var handler = new JWTokenHandler(next: async (context) => { await Task.CompletedTask; }, encryptService: _mockEncryptService.Object);
+            var handler = new JWTokenHandler(next: async (context) =>
+            {
+                await Task.CompletedTask;
+            }
+            );
 
             //Arrange
             await handler.Invoke(_mockContext.Object).ConfigureAwait(false);
 
             //Assert
-            _mockRequest.Verify(x => x.Headers.Add("Authorization", "Bearer " + DecryptedToken), Times.Never);
+            _mockRequest.Verify(x => x.Headers.Add("Authorization", "Bearer " + Token), Times.Never);
         }
 
         [Fact]
@@ -106,13 +108,14 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
             _mockRequest.Setup(x => x.Query).Returns(_mockQueryCollection.Object);
 
             _mockContext.Setup(x => x.Request).Returns(_mockRequest.Object);
-            var handler = new JWTokenHandler(next: async (context) => { await Task.CompletedTask; }, encryptService: _mockEncryptService.Object);
+            var handler = new JWTokenHandler(next: async (context) => {
+                await Task.CompletedTask; });
 
             //Arrange
             await handler.Invoke(_mockContext.Object).ConfigureAwait(false);
 
             //Assert
-            _mockRequest.Verify(x => x.Headers.Add("Authorization", "Bearer " + DecryptedToken), Times.Never);
+            _mockRequest.Verify(x => x.Headers.Add("Authorization", "Bearer " + Token), Times.Never);
         }
     }
 }

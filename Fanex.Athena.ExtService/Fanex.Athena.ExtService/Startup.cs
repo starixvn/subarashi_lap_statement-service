@@ -93,6 +93,7 @@ namespace Fanex.Athena.ExtService
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(token.Secret)),
+                    TokenDecryptionKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(token.Secret)),
                     ValidIssuer = token.Issuer,
                     ValidAudience = token.Audience,
                     ValidateIssuer = true,
@@ -134,7 +135,6 @@ namespace Fanex.Athena.ExtService
             services.AddScoped<IAuthenticateService, TokenAuthenticationService>();
             services.AddScoped<IUserManagementService, UserManagementService>();
             services.AddScoped<IPFilterAttribute>();
-            services.AddSingleton<ICryptographyService, CryptographyService>();
             services.AddSingleton<ICommonService, CommonService>();
             services.AddTransient<IRestClient, RestClient>();
             services.AddTransient<IBetListApiClient, BetListApiClient>();
