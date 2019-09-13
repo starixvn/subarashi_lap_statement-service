@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Encodings.Web;
 using Fanex.Athena.ExtService.Core.Models.DTO;
 using Microsoft.Extensions.Options;
 
@@ -21,8 +23,9 @@ namespace Fanex.Athena.ExtService.Core.Services
 
         public string Decrypt(string encryptedText)
         {
-            var data = Convert.FromBase64String(encryptedText);
-
+            var inputData = new StringBuilder(encryptedText);
+            inputData.Replace("-", "/").Replace("_", "+");
+            var data = Convert.FromBase64String(inputData.ToString());
             using (var aes = CreateAes())
             {
                 using (var decryptor = aes.CreateDecryptor(aes.Key, aes.IV))
@@ -35,14 +38,15 @@ namespace Fanex.Athena.ExtService.Core.Services
 
         public string Encrypt(string plaintext)
         {
-            var data = Encoding.UTF8.GetBytes(plaintext);
-
+            var data = Encoding.ASCII.GetBytes(plaintext);
             using (var aes = CreateAes())
             {
                 using (var encryptor = aes.CreateEncryptor(aes.Key, aes.IV))
                 {
                     var result = PerformCryptography(encryptor, data);
-                    return Convert.ToBase64String(result);
+                    var base64Result = new StringBuilder(Convert.ToBase64String(result, Base64FormattingOptions.None));
+                    base64Result.Replace("/", "-").Replace("+", "_");
+                    return base64Result.ToString();
                 }
             }
         }
@@ -83,7 +87,7 @@ namespace Fanex.Athena.ExtService.Core.Services
             aes.IV = _iv;
             aes.Mode = CipherMode.CBC;
             aes.Padding = PaddingMode.PKCS7;
-            
+
             return aes;
         }
     }
