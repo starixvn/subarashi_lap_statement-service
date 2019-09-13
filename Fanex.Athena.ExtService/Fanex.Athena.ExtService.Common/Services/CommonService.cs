@@ -13,7 +13,7 @@ namespace Fanex.Athena.ExtService.Common.Services
     {
         private const int CacheTimeout120Seconds = 120;
         private const int CacheTimeout300Seconds = 300;
-
+        private const int CacheTimeOut10Seconds = 10;
         private const string BalanceUpCacheKey = "EXT_LAP_CACHE_BALANCEUP";
         private const string LicenseeExtInfoCacheKey = "__LicenseeExtInfoCacheKey_";
         private readonly IMemoryCache _cache;
@@ -23,13 +23,13 @@ namespace Fanex.Athena.ExtService.Common.Services
         }
         public async Task<LicenseeInfo> GetLicenseeInfoAsync(string siteName, int custId = 0)
         {
-            var realCacheKey = LicenseeExtInfoCacheKey + siteName;
+            var realCacheKey = $"{LicenseeExtInfoCacheKey}{siteName}_{custId}";
             var hasValueFromCache = _cache.TryGetValue(realCacheKey, out LicenseeInfo result);
 
             if (!hasValueFromCache || result is null)
             {
                 result = await GetLicenseeInfoFromDB(siteName, custId);
-                _cache.Set(realCacheKey, result, DateTimeOffset.Now.AddSeconds(CacheTimeout300Seconds));
+                _cache.Set(realCacheKey, result, DateTimeOffset.Now.AddSeconds(custId > 0 ? CacheTimeOut10Seconds : CacheTimeout300Seconds));
             }
 
             return result;
