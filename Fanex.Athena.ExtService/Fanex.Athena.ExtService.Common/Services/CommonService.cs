@@ -13,7 +13,7 @@ namespace Fanex.Athena.ExtService.Common.Services
     {
         private const int CacheTimeout120Seconds = 120;
         private const int CacheTimeout300Seconds = 300;
-        private const int CacheTimeOut10Seconds = 10;
+        private const int CacheTimeOut30Seconds = 30;
         private const string BalanceUpCacheKey = "EXT_LAP_CACHE_BALANCEUP";
         private const string LicenseeExtInfoCacheKey = "__LicenseeExtInfoCacheKey_";
         private readonly IMemoryCache _cache;
@@ -28,20 +28,30 @@ namespace Fanex.Athena.ExtService.Common.Services
 
             if (!hasValueFromCache || result is null)
             {
-                result = await GetLicenseeInfoFromDB(siteName, custId);
-                _cache.Set(realCacheKey, result, DateTimeOffset.Now.AddSeconds(custId > 0 ? CacheTimeOut10Seconds : CacheTimeout300Seconds));
+                result = await GetLicenseeInfoFromDBAsync(siteName, custId);
+                if (custId > 0)
+                {
+                    _cache.Set(realCacheKey, result, new MemoryCacheEntryOptions { SlidingExpiration = TimeSpan.FromSeconds(CacheTimeOut30Seconds) });
+                }
+                else
+                {
+                    _cache.Set(realCacheKey, result, absoluteExpiration: DateTimeOffset.Now.AddSeconds(CacheTimeout300Seconds));
+
+                }
+
             }
 
             return result;
         }
 
-        private static async Task<LicenseeInfo> GetLicenseeInfoFromDB(string siteName, int custId)
+        private static async Task<LicenseeInfo> GetLicenseeInfoFromDBAsync(string siteName, int custId)
         {
             const string UspName = "Lrf_LicenseeSelExtInfo";
 
             var result = new LicenseeInfo
             {
-                SiteName = siteName
+                SiteName = siteName,
+                Currencies = new CurrencyInfo[] { }
             };
             using (var db = ObjectDbFactory.CreateInstance(UspName))
             {

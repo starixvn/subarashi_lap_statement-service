@@ -17,6 +17,12 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
 {
     public class CommonServiceTest : IDisposable
     {
+        private const int CacheTimeout120Seconds = 120;
+        private const int CacheTimeout300Seconds = 300;
+        private const int CacheTimeOut30Seconds = 30;
+        private const string BalanceUpCacheKey = "EXT_LAP_CACHE_BALANCEUP";
+        private const string LicenseeExtInfoCacheKey = "__LicenseeExtInfoCacheKey_";
+
         private readonly IMemoryCache _memoryCache;
         public CommonServiceTest()
         {
@@ -26,14 +32,8 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             _memoryCache = new MemoryCache(new MemoryCacheOptions());
         }
 
-        public void Dispose()
-        {
-            _memoryCache.Dispose();
-            GC.SuppressFinalize(this);
-        }
-
         [Fact]
-        public async Task GetBalanceUpAsync_WhenCall_ReturnCorrectResultAsync()
+        public async Task GetBalanceUpAsync_WhenCallWithNoDataInCache_GetResulFromDBAndSetCache()
         {
             //Arrange
             var balanceupInfo = new BalanceUp
@@ -44,7 +44,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
 
             var mockIDataReader = new Mock<IDataReader>();
 
-            _memoryCache.Remove("EXT_LAP_CACHE_BALANCEUP");
+            _memoryCache.Remove(BalanceUpCacheKey);
 
             mockIDataReader.Setup(m => m["balanceupday"]).Returns(balanceupInfo.BalanceUpDay);
             mockIDataReader.Setup(m => m["movebetsday"]).Returns(balanceupInfo.MoveBetsDay);
@@ -70,6 +70,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             ///Assert
             Assert.Equal(result.BalanceUpDay, balanceupInfo.BalanceUpDay);
             Assert.Equal(result.MoveBetsDay, balanceupInfo.MoveBetsDay);
+            Assert.True(_memoryCache.TryGetValue(BalanceUpCacheKey, out BalanceUp cacheResult));
         }
 
         [Fact]
@@ -81,32 +82,30 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
                 BalanceUpDay = DateTime.Now,
                 MoveBetsDay = DateTime.Now
             };
-            _memoryCache.Set("EXT_LAP_CACHE_BALANCEUP", balanceupInfo);
+            _memoryCache.Set(BalanceUpCacheKey, balanceupInfo);
 
             var service = new CommonService(_memoryCache);
-
             ///Action
-
             var result = await service.GetBalanceUpAsync().ConfigureAwait(false);
 
             ///Assert
             Assert.Equal(result, balanceupInfo);
-
         }
 
-        [Fact]
-        public async Task GetLicenseeInfoAsync_WhenCall_AssignCorrectParrameterAndReturnCorrectResultAsync()
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        public async Task GetLicenseeInfoAsync_WhenCallWithoutdataInCache_ReturnDataFromDBAndSetCache(int custId)
         {
             //Arrange
             const string SiteName = "12Bet";
-            const int CustId = 1;
             const int CurrencyId = 1;
             const int AgentId = 2;
             const string CurrencyName = "USD";
             const bool HasComm = true;
             var mockIDataReader = new Mock<IDataReader>();
-
-            _memoryCache.Remove("__LicenseeExtInfoCacheKey_" + SiteName);
+            var realCacheKey = $"{LicenseeExtInfoCacheKey}{SiteName}_{custId}";
+            _memoryCache.Remove(realCacheKey);
 
             mockIDataReader.Setup(m => m["CurrencyId"]).Returns(CurrencyId);
             mockIDataReader.Setup(m => m["AgentId"]).Returns(AgentId);
@@ -133,7 +132,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
 
             ///Action
 
-            var result = await service.GetLicenseeInfoAsync(SiteName, CustId).ConfigureAwait(false);
+            var result = await service.GetLicenseeInfoAsync(SiteName, custId).ConfigureAwait(false);
 
             ///Assert
             Assert.Equal(result.SiteName, SiteName);
@@ -142,7 +141,10 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             Assert.Equal(result.Currencies[0].CurrencyName, CurrencyName);
             Assert.Equal(result.Currencies[0].AgentId, AgentId);
             mockObjectDB.Verify(x => x.SetParameterValue("siteName", SiteName), Times.Once);
-            mockObjectDB.Verify(x => x.SetParameterValue("custId", CustId), Times.Once);
+            mockObjectDB.Verify(x => x.SetParameterValue("custId", custId), Times.Once);
+            Assert.True(_memoryCache.TryGetValue(realCacheKey, out LicenseeInfo cacheResult));
+
+
         }
 
         [Fact]
@@ -155,14 +157,16 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             const int AgentId = 2;
             const string CurrencyName = "USD";
             const bool HasComm = true;
-
-            _memoryCache.Set("__LicenseeExtInfoCacheKey_" + SiteName, new LicenseeInfo
+            var realCacheKey = $"{LicenseeExtInfoCacheKey}{SiteName}_{CustId}";
+            var cacheResult = new LicenseeInfo
             {
 
                 Currencies = new[] { new CurrencyInfo { CurrencyId = CurrencyId, CurrencyName = CurrencyName, AgentId = AgentId } },
                 SiteName = SiteName,
                 IsAllowedCustomerComm = HasComm
-            });
+            };
+
+            _memoryCache.Set(realCacheKey, cacheResult);
 
             var service = new CommonService(_memoryCache);
 
@@ -178,5 +182,10 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             Assert.Equal(result.Currencies[0].AgentId, AgentId);
         }
 
+
+        public void Dispose()
+        {
+            _memoryCache?.Dispose();
+        }
     }
 }
