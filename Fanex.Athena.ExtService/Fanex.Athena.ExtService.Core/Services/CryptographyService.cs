@@ -18,6 +18,11 @@ namespace Fanex.Athena.ExtService.Core.Services
         {
             _key = Convert.FromBase64String(applicationOptionAccessor.Value.AesKey);
             _iv = Convert.FromBase64String(applicationOptionAccessor.Value.AesIV);
+            if (key.Length < KeySize || vector.Length < KeySize)
+            {
+                throw new ArgumentException("vector(IV)/key length must greater than 16");
+            }
+
         }
 
         public string Decrypt(string encryptedText)
