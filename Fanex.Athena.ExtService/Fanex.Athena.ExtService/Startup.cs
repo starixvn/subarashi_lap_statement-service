@@ -76,17 +76,6 @@ namespace Fanex.Athena.ExtService
                 options.UseCaseSensitivePaths = true;
             });
 
-
-            /*DI*/
-            services.AddScoped<IAuthenticateService, TokenAuthenticationService>();
-            services.AddScoped<IUserManagementService, UserManagementService>();
-            services.AddScoped<IPFilterAttribute>();
-            services.AddSingleton<ICommonService, CommonService>();
-            services.AddTransient<IRestClient, RestClient>();
-            services.AddTransient<IBetListApiClient, BetListApiClient>();
-            services.AddTransient<ISummaryStatementService, SummaryStatementService>();
-            services.AddTransient<IStatementByGroupService, StatementByGroupService>();
-            services.AddTransient<IEncryptService, IEncryptService>();
             var token = Configuration.GetSection("tokenManagement").Get<TokenManagement>();
             services.AddAuthentication(x =>
             {
@@ -120,17 +109,6 @@ namespace Fanex.Athena.ExtService
                             context.Response.Headers.Add("Token-Expired", "true");
                         }
                         return Task.CompletedTask;
-                    },
-                    OnMessageReceived = async context =>
-                    {
-                        if (!string.IsNullOrEmpty(context.Token))
-                        {
-                            var dataProtector = context.HttpContext.RequestServices.GetService<IEncryptService>();
-                            var encryptedToken = context.Token;
-                            var plainToken = dataProtector.Decrypt(encryptedToken);
-                            context.Token = plainToken;
-                            await Task.CompletedTask;
-                        }
                     }
                 };
             });
@@ -150,7 +128,16 @@ namespace Fanex.Athena.ExtService
                 options.SuppressXFrameOptionsHeader = false;
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
+            /*DI*/
+            services.AddScoped<IAuthenticateService, TokenAuthenticationService>();
+            services.AddScoped<IUserManagementService, UserManagementService>();
+            services.AddScoped<IPFilterAttribute>();
+            services.AddSingleton<ICommonService, CommonService>();
+            services.AddTransient<IRestClient, RestClient>();
+            services.AddTransient<IBetListApiClient, BetListApiClient>();
+            services.AddTransient<ISummaryStatementService, SummaryStatementService>();
+            services.AddTransient<IStatementByGroupService, StatementByGroupService>();
+            services.AddTransient<IEncryptService, EncryptService>();
         }
 
         private Dictionary<string, ConnectionConfiguration> GetConnectionString()
