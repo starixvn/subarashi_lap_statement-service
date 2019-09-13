@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Encodings.Web;
 using Fanex.Athena.ExtService.Core.Models.DTO;
+using Fanex.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Fanex.Athena.ExtService.Core.Services
@@ -12,36 +13,57 @@ namespace Fanex.Athena.ExtService.Core.Services
     public class CryptographyService : ICryptographyService
     {
         private const int BufferSize = 81920;
+
         private readonly byte[] _key;
         private readonly byte[] _iv;
+        private readonly ILogger _logger;
 
-        public CryptographyService(IOptions<ApplicationOptions> applicationOptionAccessor)
+        public CryptographyService(IOptions<ApplicationOptions> applicationOptionAccessor, ILogger logger)
         {
             _key = Convert.FromBase64String(applicationOptionAccessor.Value.AesKey);
             _iv = Convert.FromBase64String(applicationOptionAccessor.Value.AesIV);
+            _logger = logger;
         }
 
         public string Decrypt(string encryptedText)
         {
-            var inputData = new StringBuilder(encryptedText);
-            inputData.Replace("-", "/").Replace("_", "+");
-            var data = Convert.FromBase64String(inputData.ToString());
-            using (var aes = CreateAes())
+            if (string.IsNullOrEmpty(encryptedText))
             {
-                using (var decryptor = aes.CreateDecryptor(aes.Key, aes.IV))
+                return string.Empty;
+            }
+
+            try
+            {
+                var inputData = new StringBuilder(encryptedText);
+                inputData.Replace("-", "/").Replace("_", "+");
+                var data = Convert.FromBase64String(inputData.ToString());
+                using (var crypto = CreateCryptographicObject())
                 {
-                    var result = PerformCryptography(decryptor, data);
-                    return Encoding.UTF8.GetString(result);
+                    using (var decryptor = crypto.CreateDecryptor(crypto.Key, crypto.IV))
+                    {
+                        var result = PerformCryptography(decryptor, data);
+                        return Encoding.UTF8.GetString(result);
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                _logger.Error("Decrypt error", e);
+                return string.Empty;
             }
         }
 
         public string Encrypt(string plaintext)
         {
-            var data = Encoding.ASCII.GetBytes(plaintext);
-            using (var aes = CreateAes())
+            if (string.IsNullOrEmpty(plaintext))
             {
-                using (var encryptor = aes.CreateEncryptor(aes.Key, aes.IV))
+                return string.Empty;
+            }
+
+            var data = Encoding.UTF8.GetBytes(plaintext);
+            using (var crypto = CreateCryptographicObject())
+            {
+                using (var encryptor = crypto.CreateEncryptor(crypto.Key, crypto.IV))
                 {
                     var result = PerformCryptography(encryptor, data);
                     var base64Result = new StringBuilder(Convert.ToBase64String(result, Base64FormattingOptions.None));
@@ -49,6 +71,17 @@ namespace Fanex.Athena.ExtService.Core.Services
                     return base64Result.ToString();
                 }
             }
+        }
+
+        public virtual SymmetricAlgorithm CreateCryptographicObject()
+        {
+            var aes = Aes.Create("AES");
+            aes.Key = _key;
+            aes.IV = _iv;
+            aes.Mode = CipherMode.CBC;
+            aes.Padding = PaddingMode.PKCS7;
+
+            return aes;
         }
 
         private static byte[] PerformCryptography(ICryptoTransform transform, byte[] data)
@@ -80,15 +113,5 @@ namespace Fanex.Athena.ExtService.Core.Services
             }
         }
 
-        private SymmetricAlgorithm CreateAes()
-        {
-            var aes = Aes.Create("AES");
-            aes.Key = _key;
-            aes.IV = _iv;
-            aes.Mode = CipherMode.CBC;
-            aes.Padding = PaddingMode.PKCS7;
-
-            return aes;
-        }
     }
 }
