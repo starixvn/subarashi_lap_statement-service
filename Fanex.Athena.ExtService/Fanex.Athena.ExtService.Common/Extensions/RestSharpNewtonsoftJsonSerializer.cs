@@ -18,7 +18,7 @@ namespace Fanex.Athena.ExtService.Common.Extensions
         public string ContentType
         {
             get { return "application/json"; }
-            set { }
+            set { ContentType = value; }
         }
         public DateTimeZoneHandling TimeZoneHandling { get; set; } = DateTimeZoneHandling.Unspecified;
         public string DateFormat { get; set; }
