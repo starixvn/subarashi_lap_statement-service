@@ -65,29 +65,8 @@ namespace Fanex.Athena.ExtService
                 new RabbitMQLogging(appOption.RabbitMQ)
              });
 
+            ConfigFanexData(services, appOption);
 
-            var conns = GetConnectionString();
-
-            DbSettingProviderManager
-              .StartNewSession()
-              .WithSqlServer(resourcePath: "~/SpConfig")
-              .Use(conns)
-              .Run();
-            const int SixtyDays = 60;
-            var configRedix = new ConfigurationOptions
-            {
-                EndPoints =
-                {
-                    { appOption.Redis.Server, 6379 }
-                },
-                KeepAlive = 180,
-                Password = ""
-            };
-            var redis = ConnectionMultiplexer.Connect(configRedix);
-            services.AddDataProtection()
-                .PersistKeysToStackExchangeRedis(redis, appOption.Redis.Pass)
-                .SetDefaultKeyLifetime(TimeSpan.FromDays(SixtyDays))
-                .SetApplicationName(appOption.Redis.AppName);
             services.AddHealthChecks();
             services.AddMemoryCache();
 
@@ -96,6 +75,36 @@ namespace Fanex.Athena.ExtService
                 options.UseCaseSensitivePaths = true;
             });
 
+            ConfigAuthentication(services);
+
+            services.AddAntiforgery(options =>
+            {
+                // Set Cookie properties using CookieBuilder properties†.
+                options.FormFieldName = "__RequestVerificationToken";
+                options.HeaderName = "X-CSRF-TOKEN-LAP-EXT";
+                options.SuppressXFrameOptionsHeader = false;
+            });
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            DIRegister(services);
+        }
+
+        private static void DIRegister(IServiceCollection services)
+        {
+            services.AddScoped<IAuthenticateService, TokenAuthenticationService>();
+            services.AddScoped<IUserManagementService, UserManagementService>();
+            services.AddScoped<IPFilterAttribute>();
+            services.AddSingleton<ICommonService, CommonService>();
+            services.AddSingleton<ILogger>(x => LogService.LoggerInstance);
+            services.AddTransient<IRestClient, RestClient>();
+            services.AddTransient<IBetListApiClient, BetListApiClient>();
+            services.AddTransient<ISummaryStatementService, SummaryStatementService>();
+            services.AddTransient<IStatementByGroupService, StatementByGroupService>();
+        }
+
+        private void ConfigAuthentication(IServiceCollection services)
+        {
             var token = Configuration.GetSection("tokenManagement").Get<TokenManagement>();
             services.AddAuthentication(x =>
             {
@@ -140,25 +149,37 @@ namespace Fanex.Athena.ExtService
                     .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme‌​)
                     .RequireAuthenticatedUser().Build());
             });
+        }
 
-            services.AddAntiforgery(options =>
+        private void ConfigFanexData(IServiceCollection services, ApplicationOptions appOption)
+        {
+            var conns = GetConnectionString();
+
+            DbSettingProviderManager
+              .StartNewSession()
+              .WithSqlServer(resourcePath: "~/SpConfig")
+              .Use(conns)
+              .Run();
+            ConfigDataProtection(services, appOption);
+        }
+
+        private static void ConfigDataProtection(IServiceCollection services, ApplicationOptions appOption)
+        {
+            const int SixtyDays = 60;
+            var configRedix = new ConfigurationOptions
             {
-                // Set Cookie properties using CookieBuilder properties†.
-                options.FormFieldName = "__RequestVerificationToken";
-                options.HeaderName = "X-CSRF-TOKEN-LAP-EXT";
-                options.SuppressXFrameOptionsHeader = false;
-            });
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            /*DI*/
-            services.AddScoped<IAuthenticateService, TokenAuthenticationService>();
-            services.AddScoped<IUserManagementService, UserManagementService>();
-            services.AddScoped<IPFilterAttribute>();
-            services.AddSingleton<ICommonService, CommonService>();
-            services.AddSingleton<ILogger>(x => LogService.LoggerInstance);
-            services.AddTransient<IRestClient, RestClient>();
-            services.AddTransient<IBetListApiClient, BetListApiClient>();
-            services.AddTransient<ISummaryStatementService, SummaryStatementService>();
-            services.AddTransient<IStatementByGroupService, StatementByGroupService>();
+                EndPoints =
+                {
+                    { appOption.Redis.Server, 6379 }
+                },
+                KeepAlive = 180,
+                Password = ""
+            };
+            var redis = ConnectionMultiplexer.Connect(configRedix);
+            services.AddDataProtection()
+                .PersistKeysToStackExchangeRedis(redis, appOption.Redis.Pass)
+                .SetDefaultKeyLifetime(TimeSpan.FromDays(SixtyDays))
+                .SetApplicationName(appOption.Redis.AppName);
         }
 
         private Dictionary<string, ConnectionConfiguration> GetConnectionString()
@@ -194,6 +215,43 @@ namespace Fanex.Athena.ExtService
             {
                 app.UseErrorHandler();
             }
+            CustomizeCultureSupport(app);
+
+            app.UseHealthChecks("/health");
+            app.UseHttpsRedirection();
+            ConfigCacheForStaticResource(app, env);
+
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseJWTokenOnPage();
+            app.UseAuthentication();
+            app.UseResponseCaching();
+            app.UseStatusCodePagesWithReExecute("/Error", "?code={0}");
+            app.UseMvc(routes =>
+            {
+
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}"
+                    ).MapRoute(name: "api", template: "api/{controller}/{action}/{id?}");
+            });
+        }
+
+        private static void ConfigCacheForStaticResource(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            const int OneDayInSecond = 86400;
+            const int TenMinInSecond = 600;
+            var cachePeriod = env.IsDevelopment() ? TenMinInSecond : OneDayInSecond;
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    ctx.Context.Response.Headers.Append("Cache-Control", $"public, max-age={cachePeriod}");
+                }
+            });
+        }
+
+        private static void CustomizeCultureSupport(IApplicationBuilder app)
+        {
             var supportedCultures = new[]
             {
                 new CultureInfo("en-US"),
@@ -217,33 +275,6 @@ namespace Fanex.Athena.ExtService
             };
 
             app.UseRequestLocalization(requestLocalizationOptions);
-
-            app.UseHealthChecks("/health");
-            app.UseHttpsRedirection();
-            const int OneDayInSecond = 86400;
-            const int TenMinInSecond = 600;
-            var cachePeriod = env.IsDevelopment() ? TenMinInSecond : OneDayInSecond;
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                OnPrepareResponse = ctx =>
-                {
-                    ctx.Context.Response.Headers.Append("Cache-Control", $"public, max-age={cachePeriod}");
-                }
-            });
-
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-            app.UseJWTokenOnPage();
-            app.UseAuthentication();
-            app.UseResponseCaching();
-            app.UseStatusCodePagesWithReExecute("/Error", "?code={0}");
-            app.UseMvc(routes =>
-            {
-
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}"
-                    ).MapRoute(name: "api", template: "api/{controller}/{action}/{id?}");
-            });
         }
     }
 }
