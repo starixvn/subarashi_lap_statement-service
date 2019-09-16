@@ -66,6 +66,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             var viewModel = new BetListByProductViewModel
             {
                 Info = licenseeInfo,
+                Data = new List<TicketText>()
             };
 
             if (metaModel.IsValid)

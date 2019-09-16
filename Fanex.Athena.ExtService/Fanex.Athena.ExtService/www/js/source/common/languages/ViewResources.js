@@ -12,5 +12,7 @@
     ProductPP: "PP",
     TransactionDetail: "",
     ErrorProcessingMsg: "Sorry, an error occurred while processing your request.",
-    Result:"Results"
+    Result: "Results",
+    InvalidRequestMsg: "Request is not valid",
+    HttpError_403:	"Access denied"
 };

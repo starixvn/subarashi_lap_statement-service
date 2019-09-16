@@ -45,7 +45,6 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
 
         }
 
-        [ResponseCache(Duration = SystemConstants.ThirtySecond, VaryByQueryKeys = new[] { "refNo", "lang" })]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ShowRngCasinoSingleWalletResult(string refNo, string lang)

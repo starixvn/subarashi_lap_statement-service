@@ -80,7 +80,7 @@ define(['jquery', 'common/querystring', 'common/popup', 'extensions/prototype',]
                         alert(getSingleResource('InvalidRequestMsg'));
                     },
                     401: function () {
-                        window.location.href = resolveClientUrl('Utility/LocationRestriction');
+                        window.location.href = resolveClientUrl('Error/Index?Code=401');
                     },
                     403: function () {
                         unBlockUI();
