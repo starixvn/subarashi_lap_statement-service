@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.Common.Models.DataDomain;
@@ -47,12 +48,12 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ShowRngCasinoSingleWalletResult(string refNo, string lang)
+        public async Task<IActionResult> ShowRngCasinoSingleWalletResult([FromBody]dynamic data)
         {
             var result = await _betListApiClient.PostAsyncString(
                 "/ResultReport/ShowRngCasinoSingleWalletResult",
-                new { refNo },
-                lang
+                new { refNo = Convert.ToString(data.refNo) },
+                Convert.ToString(data.lang)
                 )
                 .ConfigureAwait(false);
 
