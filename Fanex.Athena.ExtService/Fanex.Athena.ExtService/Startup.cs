@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -21,6 +23,7 @@ using Fanex.Logging.RabbitMQ;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
@@ -30,6 +33,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
 using RestSharp;
+using StackExchange.Redis;
 
 namespace Fanex.Athena.ExtService
 {
@@ -52,13 +56,13 @@ namespace Fanex.Athena.ExtService
             services.Configure<AppSettings>(Configuration.GetSection(AppSettingKey));
             services.Configure<List<User>>(Configuration.GetSection("Users"));
 
-            var appSettings = Configuration.GetSection(AppSettingKey).Get<AppSettings>();
+            var appOption = Configuration.GetSection(ApplicationOptionSettingKey).Get<ApplicationOptions>();
 
             LogManager
-            .SetDefaultLogCategory(appSettings.LogCategory)
+            .SetDefaultLogCategory(appOption.LogCategory)
             .Use(new List<ILogEngine>
              {
-                new RabbitMQLogging(appSettings.RabbitMQ)
+                new RabbitMQLogging(appOption.RabbitMQ)
              });
 
 
@@ -69,7 +73,21 @@ namespace Fanex.Athena.ExtService
               .WithSqlServer(resourcePath: "~/SpConfig")
               .Use(conns)
               .Run();
-            services.AddDataProtection();
+            const int SixtyDays = 60;
+            var configRedix = new ConfigurationOptions
+            {
+                EndPoints =
+                {
+                    { appOption.Redis.Server, 6379 }
+                },
+                KeepAlive = 180,
+                Password = ""
+            };
+            var redis = ConnectionMultiplexer.Connect(configRedix);
+            services.AddDataProtection()
+                .PersistKeysToStackExchangeRedis(redis, appOption.Redis.Pass)
+                .SetDefaultKeyLifetime(TimeSpan.FromDays(SixtyDays))
+                .SetApplicationName(appOption.Redis.AppName);
             services.AddHealthChecks();
             services.AddMemoryCache();
 
