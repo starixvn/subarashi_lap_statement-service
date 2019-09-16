@@ -25,7 +25,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -214,11 +216,13 @@ namespace Fanex.Athena.ExtService
             else
             {
                 app.UseErrorHandler();
+                app.UseHsts();
             }
+
             CustomizeCultureSupport(app);
 
             app.UseHealthChecks("/health");
-            app.UseHttpsRedirection();
+
             ConfigCacheForStaticResource(app, env);
 
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
