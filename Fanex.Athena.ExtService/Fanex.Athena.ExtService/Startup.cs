@@ -69,7 +69,7 @@ namespace Fanex.Athena.ExtService
               .WithSqlServer(resourcePath: "~/SpConfig")
               .Use(conns)
               .Run();
-
+            services.AddDataProtection();
             services.AddHealthChecks();
             services.AddMemoryCache();
 
@@ -175,7 +175,6 @@ namespace Fanex.Athena.ExtService
             else
             {
                 app.UseErrorHandler();
-                app.UseHsts();
             }
             var supportedCultures = new[]
             {
