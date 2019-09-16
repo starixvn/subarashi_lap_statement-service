@@ -47,7 +47,6 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None, Duration = 0)]
         public async Task<IActionResult> ShowRngCasinoSingleWalletResult(string refNo, string lang)
         {
             var result = await _betListApiClient.PostAsyncString(
