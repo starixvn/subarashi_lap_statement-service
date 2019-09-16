@@ -1,40 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+
+using Fanex.Athena.ExtService.BetList.Services;
+using Fanex.Athena.ExtService.Common.Models.DTO;
+using Fanex.Athena.ExtService.Common.Services;
 using Fanex.Athena.ExtService.Core.Attributes;
 using Fanex.Athena.ExtService.Core.Middleware;
 using Fanex.Athena.ExtService.Core.Models;
 using Fanex.Athena.ExtService.Core.Models.DTO;
 using Fanex.Athena.ExtService.Core.Services;
-using Fanex.Athena.ExtService.Common.Model.DTO;
-using Fanex.Athena.ExtService.Common.Services;
 using Fanex.Data;
 using Fanex.Data.SqlServer;
 using Fanex.Logging;
 using Fanex.Logging.RabbitMQ;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
+
+using RestSharp;
 
 namespace Fanex.Athena.ExtService
 {
     public class Startup
     {
+        const string ApplicationOptionSettingKey = "ApplicationOptions";
+        const string AppSettingKey = "AppSettings";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -46,11 +48,11 @@ namespace Fanex.Athena.ExtService
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<TokenManagement>(Configuration.GetSection("tokenManagement"));
-            services.Configure<ApplicationOptions>(Configuration.GetSection("ApplicationOptions"));
-            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.Configure<ApplicationOptions>(Configuration.GetSection(ApplicationOptionSettingKey));
+            services.Configure<AppSettings>(Configuration.GetSection(AppSettingKey));
             services.Configure<List<User>>(Configuration.GetSection("Users"));
 
-            var appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
+            var appSettings = Configuration.GetSection(AppSettingKey).Get<AppSettings>();
 
             LogManager
             .SetDefaultLogCategory(appSettings.LogCategory)
@@ -70,9 +72,13 @@ namespace Fanex.Athena.ExtService
 
             services.AddHealthChecks();
             services.AddMemoryCache();
+
+            services.AddResponseCaching(options =>
+            {
+                options.UseCaseSensitivePaths = true;
+            });
+
             var token = Configuration.GetSection("tokenManagement").Get<TokenManagement>();
-            var secret = Encoding.ASCII.GetBytes(token.Secret);
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -87,13 +93,14 @@ namespace Fanex.Athena.ExtService
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(token.Secret)),
+                    TokenDecryptionKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(token.Secret)),
                     ValidIssuer = token.Issuer,
                     ValidAudience = token.Audience,
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     RoleClaimType = ClaimsIdentity.DefaultNameClaimType,
                     RequireExpirationTime = true,
-                    ValidateLifetime = true
+                    ValidateLifetime = true,
 
                 };
                 x.Events = new JwtBearerEvents
@@ -123,12 +130,17 @@ namespace Fanex.Athena.ExtService
                 options.HeaderName = "X-CSRF-TOKEN-LAP-EXT";
                 options.SuppressXFrameOptionsHeader = false;
             });
-
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            /*DI*/
             services.AddScoped<IAuthenticateService, TokenAuthenticationService>();
             services.AddScoped<IUserManagementService, UserManagementService>();
             services.AddScoped<IPFilterAttribute>();
             services.AddSingleton<ICommonService, CommonService>();
-            services.AddSingleton<IBetListApiClient, BetListApiClient>();
+            services.AddSingleton<ILogger>(x => LogService.LoggerInstance);
+            services.AddTransient<IRestClient, RestClient>();
+            services.AddTransient<IBetListApiClient, BetListApiClient>();
+            services.AddTransient<ISummaryStatementService, SummaryStatementService>();
+            services.AddTransient<IStatementByGroupService, StatementByGroupService>();
         }
 
         private Dictionary<string, ConnectionConfiguration> GetConnectionString()
@@ -139,6 +151,13 @@ namespace Fanex.Athena.ExtService
                     "DBEXT.bodb02.bodbLicenseeNet",
                     new ConnectionConfiguration("DBEXT.bodb02.bodbLicenseeNet",
                 Configuration.GetConnectionString("DBEXT.bodb02.bodbLicenseeNet"))
+
+                },
+                {
+                    "DBACC.bodb02.bodbLicenseeNet",
+                    new ConnectionConfiguration("DBACC.bodb02.bodbLicenseeNet",
+                Configuration.GetConnectionString("DBACC.bodb02.bodbLicenseeNet"))
+
                 }
             };
             return connectionStrings;
@@ -155,7 +174,7 @@ namespace Fanex.Athena.ExtService
             }
             else
             {
-                app.UseExceptionHandler("/utility/Error");
+                app.UseErrorHandler();
                 app.UseHsts();
             }
             var supportedCultures = new[]
@@ -172,29 +191,41 @@ namespace Fanex.Athena.ExtService
                 SupportedCultures = supportedCultures,
                 SupportedUICultures = supportedCultures,
                 RequestCultureProviders = new List<IRequestCultureProvider>
-            {
-                new QueryStringRequestCultureProvider
-            {
-                UIQueryStringKey = "lang"
-            }
-            }
+                {
+                    new QueryStringRequestCultureProvider
+                    {
+                        UIQueryStringKey = "lang"
+                    }
+                }
             };
 
             app.UseRequestLocalization(requestLocalizationOptions);
 
             app.UseHealthChecks("/health");
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            const int OneDayInSecond = 86400;
+            const int TenMinInSecond = 600;
+            var cachePeriod = env.IsDevelopment() ? TenMinInSecond : OneDayInSecond;
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    ctx.Context.Response.Headers.Append("Cache-Control", $"public, max-age={cachePeriod}");
+                }
+            });
+
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseJWTokenOnPage();
             app.UseAuthentication();
+            app.UseResponseCaching();
+            app.UseStatusCodePagesWithReExecute("/Error", "?code={0}");
             app.UseMvc(routes =>
             {
 
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}")
-                    .MapRoute(name: "api", template: "api/{controller}/{action}/{id?}"); ;
+                    template: "{controller=Home}/{action=Index}/{id?}"
+                    ).MapRoute(name: "api", template: "api/{controller}/{action}/{id?}");
             });
         }
     }

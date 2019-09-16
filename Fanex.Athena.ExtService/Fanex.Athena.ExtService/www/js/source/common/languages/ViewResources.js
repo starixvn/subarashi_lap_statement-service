@@ -8,7 +8,8 @@
     ProductAB: "AllBet",
     AGCasino: "AG Casino",
     ProductFW: "Fishing World",
-    ProductPP: "",
+    ProductCC:"Card Club",
+    ProductPP: "PP",
     TransactionDetail: "",
     ErrorProcessingMsg: "Sorry, an error occurred while processing your request.",
     Result:"Results"

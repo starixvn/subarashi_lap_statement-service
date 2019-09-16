@@ -120,20 +120,6 @@
   <data name="AGCasino" xml:space="preserve">
     <value>AG Casino</value>
   </data>
-  <data name="BaseCurrency" xml:space="preserve">
-    <value>基础货币</value>
-    <comment>84932</comment>
-  </data>
-  <data name="BettingTicketCenter" xml:space="preserve">
-    <value>注单中心</value>
-    <comment>80941</comment>
-  </data>
-  <data name="BettingTicketCenter_RefnoTabNote1" xml:space="preserve">
-    <value>在体育的搜寻结果将包含相关的红利与现金注单</value>
-  </data>
-  <data name="BettingTicketCenter_RefnoTabNote2" xml:space="preserve">
-    <value>关于快乐彩以及彩票：请输入用户名，以便搜寻{0}之后的注单</value>
-  </data>
   <data name="BoughtAmount" xml:space="preserve">
     <value>买入金额</value>
   </data>
@@ -223,5 +209,61 @@
   </data>
   <data name="WinLoss" xml:space="preserve">
     <value>输赢</value>
+  </data>
+  <data name="Balance" xml:space="preserve">
+    <value>余额</value>
+  </data>
+  <data name="Credit_Debit" xml:space="preserve">
+    <value>贷记/借记</value>
+  </data>
+  <data name="Remark" xml:space="preserve">
+    <value>备注</value>
+  </data>
+  <data name="Statement" xml:space="preserve">
+    <value>账目</value>
+  </data>
+  <data name="Turnover" xml:space="preserve">
+    <value>交易额</value>
+  </data>
+  <data name="ProductCC" xml:space="preserve">
+    <value>嘻嘻俱乐部</value>
+    <comment>115449</comment>
+  </data>
+  <data name="ProductCO" xml:space="preserve">
+    <value>即时兑现</value>
+    <comment>93729</comment>
+  </data>
+  <data name="ProductCS" xml:space="preserve">
+    <value>娱乐城</value>
+    <comment>#49196</comment>
+  </data>
+  <data name="ProductKN" xml:space="preserve">
+    <value>快乐彩</value>
+    <comment>113398</comment>
+  </data>
+  <data name="ProductNG" xml:space="preserve">
+    <value>百练赛</value>
+    <comment>#49196</comment>
+  </data>
+  <data name="ProductSB" xml:space="preserve">
+    <value>体育博彩</value>
+    <comment>#49196</comment>
+  </data>
+  <data name="ProductVS" xml:space="preserve">
+    <value>虚拟运动</value>
+    <comment>#49196</comment>
+  </data>
+  <data name="ProductVS2" xml:space="preserve">
+    <value>虚拟运动2</value>
+    <comment>83759</comment>
+  </data>
+  <data name="BettingStatement" xml:space="preserve">
+    <value>投注详情</value>
+  </data>
+  <data name="OutstandingBet" xml:space="preserve">
+    <value>未完成交易</value>
+  </data>
+  <data name="Void_CancelledBet" xml:space="preserve">
+    <value>作废/取消注单</value>
   </data>
 </root>

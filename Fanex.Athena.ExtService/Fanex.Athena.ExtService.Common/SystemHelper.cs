@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Fanex.Athena.ExtService.Common.DTO;
-using Fanex.Athena.ExtService.Common.Model.DataDomain;
+
+using Fanex.Athena.ExtService.Common.Models.DataDomain;
+using Fanex.Athena.ExtService.Common.Models.DTO;
+using Fanex.Athena.ExtService.Resources;
 
 namespace Fanex.Athena.ExtService.Common
 {
@@ -15,13 +16,23 @@ namespace Fanex.Athena.ExtService.Common
             var currencies = isExcludeTestData ?
                 licenseeInfo.Currencies.Where(x => x.CurrencyId != CurrencyType.Uus).ToArray() : licenseeInfo.Currencies;
 
-            foreach(var item in currencies)
+            foreach (var item in currencies)
             {
                 result.AppendFormat("<Agent AgentId=\"{0}\" Currency=\"{1}\"/>", item.AgentId, item.CurrencyId);
             }
 
             result.Append("</ROOT>");
             return result.ToString();
+        }
+        public static string GetProductName(string productCode)
+        {
+
+            var resourceKey = "Product" + productCode;
+            var resourceManager = ViewResources.ResourceManager;
+            resourceManager.IgnoreCase = true;
+            return resourceManager.GetString(resourceKey) ?? string.Empty;
+
+
         }
     }
 }

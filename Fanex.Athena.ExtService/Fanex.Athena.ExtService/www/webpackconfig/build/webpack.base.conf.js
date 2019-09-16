@@ -36,7 +36,7 @@ function generateConfig(environment) {
             [`${cssPath}/pages/betlist/systemparlaydetail`]: pathConfig.cssPaths.systemparlaydetail,
             [`${cssPath}/pages/betlist/cashouthistory`]: pathConfig.cssPaths.cashouthistory,
             [`${cssPath}/pages/betlist/betlistResult`]: pathConfig.cssPaths.betlistResult,
-
+            [`${cssPath}/pages/betlist/colossusbetdetail`]: pathConfig.cssPaths.colossusbetdetail
         },
         output: {
             path: pathConfig.projectRoot,

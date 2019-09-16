@@ -16,6 +16,7 @@ namespace Fanex.Athena.ExtService.Controllers
         {
             _authService = authService;
         }
+        [ResponseCache(Duration = 0, NoStore = true, Location = ResponseCacheLocation.None)]
         [AllowAnonymous]
         [Route("api/Auth")]
         [HttpPost]
@@ -25,8 +26,9 @@ namespace Fanex.Athena.ExtService.Controllers
             {
                 return BadRequest("Invalid Request");
             }
+            var result = _authService.IsAuthenticated(request);
 
-            return _authService.IsAuthenticated(request, out Token token) ? Ok(token)
+            return result.Item1 ? Ok(result.Item2)
                 : (ActionResult)BadRequest("Wrong username or password");
         }
     }

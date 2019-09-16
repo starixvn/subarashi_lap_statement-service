@@ -1,6 +1,6 @@
 ﻿@using Fanex.Athena.ExtService.Resources
 @using Microsoft.Extensions.Configuration
-@using Fanex.Athena.ExtService.Common.Model.DTO
+@using Fanex.Athena.ExtService.Common.Models.DTO
 @inject IConfiguration Configuration
 
 @{
@@ -25,11 +25,6 @@
 <div id="container" class="container-fluid">
     <div>
         <div class="betlist-container result-content">
-            <div class="report-title-container">
-                <p class="report-title">
-                    @ViewResources.DetailedBetlist, @ViewResources.BaseCurrency: @Model.BaseCurrency.ToUpperInvariant()
-                </p>
-            </div>
             <div>
                 <div class="table-container">
                     <div class="header-content">
@@ -42,6 +37,10 @@
                                         <td style="width:350px"></td>
                                         <td></td>
                                         <td></td>
+                                        @if (Model.HasLicWl)
+                                        {
+                                            <td></td>
+                                        }
 
                                         <td></td>
                                         <td></td>
@@ -54,7 +53,7 @@
                                         <th>@ViewResources.Stake</th>
                                         <th>
                                             @(Model.Info.IsAllowedCustomerComm ?
-                                                                        $"{ ViewResources.WinLoss}/{ ViewResources.Comm}" : @ViewResources.WinLoss)
+                                                                                $"{ ViewResources.WinLoss}/{ ViewResources.Comm}" : @ViewResources.WinLoss)
                                         </th>
                                         @if (Model.HasLicWl)
                                         {
@@ -77,7 +76,10 @@
                                         <td style="width:350px"></td>
                                         <td></td>
                                         <td></td>
-
+                                        @if (Model.HasLicWl)
+                                        {
+                                            <td></td>
+                                        }
                                         <td></td>
                                         <td></td>
 

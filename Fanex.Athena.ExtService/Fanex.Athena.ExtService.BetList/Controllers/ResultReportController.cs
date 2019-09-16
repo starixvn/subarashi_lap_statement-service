@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
-using Fanex.Athena.ExtService.Common.Model.ViewModels;
+using Fanex.Athena.ExtService.Common.Models.DataDomain;
+using Fanex.Athena.ExtService.Common.Models.ViewModels;
 using Fanex.Athena.ExtService.Common.Services;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,8 +21,10 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         }
 
         [HttpGet]
+        [ResponseCache(Duration = SystemConstants.ThirtySecond)]
         public async Task<IActionResult> ResultPopup(ResultPopupMetalModel metaModel)
         {
+
             var result = await _betListApiClient.PostAsyncString(
                  "/ResultReport/ResultPopup",
                  metaModel,
@@ -35,12 +37,17 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
                 AccessToken = HttpContext.Request.Query["access_token"],
                 Lang = metaModel.Lang
             };
+
+            ViewBag.Title = "Result";
+
             return View(viewModel);
 
 
         }
 
+        [ResponseCache(Duration = SystemConstants.ThirtySecond, VaryByQueryKeys = new[] { "refNo", "lang" })]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ShowRngCasinoSingleWalletResult(string refNo, string lang)
         {
             var result = await _betListApiClient.PostAsyncString(
@@ -53,6 +60,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             return Content(result, "application/json");
         }
 
+        [ResponseCache(Duration = SystemConstants.ThirtySecond, VaryByQueryKeys = new[] { "custId", "lang", "gamePlayId" })]
         [HttpGet]
         public async Task<string> VoidbridgeResult(string custId, string gamePlayId, string lang)
         {
@@ -66,6 +74,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
                 model, lang).ConfigureAwait(false);
         }
 
+        [ResponseCache(Duration = SystemConstants.ThirtySecond, VaryByQueryKeys = new[] { "custId", "lang", "gamePlayId" })]
         [HttpGet]
         public async Task<string> PPResultPopup(string custId, string gamePlayId, string lang)
         {
@@ -77,8 +86,9 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             };
             return await _betListApiClient.PostAsyncString("/PPResultPopup/Index", model, lang).ConfigureAwait(false);
         }
+        [ResponseCache(Duration = SystemConstants.ThirtySecond, VaryByQueryKeys = new[] { "transDesc", "lang", "betCheck", "betType" })]
         [HttpGet]
-        public async Task<ActionResult> AllBetResult(string transDesc, string betCheck, string betType, string lang)
+        public async Task<IActionResult> AllBetResult(string transDesc, string betCheck, string betType, string lang)
         {
             var model = new
             {
@@ -88,15 +98,18 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
                 languageCode = lang
             };
             var data = await _betListApiClient.PostAsyncString("/AllBetResultPopup/Index", model, lang).ConfigureAwait(false);
-            ViewBag.Data = data.Replace("{rootUrl}", Url.Content("~/"));
+            ViewBag.Data = data.Replace("{rootUrl}/", Url.Content("~/"));
             var viewModel = new BaseViewModel
             {
                 AccessToken = HttpContext.Request.Query["access_token"],
                 Lang = lang
             };
+
+            ViewBag.Title = "Result";
+
             return View(viewModel);
         }
-
+        [ResponseCache(Duration = SystemConstants.ThirtySecond, VaryByQueryKeys = new[] { "custId", "lang", "gameId" })]
         [HttpGet]
         public async Task<string> GlobalGamingResult(string custId, string gameId, string lang)
         {

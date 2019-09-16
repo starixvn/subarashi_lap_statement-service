@@ -6,7 +6,12 @@ namespace Fanex.Athena.ExtService.Core.Middleware
     {
         public static IApplicationBuilder UseJWTokenOnPage(this IApplicationBuilder builder)
         {
-            return builder.UseMiddleware<JWToken>();
+            return builder.UseMiddleware<JWTokenHandler>();
+        }
+
+        public static IApplicationBuilder UseErrorHandler(this IApplicationBuilder builder)
+        {
+            return builder.UseMiddleware<ErrorHandler>();
         }
     }
 }

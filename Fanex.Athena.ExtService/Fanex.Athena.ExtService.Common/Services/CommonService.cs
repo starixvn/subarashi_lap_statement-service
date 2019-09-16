@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Fanex.Athena.ExtService.Common.DTO;
-using Fanex.Athena.ExtService.Common.Model.DTO;
+
+using Fanex.Athena.ExtService.Common.Models.DTO;
 using Fanex.Data;
 
 using Microsoft.Extensions.Caching.Memory;
@@ -13,7 +13,7 @@ namespace Fanex.Athena.ExtService.Common.Services
     {
         private const int CacheTimeout120Seconds = 120;
         private const int CacheTimeout300Seconds = 300;
-
+        private const int CacheTimeOut30Seconds = 30;
         private const string BalanceUpCacheKey = "EXT_LAP_CACHE_BALANCEUP";
         private const string LicenseeExtInfoCacheKey = "__LicenseeExtInfoCacheKey_";
         private readonly IMemoryCache _cache;
@@ -23,29 +23,45 @@ namespace Fanex.Athena.ExtService.Common.Services
         }
         public async Task<LicenseeInfo> GetLicenseeInfoAsync(string siteName, int custId = 0)
         {
-            _cache.TryGetValue(LicenseeExtInfoCacheKey, out LicenseeInfo result);
-
-            if (result is null)
+            LicenseeInfo result = null;
+            var realCacheKey = $"{LicenseeExtInfoCacheKey}{siteName}_{custId}";
+            var hasValueFromCache = _cache.TryGetValue(realCacheKey, out result);
+            if (custId > 0 && !hasValueFromCache)
             {
-                result = await GetLicenseeInfoFromDB(siteName, custId);
-                _cache.Set(LicenseeExtInfoCacheKey, result, DateTimeOffset.Now.AddSeconds(CacheTimeout300Seconds));
+                var cacheKeyBySiteName = $"{LicenseeExtInfoCacheKey}{siteName}_0";
+                hasValueFromCache = _cache.TryGetValue(cacheKeyBySiteName, out result);
+            }
+            if (!hasValueFromCache || result is null)
+            {
+                result = await GetLicenseeInfoFromDBAsync(siteName, custId);
+                if (custId > 0)
+                {
+                    _cache.Set(realCacheKey, result, new MemoryCacheEntryOptions { SlidingExpiration = TimeSpan.FromSeconds(CacheTimeOut30Seconds) });
+                }
+                else
+                {
+                    _cache.Set(realCacheKey, result, absoluteExpiration: DateTimeOffset.Now.AddSeconds(CacheTimeout300Seconds));
+
+                }
+
             }
 
-            return result;
+            return result ?? new LicenseeInfo { SiteName = siteName, Currencies = new CurrencyInfo[] { } };
         }
 
-        private static async Task<LicenseeInfo> GetLicenseeInfoFromDB(string siteName, int custId)
+        private static async Task<LicenseeInfo> GetLicenseeInfoFromDBAsync(string siteName, int custId)
         {
             const string UspName = "Lrf_LicenseeSelExtInfo";
 
             var result = new LicenseeInfo
             {
-                SiteName = siteName
+                SiteName = siteName,
+                Currencies = new CurrencyInfo[] { }
             };
             using (var db = ObjectDbFactory.CreateInstance(UspName))
             {
-                db.SetParameterValue("siteName", siteName);
-                db.SetParameterValue("custId", custId);
+                db.SetParameterValue(nameof(siteName), siteName);
+                db.SetParameterValue(nameof(custId), custId);
                 using (var reader = await db.ExecuteReaderAsync())
                 {
                     var currencies = new List<CurrencyInfo>();

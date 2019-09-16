@@ -10,7 +10,7 @@
 /******/ 		var moduleId, chunkId, i = 0, resolves = [];
 /******/ 		for(;i < chunkIds.length; i++) {
 /******/ 			chunkId = chunkIds[i];
-/******/ 			if(installedChunks[chunkId]) {
+/******/ 			if(Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
 /******/ 				resolves.push(installedChunks[chunkId][0]);
 /******/ 			}
 /******/ 			installedChunks[chunkId] = 0;
@@ -499,8 +499,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
 
                 const params = {
                     'refNo': refno,
-                    'lang': $("#lang").val(),
-                    'access_token': $("#access_token").val()
+                    'lang': $("#lang").val()
                 };
 
                 $.ajax({
@@ -563,9 +562,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
             viewAllBetResult: function (trasdesc, betcheck, bettype, title) {
                 let url = Site.resolveClientUrl('ResultReport/AllBetResult?transdesc=' +
                     encodeURIComponent(trasdesc) + '&betcheck=' + betcheck + '&bettype=' + bettype);
-                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
-                url = QueryString.setParam(url, 'lang', $("#lang").val());
-
+                url += "&access_token=" + $("#access_token").val();
+                url += "&lang=" + $("#lang").val();
                 Site.blockUI();
                 showResultPopUp(url, { width: 800, height: 380, title: title });
                 Site.unBlockUI();
@@ -681,8 +679,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                         url: url,
                         success: function (response) {
                             let length = response.data === null ? 0 : response.data.length;
-                            console.log(length);
-
                             if (length > 0) {
                                 let choice = '';
                                 $.each(response.texts, function (index, item) {
@@ -894,7 +890,23 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
 
                 showDetailPopUp(url, { width: popW + 50, height: popH + 50, title: title });
             },
+            showVideoPokerGameDetails: function (transId, winlostDate, custId, transType) {
+                let url = Site.resolveClientUrl('BetListDetailByProduct/Detail');
+                url = QueryString.setParam(url, 'transId', transId);
+                url = QueryString.setParam(url, 'date', winlostDate);
+                url = QueryString.setParam(url, 'custId', custId);
+                url = QueryString.setParam(url, 'transType', transType);
+                url = QueryString.setParam(url, 'BaseCurrency', getBaseCurrency());
+                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
+                url = QueryString.setParam(url, 'lang', $("#lang").val());
+                url = QueryString.setParam(url, 'uspkey', 'Lrf_BetList_RNG_Detail');
 
+                const popH = Math.min($(window).height() - 100, 550);
+                const title = Site.getSingleResource('ProductCC') + ' - ' +
+                    Site.getSingleResource('DetailedBetlist');
+
+                showDetailPopUp(url, { width: 890, height: popH + 50, title: title });
+            },
             registerBetListGlobalFunctions: function () {
                 window.ViewResult = _me.viewResult;
                 // showMP and showCombMP are only for old tickets
@@ -923,6 +935,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 window.showGlobalGaming = _me.showGlobalGamingDetails;
                 window.ShowBonusDetails = _me.showBonusDetails;
                 window.showPPDetails = _me.showPPDetails;
+                window.showVideoPokerGameDetails = _me.showVideoPokerGameDetails;
 
                 const betList = {
                     ViewCasinoHandHistory: _me.ViewCasinoHandHistory

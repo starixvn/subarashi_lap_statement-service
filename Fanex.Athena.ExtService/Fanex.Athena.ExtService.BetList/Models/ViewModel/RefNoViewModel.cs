@@ -1,16 +1,13 @@
 ﻿using System.Collections.Generic;
 
 using Fanex.Athena.ExtService.BetList.Models.DTO;
-using Fanex.Athena.ExtService.Common.Model.DTO;
-using Fanex.Athena.ExtService.Common.Model.ViewModels;
+using Fanex.Athena.ExtService.Common.Models.ViewModels;
 
 namespace Fanex.Athena.ExtService.BetList.Models.ViewModel
 {
     public class RefNoViewModel : BaseViewModel
     {
         public string UserName { get; set; }
-        public BalanceUp BalanceUp { get; set; }
-
         public IList<TicketText> Data { get; set; }
     }
 }

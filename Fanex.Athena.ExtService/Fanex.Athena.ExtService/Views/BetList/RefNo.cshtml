@@ -1,6 +1,6 @@
 ﻿@using Fanex.Athena.ExtService.Resources
 @using Microsoft.Extensions.Configuration
-@using Fanex.Athena.ExtService.Common.Model.DTO
+@using Fanex.Athena.ExtService.Common.Models.DTO
 @inject IConfiguration Configuration
 
 @{
@@ -24,23 +24,9 @@
 @model Fanex.Athena.ExtService.BetList.Models.ViewModel.RefNoViewModel
 <div id="container" class="container-fluid">
     <div>
-        <div class="page-filter">
-            <div class="row">
-                <div class="col-1" style="flex: 0 0 4%;">
-                    @ViewResources.Note :
-                </div>
-                <div class="col-9">
-                    * @ViewResources.BettingTicketCenter_RefnoTabNote1
-                    <br>
-                    * @String.Format(ViewResources.BettingTicketCenter_RefnoTabNote2, Model.BalanceUp.BalanceUpDay.ToString("MM/dd/yyyy"))
-                </div>
-            </div>
-        </div>
-
         <div class="betlist-container result-content">
             <div class="report-title-container">
                 <p class="report-title">
-                    @ViewResources.BettingTicketCenter, @ViewResources.BaseCurrency: @Model.BaseCurrency.ToUpperInvariant()
                 </p>
             </div>
             <div>

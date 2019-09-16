@@ -70,11 +70,29 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Balance.
+        /// </summary>
+        public static string Balance {
+            get {
+                return ResourceManager.GetString("Balance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Base Currency.
         /// </summary>
         public static string BaseCurrency {
             get {
                 return ResourceManager.GetString("BaseCurrency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Betting Statement.
+        /// </summary>
+        public static string BettingStatement {
+            get {
+                return ResourceManager.GetString("BettingStatement", resourceCulture);
             }
         }
         
@@ -93,15 +111,6 @@ namespace Fanex.Athena.ExtService.Resources {
         public static string BettingTicketCenter_RefnoTabNote1 {
             get {
                 return ResourceManager.GetString("BettingTicketCenter_RefnoTabNote1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to For RNG Keno, Lottery: Please provide username also in order to search ticket later than {0}.
-        /// </summary>
-        public static string BettingTicketCenter_RefnoTabNote2 {
-            get {
-                return ResourceManager.GetString("BettingTicketCenter_RefnoTabNote2", resourceCulture);
             }
         }
         
@@ -196,6 +205,15 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Credit/Debit.
+        /// </summary>
+        public static string Credit_Debit {
+            get {
+                return ResourceManager.GetString("Credit_Debit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date.
         /// </summary>
         public static string Date {
@@ -205,20 +223,20 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Detailed Bet list.
-        /// </summary>
-        public static string DetailedBetlist {
-            get {
-                return ResourceManager.GetString("DetailedBetlist", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to External ID.
         /// </summary>
         public static string ExternalId {
             get {
                 return ResourceManager.GetString("ExternalId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Grand Prize.
+        /// </summary>
+        public static string GrandPrize {
+            get {
+                return ResourceManager.GetString("GrandPrize", resourceCulture);
             }
         }
         
@@ -277,11 +295,29 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to OPENING BALANCE.
+        /// </summary>
+        public static string OPENINGBALANCE {
+            get {
+                return ResourceManager.GetString("OPENINGBALANCE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Original Bet Ticket.
         /// </summary>
         public static string OriginalBetTicket {
             get {
                 return ResourceManager.GetString("OriginalBetTicket", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Outstanding Bet.
+        /// </summary>
+        public static string OutstandingBet {
+            get {
+                return ResourceManager.GetString("OutstandingBet", resourceCulture);
             }
         }
         
@@ -295,6 +331,204 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to AllBet.
+        /// </summary>
+        public static string ProductAB {
+            get {
+                return ResourceManager.GetString("ProductAB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AG Casino.
+        /// </summary>
+        public static string ProductAGC {
+            get {
+                return ResourceManager.GetString("ProductAGC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BA.
+        /// </summary>
+        public static string ProductBA {
+            get {
+                return ResourceManager.GetString("ProductBA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bet Trade.
+        /// </summary>
+        public static string ProductBT {
+            get {
+                return ResourceManager.GetString("ProductBT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exchange.
+        /// </summary>
+        public static string ProductBX {
+            get {
+                return ResourceManager.GetString("ProductBX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Colossus Bets.
+        /// </summary>
+        public static string ProductCB {
+            get {
+                return ResourceManager.GetString("ProductCB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Card Club.
+        /// </summary>
+        public static string ProductCC {
+            get {
+                return ResourceManager.GetString("ProductCC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cash Out.
+        /// </summary>
+        public static string ProductCO {
+            get {
+                return ResourceManager.GetString("ProductCO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RNG Casino.
+        /// </summary>
+        public static string ProductCS {
+            get {
+                return ResourceManager.GetString("ProductCS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fishing World.
+        /// </summary>
+        public static string ProductFW {
+            get {
+                return ResourceManager.GetString("ProductFW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gold Deluxe.
+        /// </summary>
+        public static string ProductGD {
+            get {
+                return ResourceManager.GetString("ProductGD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RNG Keno.
+        /// </summary>
+        public static string ProductKN {
+            get {
+                return ResourceManager.GetString("ProductKN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Live Casino.
+        /// </summary>
+        public static string ProductLC {
+            get {
+                return ResourceManager.GetString("ProductLC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lottery.
+        /// </summary>
+        public static string ProductLT {
+            get {
+                return ResourceManager.GetString("ProductLT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number Game.
+        /// </summary>
+        public static string ProductNG {
+            get {
+                return ResourceManager.GetString("ProductNG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PP.
+        /// </summary>
+        public static string ProductPP {
+            get {
+                return ResourceManager.GetString("ProductPP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Playtech Casino.
+        /// </summary>
+        public static string ProductPTCS {
+            get {
+                return ResourceManager.GetString("ProductPTCS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sportsbook.
+        /// </summary>
+        public static string ProductSB {
+            get {
+                return ResourceManager.GetString("ProductSB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Macau Games.
+        /// </summary>
+        public static string ProductVB {
+            get {
+                return ResourceManager.GetString("ProductVB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Macau.
+        /// </summary>
+        public static string ProductVG {
+            get {
+                return ResourceManager.GetString("ProductVG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Virtual Sports.
+        /// </summary>
+        public static string ProductVS {
+            get {
+                return ResourceManager.GetString("ProductVS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Virtual Sports 2.
+        /// </summary>
+        public static string ProductVS2 {
+            get {
+                return ResourceManager.GetString("ProductVS2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ref No.
         /// </summary>
         public static string RefNo {
@@ -304,11 +538,29 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remark.
+        /// </summary>
+        public static string Remark {
+            get {
+                return ResourceManager.GetString("Remark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Stake.
         /// </summary>
         public static string Stake {
             get {
                 return ResourceManager.GetString("Stake", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Statement.
+        /// </summary>
+        public static string Statement {
+            get {
+                return ResourceManager.GetString("Statement", resourceCulture);
             }
         }
         
@@ -372,6 +624,24 @@ namespace Fanex.Athena.ExtService.Resources {
         public static string TransTime {
             get {
                 return ResourceManager.GetString("TransTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Turnover.
+        /// </summary>
+        public static string Turnover {
+            get {
+                return ResourceManager.GetString("Turnover", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Void/Cancelled Bet.
+        /// </summary>
+        public static string Void_CancelledBet {
+            get {
+                return ResourceManager.GetString("Void_CancelledBet", resourceCulture);
             }
         }
         

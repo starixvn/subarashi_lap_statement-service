@@ -1,4 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Threading.Tasks;
+using Fanex.Athena.ExtService.BetList.Models.DataDomain;
+using Fanex.Athena.ExtService.BetList.Models.MetaModel;
+using Fanex.Athena.ExtService.BetList.Models.ViewModel;
+using Fanex.Athena.ExtService.BetList.Services;
+using Fanex.Athena.ExtService.Common.Models.DataDomain;
+using Fanex.Athena.ExtService.Resources;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fanex.Athena.ExtService.BetList.Controllers
@@ -7,17 +14,50 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
     public class StatementController : BaseController
     {
 
-        public IActionResult Summary()
+        [HttpGet]
+        [ResponseCache(Duration = SystemConstants.ThirtySecond, NoStore = false,
+            VaryByQueryKeys = new[] { "cid", "fd", "td", "bc", "ps", "pi", "bc", "lang" })]
+        public async Task<IActionResult> Summary([FromServices] ISummaryStatementService service,
+            SummaryStatementMetaModel metalModel)
         {
-            var siteName = HttpContext.User.Identity.Name;
-            ViewBag.SiteName = siteName;
-            return View();
+
+            var viewModel = metalModel.IsValid ? await service.QueryAsync(metalModel).ConfigureAwait(false)
+                : new SummaryStatementViewModel();
+            AssignCommonViewModelData(metalModel, viewModel);
+            viewModel.CustId = metalModel.CustId;
+            return View(viewModel);
         }
-        public IActionResult ByGroup()
+
+        [ResponseCache(Duration = SystemConstants.ThirtySecond, NoStore = false,
+    VaryByQueryKeys = new[] { "cid", "wd", "bc", "mv", "lang" })]
+
+        [HttpGet]
+        public async Task<IActionResult> ByGroup([FromServices] IStatementByGroupService service,
+            StatementByGroupMetaModel metalModel)
         {
-            var siteName = HttpContext.User.Identity.Name;
-            ViewBag.SiteName = siteName;
-            return View();
+
+            var viewModel = metalModel.IsValid ? await service.QueryAsync(metalModel).ConfigureAwait(false)
+                : new StatementByGroupViewModel();
+            AssignCommonViewModelData(metalModel, viewModel);
+            switch (metalModel.ModeView)
+            {
+                case TransDescValue.ModeViewBetStatement:
+                    viewModel.TransDesc = TransDescValue.RemarkValues[TransDescValue.BetStatement].Invoke();
+                    break;
+                case TransDescValue.ModeViewCancell:
+                    viewModel.TransDesc = TransDescValue.RemarkValues[TransDescValue.VoidCancell].Invoke();
+                    break;
+                case TransDescValue.ModeViewOutstanding:
+                    viewModel.TransDesc = TransDescValue.RemarkValues[TransDescValue.Outstanding].Invoke();
+                    break;
+                default:
+                    viewModel.TransDesc = ViewResources.Statement;
+                    break;
+            }
+            viewModel.CustId = metalModel.CustId;
+            viewModel.ModeView = metalModel.ModeView;
+            return View(viewModel);
         }
+
     }
 }
