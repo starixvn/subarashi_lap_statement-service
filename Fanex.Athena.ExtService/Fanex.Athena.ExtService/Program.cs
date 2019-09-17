@@ -14,6 +14,7 @@ namespace Fanex.Athena.ExtService
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseApplicationInsights()
              .ConfigureAppConfiguration((builderContext, config) =>
              {
                  var env = builderContext.HostingEnvironment;
