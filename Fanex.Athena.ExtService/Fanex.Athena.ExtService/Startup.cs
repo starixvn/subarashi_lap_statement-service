@@ -43,6 +43,9 @@ namespace Fanex.Athena.ExtService
     {
         const string ApplicationOptionSettingKey = "ApplicationOptions";
         const string AppSettingKey = "AppSettings";
+        const int SixtyDays = 60;
+        const int AliveIn180Seconds = 180;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -73,7 +76,19 @@ namespace Fanex.Athena.ExtService
 
             services.AddHealthChecks();
             services.AddMemoryCache();
-
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.ConfigurationOptions = new ConfigurationOptions
+                {
+                    KeepAlive = AliveIn180Seconds,
+                    Password = appOption.Redis.Pass,
+                    EndPoints =
+                    {
+                        { appOption.Redis.Server, appOption.Redis.Port }
+                    },
+                };
+                options.InstanceName = appOption.Redis.AppName;
+            });
             services.AddResponseCaching(options =>
             {
                 options.UseCaseSensitivePaths = true;
@@ -168,8 +183,6 @@ namespace Fanex.Athena.ExtService
 
         private static void ConfigDataProtection(IServiceCollection services, ApplicationOptions appOption)
         {
-            const int SixtyDays = 60;
-            const int AliveIn180Seconds = 180;
             var configRedix = new ConfigurationOptions
             {
                 EndPoints =
