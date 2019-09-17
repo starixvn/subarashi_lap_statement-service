@@ -72,7 +72,7 @@ namespace Fanex.Athena.ExtService
 
             ConfigDataProtection(services, appOption);
 
-            ConfigFanexData(services, appOption);
+            ConfigFanexData();
 
             services.AddHealthChecks();
             services.AddMemoryCache();
@@ -92,6 +92,7 @@ namespace Fanex.Athena.ExtService
             services.AddResponseCaching(options =>
             {
                 options.UseCaseSensitivePaths = true;
+                
             });
 
             ConfigAuthentication(services);
@@ -170,7 +171,7 @@ namespace Fanex.Athena.ExtService
             });
         }
 
-        private void ConfigFanexData(IServiceCollection services, ApplicationOptions appOption)
+        private void ConfigFanexData()
         {
             var conns = GetConnectionString();
 
