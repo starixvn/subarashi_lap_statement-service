@@ -67,6 +67,8 @@ namespace Fanex.Athena.ExtService
                 new RabbitMQLogging(appOption.RabbitMQ)
              });
 
+            ConfigDataProtection(services, appOption);
+
             ConfigFanexData(services, appOption);
 
             services.AddHealthChecks();
@@ -162,20 +164,20 @@ namespace Fanex.Athena.ExtService
               .WithSqlServer(resourcePath: "~/SpConfig")
               .Use(conns)
               .Run();
-            ConfigDataProtection(services, appOption);
         }
 
         private static void ConfigDataProtection(IServiceCollection services, ApplicationOptions appOption)
         {
             const int SixtyDays = 60;
+            const int AliveIn180Seconds = 180;
             var configRedix = new ConfigurationOptions
             {
                 EndPoints =
                 {
-                    { appOption.Redis.Server, 6379 }
+                    { appOption.Redis.Server, appOption.Redis.Port }
                 },
-                KeepAlive = 180,
-                Password = ""
+                KeepAlive = AliveIn180Seconds,
+                Password = appOption.Redis.Pass
             };
             var redis = ConnectionMultiplexer.Connect(configRedix);
             services.AddDataProtection()

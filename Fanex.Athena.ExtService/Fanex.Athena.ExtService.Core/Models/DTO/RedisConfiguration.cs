@@ -7,7 +7,7 @@ namespace Fanex.Athena.ExtService.Core.Models.DTO
     public class RedisConfiguration
     {
         public string Server { get; set; }
-        public string Port { get; set; }
+        public int Port { get; set; }
         public string Pass { get; set; }
         public string AppName { get; set; }
     }
