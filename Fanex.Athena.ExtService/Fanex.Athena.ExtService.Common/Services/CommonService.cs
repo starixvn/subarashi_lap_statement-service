@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 
 using Fanex.Athena.ExtService.Common.Models.DTO;
 using Fanex.Data;
-
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
 
 namespace Fanex.Athena.ExtService.Common.Services
 {
@@ -16,34 +18,38 @@ namespace Fanex.Athena.ExtService.Common.Services
         private const int CacheTimeOut30Seconds = 30;
         private const string BalanceUpCacheKey = "EXT_LAP_CACHE_BALANCEUP";
         private const string LicenseeExtInfoCacheKey = "__LicenseeExtInfoCacheKey_";
-        private readonly IMemoryCache _cache;
-        public CommonService(IMemoryCache memoryCache)
+        private readonly IDistributedCache _cache;
+
+        public CommonService(IDistributedCache cache)
         {
-            _cache = memoryCache;
+            _cache = cache;
         }
+
         public async Task<LicenseeInfo> GetLicenseeInfoAsync(string siteName, int custId = 0)
         {
             LicenseeInfo result = null;
             var realCacheKey = $"{LicenseeExtInfoCacheKey}{siteName}_{custId}";
-            var hasValueFromCache = _cache.TryGetValue(realCacheKey, out result);
-            if (custId > 0 && !hasValueFromCache)
+            var cachedValue = await GetValueFromCacheAsync(realCacheKey);
+
+            if (custId > 0 && cachedValue is null)
             {
                 var cacheKeyBySiteName = $"{LicenseeExtInfoCacheKey}{siteName}_0";
-                hasValueFromCache = _cache.TryGetValue(cacheKeyBySiteName, out result);
+                cachedValue = await GetValueFromCacheAsync(cacheKeyBySiteName);
             }
-            if (!hasValueFromCache || result is null)
+
+            if (cachedValue != null)
+            {
+                result = JsonConvert.DeserializeObject<LicenseeInfo>(cachedValue);
+            }
+
+            if (result is null)
             {
                 result = await GetLicenseeInfoFromDBAsync(siteName, custId);
-                if (custId > 0)
-                {
-                    _cache.Set(realCacheKey, result, new MemoryCacheEntryOptions { SlidingExpiration = TimeSpan.FromSeconds(CacheTimeOut30Seconds) });
-                }
-                else
-                {
-                    _cache.Set(realCacheKey, result, absoluteExpiration: DateTimeOffset.Now.AddSeconds(CacheTimeout300Seconds));
 
-                }
-
+                var options = custId > 0
+                    ? WithSlidingExpiration(TimeSpan.FromSeconds(CacheTimeOut30Seconds))
+                    : WithAbsoluteExpiration(DateTimeOffset.Now.AddSeconds(CacheTimeout300Seconds));
+                await SetValueToCacheAsync(realCacheKey, JsonConvert.SerializeObject(result), options);
             }
 
             return result ?? new LicenseeInfo { SiteName = siteName, Currencies = new CurrencyInfo[] { } };
@@ -89,15 +95,16 @@ namespace Fanex.Athena.ExtService.Common.Services
 
         public async Task<BalanceUp> GetBalanceUpAsync()
         {
-            var balanceup = _cache.Get<BalanceUp>(BalanceUpCacheKey);
-
-            if (balanceup != null)
+            var cachedValue = await GetValueFromCacheAsync(BalanceUpCacheKey);
+            if (cachedValue != null)
             {
-                return balanceup;
+                return JsonConvert.DeserializeObject<BalanceUp>(cachedValue);
             }
 
-            balanceup = await GetBalanceUpDayFromDb();
-            _cache.Set(BalanceUpCacheKey, balanceup, DateTimeOffset.Now.AddSeconds(CacheTimeout120Seconds));
+            var balanceup = await GetBalanceUpDayFromDb();
+            var options = WithAbsoluteExpiration(DateTimeOffset.Now.AddSeconds(CacheTimeout120Seconds));
+            await SetValueToCacheAsync(BalanceUpCacheKey, JsonConvert.SerializeObject(balanceup), options);
+
             return balanceup;
         }
 
@@ -119,6 +126,23 @@ namespace Fanex.Athena.ExtService.Common.Services
                     return balanceUp;
                 }
             }
+        }
+
+        private static DistributedCacheEntryOptions WithAbsoluteExpiration(DateTimeOffset time)
+           => new DistributedCacheEntryOptions { AbsoluteExpiration = time };
+
+        private static DistributedCacheEntryOptions WithSlidingExpiration(TimeSpan time)
+            => new DistributedCacheEntryOptions { SlidingExpiration = time };
+
+        private async Task<string> GetValueFromCacheAsync(string key)
+        {
+            var value = await _cache.GetAsync(key);
+            return value is null ? null : Encoding.UTF8.GetString(value);
+        }
+
+        private Task SetValueToCacheAsync(string key, string value, DistributedCacheEntryOptions options)
+        {
+            return _cache.SetAsync(key, Encoding.UTF8.GetBytes(value), options);
         }
     }
 }
