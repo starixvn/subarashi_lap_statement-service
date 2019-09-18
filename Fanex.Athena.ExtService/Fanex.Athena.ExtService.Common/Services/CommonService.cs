@@ -4,6 +4,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using MsgPack.Serialization;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Fanex.Athena.ExtService.Common.Services
@@ -41,14 +42,16 @@ namespace Fanex.Athena.ExtService.Common.Services
             if (result is null)
             {
                 result = await GetLicenseeInfoFromDBAsync(siteName, custId);
-
-                var options = custId > 0
-                    ? WithSlidingExpiration(TimeSpan.FromSeconds(CacheTimeOut30Seconds))
-                    : WithAbsoluteExpiration(DateTimeOffset.Now.AddSeconds(CacheTimeout300Seconds));
-                await _cache.SetAsync(realCacheKey, await PackAsync(result), options);
+                if (result.Currencies.Any())
+                {
+                    var options = custId > 0
+                        ? WithSlidingExpiration(TimeSpan.FromSeconds(CacheTimeOut30Seconds))
+                        : WithAbsoluteExpiration(DateTimeOffset.Now.AddSeconds(CacheTimeout300Seconds));
+                    await _cache.SetAsync(realCacheKey, await PackAsync(result), options);
+                }
             }
 
-            return result ?? new LicenseeInfo { SiteName = siteName, Currencies = new CurrencyInfo[] { } };
+            return result;
         }
 
         private static async Task<LicenseeInfo> GetLicenseeInfoFromDBAsync(string siteName, int custId)
