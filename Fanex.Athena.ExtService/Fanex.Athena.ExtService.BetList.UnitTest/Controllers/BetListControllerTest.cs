@@ -146,7 +146,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             //Assert
             var viewResult = Assert.IsType<ViewResult>(expectedResult);
             var viewModel = Assert.IsType<BetListByProductViewModel>(viewResult.Model);
-            Assert.Null(viewModel.Data);
+            Assert.Empty(viewModel.Data);
         }
 
         [Fact]

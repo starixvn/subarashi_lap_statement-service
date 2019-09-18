@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Dynamic;
+using System.Threading.Tasks;
 
 using Fanex.Athena.ExtService.BetList.Controllers;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
@@ -63,8 +64,11 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             //Action
             using (var controller = new ResultReportController(_betListApiClient.Object))
             {
+                dynamic input = new ExpandoObject();
+                input.refNo = refNo;
+                input.lang = lang;
                 controller.ControllerContext = _controllerContext.Object;
-                result = await controller.ShowRngCasinoSingleWalletResult(refNo, lang).ConfigureAwait(false);
+                result = await controller.ShowRngCasinoSingleWalletResult(input).ConfigureAwait(false);
             }
 
             //Assert
