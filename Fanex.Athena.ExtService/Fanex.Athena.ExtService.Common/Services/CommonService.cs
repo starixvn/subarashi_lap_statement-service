@@ -17,7 +17,7 @@ namespace Fanex.Athena.ExtService.Common.Services
         private const string LicenseeExtInfoCacheKey = "__LicenseeExtInfoCacheKey_";
         private readonly IDistributedCache _cache;
 
-        private static readonly SerializationContext _MsgPackSerializationContext = new SerializationContext
+        private static readonly SerializationContext _msgPackSerializationContext = new SerializationContext
         {
             DefaultDateTimeConversionMethod = DateTimeConversionMethod.Native
         };
@@ -138,13 +138,13 @@ namespace Fanex.Athena.ExtService.Common.Services
 
         private static Task<T> UnpackAsync<T>(byte[] data)
         {
-            var serializer = MessagePackSerializer.Get<T>(_MsgPackSerializationContext);
+            var serializer = MessagePackSerializer.Get<T>(_msgPackSerializationContext);
             return serializer.UnpackSingleObjectAsync(data);
         }
 
         private static Task<byte[]> PackAsync<T>(T value)
         {
-            var serializer = MessagePackSerializer.Get<T>(_MsgPackSerializationContext);
+            var serializer = MessagePackSerializer.Get<T>(_msgPackSerializationContext);
             return serializer.PackSingleObjectAsync(value);
         }
     }
