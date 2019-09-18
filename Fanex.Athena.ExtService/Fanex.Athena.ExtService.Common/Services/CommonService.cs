@@ -33,12 +33,6 @@ namespace Fanex.Athena.ExtService.Common.Services
             var realCacheKey = $"{LicenseeExtInfoCacheKey}{siteName}_{custId}";
             var cachedValue = await _cache.GetAsync(realCacheKey);
 
-            if (custId > 0 && cachedValue is null)
-            {
-                var cacheKeyBySiteName = $"{LicenseeExtInfoCacheKey}{siteName}_0";
-                cachedValue = await _cache.GetAsync(cacheKeyBySiteName);
-            }
-
             if (cachedValue != null)
             {
                 result = await UnpackAsync<LicenseeInfo>(cachedValue);

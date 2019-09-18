@@ -25,7 +25,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Attributes
         private readonly Mock<ICommonService> _mockCommonService;
         private readonly Mock<HttpContext> _mockHttpContext;
         private readonly Mock<ICustomerMetaModel> _mockCustomerMetaModel;
-        private const string ResultMsg = "Not found any customer matching with your query";
+        private const string ResultMsg = "Not found any customers that match your query!";
         private readonly ActionContext _actionContext;
         public CheckCustomerAttributeTest()
         {

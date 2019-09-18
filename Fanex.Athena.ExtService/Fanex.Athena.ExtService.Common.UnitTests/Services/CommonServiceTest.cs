@@ -159,10 +159,9 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
         }
 
         [Theory]
-        [InlineData(0, true)]
-        [InlineData(1, false)]
-        [InlineData(1, true)]
-        public async Task GetLicenseeInfoAsync_WhenCall_ReturnDataFromCache(int custId, bool isCachedBySiteName)
+        [InlineData(0)]
+        [InlineData(1)]
+        public async Task GetLicenseeInfoAsync_WhenCall_ReturnDataFromCache(int custId)
         {
             //Arrange
             const string SiteName = "12Bet";
@@ -171,7 +170,6 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             const string CurrencyName = "USD";
             const bool HasComm = true;
             var realCacheKey = $"{LicenseeExtInfoCacheKey}{SiteName}_{custId}";
-            var realcacheKeyBySite = $"{LicenseeExtInfoCacheKey}{SiteName}_0";
             var licenseeInfo = new LicenseeInfo
             {
                 Currencies = new[] { new CurrencyInfo { CurrencyId = CurrencyId, CurrencyName = CurrencyName, AgentId = AgentId } },
@@ -182,9 +180,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             var cachedValue = MessagePackSerializer.Get<LicenseeInfo>(_serializationContext)
                 .PackSingleObject(licenseeInfo);
             _mockCache.Setup(c => c.GetAsync(realCacheKey, It.IsAny<CancellationToken>()))
-                .ReturnsAsync(isCachedBySiteName ? null : cachedValue);
-            _mockCache.Setup(c => c.GetAsync(realcacheKeyBySite, It.IsAny<CancellationToken>()))
-               .ReturnsAsync(cachedValue);
+                .ReturnsAsync(cachedValue);
 
             var service = new CommonService(_mockCache.Object);
 
