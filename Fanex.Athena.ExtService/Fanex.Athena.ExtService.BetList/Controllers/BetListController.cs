@@ -39,9 +39,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             };
             if (metaModel.IsValid)
             {
-
                 AssignCommonMetaModelValue(metaModel, licenseeInfo);
-
                 var result = await _betListApiClient.PostAsync<RefNoDataResult>("/BettingTicketCenter/GetByRefno",
                 metaModel,
                 metaModel.Lang

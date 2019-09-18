@@ -1,12 +1,12 @@
 ﻿using System;
 
 using Fanex.Athena.ExtService.Common.Models.DataDomain;
-
+using Fanex.Athena.ExtService.Common.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 {
-    public class SummaryStatementMetaModel : IBaseMetaModel
+    public class SummaryStatementMetaModel : IBaseMetaModel, ICustomerMetaModel
     {
         const int TotalDaysLimit = 31;
         [FromQuery(Name = "cid")]

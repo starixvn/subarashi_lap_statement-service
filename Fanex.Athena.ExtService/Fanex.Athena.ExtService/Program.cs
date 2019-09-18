@@ -8,7 +8,7 @@ namespace Fanex.Athena.ExtService
     {
         protected Program() { }
         public static void Main(string[] args)
-        {
+       {
             CreateWebHostBuilder(args).Build().Run();
         }
 

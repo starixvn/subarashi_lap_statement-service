@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Fanex.Athena.ExtService.Common.Models.ViewModels;
 using Newtonsoft.Json;
 
 namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 {
-    public class BetListDetailByProductMetaModel : IBaseBetListMetaModel
+    public class BetListDetailByProductMetaModel : IBaseBetListMetaModel, ICustomerMetaModel
     {
         public long TransId { get; set; }
 

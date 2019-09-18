@@ -1,8 +1,9 @@
 ﻿using System;
+using Fanex.Athena.ExtService.Common.Models.ViewModels;
 
 namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 {
-    public class ResultPopupMetalModel 
+    public class ResultPopupMetalModel : ICustomerMetaModel
     {
         public int MatchId
         {

@@ -1,4 +1,5 @@
 ﻿using Fanex.Athena.ExtService.BetList.Services;
+using Fanex.Athena.ExtService.Common.Attributes;
 using Fanex.Athena.ExtService.Common.Models.DTO;
 using Fanex.Athena.ExtService.Common.Services;
 using Fanex.Athena.ExtService.Core.Attributes;
@@ -109,6 +110,7 @@ namespace Fanex.Athena.ExtService
             services.AddScoped<IAuthenticateService, TokenAuthenticationService>();
             services.AddScoped<IUserManagementService, UserManagementService>();
             services.AddScoped<IPFilterAttribute>();
+            services.AddScoped<CheckCustomerAttribute>();
             services.AddSingleton<ICommonService, CommonService>();
             services.AddSingleton<ILogger>(x => LogService.LoggerInstance);
             services.AddTransient<IRestClient, RestClient>();

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Fanex.Athena.ExtService.Common.Models.ViewModels;
 
 namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 {
-    public class ColossusBetDetailMetaModel : IBaseMetaModel
+    public class ColossusBetDetailMetaModel : IBaseMetaModel, ICustomerMetaModel
     {
         public int UserId { get; set; } = 1;
 
