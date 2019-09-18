@@ -3,12 +3,10 @@ using Fanex.Athena.ExtService.Common.Services;
 using Fanex.Data;
 using Microsoft.Extensions.Caching.Distributed;
 using Moq;
-using Newtonsoft.Json;
+using MsgPack.Serialization;
 using System;
 using System.Data;
 using System.Data.Common;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,13 +16,14 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
 {
     public class CommonServiceTest
     {
-        private const int CacheTimeout120Seconds = 120;
-        private const int CacheTimeout300Seconds = 300;
-        private const int CacheTimeOut30Seconds = 30;
         private const string BalanceUpCacheKey = "EXT_LAP_CACHE_BALANCEUP";
         private const string LicenseeExtInfoCacheKey = "__LicenseeExtInfoCacheKey_";
 
         private readonly Mock<IDistributedCache> _mockCache;
+        private readonly SerializationContext _serializationContext = new SerializationContext
+        {
+            DefaultDateTimeConversionMethod = DateTimeConversionMethod.Native
+        };
 
         public CommonServiceTest()
         {
@@ -82,8 +81,10 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
                 BalanceUpDay = DateTime.Now,
                 MoveBetsDay = DateTime.Now.AddMonths(-1)
             };
-            var valueTobeCached = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(balanceupInfo));
-            _mockCache.Setup(c => c.GetAsync(BalanceUpCacheKey, It.IsAny<CancellationToken>())).ReturnsAsync(valueTobeCached);
+            
+            var cachedValue = MessagePackSerializer.Get<BalanceUp>(_serializationContext)
+                .PackSingleObject(balanceupInfo);
+            _mockCache.Setup(c => c.GetAsync(BalanceUpCacheKey, It.IsAny<CancellationToken>())).ReturnsAsync(cachedValue);
 
             var service = new CommonService(_mockCache.Object);
 
@@ -173,13 +174,13 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             var realcacheKeyBySite = $"{LicenseeExtInfoCacheKey}{SiteName}_0";
             var licenseeInfo = new LicenseeInfo
             {
-
                 Currencies = new[] { new CurrencyInfo { CurrencyId = CurrencyId, CurrencyName = CurrencyName, AgentId = AgentId } },
                 SiteName = SiteName,
                 IsAllowedCustomerComm = HasComm
             };
-
-            var cachedValue = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(licenseeInfo));
+            
+            var cachedValue = MessagePackSerializer.Get<LicenseeInfo>(_serializationContext)
+                .PackSingleObject(licenseeInfo);
             _mockCache.Setup(c => c.GetAsync(realCacheKey, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(isCachedBySiteName ? null : cachedValue);
             _mockCache.Setup(c => c.GetAsync(realcacheKeyBySite, It.IsAny<CancellationToken>()))

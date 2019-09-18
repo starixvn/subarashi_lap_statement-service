@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-using Fanex.Athena.ExtService.Common.Models.DTO;
+﻿using Fanex.Athena.ExtService.Common.Models.DTO;
 using Fanex.Data;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Caching.Memory;
-using Newtonsoft.Json;
+using MsgPack.Serialization;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Fanex.Athena.ExtService.Common.Services
 {
@@ -20,6 +17,11 @@ namespace Fanex.Athena.ExtService.Common.Services
         private const string LicenseeExtInfoCacheKey = "__LicenseeExtInfoCacheKey_";
         private readonly IDistributedCache _cache;
 
+        private static readonly SerializationContext _MsgPackSerializationContext = new SerializationContext
+        {
+            DefaultDateTimeConversionMethod = DateTimeConversionMethod.Native
+        };
+
         public CommonService(IDistributedCache cache)
         {
             _cache = cache;
@@ -29,17 +31,17 @@ namespace Fanex.Athena.ExtService.Common.Services
         {
             LicenseeInfo result = null;
             var realCacheKey = $"{LicenseeExtInfoCacheKey}{siteName}_{custId}";
-            var cachedValue = await GetValueFromCacheAsync(realCacheKey);
+            var cachedValue = await _cache.GetAsync(realCacheKey);
 
             if (custId > 0 && cachedValue is null)
             {
                 var cacheKeyBySiteName = $"{LicenseeExtInfoCacheKey}{siteName}_0";
-                cachedValue = await GetValueFromCacheAsync(cacheKeyBySiteName);
+                cachedValue = await _cache.GetAsync(cacheKeyBySiteName);
             }
 
             if (cachedValue != null)
             {
-                result = JsonConvert.DeserializeObject<LicenseeInfo>(cachedValue);
+                result = await UnpackAsync<LicenseeInfo>(cachedValue);
             }
 
             if (result is null)
@@ -49,7 +51,7 @@ namespace Fanex.Athena.ExtService.Common.Services
                 var options = custId > 0
                     ? WithSlidingExpiration(TimeSpan.FromSeconds(CacheTimeOut30Seconds))
                     : WithAbsoluteExpiration(DateTimeOffset.Now.AddSeconds(CacheTimeout300Seconds));
-                await SetValueToCacheAsync(realCacheKey, JsonConvert.SerializeObject(result), options);
+                await _cache.SetAsync(realCacheKey, await PackAsync(result), options);
             }
 
             return result ?? new LicenseeInfo { SiteName = siteName, Currencies = new CurrencyInfo[] { } };
@@ -95,15 +97,15 @@ namespace Fanex.Athena.ExtService.Common.Services
 
         public async Task<BalanceUp> GetBalanceUpAsync()
         {
-            var cachedValue = await GetValueFromCacheAsync(BalanceUpCacheKey);
+            var cachedValue = await _cache.GetAsync(BalanceUpCacheKey);
             if (cachedValue != null)
             {
-                return JsonConvert.DeserializeObject<BalanceUp>(cachedValue);
+                return await UnpackAsync<BalanceUp>(cachedValue);
             }
 
             var balanceup = await GetBalanceUpDayFromDb();
             var options = WithAbsoluteExpiration(DateTimeOffset.Now.AddSeconds(CacheTimeout120Seconds));
-            await SetValueToCacheAsync(BalanceUpCacheKey, JsonConvert.SerializeObject(balanceup), options);
+            await _cache.SetAsync(BalanceUpCacheKey, await PackAsync(balanceup), options);
 
             return balanceup;
         }
@@ -134,15 +136,16 @@ namespace Fanex.Athena.ExtService.Common.Services
         private static DistributedCacheEntryOptions WithSlidingExpiration(TimeSpan time)
             => new DistributedCacheEntryOptions { SlidingExpiration = time };
 
-        private async Task<string> GetValueFromCacheAsync(string key)
+        private static Task<T> UnpackAsync<T>(byte[] data)
         {
-            var value = await _cache.GetAsync(key);
-            return value is null ? null : Encoding.UTF8.GetString(value);
+            var serializer = MessagePackSerializer.Get<T>(_MsgPackSerializationContext);
+            return serializer.UnpackSingleObjectAsync(data);
         }
 
-        private Task SetValueToCacheAsync(string key, string value, DistributedCacheEntryOptions options)
+        private static Task<byte[]> PackAsync<T>(T value)
         {
-            return _cache.SetAsync(key, Encoding.UTF8.GetBytes(value), options);
+            var serializer = MessagePackSerializer.Get<T>(_MsgPackSerializationContext);
+            return serializer.PackSingleObjectAsync(value);
         }
     }
 }
