@@ -40,7 +40,7 @@ namespace Fanex.Athena.ExtService.Common.Attributes
             {
                 var result = new ContentResult
                 {
-                    Content = "Not found any customer matching with your query"
+                    Content = "Not found any customers that match your query!"
                 };
                 context.Result = result;
             }
