@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <PackageReference Include="Fanex.Data.SqlServer" Version="4.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.2.0" />
@@ -28,12 +29,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Fanex.Athena.ExtService.Resources\Fanex.Athena.ExtService.Resources.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Microsoft.AspNetCore.Mvc.Core">
-      <HintPath>..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.mvc.core\2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Mvc.Core.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
