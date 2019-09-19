@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.BetList.Models.ViewModel;
 using Fanex.Athena.ExtService.Common;
+using Fanex.Athena.ExtService.Common.Attributes;
 using Fanex.Athena.ExtService.Common.Models.ViewModels;
 using Fanex.Athena.ExtService.Common.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -26,6 +27,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
 
         [HttpGet]
         [ResponseCache(Duration = CacheIntTenSecond)]
+        [ServiceFilter(typeof(CheckCustomerAttribute))]
         public async Task<IActionResult> Detail(ColossusBetDetailMetaModel metaModel)
         {
             var licenseeInfo = await _commonService.GetLicenseeInfoAsync(HttpContext.User.Identity.Name, metaModel.CustId);

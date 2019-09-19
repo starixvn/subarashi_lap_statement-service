@@ -38,7 +38,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         }
 
         [ResponseCache(Duration = SystemConstants.ThirtySecond)]
-
+        [ServiceFilter(typeof(CheckCustomerAttribute))]
         [HttpGet]
         public async Task<IActionResult> NewParlayDetail(
             NewParlayDetailMetaModel metaModel)
