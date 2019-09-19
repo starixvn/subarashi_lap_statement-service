@@ -128,7 +128,10 @@ namespace Fanex.Athena.ExtService
                     var result = new StringBuilder();
                     foreach (var item in ip)
                     {
-                        result.AppendLine(item + ",");
+                        if (!item.Equals("::1"))
+                        {
+                            result.AppendLine(item + ",");
+                        }
                     }
                     return HealthCheckResult.Healthy(result.ToString());
 
