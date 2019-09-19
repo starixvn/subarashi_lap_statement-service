@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Fanex.Athena.ExtService.BetList.Models.DTO;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.BetList.Models.ViewModel;
+using Fanex.Athena.ExtService.Common.Attributes;
 using Fanex.Athena.ExtService.Common.Models.DataDomain;
 using Fanex.Athena.ExtService.Common.Services;
 
@@ -55,6 +56,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         }
 
         [HttpGet]
+        [ServiceFilter(typeof(CheckCustomerAttribute))]
         [ResponseCache(Duration = SystemConstants.ThirtySecond, NoStore = false,
             VaryByQueryKeys = new[] { "cid", "lang", "bc", "wd", "pc", "ps", "pi", "mv", "s" })]
         public async Task<IActionResult> ByGroup(BetListByGroupMetaModel metaModel)
