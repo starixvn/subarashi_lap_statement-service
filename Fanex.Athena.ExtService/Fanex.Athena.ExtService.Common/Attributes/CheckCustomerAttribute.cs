@@ -25,9 +25,9 @@ namespace Fanex.Athena.ExtService.Common.Attributes
             var metaModel = context.ActionArguments.Where(x => x.Value is ICustomerMetaModel)
                       .Select(x => x.Value as ICustomerMetaModel).FirstOrDefault();
 
-            var isValid = metaModel != null;
+            var isValid = metaModel != null && metaModel.CustId > 0;
 
-            if (metaModel != null && metaModel.CustId > 0)
+            if (isValid)
             {
                 isValid = (await _commonService.GetLicenseeInfoAsync(siteName, metaModel.CustId)).Currencies.Any();
             }

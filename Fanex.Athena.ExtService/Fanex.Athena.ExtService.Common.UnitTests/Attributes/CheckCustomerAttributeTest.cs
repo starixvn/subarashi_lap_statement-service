@@ -67,11 +67,13 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Attributes
         }
 
 
-        [Fact]
-        public async Task OnActionExecution_CustIdIsZero_ContineToExecuteAction()
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-10000)]
+        public async Task OnActionExecution_InValidCustID_ReturnExpectedMsg(int custID)
         {
             //Arrange
-            _mockCustomerMetaModel.Setup(x => x.CustId).Returns(0);
+            _mockCustomerMetaModel.Setup(x => x.CustId).Returns(custID);
             var actionExcutingContext = new ActionExecutingContext(
            _actionContext,
            new List<IFilterMetadata>(),
@@ -87,8 +89,9 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Attributes
                Mock.Of<Controller>()))); ;
 
             //Assert
+            var actualResult = Assert.IsAssignableFrom<ContentResult>(actionExcutingContext.Result);
             _mockCommonService.Verify(x => x.GetLicenseeInfoAsync(It.IsAny<string>(), It.IsAny<int>()), Times.Never);
-            Assert.Null(actionExcutingContext.Result);
+            Assert.Equal(ResultMsg, actualResult.Content);
         }
         [Fact]
         public async Task OnActionExecution_ValidCustomer_ContineToExecuteAction()
