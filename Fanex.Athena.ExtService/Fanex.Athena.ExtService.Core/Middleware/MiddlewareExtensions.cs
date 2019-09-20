@@ -13,5 +13,10 @@ namespace Fanex.Athena.ExtService.Core.Middleware
         {
             return builder.UseMiddleware<ErrorHandler>();
         }
+
+        public static IApplicationBuilder UseUMHandler(this IApplicationBuilder builder)
+        {
+            return builder.UseMiddleware<UMHandler>();
+        }
     }
 }

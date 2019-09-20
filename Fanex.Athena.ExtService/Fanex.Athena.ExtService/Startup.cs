@@ -31,7 +31,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-
+using ONEbook.UM.Configurations;
+using ONEbook.UM.Helpers;
+using ONEbook.UM.Services;
 using RestSharp;
 
 using StackExchange.Redis;
@@ -108,7 +110,7 @@ namespace Fanex.Athena.ExtService
 
         }
 
-        private static void DIRegister(IServiceCollection services)
+        private void DIRegister(IServiceCollection services)
         {
             services.AddScoped<IAuthenticateService, TokenAuthenticationService>();
             services.AddScoped<IUserManagementService, UserManagementService>();
@@ -120,6 +122,18 @@ namespace Fanex.Athena.ExtService
             services.AddTransient<IBetListApiClient, BetListApiClient>();
             services.AddTransient<ISummaryStatementService, SummaryStatementService>();
             services.AddTransient<IStatementByGroupService, StatementByGroupService>();
+            var umConfig = Configuration.GetSection("ONEbook.UM").Get<UMClientConfiguration>();
+            services.AddSingleton(typeof(UMClientConfiguration), umConfig);
+            services.AddSingleton<IUMCacheService, UMCacheService>();
+            services.AddTransient<IPHelper, IPHelperImpl>();
+            services.AddSingleton<IUMRestClient>(x => new UMRestClient
+            (
+                umConfig, 
+                new UMHmacAuthenticator(umConfig, new IPHelperImpl())
+            ));
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IHttpContextHelper, UMHttpContextHelper>();
+            services.AddSingleton<IMaintenanceService, MaintenanceService>();
         }
 
         private void ConfigAuthentication(IServiceCollection services)
@@ -240,6 +254,7 @@ namespace Fanex.Athena.ExtService
             app.UseAuthentication();
             app.UseResponseCaching();
             app.UseStatusCodePagesWithReExecute("/Error", "?code={0}");
+            app.UseUMHandler();
             app.UseMvc(routes =>
             {
 
