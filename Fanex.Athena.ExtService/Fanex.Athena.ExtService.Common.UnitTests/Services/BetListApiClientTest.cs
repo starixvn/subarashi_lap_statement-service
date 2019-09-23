@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Fanex.Athena.ExtService.Common.Extensions;
+﻿using Fanex.Athena.ExtService.Common.Extensions;
 using Fanex.Athena.ExtService.Common.Models.DTO;
 using Fanex.Athena.ExtService.Common.Services;
 using Microsoft.Extensions.Options;
@@ -10,78 +6,78 @@ using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
+using System;
+using System.Net;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Fanex.Athena.ExtService.Common.UnitTests.Services
 {
     public class BetListApiClientTest
     {
-        private readonly Mock<IRestClient> _mockClient;
+        private readonly Mock<IHttpClientFactory> _mockClientFactory;
         private readonly Mock<IOptions<AppSettings>> _mockOptions;
-        private readonly Mock<IRestResponse> _mockResponse;
-        const string BaseUrl = "http://localhost:5000";
-        const string TokenValue = "ANYTOKEN";
+        private readonly Mock<HttpClient> _mockClient;
+
+        private const string BaseUrl = "http://localhost:5000";
+        private const string TokenValue = "ANYTOKEN";
+
         public BetListApiClientTest()
         {
-            _mockClient = new Mock<IRestClient>();
+            _mockClientFactory = new Mock<IHttpClientFactory>();
             _mockOptions = new Mock<IOptions<AppSettings>>();
             _mockOptions.Setup(x => x.Value).Returns(new AppSettings
             {
                 BetListApiHostUrl = BaseUrl,
                 BetListApiTokenValue = TokenValue,
             });
-            _mockResponse = new Mock<IRestResponse>();
+            _mockClient = new Mock<HttpClient> { CallBase = false };
+            _mockClientFactory.SetReturnsDefault(_mockClient.Object);
         }
+
         [Fact]
-        public async Task HandleAsync_WhenCallSuccess_PassCorrectParamAndReturnNotNullResult()
+        public async Task HandleAsync_WhenCallSuccess_PostCorrectParamAndReturnResult()
         {
             //Arrange
             const string language = "en-US";
             const string FakeContent = "ANY";
             const int timeout = 2;
-            IRestRequest restRequest = null;
-            _mockResponse.Setup(x => x.ResponseStatus).Returns(ResponseStatus.Completed);
-            _mockResponse.Setup(x => x.Content).Returns(FakeContent);
-            _mockClient.Setup(x => x.ExecuteTaskAsync(It.IsAny<IRestRequest>())).Callback<IRestRequest>(x => { restRequest = x; })
-                .Returns(Task.FromResult(_mockResponse.Object));
-            var apiClient = new BetListApiClient(_mockOptions.Object, _mockClient.Object);
+
+            HttpRequestMessage request = null;
+            _mockClient.Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>(), CancellationToken.None))
+                .Callback<HttpRequestMessage, CancellationToken>((x, _) => { request = x; })
+                .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(FakeContent) });
+
+            var apiClient = new BetListApiClient(_mockOptions.Object, _mockClientFactory.Object);
+
             //Action
             var result = await apiClient.PostAsyncString("/test", new { data = "test" }, language, timeout).ConfigureAwait(false);
 
             //Assert
-            Assert.NotNull(restRequest);
-            Assert.Equal(Method.POST, restRequest.Method);
-            Assert.IsType<RestSharpNewtonsoftJsonSerializer>(restRequest.JsonSerializer);
-            Assert.NotNull(result);
+            Assert.NotNull(request);
+            Assert.Equal(HttpMethod.Post, request.Method);
+            Assert.Equal("{\"data\":\"test\"}", await request.Content.ReadAsStringAsync());
             Assert.Equal(FakeContent, result);
-            _mockClient.VerifySet(x => x.Timeout = 60000 * timeout);
-
+            Assert.Equal(TimeSpan.FromMinutes(timeout), _mockClient.Object.Timeout);
         }
 
         [Fact]
-        public async Task HandleAsync_WhenCallWithException_ThrowInvalidOperationException()
+        public async Task HandleAsync_WhenRequestNotOk_ThrowInvalidOperationException()
         {
             //Arrange
-            const string language = "en-US";
-            const int timeout = 2;
-            const string fakeErrorMsg = "Any";
-            var actualErrorMsg = $"Http Error ={fakeErrorMsg}\n Error occur when query betlist data";
-            var actualException = new Exception();
-            _mockResponse.Setup(x => x.ErrorMessage).Returns(fakeErrorMsg);
-            _mockResponse.Setup(x => x.ErrorException).Returns(actualException);
-            IRestRequest restRequest = null;
-            _mockClient.Setup(x => x.ExecuteTaskAsync(It.IsAny<IRestRequest>())).Callback<IRestRequest>(x => { restRequest = x; })
-                .Returns(Task.FromResult(_mockResponse.Object));
-            var apiClient = new BetListApiClient(_mockOptions.Object, _mockClient.Object);
+            _mockClient.Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>(), CancellationToken.None))
+                .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = "test-error" });
+
+            var apiClient = new BetListApiClient(_mockOptions.Object, _mockClientFactory.Object);
+
             //Action
             var ex = await Assert.ThrowsAsync<InvalidOperationException>(
-                async () => await apiClient.PostAsyncString("/test", new { data = "test" }, language, timeout).ConfigureAwait(false));
+                async () => await apiClient.PostAsyncString("/test", new { data = "test" }, "en-US", 1).ConfigureAwait(false));
 
             //Assert
-
-            Assert.Equal(ex.Message, actualErrorMsg);
-            Assert.Equal(ex.InnerException, actualException);
-
+            Assert.Equal("Http Error = test-error\n Error occur when query betlist data", ex.Message);
         }
 
         [Fact]
@@ -89,20 +85,24 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
         {
             //Arrange
             const string language = "en-US";
-            var fakeContent = new { ID = 1, Name = "alex" };
             const int timeout = 2;
-            IRestRequest restRequest = null;
-            _mockResponse.Setup(x => x.ResponseStatus).Returns(ResponseStatus.Completed);
-            _mockResponse.Setup(x => x.Content).Returns(JsonConvert.SerializeObject(fakeContent));
-            _mockClient.Setup(x => x.ExecuteTaskAsync(It.IsAny<IRestRequest>())).Callback<IRestRequest>(x => { restRequest = x; })
-                .Returns(Task.FromResult(_mockResponse.Object));
-            var apiClient = new BetListApiClient(_mockOptions.Object, _mockClient.Object);
+
+            _mockClient.Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>(), CancellationToken.None))
+                .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    Content = new StringContent("{\"ID\":1,\"Name\":\"alex\"}")
+                });
+
+            var apiClient = new BetListApiClient(_mockOptions.Object, _mockClientFactory.Object);
+
             //Action
             var result = await apiClient.PostAsync<dynamic>("/test", new { data = "test" }, language, timeout).ConfigureAwait(false);
 
             //Assert
-            var actualResult = Assert.IsAssignableFrom<JObject>(result);
-            Assert.Equal(JsonConvert.SerializeObject(fakeContent), JsonConvert.SerializeObject(actualResult));
+            Assert.IsAssignableFrom<JObject>(result);
+            Assert.Equal(
+                JsonConvert.SerializeObject(new { ID = 1, Name = "alex" }), 
+                JsonConvert.SerializeObject(result));
         }
     }
 }
