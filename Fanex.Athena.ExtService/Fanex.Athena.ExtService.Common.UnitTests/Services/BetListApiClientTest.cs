@@ -1,11 +1,9 @@
-﻿using Fanex.Athena.ExtService.Common.Extensions;
-using Fanex.Athena.ExtService.Common.Models.DTO;
+﻿using Fanex.Athena.ExtService.Common.Models.DTO;
 using Fanex.Athena.ExtService.Common.Services;
 using Microsoft.Extensions.Options;
 using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using RestSharp;
 using System;
 using System.Net;
 using System.Net.Http;
@@ -101,7 +99,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             //Assert
             Assert.IsAssignableFrom<JObject>(result);
             Assert.Equal(
-                JsonConvert.SerializeObject(new { ID = 1, Name = "alex" }), 
+                JsonConvert.SerializeObject(new { ID = 1, Name = "alex" }),
                 JsonConvert.SerializeObject(result));
         }
     }
