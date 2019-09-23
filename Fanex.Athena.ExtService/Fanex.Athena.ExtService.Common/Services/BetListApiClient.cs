@@ -41,7 +41,7 @@ namespace Fanex.Athena.ExtService.Common.Services
             var result = await client.SendAsync(request, CancellationToken.None);
             if (!result.IsSuccessStatusCode)
             {
-                var errorMessage = $"Http Error = {result.ReasonPhrase}\n Error occur when query betlist data";
+                var errorMessage = $"Http Error = {(int)result.StatusCode}-{result.ReasonPhrase}\n Error occur when query betlist data";
                 throw new InvalidOperationException(errorMessage);
             }
 

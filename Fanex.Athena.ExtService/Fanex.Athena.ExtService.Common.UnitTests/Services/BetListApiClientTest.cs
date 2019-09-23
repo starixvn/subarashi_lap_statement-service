@@ -75,7 +75,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
                 async () => await apiClient.PostAsyncString("/test", new { data = "test" }, "en-US", 1).ConfigureAwait(false));
 
             //Assert
-            Assert.Equal("Http Error = test-error\n Error occur when query betlist data", ex.Message);
+            Assert.Equal("Http Error = 400-test-error\n Error occur when query betlist data", ex.Message);
         }
 
         [Fact]
