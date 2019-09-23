@@ -16,22 +16,15 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
     public class BetListApiClientTest
     {
         private readonly Mock<IHttpClientFactory> _mockClientFactory;
-        private readonly Mock<IOptions<AppSettings>> _mockOptions;
         private readonly Mock<HttpClient> _mockClient;
-
-        private const string BaseUrl = "http://localhost:5000";
-        private const string TokenValue = "ANYTOKEN";
+        private readonly Mock<IOptions<BetListApiClientName>> _mockOptions;
 
         public BetListApiClientTest()
         {
             _mockClientFactory = new Mock<IHttpClientFactory>();
-            _mockOptions = new Mock<IOptions<AppSettings>>();
-            _mockOptions.Setup(x => x.Value).Returns(new AppSettings
-            {
-                BetListApiHostUrl = BaseUrl,
-                BetListApiTokenValue = TokenValue,
-            });
             _mockClient = new Mock<HttpClient> { CallBase = false };
+            _mockOptions = new Mock<IOptions<BetListApiClientName>>();
+            _mockOptions.SetReturnsDefault(new BetListApiClientName());
             _mockClientFactory.SetReturnsDefault(_mockClient.Object);
         }
 
@@ -42,8 +35,12 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             const string language = "en-US";
             const string FakeContent = "ANY";
             const int timeout = 2;
+            const string apiClientKey = "test-bet-list-api-client";
 
             HttpRequestMessage request = null;
+            _mockClientFactory.Reset();
+            _mockOptions.Object.Value.Name = apiClientKey;
+            _mockClientFactory.Setup(r => r.CreateClient(apiClientKey)).Returns(_mockClient.Object);
             _mockClient.Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>(), CancellationToken.None))
                 .Callback<HttpRequestMessage, CancellationToken>((x, _) => { request = x; })
                 .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(FakeContent) });

@@ -12,11 +12,9 @@ namespace Fanex.Athena.ExtService.Common.Services
 {
     public class BetListApiClient : IBetListApiClient
     {
-        private const string KEYNAME = "BETLIST_TOKEN_KEY";
         private const string LANGUAGEKEY = "Language";
-        private const string HTTP_CLIENT_NAME = "BetListApi";
 
-        private readonly AppSettings _appSetting;
+        private readonly string _betListApiClientName;
         private readonly IHttpClientFactory _clientFactory;
 
         private static readonly JsonSerializerSettings _serializerSettings = new JsonSerializerSettings
@@ -25,22 +23,20 @@ namespace Fanex.Athena.ExtService.Common.Services
             DateTimeZoneHandling = DateTimeZoneHandling.Unspecified
         };
 
-        public BetListApiClient(IOptions<AppSettings> appSettingsAccessor, IHttpClientFactory clientFactory)
+        public BetListApiClient(IOptions<BetListApiClientName> options, IHttpClientFactory clientFactory)
         {
-            _appSetting = appSettingsAccessor.Value;
+            _betListApiClientName = options.Value.Name;
             _clientFactory = clientFactory;
         }
 
         private async Task<T> HandleAsync<T>(string path, object value,
            string language, Func<HttpContent, Task<T>> codeBlock, int timeout = 0)
         {
-            var client = _clientFactory.CreateClient();
-            var baseUri = new Uri(_appSetting.BetListApiHostUrl);
-            var request = new HttpRequestMessage(HttpMethod.Post, new Uri(baseUri, path))
+            var client = _clientFactory.CreateClient(_betListApiClientName);
+            var request = new HttpRequestMessage(HttpMethod.Post, path)
             {
                 Content = ToJsonContent(value)
             };
-            request.Headers.Add(KEYNAME, _appSetting.BetListApiTokenValue);
             request.Headers.Add(LANGUAGEKEY, language);
 
             if (timeout > 0)
@@ -68,7 +64,7 @@ namespace Fanex.Athena.ExtService.Common.Services
             return await HandleAsync(path, value, language, FromJsonContentAsync<T>, timeout).ConfigureAwait(false);
         }
 
-        public static HttpContent ToJsonContent(object obj)
+        private static HttpContent ToJsonContent(object obj)
         {
             using (var stringWriter = new StringWriter())
             {
@@ -81,7 +77,7 @@ namespace Fanex.Athena.ExtService.Common.Services
             }
         }
 
-        public static async Task<T> FromJsonContentAsync<T>(HttpContent jsonContent)
+        private static async Task<T> FromJsonContentAsync<T>(HttpContent jsonContent)
         {
             var content = await jsonContent.ReadAsStringAsync();
             using (var stringReader = new StringReader(content))
