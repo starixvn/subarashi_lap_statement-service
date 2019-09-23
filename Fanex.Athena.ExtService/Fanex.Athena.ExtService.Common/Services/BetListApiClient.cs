@@ -33,7 +33,7 @@ namespace Fanex.Athena.ExtService.Common.Services
            string language, Func<HttpContent, Task<T>> codeBlock, int timeout = 0)
         {
             var client = _clientFactory.CreateClient(_betListApiClientName);
-            var request = new HttpRequestMessage(HttpMethod.Post, path)
+            var request = new HttpRequestMessage(HttpMethod.Post, new Uri(client.BaseAddress + path))
             {
                 Content = ToJsonContent(value)
             };

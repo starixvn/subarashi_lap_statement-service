@@ -26,36 +26,56 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             _mockOptions = new Mock<IOptions<BetListApiClientName>>();
             _mockOptions.SetReturnsDefault(new BetListApiClientName());
             _mockClientFactory.SetReturnsDefault(_mockClient.Object);
+            _mockClient.Object.BaseAddress = new Uri("http://test.com");
         }
 
         [Fact]
-        public async Task HandleAsync_WhenCallSuccess_PostCorrectParamAndReturnResult()
+        public async Task HandleAsync_WhenCallSuccess_ReturnResult()
         {
             //Arrange
             const string language = "en-US";
             const string FakeContent = "ANY";
             const int timeout = 2;
-            const string apiClientKey = "test-bet-list-api-client";
 
-            HttpRequestMessage request = null;
-            _mockClientFactory.Reset();
-            _mockOptions.Object.Value.Name = apiClientKey;
-            _mockClientFactory.Setup(r => r.CreateClient(apiClientKey)).Returns(_mockClient.Object);
             _mockClient.Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>(), CancellationToken.None))
-                .Callback<HttpRequestMessage, CancellationToken>((x, _) => { request = x; })
                 .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(FakeContent) });
 
             var apiClient = new BetListApiClient(_mockOptions.Object, _mockClientFactory.Object);
 
             //Action
-            var result = await apiClient.PostAsyncString("/test", new { data = "test" }, language, timeout).ConfigureAwait(false);
+            var result = await apiClient.PostAsyncString("/test", "test-data", language, timeout).ConfigureAwait(false);
+
+            //Assert
+
+            Assert.Equal(FakeContent, result);
+            Assert.Equal(TimeSpan.FromMinutes(timeout), _mockClient.Object.Timeout);
+        }
+
+        [Fact]
+        public async Task HandleAsync_RequestMessage_ConfigCorrectly()
+        {
+            //Arrange
+            const string ApiClientKey = "test-bet-list-api-client";
+
+            HttpRequestMessage request = null;
+            _mockClientFactory.Reset();
+            _mockOptions.Object.Value.Name = ApiClientKey;
+            _mockClientFactory.Setup(r => r.CreateClient(ApiClientKey)).Returns(_mockClient.Object);
+            _mockClient.Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>(), CancellationToken.None))
+                .Callback<HttpRequestMessage, CancellationToken>((x, _) => { request = x; })
+                .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent("any") });
+            _mockClient.Object.BaseAddress = new Uri("http://test/base-address");
+
+            var apiClient = new BetListApiClient(_mockOptions.Object, _mockClientFactory.Object);
+
+            //Action
+            var result = await apiClient.PostAsyncString("/test-path", new { data = "test" }, "en-US", 3).ConfigureAwait(false);
 
             //Assert
             Assert.NotNull(request);
             Assert.Equal(HttpMethod.Post, request.Method);
             Assert.Equal("{\"data\":\"test\"}", await request.Content.ReadAsStringAsync());
-            Assert.Equal(FakeContent, result);
-            Assert.Equal(TimeSpan.FromMinutes(timeout), _mockClient.Object.Timeout);
+            Assert.Equal(new Uri("http://test/base-address/test-path"), request.RequestUri);
         }
 
         [Fact]
