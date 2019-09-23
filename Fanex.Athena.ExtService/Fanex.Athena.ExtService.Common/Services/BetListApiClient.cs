@@ -1,7 +1,10 @@
 ﻿using Fanex.Athena.ExtService.Common.Models.DTO;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System;
+using System.IO;
 using System.Net.Http;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,9 +14,16 @@ namespace Fanex.Athena.ExtService.Common.Services
     {
         private const string KEYNAME = "BETLIST_TOKEN_KEY";
         private const string LANGUAGEKEY = "Language";
+        private const string HTTP_CLIENT_NAME = "BetListApi";
 
         private readonly AppSettings _appSetting;
         private readonly IHttpClientFactory _clientFactory;
+
+        private static readonly JsonSerializerSettings _serializerSettings = new JsonSerializerSettings
+        {
+            NullValueHandling = NullValueHandling.Ignore,
+            DateTimeZoneHandling = DateTimeZoneHandling.Unspecified
+        };
 
         public BetListApiClient(IOptions<AppSettings> appSettingsAccessor, IHttpClientFactory clientFactory)
         {
@@ -28,7 +38,7 @@ namespace Fanex.Athena.ExtService.Common.Services
             var baseUri = new Uri(_appSetting.BetListApiHostUrl);
             var request = new HttpRequestMessage(HttpMethod.Post, new Uri(baseUri, path))
             {
-                Content = HttpContentHelper.ToJsonContent(value)
+                Content = ToJsonContent(value)
             };
             request.Headers.Add(KEYNAME, _appSetting.BetListApiTokenValue);
             request.Headers.Add(LANGUAGEKEY, language);
@@ -55,7 +65,33 @@ namespace Fanex.Athena.ExtService.Common.Services
 
         public async Task<T> PostAsync<T>(string path, object value, string language, int timeout = 0)
         {
-            return await HandleAsync(path, value, language, HttpContentHelper.FromJsonContentAsync<T>, timeout).ConfigureAwait(false);
+            return await HandleAsync(path, value, language, FromJsonContentAsync<T>, timeout).ConfigureAwait(false);
+        }
+
+        public static HttpContent ToJsonContent(object obj)
+        {
+            using (var stringWriter = new StringWriter())
+            {
+                using (var jsonWriter = new JsonTextWriter(stringWriter))
+                {
+                    var serializer = JsonSerializer.Create(_serializerSettings);
+                    serializer.Serialize(jsonWriter, obj);
+                    return new StringContent(stringWriter.ToString(), Encoding.UTF8, "application/json");
+                }
+            }
+        }
+
+        public static async Task<T> FromJsonContentAsync<T>(HttpContent jsonContent)
+        {
+            var content = await jsonContent.ReadAsStringAsync();
+            using (var stringReader = new StringReader(content))
+            {
+                using (var jsonTextReader = new JsonTextReader(stringReader))
+                {
+                    var serializer = JsonSerializer.Create(_serializerSettings);
+                    return serializer.Deserialize<T>(jsonTextReader);
+                }
+            }
         }
     }
 }
