@@ -1,25 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.AspNetCore.Http;
 using ONEbook.UM.Helpers;
+using System;
 
 namespace Fanex.Athena.ExtService.Core.Services
 {
     public class UMHttpContextHelper : IHttpContextHelper
     {
-        public string GetSession(string key)
+        private readonly IUMCacheService _cache;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public UMHttpContextHelper(IUMCacheService cache, IHttpContextAccessor httpContextAccessor)
         {
-            throw new NotImplementedException();
+            _cache = cache;
+            _httpContextAccessor = httpContextAccessor;
         }
+
+        public string GetSession(string key) => _cache.Get<string>(key);
 
         public string GetValueFromQueryString(string queryKey)
         {
-            throw new NotImplementedException();
+            var context = _httpContextAccessor.HttpContext;
+            var request = context.Request;
+            return request.Query[queryKey];
         }
 
-        public void SetSession(string key, string value)
-        {
-            throw new NotImplementedException();
-        }
+        public void SetSession(string key, string value) => _cache.Set(key, value, TimeSpan.FromMinutes(1));
     }
 }
