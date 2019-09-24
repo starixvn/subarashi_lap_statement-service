@@ -134,11 +134,6 @@ namespace Fanex.Athena.ExtService
 
                 })
                 .AddPrivateMemoryHealthCheck(MaxMemory, "Memmory")
-                .AddDiskStorageHealthCheck(o =>
-                {
-                    o.AddDrive("C:\\", MaxDisk);
-                    o.AddDrive("E:\\", MaxDisk);
-                }, "Disk")
                 .AddWorkingSetHealthCheck(MaxWorkingSet, "WorkingSet")
                 .AddPingHealthCheck(x =>
                 {
