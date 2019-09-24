@@ -11,76 +11,62 @@ $bgTotal: $bgSummaryTotal;
     line-height: 1.15;
     table-layout: fixed;
     border-collapse: collapse;
-    a
 
-{
-    color: $colorHyperlink;
-    text-decoration: none;
-    &:hover, &:focus, &:active
+    a {
+        color: $colorHyperlink;
+        text-decoration: none;
 
-{
-    text-decoration: none;
-}
+        &:hover, &:focus, &:active {
+            text-decoration: none;
+        }
+    }
 
-}
+    > thead {
+        > tr {
+            > th {
+                vertical-align: middle;
+                text-align: center;
+                background: $bgHeaderTableLevel2;
+                border: 1px solid $white;
+                border-top: 1px solid $colorBorderTable;
+                color: $colorTableHeader;
+                font-weight: bold;
+                padding: 4px 5px;
+                border-radius: 0;
 
-> thead {
-    >tr
+                /*&:first-child {
+                    border-left-color: $colorBorderTable;
+                }
 
-{
-    >th
+                &:last-child {
+                    border-right-color: $colorBorderTable;
+                }*/
+            }
+        }
+    }
 
-{
-    vertical-align: middle;
-    text-align: center;
-    background: $bgHeaderTableLevel2;
-    border: 1px solid $white;
-    border-top: 1px solid $colorBorderTable;
-    color: $colorTableHeader;
-    font-weight: bold;
-    padding: 4px 5px;
-    border-radius: 0;
-    &:first-child
+    > tbody {
+        tr {
+            td {
+                border: 1px solid $colorBorderTable;
+                color: $black;
+                padding: 4px 5px;
+                background: $white;
+                vertical-align: middle;
+            }
 
-{
-    border-left-color: $colorBorderTable;
-}
+            &:hover td {
+                background: #fcf4df;
+            }
 
-&:last-child {
-    border-right-color: $colorBorderTable;
-}
+            &.total td {
+                background: $bgTotal;
+            }
 
-}
-}
-}
-
-> tbody {
-    tr
-
-{
-    td
-
-{
-    border: 1px solid $colorBorderTable;
-    color: $black;
-    padding: 4px 5px;
-    background: $white;
-    vertical-align: middle;
-}
-
-&:hover td {
-    background: #fcf4df;
-}
-
-&.total td {
-    background: $bgTotal;
-}
-
-&.highlight td {
-    background: #f7dbb6;
-    font-weight: bold;
-}
-
-}
-}
+            &.highlight td {
+                background: #f7dbb6;
+                font-weight: bold;
+            }
+        }
+    }
 }

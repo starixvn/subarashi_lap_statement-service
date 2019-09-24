@@ -35,13 +35,13 @@ body{
                     color: $white !important;
                     padding: 4px 5px;
 
-                    &:first-child {
+                    /*&:first-child {
                         border-left-color: #d1dae1 !important;
                     }
 
                     &:last-child {
                         border-right-color: #d1dae1 !important;
-                    }
+                    }*/
                 }
 
                 &:nth-child(2) th {
@@ -51,11 +51,11 @@ body{
                 }
             }
 
-            &:first-child {
+            /*&:first-child {
                 > tr:first-child > th {
                     border: 1px solid $colorBorderTable;
                 }
-            }
+            }*/
         }
 
         > tbody {
