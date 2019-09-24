@@ -1,4 +1,4 @@
-﻿namespace Fanex.Athena.ExtService.Common.Models.DTO
+﻿namespace Fanex.Athena.ExtService.Common.Models
 {
     public class BetListApiClientName
     {

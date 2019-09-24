@@ -1,5 +1,4 @@
-﻿using Fanex.Athena.ExtService.Common.Models.DTO;
-using Microsoft.Extensions.Options;
+﻿using Fanex.Athena.ExtService.Common.Models;
 using Newtonsoft.Json;
 using System;
 using System.IO;
@@ -23,9 +22,9 @@ namespace Fanex.Athena.ExtService.Common.Services
             DateTimeZoneHandling = DateTimeZoneHandling.Unspecified
         };
 
-        public BetListApiClient(IOptions<BetListApiClientName> options, IHttpClientFactory clientFactory)
+        public BetListApiClient(BetListApiClientName clientName, IHttpClientFactory clientFactory)
         {
-            _betListApiClientName = options.Value.Name;
+            _betListApiClientName = clientName.Name;
             _clientFactory = clientFactory;
         }
 
