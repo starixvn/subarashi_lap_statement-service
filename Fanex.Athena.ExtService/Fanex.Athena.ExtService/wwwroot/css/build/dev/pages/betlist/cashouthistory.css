@@ -221,11 +221,14 @@
   color: #314453;
   font-weight: 500;
   padding: 2px 5px;
-  border-radius: 0; }
-  .table > thead > tr > th:first-child {
-    border-left-color: #d1dae1 !important; }
-  .table > thead > tr > th:last-child {
-    border-right-color: #d1dae1 !important; }
+  border-radius: 0;
+  /*&:first-child {
+                    border-left-color: $colorBorderTable !important;
+                }
+
+                &:last-child {
+                    border-right-color: $colorBorderTable !important;
+                }*/ }
 
 .table > tbody tr td {
   border: 1px solid #d6d6d6;
