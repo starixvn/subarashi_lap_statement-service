@@ -20,8 +20,6 @@ using Fanex.Data.SqlServer;
 using Fanex.Logging;
 using Fanex.Logging.RabbitMQ;
 
-using HealthChecks.UI.Client;
-
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -115,10 +113,7 @@ namespace Fanex.Athena.ExtService
 
         private void ConfigHealthCheckService(IServiceCollection services, ApplicationOptions appOption)
         {
-            const long MaxMemory = 8000000000;
-            const long MaxDisk = 8000;
-            const long MaxWorkingSet = 2000000000;
-            services.AddHealthChecksUI()
+            services
                 .AddHealthChecks()
                 .AddAsyncCheck("Server", async () =>
                 {
@@ -132,18 +127,7 @@ namespace Fanex.Athena.ExtService
                     }
                     return HealthCheckResult.Healthy(result.ToString());
 
-                })
-                .AddPrivateMemoryHealthCheck(MaxMemory, "Memmory")
-                .AddWorkingSetHealthCheck(MaxWorkingSet, "WorkingSet")
-                .AddPingHealthCheck(x =>
-                {
-                    var dbServers = Configuration.GetSection("DBServer").Get<IList<string>>();
-                    foreach (var item in dbServers)
-                    {
-                        x.AddHost(item, 5);
-                    }
-                }, "Database")
-                .AddRedis($"{appOption.Redis.Server}:{appOption.Redis.Port},allowAdmin=true,password={appOption.Redis.Pass}");
+                });
         }
 
         private static void DIRegister(IServiceCollection services)
@@ -271,7 +255,6 @@ namespace Fanex.Athena.ExtService
             //    app.UseErrorHandler();
             //    app.UseHsts();
             //}
-            app.UseDeveloperExceptionPage();
 
             app.UseDeveloperExceptionPage();
             CustomizeCultureSupport(app);
@@ -281,13 +264,7 @@ namespace Fanex.Athena.ExtService
             app.UseAuthentication();
             app.UseResponseCaching();
             app.UseStatusCodePagesWithReExecute("/Error", "?code={0}");
-
-            app.UseHealthChecks("/healthz", new HealthCheckOptions
-            {
-                Predicate = _ => true,
-                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
-            })
-            .UseHealthChecksUI(x => x.UIPath = "/healthzui");
+            app.UseHealthChecks("/healthz");
             app.UseMvc(routes =>
             {
 
