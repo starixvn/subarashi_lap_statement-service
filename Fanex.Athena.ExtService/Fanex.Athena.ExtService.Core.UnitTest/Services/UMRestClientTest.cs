@@ -156,23 +156,19 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Services
         public async void ExecuteGetAsync_Authorization_AddToHeader()
         {
             // Arrange
-            HttpRequestMessage actual = null;
+            HttpRequestMessage request = null;
             _mockHttpClientFactory.SetReturnsDefault(_mockClient.Object);
             _mockClient.Setup(r => r.SendAsync(It.IsAny<HttpRequestMessage>(), CancellationToken.None))
                 .ReturnsAsync(new HttpResponseMessage { Content = new StringContent("{}") })
-                .Callback<HttpRequestMessage, CancellationToken>((a, _) => actual = a);
-            //HttpClientHelper.GenerateAuthorizationHeader(
-            //   _umConfiguration,
-            //   request.RequestUri.OriginalString,
-            //   request.Method.ToString(),
-            //   _ipHelper.GetMachineIP())
+                .Callback<HttpRequestMessage, CancellationToken>((a, _) => request = a);
+
             var um = CreateUMRestClient();
 
             // Action
             await um.ExecuteGetAsync<SampleTestClass>("/test");
 
             // Assert
-            Assert.NotEmpty(actual.Headers.GetValues("Authorization").Single());
+            Assert.NotEmpty(request.Headers.GetValues("Authorization").Single());
         }
 
         [Fact]
