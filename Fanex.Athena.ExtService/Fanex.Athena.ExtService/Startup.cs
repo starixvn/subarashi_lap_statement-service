@@ -232,12 +232,9 @@ namespace Fanex.Athena.ExtService
                 app.UseErrorHandler();
                 app.UseHsts();
             }
-
+            app.UseDeveloperExceptionPage();
             CustomizeCultureSupport(app);
-
-
             ConfigCacheForStaticResource(app, env);
-
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseJWTokenOnPage();
             app.UseAuthentication();
@@ -269,12 +266,17 @@ namespace Fanex.Athena.ExtService
 
         private static void CustomizeCultureSupport(IApplicationBuilder app)
         {
+            var dateformat = new DateTimeFormatInfo
+            {
+                ShortDatePattern = "MM-dd-yyyy",
+                LongDatePattern = "MM-dd-yyyy hh:mm:ss tt"
+            };
             var supportedCultures = new[]
             {
-                new CultureInfo("en-US"),
-                new CultureInfo("zh-TW"),
-                new CultureInfo("zh-Hans"),
-                new CultureInfo("zh-CN"),
+                new CultureInfo("en-US"){ DateTimeFormat= dateformat },
+                new CultureInfo("zh-TW"){ DateTimeFormat= dateformat },
+                new CultureInfo("zh-Hans"){ DateTimeFormat= dateformat },
+                new CultureInfo("zh-CN"){ DateTimeFormat= dateformat },
 
             };
             var requestLocalizationOptions = new RequestLocalizationOptions
@@ -288,7 +290,8 @@ namespace Fanex.Athena.ExtService
                     {
                         UIQueryStringKey = "lang"
                     }
-                }
+                },
+
             };
 
             app.UseRequestLocalization(requestLocalizationOptions);
