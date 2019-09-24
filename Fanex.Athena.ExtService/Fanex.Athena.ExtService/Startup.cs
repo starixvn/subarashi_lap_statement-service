@@ -1,5 +1,6 @@
 ﻿using Fanex.Athena.ExtService.BetList.Services;
 using Fanex.Athena.ExtService.Common.Attributes;
+using Fanex.Athena.ExtService.Common.Models;
 using Fanex.Athena.ExtService.Common.Models.DTO;
 using Fanex.Athena.ExtService.Common.Services;
 using Fanex.Athena.ExtService.Core.Attributes;
@@ -26,7 +27,6 @@ using Microsoft.IdentityModel.Tokens;
 using ONEbook.UM.Configurations;
 using ONEbook.UM.Helpers;
 using ONEbook.UM.Services;
-using RestSharp;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
@@ -42,9 +42,11 @@ namespace Fanex.Athena.ExtService
     {
         private const string ApplicationOptionSettingKey = "ApplicationOptions";
         private const string AppSettingKey = "AppSettings";
-        private const string BetListApi = "BetListApi";
+        private const string BetListApiClient = "BetListApiClient";
+        private const string UMClient = "UMClient";
         private const int SixtyDays = 60;
         private const int AliveIn180Seconds = 180;
+        private const int UMREQUEST_TIMEOUT = 10;
 
         public Startup(IConfiguration configuration)
         {
@@ -104,7 +106,7 @@ namespace Fanex.Athena.ExtService
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddHttpContextAccessor();
+
             DIRegister(services);
         }
 
@@ -116,29 +118,37 @@ namespace Fanex.Athena.ExtService
             services.AddScoped<CheckCustomerAttribute>();
             services.AddSingleton<ICommonService, CommonService>();
             services.AddSingleton<ILogger>(x => LogService.LoggerInstance);
-            services.AddTransient<IRestClient, RestClient>();
+            ConfigUMRestClient(services);
             ConfigBetListApiClient(services);
             services.AddTransient<ISummaryStatementService, SummaryStatementService>();
             services.AddTransient<IStatementByGroupService, StatementByGroupService>();
-            var umConfig = Configuration.GetSection("ONEbook.UM").Get<UMClientConfiguration>();
-            services.AddSingleton(typeof(UMClientConfiguration), umConfig);
-            services.AddSingleton<IUMCacheService, UMCacheService>();
-            services.AddTransient<IPHelper, IPHelperImpl>();
-            services.AddSingleton<IUMRestClient>(x => new UMRestClient
-            (
-                umConfig,
-                new UMHmacAuthenticator(umConfig, new IPHelperImpl())
-            ));
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IHttpContextHelper, UMHttpContextHelper>();
             services.AddSingleton<IMaintenanceService, MaintenanceService>();
         }
 
+        private void ConfigUMRestClient(IServiceCollection services)
+        {
+            var umConfig = Configuration.GetSection("ONEbook.UM").Get<UMClientConfiguration>();
+            services.AddSingleton(umConfig);
+            services.AddSingleton(new UMClientName { Name = UMClient });
+            services.AddTransient<IPHelper, IPHelperImpl>();
+            services.AddSingleton<IUMCacheService, UMCacheService>();
+            services.AddSingleton<IUMRestClient, UMRestClient>();
+            services.AddHttpClient(UMClient, (serviceProvider, client) =>
+            {
+                var configs = serviceProvider.GetService<UMClientConfiguration>();
+                client.BaseAddress = new Uri(configs.ServiceUri);
+                client.Timeout = TimeSpan.FromSeconds(UMREQUEST_TIMEOUT);
+            });
+        }
+
         private void ConfigBetListApiClient(IServiceCollection services)
         {
-            services.Configure<BetListApiClientName>(r => r.Name = BetListApi);
+            services.AddSingleton(new BetListApiClientName { Name = BetListApiClient });
             services.AddTransient<IBetListApiClient, BetListApiClient>();
-            services.AddHttpClient(BetListApi, (serviceProvider, client) =>
+            services.AddHttpClient(BetListApiClient, (serviceProvider, client) =>
             {
                 var options = serviceProvider.GetService<IOptions<AppSettings>>();
                 client.BaseAddress = new Uri(options.Value.BetListApiHostUrl);
