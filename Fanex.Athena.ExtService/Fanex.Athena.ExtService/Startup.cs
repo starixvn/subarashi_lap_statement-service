@@ -24,14 +24,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.IdentityModel.Tokens;
 
 using RestSharp;
@@ -74,7 +72,6 @@ namespace Fanex.Athena.ExtService
 
             ConfigFanexData();
 
-            ConfigHealthCheckService(services, appOption);
             services.AddMemoryCache();
             services.AddStackExchangeRedisCache(options =>
             {
@@ -109,25 +106,6 @@ namespace Fanex.Athena.ExtService
 
             DIRegister(services);
 
-        }
-
-        private void ConfigHealthCheckService(IServiceCollection services, ApplicationOptions appOption)
-        {
-            services
-                .AddHealthChecks()
-                .AddAsyncCheck("Server", async () =>
-                {
-
-                    var ip = await System.Net.Dns.GetHostAddressesAsync(
-                        System.Net.Dns.GetHostName());
-                    var result = new StringBuilder();
-                    foreach (var item in ip)
-                    {
-                        result.AppendLine(item + ",");
-                    }
-                    return HealthCheckResult.Healthy(result.ToString());
-
-                });
         }
 
         private static void DIRegister(IServiceCollection services)
@@ -246,17 +224,15 @@ namespace Fanex.Athena.ExtService
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            //if (env.IsDevelopment())
-            //{
-            //    app.UseDeveloperExceptionPage();
-            //}
-            //else
-            //{
-            //    app.UseErrorHandler();
-            //    app.UseHsts();
-            //}
-
-            app.UseDeveloperExceptionPage();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseErrorHandler();
+                app.UseHsts();
+            }
             CustomizeCultureSupport(app);
             ConfigCacheForStaticResource(app, env);
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
@@ -264,7 +240,6 @@ namespace Fanex.Athena.ExtService
             app.UseAuthentication();
             app.UseResponseCaching();
             app.UseStatusCodePagesWithReExecute("/Error", "?code={0}");
-            app.UseHealthChecks("/healthz");
             app.UseMvc(routes =>
             {
 
