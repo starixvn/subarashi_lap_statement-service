@@ -1,108 +1,105 @@
-﻿using System;
-using System.Net;
-using System.Threading.Tasks;
-
+﻿using Fanex.Athena.ExtService.Core.Models;
+using Newtonsoft.Json;
 using ONEbook.UM.Configurations;
 using ONEbook.UM.Helpers;
-
-using RestSharp;
-using RestSharp.Authenticators;
+using System;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Fanex.Athena.ExtService.Core.Services
 {
     public class UMRestClient : IUMRestClient
     {
-        private readonly IRestClient _restClient;
-        private readonly IAuthenticator _authenticator;
-        public UMRestClient(UMClientConfiguration configuration,
-            IAuthenticator _authenticator)
-        {
-            _restClient = new RestClient
-            {
-                BaseUrl = new Uri(configuration.ServiceUri),
-                Authenticator = _authenticator,
-                Timeout = 10000
-            };
+        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly UMClientConfiguration _umConfiguration;
+        private readonly IPHelper _ipHelper;
+        private readonly string _umClientName;
 
+        private static readonly JsonSerializerSettings _serializerSettings = new JsonSerializerSettings
+        {
+            NullValueHandling = NullValueHandling.Ignore,
+            DateTimeZoneHandling = DateTimeZoneHandling.Unspecified
+        };
+
+        public UMRestClient(
+            UMClientName clientName,
+            UMClientConfiguration configuration,
+            IPHelper ipHelper,
+            IHttpClientFactory httpClientFactory)
+        {
+            _umClientName = clientName.Name;
+            _ipHelper = ipHelper;
+            _umConfiguration = configuration;
+            _httpClientFactory = httpClientFactory;
         }
 
         public async Task<T> ExecuteGetAsync<T>(string endPoint)
         {
-            return await ExecuteAsync<T>(endPoint, Method.GET, null).ConfigureAwait(false);
+            return await ExecuteAsync<T>(endPoint, HttpMethod.Get, null).ConfigureAwait(false);
         }
 
         public async Task<T> ExecutePostAsync<T>(string endPoint, object data = null)
         {
-            return await ExecuteAsync<T>(endPoint, Method.POST, data).ConfigureAwait(false);
+            return await ExecuteAsync<T>(endPoint, HttpMethod.Post, data).ConfigureAwait(false);
         }
+
         public T ExecuteGet<T>(string endPoint) where T : new()
         {
-            return Execute<T>(endPoint, Method.GET, null);
-
+            return Execute<T>(endPoint, HttpMethod.Get, null);
         }
+
         public T ExecutePost<T>(string endPoint, object data = null) where T : new()
         {
-            return Execute<T>(endPoint, Method.POST, data);
+            return Execute<T>(endPoint, HttpMethod.Post, data);
         }
 
-        private async Task<T> ExecuteAsync<T>(string endPoint, Method method, object data)
+        private async Task<T> ExecuteAsync<T>(string endPoint, HttpMethod method, object data)
         {
             ValidateEndPoint(endPoint);
 
-            var request = new RestRequest(endPoint, method);
+            var client = _httpClientFactory.CreateClient(_umClientName);
+            var request = new HttpRequestMessage(method, new Uri(client.BaseAddress + endPoint));
+
+            request.Headers.Add("Authorization", HttpClientHelper.GenerateAuthorizationHeader(
+                _umConfiguration,
+                request.RequestUri.OriginalString,
+                request.Method.ToString(),
+                _ipHelper.GetMachineIP()));
 
             if (data != null)
             {
-                request.AddJsonBody(data);
+                request.Content = CreateJsonContent(data);
             }
 
-            var response = await _restClient.ExecuteTaskAsync<T>(request).ConfigureAwait(false);
+            var response = await client.SendAsync(request, CancellationToken.None).ConfigureAwait(false);
+            var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            if (response.IsSuccessful)
+            if (response.IsSuccessStatusCode)
             {
-                return response.Data;
+                return Deserialize<T>(content);
             }
 
             if (response.StatusCode == HttpStatusCode.ServiceUnavailable)
             {
-                await Task.FromException(new Exception(response.Content)).ConfigureAwait(false);
+                await Task.FromException(new Exception(content)).ConfigureAwait(false);
             }
 
             throw new InvalidOperationException(
                 string.Join(
                     "\r\n",
-                    $"Content: {response.Content}",
-                    $"ErrorMessage: {response.ErrorMessage}"));
+                    $"Content: {content}",
+                    $"ErrorMessage: {response.ReasonPhrase}"));
         }
-        private T Execute<T>(string endPoint, Method method, object data) where T : new()
+
+        private T Execute<T>(string endPoint, HttpMethod method, object data) where T : new()
         {
-            ValidateEndPoint(endPoint);
-
-            var request = new RestRequest(endPoint, method);
-
-            if (data != null)
-            {
-                request.AddJsonBody(data);
-            }
-
-            var response = _restClient.Execute<T>(request);
-
-            if (response.IsSuccessful)
-            {
-                return response.Data;
-            }
-
-            if (response.StatusCode == HttpStatusCode.ServiceUnavailable)
-            {
-                throw new Exception(response.Content);
-            }
-
-            throw new InvalidOperationException(
-                string.Join(
-                    "\r\n",
-                    $"Content: {response.Content}",
-                    $"ErrorMessage: {response.ErrorMessage}"));
+            throw new NotSupportedException();
         }
+
         private static void ValidateEndPoint(string endPoint)
         {
             if (string.IsNullOrWhiteSpace(endPoint))
@@ -111,5 +108,29 @@ namespace Fanex.Athena.ExtService.Core.Services
             }
         }
 
+        private static HttpContent CreateJsonContent(object obj)
+        {
+            using (var stringWriter = new StringWriter())
+            {
+                using (var jsonWriter = new JsonTextWriter(stringWriter))
+                {
+                    var serializer = JsonSerializer.Create(_serializerSettings);
+                    serializer.Serialize(jsonWriter, obj);
+                    return new StringContent(stringWriter.ToString(), Encoding.UTF8, "application/json");
+                }
+            }
+        }
+
+        private static T Deserialize<T>(string content)
+        {
+            using (var stringReader = new StringReader(content))
+            {
+                using (var jsonTextReader = new JsonTextReader(stringReader))
+                {
+                    var serializer = JsonSerializer.Create(_serializerSettings);
+                    return serializer.Deserialize<T>(jsonTextReader);
+                }
+            }
+        }
     }
 }
