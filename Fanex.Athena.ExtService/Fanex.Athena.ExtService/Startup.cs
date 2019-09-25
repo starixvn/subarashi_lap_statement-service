@@ -42,8 +42,6 @@ namespace Fanex.Athena.ExtService
     {
         private const string ApplicationOptionSettingKey = "ApplicationOptions";
         private const string AppSettingKey = "AppSettings";
-        private const string BetListApiClient = "BetListApiClient";
-        private const string UMClient = "UMClient";
         private const int SixtyDays = 60;
         private const int AliveIn180Seconds = 180;
         private const int UMREQUEST_TIMEOUT = 10;
@@ -130,7 +128,9 @@ namespace Fanex.Athena.ExtService
 
         private void ConfigUMRestClient(IServiceCollection services)
         {
+            const string UMClient = "UMClient";
             var umConfig = Configuration.GetSection("ONEbook.UM").Get<UMClientConfiguration>();
+
             services.AddSingleton(umConfig);
             services.AddSingleton(new UMClientName { Name = UMClient });
             services.AddTransient<IPHelper, IPHelperImpl>();
@@ -146,13 +146,16 @@ namespace Fanex.Athena.ExtService
 
         private void ConfigBetListApiClient(IServiceCollection services)
         {
+            const string BetListApiClient = "BetListApiClient";
+            const string BetListTokenKey = "BETLIST_TOKEN_KEY";
+
             services.AddSingleton(new BetListApiClientName { Name = BetListApiClient });
             services.AddTransient<IBetListApiClient, BetListApiClient>();
             services.AddHttpClient(BetListApiClient, (serviceProvider, client) =>
             {
                 var options = serviceProvider.GetService<IOptions<AppSettings>>();
                 client.BaseAddress = new Uri(options.Value.BetListApiHostUrl);
-                client.DefaultRequestHeaders.Add("BETLIST_TOKEN_KEY", options.Value.BetListApiTokenValue);
+                client.DefaultRequestHeaders.Add(BetListTokenKey, options.Value.BetListApiTokenValue);
             });
         }
 
@@ -318,7 +321,6 @@ namespace Fanex.Athena.ExtService
                         UIQueryStringKey = "lang"
                     }
                 },
-
             };
 
             app.UseRequestLocalization(requestLocalizationOptions);
