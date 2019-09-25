@@ -26,12 +26,12 @@ namespace Fanex.Athena.ExtService.Core.Services
         };
 
         public UMRestClient(
-            UMClientName clientName,
+            string clientName,
             UMClientConfiguration configuration,
             IPHelper ipHelper,
             IHttpClientFactory httpClientFactory)
         {
-            _umClientName = clientName.Name;
+            _umClientName = clientName;
             _ipHelper = ipHelper;
             _umConfiguration = configuration;
             _httpClientFactory = httpClientFactory;

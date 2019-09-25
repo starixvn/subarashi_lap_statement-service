@@ -1,6 +1,5 @@
 ﻿using Fanex.Athena.ExtService.BetList.Services;
 using Fanex.Athena.ExtService.Common.Attributes;
-using Fanex.Athena.ExtService.Common.Models;
 using Fanex.Athena.ExtService.Common.Models.DTO;
 using Fanex.Athena.ExtService.Common.Services;
 using Fanex.Athena.ExtService.Core.Attributes;
@@ -32,6 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -129,13 +129,12 @@ namespace Fanex.Athena.ExtService
         private void ConfigUMRestClient(IServiceCollection services)
         {
             const string UMClient = "UMClient";
-            var umConfig = Configuration.GetSection("ONEbook.UM").Get<UMClientConfiguration>();
 
-            services.AddSingleton(umConfig);
-            services.AddSingleton(new UMClientName { Name = UMClient });
-            services.AddTransient<IPHelper, IPHelperImpl>();
+            services.AddSingleton(Configuration.GetSection("ONEbook.UM").Get<UMClientConfiguration>());
+            services.AddSingleton<IPHelper, IPHelperImpl>();
             services.AddSingleton<IUMCacheService, UMCacheService>();
-            services.AddSingleton<IUMRestClient, UMRestClient>();
+            services.AddSingleton<IUMRestClient>(s => new UMRestClient(
+                UMClient, s.GetService<UMClientConfiguration>(), s.GetService<IPHelper>(), s.GetService<IHttpClientFactory>()));
             services.AddHttpClient(UMClient, (serviceProvider, client) =>
             {
                 var configs = serviceProvider.GetService<UMClientConfiguration>();
@@ -149,8 +148,8 @@ namespace Fanex.Athena.ExtService
             const string BetListApiClient = "BetListApiClient";
             const string BetListTokenKey = "BETLIST_TOKEN_KEY";
 
-            services.AddSingleton(new BetListApiClientName { Name = BetListApiClient });
-            services.AddTransient<IBetListApiClient, BetListApiClient>();
+            services.AddSingleton<IBetListApiClient>(s => new BetListApiClient(
+                BetListApiClient, s.GetService<IHttpClientFactory>()));
             services.AddHttpClient(BetListApiClient, (serviceProvider, client) =>
             {
                 var options = serviceProvider.GetService<IOptions<AppSettings>>();

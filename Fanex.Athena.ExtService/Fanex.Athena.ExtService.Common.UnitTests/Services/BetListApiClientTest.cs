@@ -36,7 +36,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             _mockClient.Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>(), CancellationToken.None))
                 .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(FakeContent) });
 
-            var apiClient = new BetListApiClient(new BetListApiClientName(), _mockClientFactory.Object);
+            var apiClient = new BetListApiClient("any", _mockClientFactory.Object);
 
             //Action
             var result = await apiClient.PostAsyncString("/test", "test-data", language, timeout).ConfigureAwait(false);
@@ -61,10 +61,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
                 .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent("any") });
             _mockClient.Object.BaseAddress = new Uri("http://test/base-address");
 
-            var apiClient = new BetListApiClient(new BetListApiClientName
-            {
-                Name = BetListApiClientKey
-            }, _mockClientFactory.Object);
+            var apiClient = new BetListApiClient(BetListApiClientKey, _mockClientFactory.Object);
 
             //Action
             var result = await apiClient.PostAsyncString("/test-path", new { data = "test" }, "en-US", 3).ConfigureAwait(false);
@@ -83,7 +80,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             _mockClient.Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>(), CancellationToken.None))
                 .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = "test-error" });
 
-            var apiClient = new BetListApiClient(new BetListApiClientName(), _mockClientFactory.Object);
+            var apiClient = new BetListApiClient("any", _mockClientFactory.Object);
 
             //Action
             var ex = await Assert.ThrowsAsync<InvalidOperationException>(
@@ -106,7 +103,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
                     Content = new StringContent("{\"ID\":1,\"Name\":\"alex\"}")
                 });
 
-            var apiClient = new BetListApiClient(new BetListApiClientName(), _mockClientFactory.Object);
+            var apiClient = new BetListApiClient("any", _mockClientFactory.Object);
 
             //Action
             var result = await apiClient.PostAsync<dynamic>("/test", new { data = "test" }, language, timeout).ConfigureAwait(false);

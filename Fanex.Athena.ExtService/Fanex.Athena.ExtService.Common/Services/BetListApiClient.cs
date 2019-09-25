@@ -22,9 +22,9 @@ namespace Fanex.Athena.ExtService.Common.Services
             DateTimeZoneHandling = DateTimeZoneHandling.Unspecified
         };
 
-        public BetListApiClient(BetListApiClientName clientName, IHttpClientFactory clientFactory)
+        public BetListApiClient(string clientName, IHttpClientFactory clientFactory)
         {
-            _betListApiClientName = clientName.Name;
+            _betListApiClientName = clientName;
             _clientFactory = clientFactory;
         }
 

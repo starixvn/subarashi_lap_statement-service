@@ -1,5 +1,4 @@
-﻿using Fanex.Athena.ExtService.Core.Models;
-using Fanex.Athena.ExtService.Core.Services;
+﻿using Fanex.Athena.ExtService.Core.Services;
 using Moq;
 using ONEbook.UM.Configurations;
 using ONEbook.UM.Helpers;
@@ -17,7 +16,6 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Services
         private Mock<IPHelper> _mockIPHelper;
         private Mock<IHttpClientFactory> _mockHttpClientFactory;
         private Mock<HttpClient> _mockClient;
-        private UMClientName _fakeUMClientName;
         private UMClientConfiguration _fakeUMClientConfiguration;
 
         public UMRestClientTest()
@@ -25,7 +23,6 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Services
             _mockIPHelper = new Mock<IPHelper>();
             _mockHttpClientFactory = new Mock<IHttpClientFactory>();
             _mockClient = new Mock<HttpClient>();
-            _fakeUMClientName = new UMClientName();
             _fakeUMClientConfiguration = new UMClientConfiguration();
             _mockClient.Object.BaseAddress = new Uri("http://test.com");
         }
@@ -36,7 +33,6 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Services
             // Arrange
             var testTime = new DateTime(2000, 1, 2, 3, 4, 5, 6);
             HttpRequestMessage actual = null;
-            _fakeUMClientName.Name = "test-name-2";
             _mockClient.Object.BaseAddress = new Uri("http://test.com/v2");
             _mockHttpClientFactory.Setup(r => r.CreateClient("test-name-2")).Returns(_mockClient.Object);
             _mockClient.Setup(r => r.SendAsync(It.IsAny<HttpRequestMessage>(), CancellationToken.None))
@@ -44,7 +40,11 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Services
                 .Callback<HttpRequestMessage, CancellationToken>((a, _) => actual = a)
                 .Verifiable();
 
-            var um = CreateUMRestClient();
+            var um = new UMRestClient(
+                "test-name-2",
+                _fakeUMClientConfiguration,
+                _mockIPHelper.Object,
+                _mockHttpClientFactory.Object);
 
             // Action
             await um.ExecutePostAsync<SampleTestClass>("/test/456", new SampleTestClass { Time = testTime });
@@ -60,7 +60,6 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Services
         {
             // Arrange
             HttpRequestMessage actual = null;
-            _fakeUMClientName.Name = "test-name-1";
             _mockClient.Object.BaseAddress = new Uri("http://test.com/v1/api");
             _mockHttpClientFactory.Setup(r => r.CreateClient("test-name-1")).Returns(_mockClient.Object);
             _mockClient.Setup(r => r.SendAsync(It.IsAny<HttpRequestMessage>(), CancellationToken.None))
@@ -68,7 +67,11 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Services
                 .Callback<HttpRequestMessage, CancellationToken>((a, _) => actual = a)
                 .Verifiable();
 
-            var um = CreateUMRestClient();
+            var um = new UMRestClient(
+                "test-name-1",
+                _fakeUMClientConfiguration,
+                _mockIPHelper.Object,
+                _mockHttpClientFactory.Object);
 
             // Action
             await um.ExecuteGetAsync<SampleTestClass>("/test/123");
@@ -196,7 +199,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Services
         private UMRestClient CreateUMRestClient()
         {
             return new UMRestClient(
-                _fakeUMClientName,
+                "test-client-name",
                 _fakeUMClientConfiguration,
                 _mockIPHelper.Object,
                 _mockHttpClientFactory.Object);
