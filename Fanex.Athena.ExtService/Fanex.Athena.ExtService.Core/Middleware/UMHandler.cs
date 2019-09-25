@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using ONEbook.UM.Services;
+using System;
+using System.Threading.Tasks;
 
 namespace Fanex.Athena.ExtService.Core.Middleware
 {
@@ -11,21 +9,32 @@ namespace Fanex.Athena.ExtService.Core.Middleware
     {
         private readonly RequestDelegate _next;
         private readonly IMaintenanceService _maintenanceService;
-        private const string UMPage = "/Error/UM";
+
         public UMHandler(RequestDelegate next, IMaintenanceService maintenanceService)
         {
             _next = next;
             _maintenanceService = maintenanceService;
         }
+
         public async Task Invoke(HttpContext context)
         {
             if (context.Request.Path.HasValue &&
-                context.Request.Path.Value.Contains(UMPage, StringComparison.OrdinalIgnoreCase))
+                !context.Request.Path.Value.Contains("/Error", StringComparison.OrdinalIgnoreCase))
             {
+                if (await _maintenanceService.IsUnderMaintenanceAsync())
+                {
+                    var maintenanceTime = await _maintenanceService.GetUnderMaintenanceTimeAsync();
 
+                    await context.Response.WriteAsync(
+                        "<div style='text-align:center;padding-top:10%'>" +
+                        "System is currently unavailable due to scheduled maintenance.<br /> " +
+                        $"This downtime will last from <b>{maintenanceTime.From}</b> &rarr; <b>{maintenanceTime.To}</b>. " +
+                        "Thanks for your patience!</div>");
+                    return;
+                }
             }
+
             await _next.Invoke(context);
         }
-
     }
 }
