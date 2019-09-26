@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace Fanex.Athena.ExtService.BetList.Controllers
 {
     [Authorize]
-
     public class BetListDetailByProductController : BaseController
     {
         private readonly ICommonService _commonService;

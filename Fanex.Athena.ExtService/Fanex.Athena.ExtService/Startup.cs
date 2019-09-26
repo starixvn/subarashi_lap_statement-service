@@ -100,7 +100,7 @@ namespace Fanex.Athena.ExtService
                 // Set Cookie properties using CookieBuilder properties†.
                 options.FormFieldName = "__RequestVerificationToken";
                 options.HeaderName = "X-CSRF-TOKEN-LAP-EXT";
-                options.SuppressXFrameOptionsHeader = false;
+                options.SuppressXFrameOptionsHeader = true;
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -116,12 +116,13 @@ namespace Fanex.Athena.ExtService
             services.AddScoped<CheckCustomerAttribute>();
             services.AddSingleton<ICommonService, CommonService>();
             services.AddSingleton<ILogger>(x => LogService.LoggerInstance);
+
             ConfigUMRestClient(services);
             ConfigBetListApiClient(services);
+
             services.AddTransient<ISummaryStatementService, SummaryStatementService>();
             services.AddTransient<IStatementByGroupService, StatementByGroupService>();
-
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IHttpContextHelper, UMHttpContextHelper>();
             services.AddSingleton<IMaintenanceService, MaintenanceService>();
         }
@@ -143,7 +144,7 @@ namespace Fanex.Athena.ExtService
             });
         }
 
-        private void ConfigBetListApiClient(IServiceCollection services)
+        private static void ConfigBetListApiClient(IServiceCollection services)
         {
             const string BetListApiClient = "BetListApiClient";
             const string BetListTokenKey = "BETLIST_TOKEN_KEY";
