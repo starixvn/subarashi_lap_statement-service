@@ -36,7 +36,6 @@ namespace Fanex.Athena.ExtService.Core.Services
         {
             if (value != null)
             {
-                var time = DateTimeOffset.Now + absoluteExpiration;
                 var serializer = MessagePackSerializer.Get<T>(_msgPackSerializationContext);
                 var data = serializer.PackSingleObject(value);
 
