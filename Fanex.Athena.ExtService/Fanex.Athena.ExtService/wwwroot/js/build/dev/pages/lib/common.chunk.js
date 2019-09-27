@@ -10821,12 +10821,21 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
         },
         openPopupWithIframe: function (url, option) {
             let $popUp = $('#' + option.id);
-            const iframe = '<iframe id="popupFrame" src="' + url + '" ></iframe>';
+            const iframe = '<iframe id="popupFrame" src="{0}" ></iframe>';
             if ($popUp.length === 0) {
-                $popUp = $('<div id="' + option.id + '" class="popup-frame">' + iframe + '</div>');
+                $popUp = $('<div id="' + option.id + '" class="popup-frame">' + iframe.replace('{0}', url) + '</div>');
             }
             else {
-                $popUp.append(iframe);
+                $popUp.append(iframe.replace('{0}', 'about:blank'));
+
+                const onOpen = option.onOpen;
+                option.onOpen = function () {
+                    $('#popupFrame').attr('src', url);
+
+                    if (onOpen) {
+                        onOpen.apply(this);
+                    }
+                };
             }
 
             return $popUp.flatPopup(option);

@@ -8,7 +8,7 @@ namespace Fanex.Athena.ExtService
     {
         protected Program() { }
         public static void Main(string[] args)
-       {
+        {
             CreateWebHostBuilder(args).Build().Run();
         }
 
@@ -26,8 +26,8 @@ namespace Fanex.Athena.ExtService
              .UseKestrel(x =>
              {
                  x.AddServerHeader = false;
+
              })
-              .UseIISIntegration()
              .UseStartup<Startup>();
 
 

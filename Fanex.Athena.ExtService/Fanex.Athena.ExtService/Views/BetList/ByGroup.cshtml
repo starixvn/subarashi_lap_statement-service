@@ -29,7 +29,7 @@
         <div class="betlist-container result-content">
             <div class="report-title-container">
                 <p class="report-title">
-                    @SystemHelper.GetProductName(Model.ProductCode) @ViewResources.BettingStatement
+                    @SystemHelper.GetProductName(Model.ProductCode) @Model.TransDesc
                 </p>
             </div>
             <div>
@@ -76,7 +76,7 @@
                             </table>
                         </div>
                     </div>
-                    <div class="body-content" style="padding-right:17px;">
+                    <div class="body-content">
                         <div class="table-wrapper">
                             <table class="table">
                                 <tbody>

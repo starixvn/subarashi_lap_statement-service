@@ -87,21 +87,28 @@ body {
     text-decoration: none; }
     .result-container table a:hover, .result-container table a:focus, .result-container table a:active {
       text-decoration: none; }
-  .result-container table > thead > tr > th {
-    vertical-align: middle;
-    text-align: center;
-    background: #4C6375;
-    border: 1px solid #d1dae1;
-    color: #fff !important;
-    padding: 4px 5px; }
-    .result-container table > thead > tr > th:first-child {
-      border-left-color: #d1dae1 !important; }
-    .result-container table > thead > tr > th:last-child {
-      border-right-color: #d1dae1 !important; }
-  .result-container table > thead > tr:nth-child(2) th:last-child {
-    border-right-color: #fff !important; }
-  .result-container table > thead:first-child > tr:first-child > th {
-    border: 1px solid #d1dae1; }
+  .result-container table > thead {
+    /*&:first-child {
+                > tr:first-child > th {
+                    border: 1px solid $colorBorderTable;
+                }
+            }*/ }
+    .result-container table > thead > tr > th {
+      vertical-align: middle;
+      text-align: center;
+      background: #4C6375;
+      border: 1px solid #d1dae1;
+      color: #fff !important;
+      padding: 4px 5px;
+      /*&:first-child {
+                        border-left-color: #d1dae1 !important;
+                    }
+
+                    &:last-child {
+                        border-right-color: #d1dae1 !important;
+                    }*/ }
+    .result-container table > thead > tr:nth-child(2) th:last-child {
+      border-right-color: #fff !important; }
   .result-container table > tbody tr td {
     border: 1px solid #d6d6d6;
     color: #404040;

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-
+using Fanex.Athena.ExtService.BetList.Models.DataDomain;
 using Fanex.Athena.ExtService.BetList.Models.DTO;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.BetList.Models.ViewModel;
@@ -83,6 +83,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             ViewBag.Title = "Bet List By Group";
             AssignCommonViewModelData(metaModel, viewModel);
             viewModel.ProductCode = metaModel.ProductCode;
+            viewModel.TransDesc = TransDescValue.GetTransactionDescription(metaModel.TransType);
             return View(viewModel);
         }
 

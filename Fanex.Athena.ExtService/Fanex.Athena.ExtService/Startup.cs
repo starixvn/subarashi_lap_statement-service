@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-
-using Fanex.Athena.ExtService.BetList.Services;
+﻿using Fanex.Athena.ExtService.BetList.Services;
 using Fanex.Athena.ExtService.Common.Attributes;
 using Fanex.Athena.ExtService.Common.Models.DTO;
 using Fanex.Athena.ExtService.Common.Services;
@@ -19,7 +11,6 @@ using Fanex.Data;
 using Fanex.Data.SqlServer;
 using Fanex.Logging;
 using Fanex.Logging.RabbitMQ;
-
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -30,19 +21,30 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-
-using RestSharp;
-
+using ONEbook.UM.Configurations;
+using ONEbook.UM.Helpers;
+using ONEbook.UM.Services;
 using StackExchange.Redis;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Net.Http;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace Fanex.Athena.ExtService
 {
     public class Startup
     {
-        const string ApplicationOptionSettingKey = "ApplicationOptions";
-        const string AppSettingKey = "AppSettings";
-        const int SixtyDays = 60;
-        const int AliveIn180Seconds = 180;
+        private const string ApplicationOptionSettingKey = "ApplicationOptions";
+        private const string AppSettingKey = "AppSettings";
+        private const int SixtyDays = 60;
+        private const int AliveIn180Seconds = 180;
+        private const int UMREQUEST_TIMEOUT = 10;
 
         public Startup(IConfiguration configuration)
         {
@@ -62,11 +64,11 @@ namespace Fanex.Athena.ExtService
             var appOption = Configuration.GetSection(ApplicationOptionSettingKey).Get<ApplicationOptions>();
 
             LogManager
-            .SetDefaultLogCategory(appOption.LogCategory)
-            .Use(new List<ILogEngine>
-             {
-                new RabbitMQLogging(appOption.RabbitMQ)
-             });
+                .SetDefaultLogCategory(appOption.LogCategory)
+                .Use(new List<ILogEngine>
+                 {
+                    new RabbitMQLogging(appOption.RabbitMQ)
+                 });
 
             ConfigDataProtection(services, appOption);
 
@@ -89,7 +91,6 @@ namespace Fanex.Athena.ExtService
             services.AddResponseCaching(options =>
             {
                 options.UseCaseSensitivePaths = true;
-
             });
 
             ConfigAuthentication(services);
@@ -99,16 +100,15 @@ namespace Fanex.Athena.ExtService
                 // Set Cookie properties using CookieBuilder properties†.
                 options.FormFieldName = "__RequestVerificationToken";
                 options.HeaderName = "X-CSRF-TOKEN-LAP-EXT";
-                options.SuppressXFrameOptionsHeader = false;
+                options.SuppressXFrameOptionsHeader = true;
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             DIRegister(services);
-
         }
 
-        private static void DIRegister(IServiceCollection services)
+        private void DIRegister(IServiceCollection services)
         {
             services.AddScoped<IAuthenticateService, TokenAuthenticationService>();
             services.AddScoped<IUserManagementService, UserManagementService>();
@@ -116,10 +116,47 @@ namespace Fanex.Athena.ExtService
             services.AddScoped<CheckCustomerAttribute>();
             services.AddSingleton<ICommonService, CommonService>();
             services.AddSingleton<ILogger>(x => LogService.LoggerInstance);
-            services.AddTransient<IRestClient, RestClient>();
-            services.AddTransient<IBetListApiClient, BetListApiClient>();
+
+            ConfigUMRestClient(services);
+            ConfigBetListApiClient(services);
+
             services.AddTransient<ISummaryStatementService, SummaryStatementService>();
             services.AddTransient<IStatementByGroupService, StatementByGroupService>();
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IHttpContextHelper, UMHttpContextHelper>();
+            services.AddSingleton<IMaintenanceService, MaintenanceService>();
+        }
+
+        private void ConfigUMRestClient(IServiceCollection services)
+        {
+            const string UMClient = "UMClient";
+
+            services.AddSingleton(Configuration.GetSection("ONEbook.UM").Get<UMClientConfiguration>());
+            services.AddSingleton<IPHelper, IPHelperImpl>();
+            services.AddSingleton<IUMCacheService, UMCacheService>();
+            services.AddSingleton<IUMRestClient>(s => new UMRestClient(
+                UMClient, s.GetService<UMClientConfiguration>(), s.GetService<IPHelper>(), s.GetService<IHttpClientFactory>()));
+            services.AddHttpClient(UMClient, (serviceProvider, client) =>
+            {
+                var configs = serviceProvider.GetService<UMClientConfiguration>();
+                client.BaseAddress = new Uri(configs.ServiceUri);
+                client.Timeout = TimeSpan.FromSeconds(UMREQUEST_TIMEOUT);
+            });
+        }
+
+        private static void ConfigBetListApiClient(IServiceCollection services)
+        {
+            const string BetListApiClient = "BetListApiClient";
+            const string BetListTokenKey = "BETLIST_TOKEN_KEY";
+
+            services.AddSingleton<IBetListApiClient>(s => new BetListApiClient(
+                BetListApiClient, s.GetService<IHttpClientFactory>()));
+            services.AddHttpClient(BetListApiClient, (serviceProvider, client) =>
+            {
+                var options = serviceProvider.GetService<IOptions<AppSettings>>();
+                client.BaseAddress = new Uri(options.Value.BetListApiHostUrl);
+                client.DefaultRequestHeaders.Add(BetListTokenKey, options.Value.BetListApiTokenValue);
+            });
         }
 
         private void ConfigAuthentication(IServiceCollection services)
@@ -130,7 +167,6 @@ namespace Fanex.Athena.ExtService
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-
             }).AddJwtBearer(x =>
             {
                 x.RequireHttpsMetadata = false;
@@ -147,7 +183,6 @@ namespace Fanex.Athena.ExtService
                     RoleClaimType = ClaimsIdentity.DefaultNameClaimType,
                     RequireExpirationTime = true,
                     ValidateLifetime = true,
-
                 };
                 x.Events = new JwtBearerEvents
                 {
@@ -207,19 +242,15 @@ namespace Fanex.Athena.ExtService
                     "DBEXT.bodb02.bodbLicenseeNet",
                     new ConnectionConfiguration("DBEXT.bodb02.bodbLicenseeNet",
                 Configuration.GetConnectionString("DBEXT.bodb02.bodbLicenseeNet"))
-
                 },
                 {
                     "DBACC.bodb02.bodbLicenseeNet",
                     new ConnectionConfiguration("DBACC.bodb02.bodbLicenseeNet",
                 Configuration.GetConnectionString("DBACC.bodb02.bodbLicenseeNet"))
-
                 }
             };
             return connectionStrings;
         }
-
-
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -240,9 +271,9 @@ namespace Fanex.Athena.ExtService
             app.UseAuthentication();
             app.UseResponseCaching();
             app.UseStatusCodePagesWithReExecute("/Error", "?code={0}");
+            app.UseUMHandler();
             app.UseMvc(routes =>
             {
-
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}"
@@ -277,7 +308,6 @@ namespace Fanex.Athena.ExtService
                 new CultureInfo("zh-TW"){ DateTimeFormat= dateformat },
                 new CultureInfo("zh-Hans"){ DateTimeFormat= dateformat },
                 new CultureInfo("zh-CN"){ DateTimeFormat= dateformat },
-
             };
             var requestLocalizationOptions = new RequestLocalizationOptions
             {
@@ -291,11 +321,9 @@ namespace Fanex.Athena.ExtService
                         UIQueryStringKey = "lang"
                     }
                 },
-
             };
 
             app.UseRequestLocalization(requestLocalizationOptions);
         }
     }
 }
-

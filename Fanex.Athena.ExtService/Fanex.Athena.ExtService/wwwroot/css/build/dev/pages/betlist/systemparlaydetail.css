@@ -222,11 +222,14 @@
   color: #314453;
   font-weight: 500;
   padding: 2px 5px;
-  border-radius: 0; }
-  .table > thead > tr > th:first-child {
-    border-left-color: #d1dae1 !important; }
-  .table > thead > tr > th:last-child {
-    border-right-color: #d1dae1 !important; }
+  border-radius: 0;
+  /*&:first-child {
+                    border-left-color: $colorBorderTable !important;
+                }
+
+                &:last-child {
+                    border-right-color: $colorBorderTable !important;
+                }*/ }
 
 .table > tbody tr td {
   border: 1px solid #d6d6d6;
@@ -523,11 +526,14 @@ body {
     background: #4C6375;
     border: 1px solid #fff;
     color: #fff;
-    padding: 2px 5px; }
-    .system-parlay-detail-container .system-parlay-header th:first-child {
-      border-left-color: #d1dae1 !important; }
-    .system-parlay-detail-container .system-parlay-header th:last-child {
-      border-right-color: #d1dae1 !important; }
+    padding: 2px 5px;
+    /*&:first-child {
+            border-left-color: #d1dae1 !important;
+        }
+
+        &:last-child {
+            border-right-color: #d1dae1 !important;
+        }*/ }
   .system-parlay-detail-container .system-parlay-detail td {
     border: 1px solid #d6d6d6;
     padding: 2px 5px;

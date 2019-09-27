@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Fanex.Athena.ExtService.Resources;
 
 namespace Fanex.Athena.ExtService.BetList.Models.DataDomain
@@ -34,5 +35,20 @@ namespace Fanex.Athena.ExtService.BetList.Models.DataDomain
             { GrandPrize,() => ViewResources.GrandPrize },
             { OpeningBalance,() => ViewResources.OPENINGBALANCE }
         };
+
+        public static string GetTransactionDescription(int modeView)
+        {
+            switch (modeView)
+            {
+                case ModeViewBetStatement:
+                    return RemarkValues[BetStatement].Invoke();
+                case ModeViewCancell:
+                    return RemarkValues[VoidCancell].Invoke();
+                case ModeViewOutstanding:
+                    return RemarkValues[Outstanding].Invoke();
+                default:
+                    return ViewResources.Statement;
+            }
+        }
     }
 }

@@ -41,21 +41,8 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             var viewModel = metalModel.IsValid ? await service.QueryAsync(metalModel).ConfigureAwait(false)
                 : new StatementByGroupViewModel();
             AssignCommonViewModelData(metalModel, viewModel);
-            switch (metalModel.ModeView)
-            {
-                case TransDescValue.ModeViewBetStatement:
-                    viewModel.TransDesc = TransDescValue.RemarkValues[TransDescValue.BetStatement].Invoke();
-                    break;
-                case TransDescValue.ModeViewCancell:
-                    viewModel.TransDesc = TransDescValue.RemarkValues[TransDescValue.VoidCancell].Invoke();
-                    break;
-                case TransDescValue.ModeViewOutstanding:
-                    viewModel.TransDesc = TransDescValue.RemarkValues[TransDescValue.Outstanding].Invoke();
-                    break;
-                default:
-                    viewModel.TransDesc = ViewResources.Statement;
-                    break;
-            }
+
+            viewModel.TransDesc = TransDescValue.GetTransactionDescription(metalModel.ModeView);
             viewModel.CustId = metalModel.CustId;
             viewModel.ModeView = metalModel.ModeView;
             return View(viewModel);
