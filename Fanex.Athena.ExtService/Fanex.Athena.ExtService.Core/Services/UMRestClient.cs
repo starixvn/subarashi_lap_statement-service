@@ -1,5 +1,4 @@
-﻿using Fanex.Athena.ExtService.Core.Models;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using ONEbook.UM.Configurations;
 using ONEbook.UM.Helpers;
 using System;
@@ -49,12 +48,12 @@ namespace Fanex.Athena.ExtService.Core.Services
 
         public T ExecuteGet<T>(string endPoint) where T : new()
         {
-            return Execute<T>(endPoint, HttpMethod.Get, null);
+            throw new NotSupportedException();
         }
 
         public T ExecutePost<T>(string endPoint, object data = null) where T : new()
         {
-            return Execute<T>(endPoint, HttpMethod.Post, data);
+            throw new NotSupportedException();
         }
 
         private async Task<T> ExecuteAsync<T>(string endPoint, HttpMethod method, object data)
@@ -93,11 +92,6 @@ namespace Fanex.Athena.ExtService.Core.Services
                     "\r\n",
                     $"Content: {content}",
                     $"ErrorMessage: {response.ReasonPhrase}"));
-        }
-
-        private T Execute<T>(string endPoint, HttpMethod method, object data) where T : new()
-        {
-            throw new NotSupportedException();
         }
 
         private static void ValidateEndPoint(string endPoint)

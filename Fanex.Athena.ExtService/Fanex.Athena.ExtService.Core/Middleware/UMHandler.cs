@@ -18,20 +18,18 @@ namespace Fanex.Athena.ExtService.Core.Middleware
 
         public async Task Invoke(HttpContext context)
         {
-            if (context.Request.Path.HasValue &&
-                !context.Request.Path.Value.Contains("/Error", StringComparison.OrdinalIgnoreCase))
+            var path = context.Request.Path;
+            if (path.HasValue && !path.Value.Contains("/Error", StringComparison.OrdinalIgnoreCase) &&
+                await _maintenanceService.IsUnderMaintenanceAsync())
             {
-                if (await _maintenanceService.IsUnderMaintenanceAsync())
-                {
-                    var maintenanceTime = await _maintenanceService.GetUnderMaintenanceTimeAsync();
+                var maintenanceTime = await _maintenanceService.GetUnderMaintenanceTimeAsync();
 
-                    await context.Response.WriteAsync(
-                        "<div style='text-align:center;padding-top:10%'>" +
-                        "System is currently unavailable due to scheduled maintenance.<br /> " +
-                        $"This downtime will last from <b>{maintenanceTime.From}</b> &rarr; <b>{maintenanceTime.To}</b>. " +
-                        "Thanks for your patience!</div>");
-                    return;
-                }
+                await context.Response.WriteAsync(
+                    "<div style='text-align:center;padding-top:10%'>" +
+                    "System is currently unavailable due to scheduled maintenance.<br /> " +
+                    $"This downtime will last from <b>{maintenanceTime.From}</b> &rarr; <b>{maintenanceTime.To}</b>. " +
+                    "Thanks for your patience!</div>");
+                return;
             }
 
             await _next.Invoke(context);
