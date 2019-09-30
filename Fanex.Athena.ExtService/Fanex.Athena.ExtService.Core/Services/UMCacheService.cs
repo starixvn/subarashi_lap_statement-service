@@ -34,7 +34,7 @@ namespace Fanex.Athena.ExtService.Core.Services
 
         public void Set<T>(string key, T value, TimeSpan absoluteExpiration)
         {
-            if (value != null)
+            if (!Equals(value, default(T)))
             {
                 var serializer = MessagePackSerializer.Get<T>(_msgPackSerializationContext);
                 var data = serializer.PackSingleObject(value);
