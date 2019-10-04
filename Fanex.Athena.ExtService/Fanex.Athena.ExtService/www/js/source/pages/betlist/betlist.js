@@ -61,8 +61,8 @@
                 url = QueryString.setParam(url, 'winlossdate', winlostdate);
                 url = QueryString.setParam(url, 'bettype', bettype);
                 url = QueryString.setParam(url, 'matchid', 1);
-                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
                 url = QueryString.setParam(url, 'lang', $("#lang").val());
+                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
 
                 return url;
             },
@@ -74,8 +74,8 @@
                 url = QueryString.setParam(url, 'raceno', raceNo);
                 url = QueryString.setParam(url, 'sporttype', sporttype);
                 url = QueryString.setParam(url, 'isoutright', isOutright);
-                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
                 url = QueryString.setParam(url, 'lang', $("#lang").val());
+                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
 
                 if (isFastMarket(bettype)) {
                     url = QueryString.setParam(url, 'handicap1', extension1);
@@ -127,8 +127,8 @@
 
             viewVoidbridgeResult: function (custId, gamePlayId, title) {
                 let url = Site.resolveClientUrl('ResultReport/VoidbridgeResult') + '?custid=' + custId + '&gamePlayId=' + gamePlayId;
-                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
                 url = QueryString.setParam(url, 'lang', $("#lang").val());
+                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
 
                 Site.blockUI();
                 $.get(url, function (result) {
@@ -141,11 +141,11 @@
 
             viewPPResult: function (custId, gamePlayId, title) {
                 let url = Site.resolveClientUrl('ResultReport/PPResultPopup') + '?custid=' + custId + '&gamePlayId=' + gamePlayId;
-                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
                 url = QueryString.setParam(url, 'lang', $("#lang").val());
+                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
 
                 Site.blockUI();
-                $.get(url + '?custid=' + custId + '&gamePlayId=' + gamePlayId, function (result) {
+                $.get(url, function (result) {
                     if (result !== '') {
                         showResultPopUp(result, { width: 800, height: 380, title: title });
                         Site.unBlockUI();
@@ -156,8 +156,9 @@
             viewAllBetResult: function (trasdesc, betcheck, bettype, title) {
                 let url = Site.resolveClientUrl('ResultReport/AllBetResult?transdesc=' +
                     encodeURIComponent(trasdesc) + '&betcheck=' + betcheck + '&bettype=' + bettype);
-                url += "&access_token=" + $("#access_token").val();
                 url += "&lang=" + $("#lang").val();
+                url += "&access_token=" + $("#access_token").val();
+
                 Site.blockUI();
                 showResultPopUp(url, { width: 800, height: 380, title: title });
                 Site.unBlockUI();
@@ -166,8 +167,8 @@
 
             viewGlobalGamingResult: function (custId, gameId, title) {
                 let url = Site.resolveClientUrl('ResultReport/GlobalGamingResult') + '?custid=' + custId + '&gameId=' + gameId;
-                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
                 url = QueryString.setParam(url, 'lang', $("#lang").val());
+                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
 
                 Site.blockUI();
                 $.get(url, function (result) {
@@ -212,8 +213,8 @@
 
             showMixParlayDetail: function (transId, divEvent, custid) {
                 let url = Site.resolveClientUrl('api/MixParlayBetList/Detail?transId=' + transId + '&custId=' + custid);
-                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
                 url = QueryString.setParam(url, 'lang', $("#lang").val());
+                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
 
                 if (divEvent.css('display') === 'none') {
                     $.ajax({
