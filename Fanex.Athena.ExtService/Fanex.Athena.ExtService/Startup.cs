@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -73,7 +74,6 @@ namespace Fanex.Athena.ExtService
             ConfigDataProtection(services, appOption);
 
             ConfigFanexData();
-
             services.AddMemoryCache();
             services.AddStackExchangeRedisCache(options =>
             {
@@ -102,6 +102,14 @@ namespace Fanex.Athena.ExtService
                 options.HeaderName = "X-CSRF-TOKEN-LAP-EXT";
                 options.SuppressXFrameOptionsHeader = true;
             });
+            services.AddResponseCompression(options =>
+            {
+                options.Providers.Add<BrotliCompressionProvider>();
+                options.Providers.Add<GzipCompressionProvider>();
+                options.MimeTypes =
+                    ResponseCompressionDefaults.MimeTypes.Concat(
+                        new[] { "image/svg+xml" });
+            });//Only Add if can not use compress module of web server
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -272,6 +280,7 @@ namespace Fanex.Athena.ExtService
             app.UseResponseCaching();
             app.UseStatusCodePagesWithReExecute("/Error", "?code={0}");
             app.UseUMHandler();
+            app.UseResponseCompression();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
