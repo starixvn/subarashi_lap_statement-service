@@ -4,6 +4,7 @@ using Fanex.Athena.ExtService.BetList.Models.DataDomain;
 using Fanex.Athena.ExtService.BetList.Models.DTO;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.BetList.Models.ViewModel;
+using Fanex.Athena.ExtService.Common;
 using Fanex.Athena.ExtService.Common.Attributes;
 using Fanex.Athena.ExtService.Common.Models.DataDomain;
 using Fanex.Athena.ExtService.Common.Services;
@@ -74,16 +75,16 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
                 AssignCommonMetaModelValue(metaModel, licenseeInfo);
                 var result = await _betListApiClient.PostAsync<RefNoDataResult>("/BetListByProduct/Index",
                 metaModel,
-                metaModel.Lang
-            ).ConfigureAwait(false);
+                metaModel.Lang).ConfigureAwait(false);
 
                 viewModel.Data = result.Data ?? new List<TicketText>();
             }
 
             ViewBag.Title = "Bet List By Group";
             AssignCommonViewModelData(metaModel, viewModel);
-            viewModel.ProductCode = metaModel.ProductCode;
-            viewModel.TransDesc = TransDescValue.GetTransactionDescription(metaModel.TransType);
+            viewModel.TransDesc = metaModel.TransType == TransDescValue.ModeViewPromotion
+                ? SystemHelper.GetProductName(metaModel.ProductCode)
+                : $"{SystemHelper.GetProductName(metaModel.ProductCode)} {TransDescValue.GetTransactionDescription(metaModel.TransType)}";
             return View(viewModel);
         }
 

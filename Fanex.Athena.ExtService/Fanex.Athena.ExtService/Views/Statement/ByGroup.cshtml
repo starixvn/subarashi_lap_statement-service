@@ -77,9 +77,8 @@
                                         foreach (var item in Model.DataList)
                                         {
                                             previousBalance = StatementHelper.GetBalance(previousBalance, item);
-                                            var transDescText = TransDescValue.RemarkValues.ContainsKey(item.TransDesc) ?
-                                               TransDescValue.RemarkValues[item.TransDesc].Invoke() : item.TransType.ToUpperInvariant();
-                                            var remarkValue = $"{SystemHelper.GetProductName(item.ProductCode)} {transDescText}";
+                                            var transDescText = StatementHelper.GetTransDescText(item.TransDesc, item.TransType);
+                                            var remarkValue = StatementHelper.GetBetingStatementRemark(item.TransDesc, transDescText, item.ProductCode);
                                             <tr>
                                                 <td class="left-align">
                                                     @($"{item.WinLostDate:dddd}")
@@ -101,7 +100,7 @@
                                                                                         wd=item.WinLostDate.ToString("MM/dd/yyyy"),
                                                                                         cid=Model.CustId,
                                                                                         pc = item.ProductCode,
-                                                                                        mv=Model.ModeView,
+                                                                                        mv = Model.ModeView,
                                                                                         access_token = Model.AccessToken,
                                                                                     })">
                                                                 @remarkValue

@@ -9,6 +9,6 @@ namespace Fanex.Athena.ExtService.BetList.Models.DataDomain
         public const string BAL = "BAL";
         public const string BET = "BET";
         public const string GP = "GP";
-
+        public const string PROMO = "PROMO";
     }
 }

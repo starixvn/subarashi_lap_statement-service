@@ -1,46 +1,185 @@
-﻿using System;
-using Fanex.Athena.ExtService.BetList.Helper;
-using Fanex.Athena.ExtService.BetList.Models.DataDomain;
-using Fanex.Athena.ExtService.BetList.Models.DTO;
-
-using Moq;
-
-using Xunit;
-
-namespace Fanex.Athena.ExtService.BetList.UnitTest.Helper
+﻿namespace Fanex.Athena.ExtService.BetList.UnitTest.Helper
 {
+    using System.Collections.Generic;
+    using Fanex.Athena.ExtService.BetList.Helper;
+    using Fanex.Athena.ExtService.BetList.Models.DataDomain;
+    using Fanex.Athena.ExtService.BetList.Models.DTO;
+    using Fanex.Athena.ExtService.Common;
+    using Moq;
+    using Xunit;
+
     public class StatementHelperTest
     {
+        private const decimal PreviousBalance = 10;
+        private const decimal TotalAmt = 100;
+        private const decimal TurnOvert = 200;
+        private const decimal Comm = 0.5m;
+
         private readonly Mock<IStatementValue> _statementValue;
-        const decimal PreviousBalance = 10;
-        const decimal TotalAmt = 100;
-        const decimal TurnOvert = 200;
-        const decimal Comm = 0.5m;
+
         public StatementHelperTest()
         {
             _statementValue = new Mock<IStatementValue>();
             _statementValue.Setup(x => x.Commission).Returns(Comm);
             _statementValue.Setup(x => x.TotalAmt).Returns(TotalAmt);
             _statementValue.Setup(x => x.TurnOver).Returns(TurnOvert);
-
         }
+
+        public static IEnumerable<object[]> GetStatementRemarkTestCase
+        {
+            get
+            {
+                return new[]
+                {
+                    new object[] { string.Empty, TransTypeValue.BET, TransTypeValue.BET },
+                    new object[] { TransDescValue.BetStatement, TransTypeValue.BET, $"- {TransDescValue.RemarkValues[TransDescValue.BetStatement].Invoke()}" }
+                };
+            }
+        }
+
+        public static IEnumerable<object[]> GetTransDescTextTestCase
+        {
+            get
+            {
+                return new[]
+                {
+                    new object[] { string.Empty, TransTypeValue.BAL, TransTypeValue.BAL },
+                    new object[] { TransDescValue.VoidCancell, TransTypeValue.BET, TransDescValue.RemarkValues[TransDescValue.VoidCancell].Invoke() }
+                };
+            }
+        }
+
+        public static IEnumerable<object[]> GetBetingStatementRemarkTestCase
+        {
+            get
+            {
+                return new[]
+                {
+                    new object[] { TransDescValue.PromotionPrize, string.Empty, "Test", SystemHelper.GetProductName("Test") },
+                    new object[]
+                    {
+                        TransDescValue.BetStatement,
+                        "transDescText",
+                        "Test",
+                        $"{SystemHelper.GetProductName("Test")} transDescText"
+                    }
+                };
+            }
+        }
+
         [Theory]
         [InlineData(TransDescValue.BetStatement)]
         [InlineData(TransDescValue.VoidCancell)]
         [InlineData(TransDescValue.Outstanding)]
         [InlineData("Any")]
-        public void GetBalance_WhenCallWithBETTransType_ReturnCorrectValue(
-            string transDesc)
+        public void GetBalance_WhenCallWithBETTransType_ReturnCorrectValue(string transDesc)
         {
-            //Arrange
+            // Arrange
             _statementValue.Setup(x => x.TransType).Returns(TransTypeValue.BET);
             _statementValue.Setup(x => x.TransDesc).Returns(transDesc);
             var expectedValue = GetExpectedValueWithBetTransType();
-            //Action
+            
+            // Action
             var result = StatementHelper.GetBalance(PreviousBalance, _statementValue.Object);
 
-            //Assert
+            // Assert
+            Assert.Equal(expectedValue, result);
+        }
 
+        [Theory]
+        [InlineData(TransTypeValue.BAL)]
+        [InlineData(TransTypeValue.GP)]
+        [InlineData("ANY")]
+        public void GetBalance_WhenCallWithTransType_ReturnCorrectValue(string transtype)
+        {
+            // Arrange
+            var expectedValue = transtype == TransTypeValue.BAL ? TotalAmt : PreviousBalance + TotalAmt;
+            _statementValue.Setup(x => x.TransType).Returns(transtype);
+
+            // Action
+            var result = StatementHelper.GetBalance(PreviousBalance, _statementValue.Object);
+
+            // Assert
+            Assert.Equal(expectedValue, result);
+        }
+
+        [Theory]
+        [InlineData(TransTypeValue.BAL, TransDescValue.Outstanding, 0)]
+        [InlineData("ANY", TransDescValue.Outstanding, 0)]
+        [InlineData(TransTypeValue.BAL, "ANY", 0)]
+        [InlineData("ANY", "ANY", 100)]
+        public void GetCreditDebit_WhenCall_ReturnCorrectValue(string transType, string transDesc, decimal expectedValue)
+        {
+            // Arrange
+            _statementValue.Setup(x => x.TransType).Returns(transType);
+            _statementValue.Setup(x => x.TransDesc).Returns(transDesc);
+            
+            // Action
+            var result = StatementHelper.GetCreditDebit(_statementValue.Object);
+
+            // Assert 
+            Assert.Equal(expectedValue, result);
+        }
+
+        [Theory]
+        [InlineData("", false)]
+        [InlineData("AGC", true)]
+        [InlineData("GD", true)]
+        [InlineData("BX", true)]
+        public void HideBetListLink_WhenCall_ReturnCorrectResult(string productCode, bool expectedValue)
+        {
+            // Action
+            var result = StatementHelper.HideBetListLink(productCode);
+
+            // Assert
+            Assert.Equal(expectedValue, result);
+        }
+
+        [Theory]
+        [InlineData("", TransTypeValue.BET, false)]
+        [InlineData("", TransTypeValue.PROMO, false)]
+        [InlineData(TransDescValue.BetStatement, TransTypeValue.BET, true)]
+        [InlineData(TransDescValue.BetStatement, TransTypeValue.PROMO, true)]
+        [InlineData(TransDescValue.BetStatement, TransTypeValue.GP, false)]
+        public void ShowBetingStatementLink_WhenCall_ReturnCorrectResult(string transDesc, string transType, bool expectedValue)
+        {
+            // Action
+            var result = StatementHelper.ShowBetingStatementLink(transDesc, transType);
+
+            // Assert
+            Assert.Equal(expectedValue, result);
+        }
+
+        [Theory]
+        [MemberData(nameof(GetStatementRemarkTestCase))]
+        public void GetStatementRemark_WhenCall_ReturnCorrectResult(string transDesc, string transType, string expectedValue)
+        {
+            // Action
+            var result = StatementHelper.GetStatementRemark(transDesc, transType);
+
+            // Assert
+            Assert.Equal(expectedValue, result);
+        }
+
+        [Theory]
+        [MemberData(nameof(GetTransDescTextTestCase))]
+        public void GetTransDescText_WhenCall_ReturnCorrectResult(string transDesc, string transType, string expectedValue)
+        {
+            // Action
+            var result = StatementHelper.GetTransDescText(transDesc, transType);
+
+            // Assert
+            Assert.Equal(expectedValue, result);
+        }
+
+        [Theory]
+        [MemberData(nameof(GetBetingStatementRemarkTestCase))]
+        public void GetBetingStatementRemark_WhenCall_ReturnCorrectResult(string transDesc, string transDescText, string productCode, string expectedValue)
+        {
+            // Action
+            var result = StatementHelper.GetBetingStatementRemark(transDesc, transDescText, productCode);
+
+            // Assert
             Assert.Equal(expectedValue, result);
         }
 
@@ -60,58 +199,8 @@ namespace Fanex.Athena.ExtService.BetList.UnitTest.Helper
             {
                 return PreviousBalance - _statementValue.Object.TurnOver;
             }
+
             return 0m;
-        }
-
-        [Theory]
-        [InlineData(TransTypeValue.BAL)]
-        [InlineData(TransTypeValue.GP)]
-        [InlineData("ANY")]
-        public void GetBalance_WhenCallWithTransType_ReturnCorrectValue(string transtype)
-        {
-            //Arrange
-            var expectedValue = transtype == TransTypeValue.BAL ? TotalAmt : PreviousBalance + TotalAmt;
-            _statementValue.Setup(x => x.TransType).Returns(transtype);
-
-            //Action
-            var result = StatementHelper.GetBalance(PreviousBalance, _statementValue.Object);
-
-            //Assert
-            Assert.Equal(expectedValue, result);
-        }
-
-        [Theory]
-        [InlineData(TransTypeValue.BAL, TransDescValue.Outstanding, 0)]
-        [InlineData("ANY", TransDescValue.Outstanding, 0)]
-        [InlineData(TransTypeValue.BAL, "ANY", 0)]
-        [InlineData("ANY", "ANY", 100)]
-        public void GetCreditDebit_WhenCall_ReturnCorrectValue(string transType, string transDesc, decimal expectedValue)
-        {
-            //Arrange
-
-            _statementValue.Setup(x => x.TransType).Returns(transType);
-            _statementValue.Setup(x => x.TransDesc).Returns(transDesc);
-            //Action
-            var result = StatementHelper.GetCreditDebit(_statementValue.Object);
-
-            //Assert 
-            Assert.Equal(expectedValue, result);
-        }
-
-        [Theory]
-        [InlineData("", false)]
-        [InlineData("AGC", true)]
-        [InlineData("GD", true)]
-        [InlineData("BX", true)]
-        public void HideBetListLink_WhenCall_ReturnCorrectResult(string productCode, bool expectedValue)
-        {
-            //Arrange
-
-            //Action
-            var result = StatementHelper.HideBetListLink(productCode);
-
-            //Assert
-            Assert.Equal(expectedValue, result);
         }
     }
 }
