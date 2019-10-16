@@ -1,19 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Fanex.Athena.ExtService.BetList.Models.DataDomain;
-using Fanex.Athena.ExtService.BetList.Models.DTO;
-using Fanex.Athena.ExtService.BetList.Models.MetaModel;
-using Fanex.Athena.ExtService.BetList.Models.ViewModel;
-using Fanex.Athena.ExtService.Common;
-using Fanex.Athena.ExtService.Common.Attributes;
-using Fanex.Athena.ExtService.Common.Models.DataDomain;
-using Fanex.Athena.ExtService.Common.Services;
-
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Fanex.Athena.ExtService.BetList.Controllers
+﻿namespace Fanex.Athena.ExtService.BetList.Controllers
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Fanex.Athena.ExtService.BetList.Helper;
+    using Fanex.Athena.ExtService.BetList.Models.DataDomain;
+    using Fanex.Athena.ExtService.BetList.Models.DTO;
+    using Fanex.Athena.ExtService.BetList.Models.MetaModel;
+    using Fanex.Athena.ExtService.BetList.Models.ViewModel;
+    using Fanex.Athena.ExtService.Common.Attributes;
+    using Fanex.Athena.ExtService.Common.Models.DataDomain;
+    using Fanex.Athena.ExtService.Common.Services;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+
     [Authorize]
     public class BetListController : BaseController
     {
@@ -39,16 +38,18 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
                 UserName = metaModel.UserName,
 
             };
+
             if (metaModel.IsValid)
             {
                 AssignCommonMetaModelValue(metaModel, licenseeInfo);
-                var result = await _betListApiClient.PostAsync<RefNoDataResult>("/BettingTicketCenter/GetByRefno",
-                metaModel,
-                metaModel.Lang
-                ).ConfigureAwait(false);
+                var result = await _betListApiClient.PostAsync<RefNoDataResult>(
+                    "/BettingTicketCenter/GetByRefno",
+                    metaModel,
+                    metaModel.Lang).ConfigureAwait(false);
 
                 viewModel.Data = result.Data ?? new List<TicketText>();
             }
+
             ViewBag.Title = "Bet List By RefNo";
 
             AssignCommonViewModelData(metaModel, viewModel);
@@ -73,18 +74,20 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             if (metaModel.IsValid)
             {
                 AssignCommonMetaModelValue(metaModel, licenseeInfo);
-                var result = await _betListApiClient.PostAsync<RefNoDataResult>("/BetListByProduct/Index",
-                metaModel,
-                metaModel.Lang).ConfigureAwait(false);
+                var result = await _betListApiClient.PostAsync<RefNoDataResult>(
+                    "/BetListByProduct/Index",
+                    metaModel,
+                    metaModel.Lang).ConfigureAwait(false);
 
                 viewModel.Data = result.Data ?? new List<TicketText>();
             }
 
             ViewBag.Title = "Bet List By Group";
             AssignCommonViewModelData(metaModel, viewModel);
-            viewModel.TransDesc = metaModel.TransType == TransDescValue.ModeViewPromotion
-                ? SystemHelper.GetProductName(metaModel.ProductCode)
-                : $"{SystemHelper.GetProductName(metaModel.ProductCode)} {TransDescValue.GetTransactionDescription(metaModel.TransType)}";
+            viewModel.TransDesc = StatementHelper.GetBetingStatementRemark(
+                TransDescValue.GetTransactionDescription(metaModel.TransType),
+                metaModel.ProductCode);
+
             return View(viewModel);
         }
 
