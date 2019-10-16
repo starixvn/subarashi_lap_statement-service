@@ -15,6 +15,8 @@
         private const decimal TurnOvert = 200;
         private const decimal Comm = 0.5m;
 
+        private const string NPHPromotion = "NPHP";
+
         private readonly Mock<IStatementValue> _statementValue;
 
         public StatementHelperTest()
@@ -55,10 +57,9 @@
             {
                 return new[]
                 {
-                    new object[] { TransDescValue.PromotionPrize, string.Empty, "Test", SystemHelper.GetProductName("Test") },
+                    new object[] { string.Empty, NPHPromotion, SystemHelper.GetProductName(NPHPromotion) },
                     new object[]
                     {
-                        TransDescValue.BetStatement,
                         "transDescText",
                         "Test",
                         $"{SystemHelper.GetProductName("Test")} transDescText"
@@ -174,10 +175,10 @@
 
         [Theory]
         [MemberData(nameof(GetBetingStatementRemarkTestCase))]
-        public void GetBetingStatementRemark_WhenCall_ReturnCorrectResult(string transDesc, string transDescText, string productCode, string expectedValue)
+        public void GetBetingStatementRemark_WhenCall_ReturnCorrectResult(string transDescText, string productCode, string expectedValue)
         {
             // Action
-            var result = StatementHelper.GetBetingStatementRemark(transDesc, transDescText, productCode);
+            var result = StatementHelper.GetBetingStatementRemark(transDescText, productCode);
 
             // Assert
             Assert.Equal(expectedValue, result);

@@ -62,10 +62,14 @@ namespace Fanex.Athena.ExtService.BetList.Helper
                 ? TransDescValue.RemarkValues[transDesc].Invoke()
                 : transType.ToUpperInvariant();
 
-        public static string GetBetingStatementRemark(string transDesc, string transDescText, string productCode)
-        => transDesc == TransDescValue.PromotionPrize
+        public static string GetBetingStatementRemark(string transDescText, string productCode)
+        {
+            const string NPHPromotion = "NPHP";
+
+            return productCode == NPHPromotion
                 ? SystemHelper.GetProductName(productCode)
                 : $"{SystemHelper.GetProductName(productCode)} {transDescText}";
+        }
 
         public static bool ShowBetingStatementLink(string transDesc, string transType)
         => (transType == TransTypeValue.BET || transType == TransTypeValue.PROMO) && TransDescValue.RemarkValues.ContainsKey(transDesc);

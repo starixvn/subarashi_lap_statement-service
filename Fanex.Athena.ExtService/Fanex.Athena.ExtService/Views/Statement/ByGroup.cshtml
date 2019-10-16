@@ -78,7 +78,7 @@
                                         {
                                             previousBalance = StatementHelper.GetBalance(previousBalance, item);
                                             var transDescText = StatementHelper.GetTransDescText(item.TransDesc, item.TransType);
-                                            var remarkValue = StatementHelper.GetBetingStatementRemark(item.TransDesc, transDescText, item.ProductCode);
+                                            var remarkValue = StatementHelper.GetBetingStatementRemark(transDescText, item.ProductCode);
                                             <tr>
                                                 <td class="left-align">
                                                     @($"{item.WinLostDate:dddd}")
