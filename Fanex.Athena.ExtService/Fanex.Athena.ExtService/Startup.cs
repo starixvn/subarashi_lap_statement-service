@@ -32,7 +32,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -164,6 +166,11 @@ namespace Fanex.Athena.ExtService
                 var options = serviceProvider.GetService<IOptions<AppSettings>>();
                 client.BaseAddress = new Uri(options.Value.BetListApiHostUrl);
                 client.DefaultRequestHeaders.Add(BetListTokenKey, options.Value.BetListApiTokenValue);
+                client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
+            }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+            {
+                AllowAutoRedirect = false,
+                AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
             });
         }
 
