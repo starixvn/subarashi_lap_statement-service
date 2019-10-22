@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using ONEBook.UM.Extensions.Middleware;
 
 namespace Fanex.Athena.ExtService.Core.Middleware
 {
