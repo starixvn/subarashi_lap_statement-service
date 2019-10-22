@@ -1,13 +1,14 @@
-﻿using Newtonsoft.Json;
-using ONEbook.UM.Configurations;
-using ONEbook.UM.Helpers;
-using System;
+﻿using System;
 using System.IO;
-using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Newtonsoft.Json;
+
+using ONEbook.UM.Configurations;
+using ONEbook.UM.Helpers;
 
 namespace Fanex.Athena.ExtService.Core.Services
 {
@@ -60,38 +61,39 @@ namespace Fanex.Athena.ExtService.Core.Services
         {
             ValidateEndPoint(endPoint);
 
-            var client = _httpClientFactory.CreateClient(_umClientName);
-            var request = new HttpRequestMessage(method, new Uri(client.BaseAddress + endPoint));
-
-            request.Headers.Add("Authorization", HttpClientHelper.GenerateAuthorizationHeader(
-                _umConfiguration,
-                request.RequestUri.OriginalString,
-                request.Method.ToString(),
-                _ipHelper.GetMachineIP()));
-
-            if (data != null)
+            using (var client = _httpClientFactory.CreateClient(_umClientName))
             {
-                request.Content = CreateJsonContent(data);
+                using (var request = new HttpRequestMessage(method, new Uri(client.BaseAddress + endPoint)))
+                {
+                    request.Headers.Add("Authorization", HttpClientHelper.GenerateAuthorizationHeader(
+                        _umConfiguration,
+                        request.RequestUri.OriginalString,
+                        request.Method.ToString(),
+                        _ipHelper.GetMachineIP()));
+
+                    if (data != null)
+                    {
+                        request.Content = CreateJsonContent(data);
+                    }
+
+                    var response = await client.SendAsync(request, CancellationToken.None).ConfigureAwait(false);
+                    try
+                    {
+                        using (response)
+                        {
+                            response.EnsureSuccessStatusCode();
+                            var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            return Deserialize<T>(content);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        response?.Dispose();
+                        throw new Exception("Exception on UMRestClient.ExecuteAsync", ex);
+                    }
+                }
             }
 
-            var response = await client.SendAsync(request, CancellationToken.None).ConfigureAwait(false);
-            var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-            if (response.IsSuccessStatusCode)
-            {
-                return Deserialize<T>(content);
-            }
-
-            if (response.StatusCode == HttpStatusCode.ServiceUnavailable)
-            {
-                await Task.FromException(new Exception(content)).ConfigureAwait(false);
-            }
-
-            throw new InvalidOperationException(
-                string.Join(
-                    "\r\n",
-                    $"Content: {content}",
-                    $"ErrorMessage: {response.ReasonPhrase}"));
         }
 
         private static void ValidateEndPoint(string endPoint)

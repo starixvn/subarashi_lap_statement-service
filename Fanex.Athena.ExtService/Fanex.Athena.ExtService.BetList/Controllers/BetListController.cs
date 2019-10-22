@@ -87,5 +87,35 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             return View(viewModel);
         }
 
+        [HttpGet]
+        [ServiceFilter(typeof(CheckCustomerAttribute))]
+        [ResponseCache(Duration = SystemConstants.ThirtySecond, NoStore = false,
+            VaryByQueryKeys = new[] { "cid", "lang", "ps", "pi" })]
+        public async Task<IActionResult> Running(RunningBetListMetaModel metaModel)
+        {
+            var siteName = HttpContext.User.Identity.Name;
+            var licenseeInfo = await _commonService.GetLicenseeInfoAsync(siteName, metaModel.CustId);
+            var viewModel = new RunningBetListByViewModel
+            {
+                Info = licenseeInfo,
+                Data = new List<TicketText>()
+            };
+
+            if (metaModel.IsValid)
+            {
+                AssignCommonMetaModelValue(metaModel, licenseeInfo);
+                var result = await _betListApiClient.PostAsync<RefNoDataResult>(
+                    "/PlayerAdminBetList/GetBetList",
+                    metaModel,
+                    metaModel.Lang).ConfigureAwait(false);
+
+                viewModel.Data = result.Data ?? new List<TicketText>();
+            }
+
+            ViewBag.Title = "Running Bet List";
+            AssignCommonViewModelData(metaModel, viewModel);
+
+            return View(viewModel);
+        }
     }
 }
