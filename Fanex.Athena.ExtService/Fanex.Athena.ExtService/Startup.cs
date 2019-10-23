@@ -20,14 +20,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using ONEbook.UM.Configurations;
-using ONEbook.UM.Helpers;
-using ONEbook.UM.Services;
 using ONEBook.UM.Extensions;
 using StackExchange.Redis;
 using System;
@@ -130,33 +127,12 @@ namespace Fanex.Athena.ExtService
             services.AddSingleton<ICommonService, CommonService>();
             services.AddSingleton<ILogger>(x => LogService.LoggerInstance);
 
-            ConfigUMRestClient(services);
             ConfigBetListApiClient(services);
 
             services.AddTransient<ISummaryStatementService, SummaryStatementService>();
             services.AddTransient<IStatementByGroupService, StatementByGroupService>();
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<IHttpContextHelper, UMHttpContextHelper>();
-            services.AddSingleton<IMaintenanceService, MaintenanceService>();
-        }
-
-        private void ConfigUMRestClient(IServiceCollection services)
-        {
-            const string UMClient = "UMClient";
-
-            services.AddSingleton(Configuration.GetSection("ONEbook.UM").Get<UMClientConfiguration>());
-            services.AddSingleton<IPHelper, IPHelperImpl>();
-            services.AddSingleton<IUMCacheService>(s => new UMCacheService(
-                s.GetService<UMClientConfiguration>().SiteId.ToString(),
-                s.GetService<IDistributedCache>()));
-            services.AddSingleton<IUMRestClient>(s => new UMRestClient(
-                UMClient, s.GetService<UMClientConfiguration>(), s.GetService<IPHelper>(), s.GetService<IHttpClientFactory>()));
-            services.AddHttpClient(UMClient, (serviceProvider, client) =>
-            {
-                var configs = serviceProvider.GetService<UMClientConfiguration>();
-                client.BaseAddress = new Uri(configs.ServiceUri);
-                client.Timeout = TimeSpan.FromSeconds(UMREQUEST_TIMEOUT);
-            });
+            services.AddUMService(Configuration.GetSection("ONEbook.UM").Get<UMClientConfiguration>(), UMREQUEST_TIMEOUT);
         }
 
         private static void ConfigBetListApiClient(IServiceCollection services)
