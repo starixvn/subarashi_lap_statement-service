@@ -75,7 +75,6 @@ namespace Fanex.Athena.ExtService
             ConfigDataProtection(services, appOption);
 
             ConfigFanexData();
-            services.AddMemoryCache();
             services.AddStackExchangeRedisCache(options =>
             {
                 options.ConfigurationOptions = new ConfigurationOptions
