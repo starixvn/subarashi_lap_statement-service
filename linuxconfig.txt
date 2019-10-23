@@ -2,7 +2,7 @@ path:/var/www/lap.ext
 copy cmd: 
 
 ** set permisison to account :
- chown alex /var/www
+ chmod -R o+rwx /var/www
 
 scp -r C:\Pub alex@10.18.200.143:/var/www/lap.ext
 
