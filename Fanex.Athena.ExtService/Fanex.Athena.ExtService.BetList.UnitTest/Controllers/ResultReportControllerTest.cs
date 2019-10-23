@@ -133,6 +133,36 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
         }
 
         [Fact]
+        public async Task CCResultPopup_WhenCall_RetrunStringResult()
+        {
+            //Arrange
+            const string custId = "Any";
+            const string lang = "en-US";
+            const string gameTypeId = "gameTypeId";
+            const string transId3rd = "transId3rd";
+            const string fakeResult = "Any result data";
+            string result = null;
+            _betListApiClient.Setup(
+                x => x.PostAsyncString(
+                "/CardClubResultPopup/Index",
+                It.IsAny<object>(),
+                It.IsAny<string>(), 0))
+            .Returns(Task.FromResult(fakeResult));
+
+            //Action
+            using (var controller = new ResultReportController(_betListApiClient.Object))
+            {
+                controller.ControllerContext = _controllerContext.Object;
+                result = await controller.CCResultPopup(custId, gameTypeId, transId3rd, lang).ConfigureAwait(false);
+            }
+
+            //Assert
+            var viewResult = Assert.IsType<string>(result);
+            Assert.Equal(fakeResult, viewResult);
+
+        }
+
+        [Fact]
         public async Task AllBetResult_WhenCall_RetrunCorrectViewModelAsync()
         {
             //Arrange

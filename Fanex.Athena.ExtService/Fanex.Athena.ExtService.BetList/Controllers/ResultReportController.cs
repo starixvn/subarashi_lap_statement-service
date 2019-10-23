@@ -86,6 +86,21 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             };
             return await _betListApiClient.PostAsyncString("/PPResultPopup/Index", model, lang).ConfigureAwait(false);
         }
+
+        [ResponseCache(Duration = SystemConstants.ThirtySecond, VaryByQueryKeys = new[] { "custId", "lang", "gameTypeId", "transId3rd" })]
+        [HttpGet]
+        public async Task<string> CCResultPopup(string custId, string gameTypeId, string transId3rd, string lang)
+        {
+            var model = new
+            {
+                custId,
+                gameTypeId,
+                transId3rd,
+                languageCode = lang
+            };
+            return await _betListApiClient.PostAsyncString("/CardClubResultPopup/Index", model, lang).ConfigureAwait(false);
+        }
+
         [ResponseCache(Duration = SystemConstants.ThirtySecond, VaryByQueryKeys = new[] { "transDesc", "lang", "betCheck", "betType" })]
         [HttpGet]
         public async Task<IActionResult> AllBetResult(string transDesc, string betCheck, string betType, string lang)
