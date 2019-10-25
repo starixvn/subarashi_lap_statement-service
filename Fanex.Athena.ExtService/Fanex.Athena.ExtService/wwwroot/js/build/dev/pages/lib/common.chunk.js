@@ -11112,7 +11112,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿/*global _lan
             throw new Error('Unable to copy obj! Its type isn\'t supported.');
         }
         function initialize() {
-            REQUEST_VERIFICATION_TOKEN = $('input[name=__RequestVerificationToken]').val();
+            REQUEST_VERIFICATION_TOKEN = $('input[name=__lap_ext_service__]').val();
             initEvent();
             _rootUrl = $('#RootUrl').val();
         }
