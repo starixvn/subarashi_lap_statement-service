@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using ONEBook.UM.Extensions.Middleware;
 
 namespace Fanex.Athena.ExtService.Core.Middleware
 {
@@ -20,11 +19,6 @@ namespace Fanex.Athena.ExtService.Core.Middleware
             return builder.UseMiddleware<ErrorHandler>();
         }
 
-        public static IApplicationBuilder UseUMHandler(this IApplicationBuilder builder)
-        {
-            return builder.UseMiddleware<UMHandler>();
-        }
-
         public static IApplicationBuilder UseCustomHealthCheck(this IApplicationBuilder builder)
         {
             return builder.UseHealthChecks("/health", new HealthCheckOptions()
@@ -33,7 +27,6 @@ namespace Fanex.Athena.ExtService.Core.Middleware
                 Predicate = _ => true,
                 ResponseWriter = async (context, result) =>
                 {
-
                     context.Response.ContentType = "application/json";
                     var json = new JObject(
                          new JProperty("status", result.Status.ToString()),

@@ -29,7 +29,7 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ONEbook.UM.Configurations;
-using ONEBook.UM.Extensions;
+using ONEbook.UM.Extensions;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
