@@ -100,8 +100,9 @@ namespace Fanex.Athena.ExtService
             services.AddAntiforgery(options =>
             {
                 // Set Cookie properties using CookieBuilder properties†.
-                options.FormFieldName = "__RequestVerificationToken";
+                options.FormFieldName = "__lap_ext_service__";
                 options.HeaderName = "X-CSRF-TOKEN-LAP-EXT";
+                options.Cookie.SameSite = SameSiteMode.None;
                 options.SuppressXFrameOptionsHeader = true;
             });
             services.AddResponseCompression(options =>

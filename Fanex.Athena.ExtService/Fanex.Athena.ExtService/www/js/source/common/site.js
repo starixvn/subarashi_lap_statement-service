@@ -60,7 +60,7 @@ define(['jquery', 'common/querystring', 'common/popup', 'extensions/prototype',]
             throw new Error('Unable to copy obj! Its type isn\'t supported.');
         }
         function initialize() {
-            REQUEST_VERIFICATION_TOKEN = $('input[name=__RequestVerificationToken]').val();
+            REQUEST_VERIFICATION_TOKEN = $('input[name=__lap_ext_service__]').val();
             initEvent();
             _rootUrl = $('#RootUrl').val();
         }
