@@ -16,11 +16,13 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
     {
         private readonly ICommonService _commonService;
         private readonly IBetListApiClient _betListApiClient;
+
         public SystemParlayBetListController(ICommonService commonService, IBetListApiClient betListApiClient)
         {
             _commonService = commonService;
             _betListApiClient = betListApiClient;
         }
+
         [HttpGet]
         [ResponseCache(Duration = SystemConstants.ThirtySecond)]
         public async Task<IActionResult> Detail(SystemParlayDetailMetaModel metaModel)
@@ -30,6 +32,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             metaModel.BalanceUpDay = DateTime.SpecifyKind(balanceUp.BalanceUpDay.Date, DateTimeKind.Utc);
             metaModel.MoveBetsDay = DateTime.SpecifyKind(balanceUp.MoveBetsDay.Date, DateTimeKind.Utc);
             metaModel.AgentListXml = SystemHelper.GenerateAgentListXml(licenseeInfo);
+            metaModel.IsAllowedCustomerComm = licenseeInfo.IsAllowedCustomerComm;
 
             var data = await _betListApiClient.PostAsyncString("/SystemParlayBetList/Detail", metaModel,
                 metaModel.Lang).ConfigureAwait(false);
