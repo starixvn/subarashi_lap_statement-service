@@ -286,8 +286,8 @@ namespace Fanex.Athena.ExtService
                         json.ToString(Formatting.Indented));
                 }
             });
-            app.UseUMHandler();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseUMHandler();
             app.UseJWTokenOnPage();
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
