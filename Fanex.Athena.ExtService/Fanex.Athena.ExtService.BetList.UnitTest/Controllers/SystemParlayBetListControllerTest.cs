@@ -1,11 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using Fanex.Athena.ExtService.BetList.Controllers;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.BetList.Models.ViewModel;
 using Fanex.Athena.ExtService.Common;
-using Fanex.Athena.ExtService.Common.Models.DTO;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,11 +29,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             _betListApiClient.Setup(x => x.PostAsyncString(
                 "/SystemParlayBetList/Detail", It.IsAny<SystemParlayDetailMetaModel>(), It.IsAny<string>(), 0))
                 .Returns(Task.FromResult(fakeResult));
-            _commonService.Setup(x => x.GetBalanceUpAsync()).Returns(
-                Task.FromResult(new BalanceUp { BalanceUpDay = DateTime.Now, MoveBetsDay = DateTime.Now })
-                );
             var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName, 0);
-            var balanceUp = await _commonService.Object.GetBalanceUpAsync();
 
             //Action
             using (var controller = new SystemParlayBetListController(_commonService.Object
@@ -49,14 +43,11 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             var viewResult = Assert.IsType<ViewResult>(result);
             var viewModel = Assert.IsType<SystemParlayDetailViewModel>(viewResult.Model);
 
-            Assert.Equal(DateTime.SpecifyKind(balanceUp.BalanceUpDay.Date, DateTimeKind.Utc), metalModel.BalanceUpDay);
-            Assert.Equal(DateTime.SpecifyKind(balanceUp.MoveBetsDay.Date, DateTimeKind.Utc), metalModel.MoveBetsDay);
             Assert.Equal(SystemHelper.GenerateAgentListXml(licenseeInfo), metalModel.AgentListXml);
 
             Assert.NotNull(viewModel);
 
             Assert.Equal(viewModel.DetailText, fakeResult);
         }
-
     }
 }
