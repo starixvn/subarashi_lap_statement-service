@@ -266,17 +266,6 @@ namespace Fanex.Athena.ExtService
             }
             CustomizeCultureSupport(app);
             ConfigCacheForStaticResource(app, env);
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-            app.UseJWTokenOnPage();
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
-            {
-                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-            });
-            app.UseAuthentication();
-            app.UseResponseCaching();
-            app.UseStatusCodePagesWithReExecute("/Error", "?code={0}");
-            app.UseUMHandler();
-            app.UseResponseCompression();
             app.UseHealthChecks("/health", new HealthCheckOptions()
             {
                 AllowCachingResponses = false,
@@ -297,6 +286,17 @@ namespace Fanex.Athena.ExtService
                         json.ToString(Formatting.Indented));
                 }
             });
+            app.UseUMHandler();
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseJWTokenOnPage();
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+            app.UseAuthentication();
+            app.UseResponseCaching();
+            app.UseStatusCodePagesWithReExecute("/Error", "?code={0}");
+            app.UseResponseCompression();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
