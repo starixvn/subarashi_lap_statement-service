@@ -13,7 +13,5 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
         public string Lang { get; set; }
 
         public string AgentListXml { get; set; }
-
-        public bool IsAllowedCustomerComm { get; set; }
     }
 }

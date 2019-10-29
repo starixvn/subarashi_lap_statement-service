@@ -1,12 +1,12 @@
-﻿using Fanex.Athena.ExtService.Core.Services;
-using Moq;
-using ONEbook.UM.Configurations;
-using ONEbook.UM.Helpers;
-using System;
+﻿using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
+using Fanex.Athena.ExtService.Core.Services;
+using Moq;
+using ONEbook.UM.Configurations;
+using ONEbook.UM.Helpers;
 using Xunit;
 
 namespace Fanex.Athena.ExtService.Core.UnitTests.Services
@@ -16,7 +16,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Services
         private Mock<IPHelper> _mockIPHelper;
         private Mock<IHttpClientFactory> _mockHttpClientFactory;
         private Mock<HttpClient> _mockClient;
-        private UMClientConfiguration _fakeUMClientConfiguration;
+        private readonly UMClientConfiguration _fakeUMClientConfiguration;
 
         public UMRestClientTest()
         {
@@ -32,12 +32,17 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Services
         {
             // Arrange
             var testTime = new DateTime(2000, 1, 2, 3, 4, 5, 6);
+            var content = string.Empty;
             HttpRequestMessage actual = null;
             _mockClient.Object.BaseAddress = new Uri("http://test.com/v2");
             _mockHttpClientFactory.Setup(r => r.CreateClient("test-name-2")).Returns(_mockClient.Object);
             _mockClient.Setup(r => r.SendAsync(It.IsAny<HttpRequestMessage>(), CancellationToken.None))
                 .ReturnsAsync(new HttpResponseMessage { Content = new StringContent("{}") })
-                .Callback<HttpRequestMessage, CancellationToken>((a, _) => actual = a)
+                .Callback<HttpRequestMessage, CancellationToken>(async (a, _) =>
+                {
+                    actual = a;
+                    content = await a.Content.ReadAsStringAsync().ConfigureAwait(false);
+                })
                 .Verifiable();
 
             var um = new UMRestClient(
@@ -52,7 +57,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Services
             // Assert
             Assert.Equal(HttpMethod.Post, actual.Method);
             Assert.Equal("http://test.com/v2/test/456", actual.RequestUri.OriginalString);
-            Assert.Equal("{\"Time\":\"2000-01-02T03:04:05.006\"}", await actual.Content.ReadAsStringAsync());
+            Assert.Equal("{\"Time\":\"2000-01-02T03:04:05.006\"}", content);
         }
 
         [Fact]
@@ -97,11 +102,11 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Services
             var um = CreateUMRestClient();
 
             // Action
-            var actual = await Assert.ThrowsAsync<InvalidOperationException>(()
+            var actual = await Assert.ThrowsAsync<Exception>(()
                 => um.ExecuteGetAsync<SampleTestClass>("/test"));
 
             // Assert
-            Assert.Equal("Content: content error\r\nErrorMessage: test-response-error", actual.Message);
+            Assert.Equal("Exception on UMRestClient.ExecuteAsync", actual.Message);
         }
 
         [Theory]
@@ -119,15 +124,12 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Services
         }
 
         [Fact]
-        public async void ExecuteGetAsync_ServiceUnavailable_Throws()
+        public async void ExecuteGetAsync_ServiceUnavailable_ThrowsWithCorrectMessage()
         {
             // Arrange
             _mockHttpClientFactory.SetReturnsDefault(_mockClient.Object);
             _mockClient.Setup(r => r.SendAsync(It.IsAny<HttpRequestMessage>(), CancellationToken.None))
-                .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.ServiceUnavailable)
-                {
-                    Content = new StringContent("test ServiceUnavailable"),
-                });
+                .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.ServiceUnavailable));
 
             var um = CreateUMRestClient();
 
@@ -135,7 +137,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Services
             var actual = await Assert.ThrowsAsync<Exception>(() => um.ExecuteGetAsync<SampleTestClass>("/test"));
 
             // Assert
-            Assert.Equal("test ServiceUnavailable", actual.Message);
+            Assert.Equal("Exception on UMRestClient.ExecuteAsync", actual.Message);
         }
 
         [Fact]
