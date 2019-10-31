@@ -13,6 +13,7 @@
         const SPORT_VOIDBRIDGE = 212;
         const SPORT_PP = 248;
         const SPORT_GLOBALGAMING = 219;
+        const SPORT_CARDCLUB = 165;
 
         let _sortColumnName, _sortOrder;
 
@@ -153,6 +154,20 @@
                 });
             },
 
+            viewCardClubResult: function (custId, gameTypeId, transId3rd, title) {
+                let url = Site.resolveClientUrl('ResultReport/CCResultPopup') + '?custId=' + custId + '&gameTypeId=' + gameTypeId + '&transId3rd=' + transId3rd;
+                url = QueryString.setParam(url, 'lang', $("#lang").val());
+                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
+
+                Site.blockUI();
+                $.get(url, function (result) {
+                    if (result !== '') {
+                        showResultPopUp(result, { width: 800, height: 380, title: title });
+                        Site.unBlockUI();
+                    }
+                });
+            },
+
             viewAllBetResult: function (trasdesc, betcheck, bettype, title) {
                 let url = Site.resolveClientUrl('ResultReport/AllBetResult?transdesc=' +
                     encodeURIComponent(trasdesc) + '&betcheck=' + betcheck + '&bettype=' + bettype);
@@ -190,6 +205,9 @@
                 }
                 else if (sporttype === SPORT_PP) {
                     _me.viewPPResult(custid, extension2, title);
+                }
+                else if (sporttype === SPORT_CARDCLUB) {
+                    _me.viewCardClubResult(custid, bettype, extension2, title);
                 }
                 else if (sporttype === SPORT_ALLBET) {
                     _me.viewAllBetResult(transdecs, extension2, bettype, title);
@@ -485,6 +503,7 @@
 
                 showDetailPopUp(url, { width: popW + 50, height: popH + 50, title: title });
             },
+
             showVideoPokerGameDetails: function (transId, winlostDate, custId, transType) {
                 let url = Site.resolveClientUrl('BetListDetailByProduct/Detail');
                 url = QueryString.setParam(url, 'transId', transId);
@@ -525,7 +544,6 @@
                 window.showRnGCasinoDetails = _me.showRnGCasinoDetails;
                 window.showVoidBridgeDetails = _me.showVoidBridgeDetails;
                 window.showVoidbridgeResult = _me.viewVoidbridgeResult;
-                window.showPPResult = _me.viewPPResult;
                 window.showTodayRunningBetsDetails = _me.showAllBetDetails;
                 window.showGlobalGaming = _me.showGlobalGamingDetails;
                 window.ShowBonusDetails = _me.showBonusDetails;
