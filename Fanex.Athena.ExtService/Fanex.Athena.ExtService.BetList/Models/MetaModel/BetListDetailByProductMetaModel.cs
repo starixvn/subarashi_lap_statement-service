@@ -21,8 +21,7 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
         public bool HasTotal { get; set; }
         public bool HasLicWl { get; set; }
         public long RefCode { get; set; }
-        [JsonProperty("CurrencyList")]
-        public IDictionary<int, string> UserCurrencyList { get; set; }
+        
         public string AgentListXml { get; set; }
         public string BaseCurrency { get; set; } = SystemConstants.DefaultBaseCurrency;
         public string Lang { get; set; } = SystemConstants.DefaultLangCode;

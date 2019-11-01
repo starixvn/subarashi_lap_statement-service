@@ -43,7 +43,6 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             var viewResult = Assert.IsType<JsonResult>(result);
             var viewModel = Assert.IsAssignableFrom<IList<TicketText>>(viewResult.Value);
 
-            Assert.NotNull(metalModel.UserCurrencyList);
             Assert.Equal(fakeResult, viewModel);
         }
 
@@ -74,7 +73,6 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             var viewResult = Assert.IsType<JsonResult>(result);
             var viewModel = Assert.IsAssignableFrom<NewParlayDetailViewModel>(viewResult.Value);
 
-            Assert.NotNull(metalModel.UserCurrencyList);
             Assert.Equal(fakeResult, viewModel);
             Assert.Equal(viewModel.Texts, fakeResult.Texts);
             Assert.Equal(viewModel.Data, fakeResult.Data);

@@ -45,7 +45,6 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         [FromQuery(Name = "mv")]
         public int TransType { get; set; }
 
-        public IDictionary<int, string> UserCurrencyList { get; set; }
         public bool HasPlayerCom { get; set; }
         public string AgentListXml { get; set; }
 

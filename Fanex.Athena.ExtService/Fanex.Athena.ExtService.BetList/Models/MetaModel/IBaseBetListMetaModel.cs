@@ -6,7 +6,6 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 {
     public interface IBaseBetListMetaModel : IBaseMetaModel
     {
-        IDictionary<int, string> UserCurrencyList { get; set; }
         bool HasPlayerCom { get; set; }
         string AgentListXml { get; set; }
     }

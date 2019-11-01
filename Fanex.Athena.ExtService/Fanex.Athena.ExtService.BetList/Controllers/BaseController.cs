@@ -22,7 +22,6 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         }
         protected static void AssignCommonMetaModelValue(IBaseBetListMetaModel metaModel, LicenseeInfo licenseeInfo)
         {
-            metaModel.UserCurrencyList = GetUserCurrencyList(licenseeInfo);
             metaModel.HasPlayerCom = licenseeInfo.IsAllowedCustomerComm;
             metaModel.AgentListXml = SystemHelper.GenerateAgentListXml(licenseeInfo);
         }

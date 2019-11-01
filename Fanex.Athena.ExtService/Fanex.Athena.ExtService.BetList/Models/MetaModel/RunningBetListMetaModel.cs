@@ -28,9 +28,6 @@
         [FromQuery(Name = "cid")]
         public int CustId { get; set; }
 
-        [JsonProperty("CurrencyList")]
-        public IDictionary<int, string> UserCurrencyList { get; set; }
-
         public bool HasPlayerCom { get; set; }
 
         public string AgentListXml { get; set; }
