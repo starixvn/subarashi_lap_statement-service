@@ -266,26 +266,7 @@ namespace Fanex.Athena.ExtService
             }
             CustomizeCultureSupport(app);
             ConfigCacheForStaticResource(app, env);
-            app.UseHealthChecks("/health", new HealthCheckOptions()
-            {
-                AllowCachingResponses = false,
-                Predicate = _ => true,
-                ResponseWriter = (context, result) =>
-                {
-
-                    context.Response.ContentType = "application/json";
-                    var json = new JObject(
-                         new JProperty("status", result.Status.ToString()),
-                         new JProperty("results", new JObject(result.Entries.Select(pair =>
-                             new JProperty(pair.Key, new JObject(
-                                 new JProperty("status", pair.Value.Status.ToString()),
-                                 new JProperty("description", pair.Value.Description),
-                                 new JProperty("data", new JObject(pair.Value.Data.Select(
-                                     p => new JProperty(p.Key, p.Value))))))))));
-                    return context.Response.WriteAsync(
-                        json.ToString(Formatting.Indented));
-                }
-            });
+            app.UseCustomHealthCheck();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseUMHandler();
             app.UseJWTokenOnPage();
