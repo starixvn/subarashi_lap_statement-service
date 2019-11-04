@@ -9,7 +9,7 @@
 
     public class RunningBetListMetaModel : IBaseBetListMetaModel, ICustomerMetaModel
     {
-        public string Lang { get; set; }
+        public string Lang { get; set; } = SystemConstants.DefaultLangCode;
 
         public bool IsValid
         {
@@ -35,6 +35,6 @@
 
         public string AgentListXml { get; set; }
 
-        public string BaseCurrency { get; set; } = string.Empty;
+        public string BaseCurrency { get; set; } = SystemConstants.DefaultBaseCurrency;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Fanex.Athena.ExtService.Common.Models.DataDomain;
 using Fanex.Athena.ExtService.Common.Models.ViewModels;
 using Newtonsoft.Json;
 
@@ -23,7 +24,7 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
         [JsonProperty("CurrencyList")]
         public IDictionary<int, string> UserCurrencyList { get; set; }
         public string AgentListXml { get; set; }
-        public string BaseCurrency { get; set; }
-        public string Lang { get; set; }
+        public string BaseCurrency { get; set; } = SystemConstants.DefaultBaseCurrency;
+        public string Lang { get; set; } = SystemConstants.DefaultLangCode;
     }
 }

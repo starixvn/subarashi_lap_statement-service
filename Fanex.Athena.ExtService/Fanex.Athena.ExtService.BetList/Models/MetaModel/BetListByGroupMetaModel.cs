@@ -12,8 +12,8 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
     public class BetListByGroupMetaModel : IBaseBetListMetaModel, ICustomerMetaModel
     {
         [FromQuery(Name = "bc")]
-        public string BaseCurrency { get; set; }
-        public string Lang { get; set; }
+        public string BaseCurrency { get; set; } = SystemConstants.DefaultBaseCurrency;
+        public string Lang { get; set; } = SystemConstants.DefaultLangCode;
         public bool IsValid
         {
             get
