@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Fanex.Athena.ExtService.Common.Models.DataDomain;
 using Fanex.Athena.ExtService.Common.Models.ViewModels;
 
 namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
@@ -12,6 +13,6 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
         public int CustId { get; set; }
 
         public IDictionary<int, string> UserCurrencyList { get; set; }
-        public string Lang { get; set; }
+        public string Lang { get; set; } = SystemConstants.DefaultLangCode;
     }
 }
