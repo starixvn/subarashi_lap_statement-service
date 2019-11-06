@@ -36,7 +36,7 @@
             {
                 Info = licenseeInfo,
                 UserName = metaModel.UserName,
-
+                Data = new List<TicketText>()
             };
 
             if (metaModel.IsValid)
