@@ -1,4 +1,14 @@
-﻿using Fanex.Athena.ExtService.BetList.Services;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+using Fanex.Athena.ExtService.BetList.Services;
 using Fanex.Athena.ExtService.Common.Attributes;
 using Fanex.Athena.ExtService.Common.Models.DTO;
 using Fanex.Athena.ExtService.Common.Services;
@@ -10,12 +20,11 @@ using Fanex.Athena.ExtService.Core.Services;
 using Fanex.Data;
 using Fanex.Data.SqlServer;
 using Fanex.Logging;
-using Fanex.Logging.RabbitMQ;
+using Fanex.Logging.Sentry;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -26,21 +35,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using ONEbook.UM.Configurations;
 using ONEbook.UM.Extensions;
+using Sentry;
 using StackExchange.Redis;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Fanex.Athena.ExtService
 {
@@ -71,10 +69,10 @@ namespace Fanex.Athena.ExtService
 
             LogManager
                 .SetDefaultLogCategory(appOption.LogCategory)
-                .Use(new List<ILogEngine>
-                 {
-                    new RabbitMQLogging(appOption.RabbitMQ)
-                 });
+                .Use(new SentryLogging(new SentryEngineOptions
+                {
+                    Dsn = new Dsn(appOption.SentryDsn)
+                }));
 
             ConfigDataProtection(services, appOption);
 
@@ -258,6 +256,7 @@ namespace Fanex.Athena.ExtService
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseErrorHandler();
             }
             else
             {
