@@ -45,8 +45,8 @@
             {
                 return new[]
                 {
-                    new object[] { string.Empty, TransTypeValue.BAL, TransTypeValue.BAL },
-                    new object[] { TransDescValue.VoidCancell, TransTypeValue.BET, TransDescValue.RemarkValues[TransDescValue.VoidCancell].Invoke() }
+                    new object[] { string.Empty,  string.Empty },
+                    new object[] { TransDescValue.VoidCancell, TransDescValue.RemarkValues[TransDescValue.VoidCancell].Invoke() }
                 };
             }
         }
@@ -73,7 +73,7 @@
         [InlineData(TransDescValue.VoidCancell)]
         [InlineData(TransDescValue.Outstanding)]
         [InlineData("Any")]
-        public void GetBalance_WhenCallWithBETTransType_ReturnCorrectValue(string transDesc)
+        public void GetStatementBalance_WhenCallWithBETTransType_ReturnCorrectValue(string transDesc)
         {
             // Arrange
             _statementValue.Setup(x => x.TransType).Returns(TransTypeValue.BET);
@@ -81,7 +81,7 @@
             var expectedValue = GetExpectedValueWithBetTransType();
             
             // Action
-            var result = StatementHelper.GetBalance(PreviousBalance, _statementValue.Object);
+            var result = StatementHelper.GetStatementBalance(PreviousBalance, _statementValue.Object);
 
             // Assert
             Assert.Equal(expectedValue, result);
@@ -91,14 +91,33 @@
         [InlineData(TransTypeValue.BAL)]
         [InlineData(TransTypeValue.GP)]
         [InlineData("ANY")]
-        public void GetBalance_WhenCallWithTransType_ReturnCorrectValue(string transtype)
+        public void GetStatementBalance_WhenCallWithTransType_ReturnCorrectValue(string transtype)
         {
             // Arrange
             var expectedValue = transtype == TransTypeValue.BAL ? TotalAmt : PreviousBalance + TotalAmt;
             _statementValue.Setup(x => x.TransType).Returns(transtype);
 
             // Action
-            var result = StatementHelper.GetBalance(PreviousBalance, _statementValue.Object);
+            var result = StatementHelper.GetStatementBalance(PreviousBalance, _statementValue.Object);
+
+            // Assert
+            Assert.Equal(expectedValue, result);
+        }
+
+        [Theory]
+        [InlineData(TransDescValue.PromotionPrize)]
+        [InlineData(TransDescValue.BetStatement)]
+        [InlineData(TransDescValue.VoidCancell)]
+        [InlineData(TransDescValue.Outstanding)]
+        [InlineData("Any")]
+        public void GetBettingBalance_WhenCall_ReturnCorrectValue(string transDesc)
+        {
+            // Arrange
+            _statementValue.Setup(x => x.TransDesc).Returns(transDesc);
+            var expectedValue = GetExpectedValueWithBetTransType();
+
+            // Action
+            var result = StatementHelper.GetBettingBalance(PreviousBalance, _statementValue.Object);
 
             // Assert
             Assert.Equal(expectedValue, result);
@@ -164,10 +183,10 @@
 
         [Theory]
         [MemberData(nameof(GetTransDescTextTestCase))]
-        public void GetTransDescText_WhenCall_ReturnCorrectResult(string transDesc, string transType, string expectedValue)
+        public void GetTransDescText_WhenCall_ReturnCorrectResult(string transDesc, string expectedValue)
         {
             // Action
-            var result = StatementHelper.GetTransDescText(transDesc, transType);
+            var result = StatementHelper.GetTransDescText(transDesc);
 
             // Assert
             Assert.Equal(expectedValue, result);
@@ -199,6 +218,11 @@
             if (_statementValue.Object.TransDesc == TransDescValue.Outstanding)
             {
                 return PreviousBalance - _statementValue.Object.TurnOver;
+            }
+
+            if (_statementValue.Object.TransDesc == TransDescValue.PromotionPrize)
+            {
+                return PreviousBalance + _statementValue.Object.TotalAmt;
             }
 
             return 0m;

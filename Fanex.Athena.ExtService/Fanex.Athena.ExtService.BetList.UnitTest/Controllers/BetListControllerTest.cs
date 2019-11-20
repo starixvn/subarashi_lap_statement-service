@@ -62,7 +62,7 @@
             // Assert
             var viewResult = Assert.IsType<ViewResult>(expectedResult);
             var viewModel = Assert.IsType<RefNoViewModel>(viewResult.Model);
-            Assert.Null(viewModel.Data);
+            Assert.Empty(viewModel.Data);
         }
 
         [Fact]

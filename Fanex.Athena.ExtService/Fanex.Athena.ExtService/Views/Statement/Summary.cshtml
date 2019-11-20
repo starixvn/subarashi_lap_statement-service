@@ -75,7 +75,7 @@
                                         decimal previousBalance = 0;
                                         foreach (var item in Model.DataList)
                                         {
-                                            previousBalance = StatementHelper.GetBalance(previousBalance, item);
+                                            previousBalance = StatementHelper.GetStatementBalance(previousBalance, item);
                                             var remarkValue = StatementHelper.GetStatementRemark(item.TransDesc, item.TransType);
 
                                             <tr>

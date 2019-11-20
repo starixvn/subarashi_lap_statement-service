@@ -76,8 +76,8 @@
                                         decimal previousBalance = 0;
                                         foreach (var item in Model.DataList)
                                         {
-                                            previousBalance = StatementHelper.GetBalance(previousBalance, item);
-                                            var transDescText = StatementHelper.GetTransDescText(item.TransDesc, item.TransType);
+                                            previousBalance = StatementHelper.GetBettingBalance(previousBalance, item);
+                                            var transDescText = StatementHelper.GetTransDescText(item.TransDesc);
                                             var remarkValue = StatementHelper.GetBetingStatementRemark(transDescText, item.ProductCode);
                                             <tr>
                                                 <td class="left-align">
