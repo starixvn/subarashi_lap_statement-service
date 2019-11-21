@@ -16,6 +16,7 @@ namespace Fanex.Athena.ExtService.Controllers
         {
             _authService = authService;
         }
+
         [ResponseCache(Duration = 0, NoStore = true, Location = ResponseCacheLocation.None)]
         [AllowAnonymous]
         [Route("api/Auth")]

@@ -1,27 +1,25 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-using Fanex.Athena.ExtService.BetList.Models.DTO;
-using Fanex.Athena.ExtService.BetList.Models.MetaModel;
-using Fanex.Athena.ExtService.BetList.Models.ViewModel;
-using Fanex.Athena.ExtService.Common.Attributes;
-using Fanex.Athena.ExtService.Common.Models.DataDomain;
-using Fanex.Athena.ExtService.Common.Services;
-
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Fanex.Athena.ExtService.BetList.Controllers
+﻿namespace Fanex.Athena.ExtService.BetList.Controllers
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using Fanex.Athena.ExtService.BetList.Models.DTO;
+    using Fanex.Athena.ExtService.BetList.Models.MetaModel;
+    using Fanex.Athena.ExtService.BetList.Models.ViewModel;
+    using Fanex.Athena.ExtService.Common.Attributes;
+    using Fanex.Athena.ExtService.Common.Models.DataDomain;
+    using Fanex.Athena.ExtService.Common.Services;
+
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+
     [Authorize]
     public class MixParlayBetListController : BaseController
     {
-        private readonly ICommonService _commonService;
         private readonly IBetListApiClient _betListApiClient;
-        public MixParlayBetListController(ICommonService commonService, IBetListApiClient betListApiClient)
+
+        public MixParlayBetListController(IBetListApiClient betListApiClient)
         {
-            _commonService = commonService;
             _betListApiClient = betListApiClient;
         }
 
@@ -45,6 +43,5 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
                 metaModel, metaModel.Lang).ConfigureAwait(false);
             return Json(result);
         }
-
     }
 }

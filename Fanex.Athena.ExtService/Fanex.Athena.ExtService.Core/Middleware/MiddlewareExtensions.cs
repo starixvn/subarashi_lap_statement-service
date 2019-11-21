@@ -21,7 +21,7 @@ namespace Fanex.Athena.ExtService.Core.Middleware
 
         public static IApplicationBuilder UseCustomHealthCheck(this IApplicationBuilder builder)
         {
-            return builder.UseHealthChecks("/health", new HealthCheckOptions()
+            return builder.UseHealthChecks("/health", new HealthCheckOptions
             {
                 AllowCachingResponses = false,
                 Predicate = _ => true,

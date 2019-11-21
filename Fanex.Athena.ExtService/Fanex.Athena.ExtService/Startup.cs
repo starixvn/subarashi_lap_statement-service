@@ -48,7 +48,6 @@ namespace Fanex.Athena.ExtService
         private const string AppSettingKey = "AppSettings";
         private const int SixtyDays = 60;
         private const int AliveIn180Seconds = 180;
-        private const int UMREQUEST_TIMEOUT = 10;
 
         public Startup(IConfiguration configuration)
         {
@@ -134,7 +133,7 @@ namespace Fanex.Athena.ExtService
             services.AddTransient<ISummaryStatementService, SummaryStatementService>();
             services.AddTransient<IStatementByGroupService, StatementByGroupService>();
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddUMService(Configuration.GetSection("ONEbook.UM").Get<UMClientConfiguration>(), UMREQUEST_TIMEOUT);
+            services.AddUMService(Configuration.GetSection("ONEbook.UM").Get<UMClientConfiguration>());
         }
 
         private static void ConfigBetListApiClient(IServiceCollection services)
