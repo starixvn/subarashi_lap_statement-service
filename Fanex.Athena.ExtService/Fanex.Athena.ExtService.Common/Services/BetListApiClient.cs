@@ -10,7 +10,7 @@ namespace Fanex.Athena.ExtService.Common.Services
 {
     public class BetListApiClient : IBetListApiClient
     {
-        private const string LANGUAGEKEY = "Accept-Language";
+        private const string LANGUAGEKEY = "Language";
 
         private readonly string _betListApiClientName;
         private readonly IHttpClientFactory _clientFactory;
