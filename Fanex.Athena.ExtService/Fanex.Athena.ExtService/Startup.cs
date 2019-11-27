@@ -322,6 +322,10 @@ namespace Fanex.Athena.ExtService
             var supportedCultures = new[]
             {
                 new CultureInfo("en-US"){ DateTimeFormat= dateformat },
+            };
+            var supportedUICultures = new[]
+            {
+                new CultureInfo("en-US"){ DateTimeFormat= dateformat },
                 new CultureInfo("zh-TW"){ DateTimeFormat= dateformat },
                 new CultureInfo("zh-Hans"){ DateTimeFormat= dateformat },
                 new CultureInfo("zh-CN"){ DateTimeFormat= dateformat },
@@ -330,7 +334,7 @@ namespace Fanex.Athena.ExtService
             {
                 DefaultRequestCulture = new RequestCulture("en-US"),
                 SupportedCultures = supportedCultures,
-                SupportedUICultures = supportedCultures,
+                SupportedUICultures = supportedUICultures,
                 RequestCultureProviders = new List<IRequestCultureProvider>
                 {
                     new QueryStringRequestCultureProvider
