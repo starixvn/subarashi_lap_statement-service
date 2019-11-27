@@ -1,17 +1,16 @@
-﻿using Fanex.Athena.ExtService.Common.Models;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Fanex.Athena.ExtService.Common.Services
 {
     public class BetListApiClient : IBetListApiClient
     {
-        private const string LANGUAGEKEY = "Language";
+        private const string LANGUAGEKEY = "Accept-Language";
 
         private readonly string _betListApiClientName;
         private readonly IHttpClientFactory _clientFactory;
