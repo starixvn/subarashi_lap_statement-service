@@ -28,8 +28,12 @@ namespace Fanex.Athena.ExtService.Common.Services
         }
 
         private async Task<T> HandleAsync<T>(string path, object value,
-           string language, Func<HttpContent, Task<T>> codeBlock, int timeout = 0)
+           string language, Func<HttpResponseMessage, Task<T>> codeBlock, int timeout = 0)
         {
+            if (codeBlock == null)
+            {
+                return await Task.FromResult(default(T));
+            }
             var client = _clientFactory.CreateClient(_betListApiClientName);
             var request = new HttpRequestMessage(HttpMethod.Post, new Uri(client.BaseAddress + path))
             {
@@ -49,17 +53,35 @@ namespace Fanex.Athena.ExtService.Common.Services
                 throw new InvalidOperationException(errorMessage);
             }
 
-            return await codeBlock(result.Content).ConfigureAwait(false);
+            return await codeBlock(result).ConfigureAwait(false);
         }
 
         public async Task<string> PostAsyncString(string path, object value, string language, int timeout = 0)
         {
-            return await HandleAsync(path, value, language, x => x.ReadAsStringAsync(), timeout).ConfigureAwait(false);
+            return await HandleAsync(path, value, language,
+                async x => { using (x) { return await x.Content.ReadAsStringAsync(); } },
+                timeout).ConfigureAwait(false);
         }
 
         public async Task<T> PostAsync<T>(string path, object value, string language, int timeout = 0)
         {
-            return await HandleAsync(path, value, language, FromJsonContentAsync<T>, timeout).ConfigureAwait(false);
+            return await HandleAsync(path, value, language, async x =>
+            {
+                using (x)
+                {
+                    using (var stream = await x.Content.ReadAsStreamAsync())
+                    {
+                        using (var streamReader = new StreamReader(stream))
+                        using (var jsonTextReader = new JsonTextReader(streamReader))
+                        {
+                            var serializer = JsonSerializer.Create(_serializerSettings);
+                            return serializer.Deserialize<T>(jsonTextReader);
+                        }
+                    }
+
+                }
+
+            }, timeout).ConfigureAwait(false);
         }
 
         private static HttpContent ToJsonContent(object obj)
@@ -71,19 +93,6 @@ namespace Fanex.Athena.ExtService.Common.Services
                     var serializer = JsonSerializer.Create(_serializerSettings);
                     serializer.Serialize(jsonWriter, obj);
                     return new StringContent(stringWriter.ToString(), Encoding.UTF8, "application/json");
-                }
-            }
-        }
-
-        private static async Task<T> FromJsonContentAsync<T>(HttpContent jsonContent)
-        {
-            var content = await jsonContent.ReadAsStringAsync();
-            using (var stringReader = new StringReader(content))
-            {
-                using (var jsonTextReader = new JsonTextReader(stringReader))
-                {
-                    var serializer = JsonSerializer.Create(_serializerSettings);
-                    return serializer.Deserialize<T>(jsonTextReader);
                 }
             }
         }
