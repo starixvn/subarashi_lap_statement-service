@@ -1,7 +1,8 @@
-﻿using Fanex.Logging;
-using Microsoft.AspNetCore.Diagnostics;
+﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+
 using System;
 using System.Threading.Tasks;
 
@@ -13,7 +14,7 @@ namespace Fanex.Athena.ExtService.Core.Middleware
         private readonly RequestDelegate _next;
         private readonly ILogger _logger;
 
-        public ErrorHandler(RequestDelegate next, ILogger logger)
+        public ErrorHandler(RequestDelegate next, ILogger<ErrorHandler> logger)
         {
             _next = next;
             _logger = logger;
@@ -43,7 +44,7 @@ namespace Fanex.Athena.ExtService.Core.Middleware
             context.Response.ContentType = "application/json";
             var errorMsg = $"Msg={error.Message}\n Stacktrace={error.StackTrace}" +
                 $"\n Path={context.Request.Path}\n Query={context.Request.QueryString}";
-            _logger.Error(errorMsg);
+            _logger.LogCritical(error, errorMsg);
             await context.Response.WriteAsync(JsonConvert.SerializeObject(new
             {
                 State = "Internal Server Error",

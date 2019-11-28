@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using Fanex.Athena.ExtService.BetList.Services;
+﻿using Fanex.Athena.ExtService.BetList.Services;
 using Fanex.Athena.ExtService.Common.Attributes;
 using Fanex.Athena.ExtService.Common.Models.DTO;
 using Fanex.Athena.ExtService.Common.Services;
@@ -19,8 +9,7 @@ using Fanex.Athena.ExtService.Core.Models.DTO;
 using Fanex.Athena.ExtService.Core.Services;
 using Fanex.Data;
 using Fanex.Data.SqlServer;
-using Fanex.Logging;
-using Fanex.Logging.Sentry;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -35,10 +24,22 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+
 using ONEbook.UM.Configurations;
 using ONEbook.UM.Extensions;
-using Sentry;
+
 using StackExchange.Redis;
+
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Fanex.Athena.ExtService
 {
@@ -65,13 +66,6 @@ namespace Fanex.Athena.ExtService
             services.Configure<List<User>>(Configuration.GetSection("Users"));
 
             var appOption = Configuration.GetSection(ApplicationOptionSettingKey).Get<ApplicationOptions>();
-
-            LogManager
-                .SetDefaultLogCategory(appOption.LogCategory)
-                .Use(new SentryLogging(new SentryEngineOptions
-                {
-                    Dsn = new Dsn(appOption.SentryDsn)
-                }));
 
             ConfigDataProtection(services, appOption);
 
@@ -126,7 +120,6 @@ namespace Fanex.Athena.ExtService
             services.AddScoped<IPFilterAttribute>();
             services.AddScoped<CheckCustomerAttribute>();
             services.AddSingleton<ICommonService, CommonService>();
-            services.AddSingleton<ILogger>(x => LogService.LoggerInstance);
 
             ConfigBetListApiClient(services);
 

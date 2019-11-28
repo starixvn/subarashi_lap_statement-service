@@ -28,8 +28,7 @@ namespace Fanex.Athena.ExtService
                  x.AddServerHeader = false;
 
              })
-             .UseStartup<Startup>();
-
+             .UseStartup<Startup>().UseSentry();
 
     }
 }
