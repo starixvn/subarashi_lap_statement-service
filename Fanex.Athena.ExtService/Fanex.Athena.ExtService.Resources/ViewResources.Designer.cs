@@ -466,6 +466,15 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to NPH Promotion.
+        /// </summary>
+        public static string ProductNPHP {
+            get {
+                return ResourceManager.GetString("ProductNPHP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to PP.
         /// </summary>
         public static string ProductPP {
@@ -525,6 +534,15 @@ namespace Fanex.Athena.ExtService.Resources {
         public static string ProductVS2 {
             get {
                 return ResourceManager.GetString("ProductVS2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Promotion.
+        /// </summary>
+        public static string Promotion_Prize {
+            get {
+                return ResourceManager.GetString("Promotion_Prize", resourceCulture);
             }
         }
         

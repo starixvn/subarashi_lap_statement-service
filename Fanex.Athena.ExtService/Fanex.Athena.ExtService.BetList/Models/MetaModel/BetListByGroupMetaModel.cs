@@ -20,7 +20,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             {
                 var pagingValidation = PageIndex > 0 && PageSize > 0;
                 var mainValidation = CustId > 0 && Date > DateTime.MinValue;
-                var productAndModeValidation = !string.IsNullOrEmpty(ProductCode) && TransDescValue.MaptoModeView.Values.Contains(TransType);
+                var productAndModeValidation = !string.IsNullOrEmpty(ProductCode) && (TransType == 0 || TransDescValue.MaptoModeView.Values.Contains(TransType));
                 return pagingValidation && mainValidation && productAndModeValidation;
             }
         }
@@ -45,7 +45,6 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         [FromQuery(Name = "mv")]
         public int TransType { get; set; }
 
-        public IDictionary<int, string> UserCurrencyList { get; set; }
         public bool HasPlayerCom { get; set; }
         public string AgentListXml { get; set; }
 

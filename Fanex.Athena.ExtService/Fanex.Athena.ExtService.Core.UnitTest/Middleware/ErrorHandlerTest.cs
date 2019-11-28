@@ -1,15 +1,19 @@
-﻿using System;
+﻿using Fanex.Athena.ExtService.Core.Middleware;
+
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Moq;
+
+using Newtonsoft.Json;
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Fanex.Athena.ExtService.Core.Middleware;
-using Fanex.Logging;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http;
-using Moq;
-using Newtonsoft.Json;
+
 using Xunit;
 
 namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
@@ -22,12 +26,6 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
 
         public ErrorHandlerTest()
         {
-            LogManager
-            .SetDefaultLogCategory("TEST")
-            .Use(new List<ILogEngine>
-             {
-                new Mock<ILogEngine>().Object
-             });
             _mockHttpContext = new Mock<HttpContext>();
             _mockResponse = new Mock<HttpResponse>();
             _mockHttpContext.Setup(x => x.Response).Returns(_mockResponse.Object);
@@ -63,7 +61,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
 
             var errorHandler = new ErrorHandler(
                 async (x) => await Task.CompletedTask,
-                new Mock<ILogger>().Object);
+                new Mock<ILogger<ErrorHandler>>().Object);
 
             //Action
             await errorHandler.Invoke(_mockHttpContext.Object).ConfigureAwait(false);
@@ -83,14 +81,14 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
             _mockHttpContext.Setup(x => x.Features[typeof(IExceptionHandlerFeature)])
                 .Returns(_mockHandlerException.Object);
 
-            var mockLogger = new Mock<ILogger>();
+            var mockLogger = new Mock<ILogger<ErrorHandler>>();
             var errorHandler = new ErrorHandler(async (x) => await Task.CompletedTask, mockLogger.Object);
 
             //Action
             await errorHandler.Invoke(_mockHttpContext.Object).ConfigureAwait(false);
 
             //Assert
-            mockLogger.Verify(r => r.Error(It.IsAny<string>()));
+            mockLogger.Verify(r => r.LogCritical(It.IsAny<Exception>(), It.IsAny<string>()));
         }
 
         [Fact]
@@ -124,7 +122,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
             {
                 await Task.CompletedTask;
                 throw new Exception();
-            }, new Mock<ILogger>().Object);
+            }, new Mock<ILogger<ErrorHandler>>().Object);
 
             //Action
             await errorHandler.Invoke(_mockHttpContext.Object).ConfigureAwait(false);
@@ -144,7 +142,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
             _mockHttpContext.Setup(x => x.Features[typeof(IExceptionHandlerFeature)])
                 .Returns(new List<IExceptionHandlerFeature>());
 
-            var mockLogger = new Mock<ILogger>();
+            var mockLogger = new Mock<ILogger<ErrorHandler>>();
             var errorHandler = new ErrorHandler(async (x) =>
             {
                 await Task.CompletedTask;
@@ -155,7 +153,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
             await errorHandler.Invoke(_mockHttpContext.Object).ConfigureAwait(false);
 
             //Assert
-            mockLogger.Verify(r => r.Error(It.IsAny<string>()));
+            mockLogger.Verify(r => r.LogCritical(It.IsAny<Exception>(), It.IsAny<string>()));
         }
     }
 }

@@ -11,8 +11,6 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
         public long TransId { get; set; }
 
         public int CustId { get; set; }
-
-        public IDictionary<int, string> UserCurrencyList { get; set; }
         public string Lang { get; set; } = SystemConstants.DefaultLangCode;
     }
 }

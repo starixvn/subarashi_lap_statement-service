@@ -9,14 +9,14 @@ using Fanex.Athena.ExtService.Core.Models.DTO;
 using Fanex.Athena.ExtService.Core.Services;
 using Fanex.Data;
 using Fanex.Data.SqlServer;
-using Fanex.Logging;
-using Fanex.Logging.RabbitMQ;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -24,10 +24,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+
 using ONEbook.UM.Configurations;
-using ONEbook.UM.Helpers;
-using ONEbook.UM.Services;
+using ONEbook.UM.Extensions;
+
 using StackExchange.Redis;
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -47,7 +49,6 @@ namespace Fanex.Athena.ExtService
         private const string AppSettingKey = "AppSettings";
         private const int SixtyDays = 60;
         private const int AliveIn180Seconds = 180;
-        private const int UMREQUEST_TIMEOUT = 10;
 
         public Startup(IConfiguration configuration)
         {
@@ -66,17 +67,9 @@ namespace Fanex.Athena.ExtService
 
             var appOption = Configuration.GetSection(ApplicationOptionSettingKey).Get<ApplicationOptions>();
 
-            LogManager
-                .SetDefaultLogCategory(appOption.LogCategory)
-                .Use(new List<ILogEngine>
-                 {
-                    new RabbitMQLogging(appOption.RabbitMQ)
-                 });
-
             ConfigDataProtection(services, appOption);
 
             ConfigFanexData();
-            services.AddMemoryCache();
             services.AddStackExchangeRedisCache(options =>
             {
                 options.ConfigurationOptions = new ConfigurationOptions
@@ -113,7 +106,8 @@ namespace Fanex.Athena.ExtService
                     ResponseCompressionDefaults.MimeTypes.Concat(
                         new[] { "image/svg+xml" });
             });//Only Add if can not use compress module of web server
-
+            services.AddHealthChecks()
+                .AddCheck<WhoAmIHealthCheck>("WhoAmIHealthCheck");
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             DIRegister(services);
@@ -126,33 +120,13 @@ namespace Fanex.Athena.ExtService
             services.AddScoped<IPFilterAttribute>();
             services.AddScoped<CheckCustomerAttribute>();
             services.AddSingleton<ICommonService, CommonService>();
-            services.AddSingleton<ILogger>(x => LogService.LoggerInstance);
 
-            ConfigUMRestClient(services);
             ConfigBetListApiClient(services);
 
             services.AddTransient<ISummaryStatementService, SummaryStatementService>();
             services.AddTransient<IStatementByGroupService, StatementByGroupService>();
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<IHttpContextHelper, UMHttpContextHelper>();
-            services.AddSingleton<IMaintenanceService, MaintenanceService>();
-        }
-
-        private void ConfigUMRestClient(IServiceCollection services)
-        {
-            const string UMClient = "UMClient";
-
-            services.AddSingleton(Configuration.GetSection("ONEbook.UM").Get<UMClientConfiguration>());
-            services.AddSingleton<IPHelper, IPHelperImpl>();
-            services.AddSingleton<IUMCacheService, UMCacheService>();
-            services.AddSingleton<IUMRestClient>(s => new UMRestClient(
-                UMClient, s.GetService<UMClientConfiguration>(), s.GetService<IPHelper>(), s.GetService<IHttpClientFactory>()));
-            services.AddHttpClient(UMClient, (serviceProvider, client) =>
-            {
-                var configs = serviceProvider.GetService<UMClientConfiguration>();
-                client.BaseAddress = new Uri(configs.ServiceUri);
-                client.Timeout = TimeSpan.FromSeconds(UMREQUEST_TIMEOUT);
-            });
+            services.AddUMService(Configuration.GetSection("ONEbook.UM").Get<UMClientConfiguration>());
         }
 
         private static void ConfigBetListApiClient(IServiceCollection services)
@@ -282,12 +256,17 @@ namespace Fanex.Athena.ExtService
             }
             CustomizeCultureSupport(app);
             ConfigCacheForStaticResource(app, env);
+            app.UseCustomHealthCheck();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseUMHandler();
             app.UseJWTokenOnPage();
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
             app.UseAuthentication();
             app.UseResponseCaching();
             app.UseStatusCodePagesWithReExecute("/Error", "?code={0}");
-            app.UseUMHandler();
             app.UseResponseCompression();
             app.UseMvc(routes =>
             {

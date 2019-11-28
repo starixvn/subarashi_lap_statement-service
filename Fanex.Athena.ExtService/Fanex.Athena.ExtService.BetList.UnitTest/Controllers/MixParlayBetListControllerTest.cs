@@ -32,8 +32,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
                 .Returns(Task.FromResult(fakeResult));
 
             //Action
-            using (var controller = new MixParlayBetListController(_commonService.Object
-                , _betListApiClient.Object))
+            using (var controller = new MixParlayBetListController(_betListApiClient.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 result = await controller.Detail(metalModel).ConfigureAwait(false);
@@ -43,7 +42,6 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             var viewResult = Assert.IsType<JsonResult>(result);
             var viewModel = Assert.IsAssignableFrom<IList<TicketText>>(viewResult.Value);
 
-            Assert.NotNull(metalModel.UserCurrencyList);
             Assert.Equal(fakeResult, viewModel);
         }
 
@@ -63,8 +61,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
                 .Returns(Task.FromResult(fakeResult));
 
             //Action
-            using (var controller = new MixParlayBetListController(_commonService.Object
-                , _betListApiClient.Object))
+            using (var controller = new MixParlayBetListController(_betListApiClient.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 result = await controller.NewParlayDetail(metalModel).ConfigureAwait(false);
@@ -74,7 +71,6 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             var viewResult = Assert.IsType<JsonResult>(result);
             var viewModel = Assert.IsAssignableFrom<NewParlayDetailViewModel>(viewResult.Value);
 
-            Assert.NotNull(metalModel.UserCurrencyList);
             Assert.Equal(fakeResult, viewModel);
             Assert.Equal(viewModel.Texts, fakeResult.Texts);
             Assert.Equal(viewModel.Data, fakeResult.Data);

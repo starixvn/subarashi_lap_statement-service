@@ -18,7 +18,6 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 
         public bool IsCashOut { get; set; }
 
-        public IDictionary<int, string> UserCurrencyList { get; set; }
         public string AgentListXml { get; set; }
         public string BaseCurrency { get; set; }
         public string Lang { get; set; } = SystemConstants.DefaultLangCode;

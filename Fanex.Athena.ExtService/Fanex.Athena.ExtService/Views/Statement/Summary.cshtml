@@ -75,9 +75,8 @@
                                         decimal previousBalance = 0;
                                         foreach (var item in Model.DataList)
                                         {
-                                            previousBalance = StatementHelper.GetBalance(previousBalance, item);
-                                            var remarkValue = TransDescValue.RemarkValues.ContainsKey(item.TransDesc) ?
-                                                $"- {TransDescValue.RemarkValues[item.TransDesc].Invoke()}" : item.TransType.ToUpperInvariant();
+                                            previousBalance = StatementHelper.GetStatementBalance(previousBalance, item);
+                                            var remarkValue = StatementHelper.GetStatementRemark(item.TransDesc, item.TransType);
 
                                             <tr>
                                                 <td class="left-align">
@@ -87,7 +86,7 @@
                                                 </td>
                                                 <td class="left-align .detail">
                                                     <span class='underdog'>
-                                                        @if (item.TransType == TransTypeValue.BET && TransDescValue.RemarkValues.ContainsKey(item.TransDesc))
+                                                        @if (StatementHelper.ShowBetingStatementLink(item.TransDesc, item.TransType))
                                                         {
                                                             <a class="detail-link" href="@Url.Action("ByGroup","Statement",new {
                                                                                         bc = Model.BaseCurrency,

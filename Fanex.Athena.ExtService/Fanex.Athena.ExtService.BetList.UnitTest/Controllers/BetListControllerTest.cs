@@ -62,7 +62,7 @@
             // Assert
             var viewResult = Assert.IsType<ViewResult>(expectedResult);
             var viewModel = Assert.IsType<RefNoViewModel>(viewResult.Model);
-            Assert.Null(viewModel.Data);
+            Assert.Empty(viewModel.Data);
         }
 
         [Fact]
@@ -101,8 +101,7 @@
         {
             // Arrange
             const string Title = "Bet List By Group";
-            const string ProductCode = "SB";
-            var metalModel = new BetListByGroupMetaModel { ProductCode = ProductCode };
+            var metalModel = new BetListByGroupMetaModel();
 
             IActionResult expectedResult = null;
             var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName, 0);
@@ -122,7 +121,7 @@
             Assert.Equal(viewModel.BaseCurrency, metalModel.BaseCurrency);
             Assert.Equal(viewModel.Lang, metalModel.Lang);
             Assert.Equal(viewModel.AccessToken, AccessToken);
-            Assert.Equal(viewModel.ProductCode, ProductCode);    
+
             Assert.Equal(title, Title);
         }
 

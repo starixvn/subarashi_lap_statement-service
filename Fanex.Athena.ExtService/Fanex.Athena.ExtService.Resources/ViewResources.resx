@@ -339,4 +339,12 @@
     <value>Virtual Sports 2</value>
     <comment>#78241</comment>
   </data>
+  <data name="Promotion_Prize" xml:space="preserve">
+    <value>Promotion</value>
+    <comment>120333</comment>
+  </data>
+  <data name="ProductNPHP" xml:space="preserve">
+    <value>NPH Promotion</value>
+    <comment>120333</comment>
+  </data>
 </root>

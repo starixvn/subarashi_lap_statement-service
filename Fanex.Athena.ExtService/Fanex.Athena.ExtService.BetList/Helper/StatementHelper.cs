@@ -1,13 +1,13 @@
 ﻿using System;
-
 using Fanex.Athena.ExtService.BetList.Models.DataDomain;
 using Fanex.Athena.ExtService.BetList.Models.DTO;
+using Fanex.Athena.ExtService.Common;
 
 namespace Fanex.Athena.ExtService.BetList.Helper
 {
     public static class StatementHelper
     {
-        public static decimal GetBalance(Decimal previousBalance, IStatementValue item)
+        public static decimal GetStatementBalance(Decimal previousBalance, IStatementValue item)
         {
             switch (item.TransType?.ToUpperInvariant())
             {
@@ -19,7 +19,13 @@ namespace Fanex.Athena.ExtService.BetList.Helper
                     return GetBalanceForBETTranstype(previousBalance, item);
                 default: return previousBalance + item.TotalAmt;
             }
+        }
 
+        public static decimal GetBettingBalance(Decimal previousBalance, IStatementValue item)
+        {
+            return item.TransDesc == TransDescValue.PromotionPrize
+                ? previousBalance + item.TotalAmt
+                : GetBalanceForBETTranstype(previousBalance, item);
         }
 
         private static decimal GetBalanceForBETTranstype(decimal previousBalance, IStatementValue item)
@@ -51,5 +57,27 @@ namespace Fanex.Athena.ExtService.BetList.Helper
 
             return productCode == AGCasino || productCode == GoldDeluxe || productCode == Exchange;
         }
+
+        public static string GetStatementRemark(string transDesc, string transType)
+        => TransDescValue.RemarkValues.ContainsKey(transDesc)
+                ? $"- {TransDescValue.RemarkValues[transDesc].Invoke()}"
+                : transType.ToUpperInvariant();
+
+        public static string GetTransDescText(string transDesc)
+        => TransDescValue.RemarkValues.ContainsKey(transDesc)
+                ? TransDescValue.RemarkValues[transDesc].Invoke()
+                : string.Empty;
+
+        public static string GetBetingStatementRemark(string transDescText, string productCode)
+        {
+            const string NPHPromotion = "NPHP";
+
+            return productCode == NPHPromotion
+                ? SystemHelper.GetProductName(productCode)
+                : $"{SystemHelper.GetProductName(productCode)} {transDescText}";
+        }
+
+        public static bool ShowBetingStatementLink(string transDesc, string transType)
+        => (transType == TransTypeValue.BET || transType == TransTypeValue.PROMO) && TransDescValue.RemarkValues.ContainsKey(transDesc);
     }
 }

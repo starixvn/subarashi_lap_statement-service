@@ -738,6 +738,14 @@ table tbody tr.row-group-level1 td {
     width: 14px;
     position: relative;
     top: 2px; }
+  .betlist-container .nph-promotion-icon {
+    background: url(images/nphPromotion.png) no-repeat scroll center center transparent;
+    display: inline-block;
+    height: 18px;
+    width: 18px;
+    position: relative;
+    top: 4px;
+    margin-right: 2px; }
 
 .ag-casino-bet-type {
   color: #808080; }
