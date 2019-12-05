@@ -266,15 +266,15 @@
   <data name="Void_CancelledBet" xml:space="preserve">
     <value>作廢/取消注單</value>
   </data>
-  <data name="ProductNPHP" xml:space="preserve">
-    <value>NPH促銷活動</value>
-    <comment>120333</comment>
-  </data>
   <data name="String1" xml:space="preserve">
     <value />
   </data>
   <data name="Promotion_Prize" xml:space="preserve">
     <value>促銷活動</value>
     <comment>120333</comment>
+  </data>
+  <data name="ProductSPR" xml:space="preserve">
+    <value>沙巴促銷活動</value>
+    <comment>124612</comment>
   </data>
 </root>
