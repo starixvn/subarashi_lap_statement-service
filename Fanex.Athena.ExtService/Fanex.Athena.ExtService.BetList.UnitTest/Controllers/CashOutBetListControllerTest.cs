@@ -28,7 +28,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             IActionResult result = null;
             _betListApiClient.Setup(x => x.PostAsync<CashOutBetListDetailViewModel>(
                 "/CashOutBetList/Detail", It.IsAny<CashOutBetListDetailMetaModel>(),
-                It.IsAny<string>(), 0))
+                It.IsAny<string>()))
                 .Returns(Task.FromResult(fakeResult));
 
             var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName, 0);

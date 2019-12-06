@@ -78,8 +78,8 @@
             _betListApiClient.Setup(x => x.PostAsync<RefNoDataResult>(
                 "/BettingTicketCenter/GetByRefno",
                 It.IsAny<RefNoBetListMetaModel>(),
-                It.IsAny<string>(),
-                It.IsAny<int>())).Returns(Task.FromResult(apiResult));
+                It.IsAny<string>()
+               )).Returns(Task.FromResult(apiResult));
             IActionResult expectedResult = null;
 
             // Action
@@ -167,8 +167,8 @@
             _betListApiClient.Setup(x => x.PostAsync<RefNoDataResult>(
                 "/BetListByProduct/Index",
                 It.IsAny<BetListByGroupMetaModel>(),
-                It.IsAny<string>(),
-                It.IsAny<int>())).Returns(Task.FromResult(apiResult));
+                It.IsAny<string>()
+                )).Returns(Task.FromResult(apiResult));
 
             IActionResult expectedResult = null;
 
@@ -204,8 +204,8 @@
             _betListApiClient.Setup(x => x.PostAsync<RefNoDataResult>(
                 "/PlayerAdminBetList/GetBetList",
                 It.IsAny<RunningBetListMetaModel>(),
-                It.IsAny<string>(),
-                It.IsAny<int>())).Returns(Task.FromResult(apiResult));
+                It.IsAny<string>()
+             )).Returns(Task.FromResult(apiResult));
 
             IActionResult expectedResult = null;
 
@@ -259,8 +259,8 @@
             _betListApiClient.Setup(x => x.PostAsync<RefNoDataResult>(
                 "/PlayerAdminBetList/GetBetList",
                 It.IsAny<RunningBetListMetaModel>(),
-                It.IsAny<string>(),
-                It.IsAny<int>())).Returns(Task.FromResult(new RefNoDataResult()));
+                It.IsAny<string>()
+                )).Returns(Task.FromResult(new RefNoDataResult()));
 
             IActionResult expectedResult = null;
             var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName, 0);

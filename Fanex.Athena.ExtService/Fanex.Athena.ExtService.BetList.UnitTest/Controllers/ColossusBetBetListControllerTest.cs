@@ -28,7 +28,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             IActionResult result = null;
             _betListApiClient.Setup(x => x.PostAsync<ColossusBetDetailViewModel>(
                 "/ColossusBetBetList/Detail", It.IsAny<ColossusBetDetailMetaModel>(),
-                It.IsAny<string>(), 0))
+                It.IsAny<string>()))
                 .Returns(Task.FromResult(fakeResult));
             
             //Action

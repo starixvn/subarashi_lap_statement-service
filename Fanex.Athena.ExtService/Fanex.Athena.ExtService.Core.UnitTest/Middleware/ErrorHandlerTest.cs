@@ -88,7 +88,8 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
             await errorHandler.Invoke(_mockHttpContext.Object).ConfigureAwait(false);
 
             //Assert
-            mockLogger.Verify(r => r.LogCritical(It.IsAny<Exception>(), It.IsAny<string>()));
+            mockLogger.Verify(m => m.Log(It.Is<LogLevel>(l => l == LogLevel.Critical), 0,
+                        It.IsAny<object>(), It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()));
         }
 
         [Fact]
@@ -143,6 +144,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
                 .Returns(new List<IExceptionHandlerFeature>());
 
             var mockLogger = new Mock<ILogger<ErrorHandler>>();
+
             var errorHandler = new ErrorHandler(async (x) =>
             {
                 await Task.CompletedTask;
@@ -153,7 +155,8 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
             await errorHandler.Invoke(_mockHttpContext.Object).ConfigureAwait(false);
 
             //Assert
-            mockLogger.Verify(r => r.LogCritical(It.IsAny<Exception>(), It.IsAny<string>()));
+            mockLogger.Verify(m => m.Log(It.Is<LogLevel>(l => l == LogLevel.Critical), 0,
+                        It.IsAny<object>(), It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()));
         }
     }
 }

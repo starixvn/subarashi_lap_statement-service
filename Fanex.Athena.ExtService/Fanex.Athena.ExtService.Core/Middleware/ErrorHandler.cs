@@ -12,7 +12,7 @@ namespace Fanex.Athena.ExtService.Core.Middleware
     {
         private const int ServerErrorCode = 500;
         private readonly RequestDelegate _next;
-        private readonly ILogger _logger;
+        private readonly ILogger<ErrorHandler> _logger;
 
         public ErrorHandler(RequestDelegate next, ILogger<ErrorHandler> logger)
         {
