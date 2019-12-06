@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using AutoFixture;
     using Fanex.Athena.ExtService.BetList.Controllers;
     using Fanex.Athena.ExtService.BetList.Models.MetaModel;
     using Microsoft.AspNetCore.Mvc;
@@ -9,14 +10,14 @@
 
     public class SingleMatchParlayBetListControllerTest : BaseControllerTest
     {
+        private static readonly Fixture _fixture = new Fixture();
+
         [Fact]
         public async Task Detail_WhenCall_RetrunCorrectResultAsync()
         {
             // Arrange
-            var metaModel = new SingleMatchParlayDetailMetaModel
-            {
-                Lang = "en-US"
-            };
+            var metaModel = _fixture.Create<SingleMatchParlayDetailMetaModel>();
+            metaModel.Lang = "en-US";
 
             var expected = new List<string> { "Text1", "Text2" };
 
@@ -24,11 +25,11 @@
                 .Returns(Task.FromResult<IList<string>>(expected));
 
             IActionResult result = null;
-            
+
             // Action
             using (var controller = new SingleMatchParlayBetListController(_betListApiClient.Object))
             {
-                result = await controller.Detail(metaModel).ConfigureAwait(false);               
+                result = await controller.Detail(metaModel).ConfigureAwait(false);
             }
 
             //Assert

@@ -7,7 +7,7 @@ namespace Fanex.Athena.ExtService.TagHelpers
     [HtmlTargetElement("money", TagStructure = TagStructure.NormalOrSelfClosing)]
     public class MoneyTagHelper : TagHelper
     {
-        public override async Task ProcessAsync (TagHelperContext context, TagHelperOutput output)
+        public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = "span";
             var content = await output.GetChildContentAsync().ConfigureAwait(false);
@@ -18,8 +18,6 @@ namespace Fanex.Athena.ExtService.TagHelpers
                 output.Attributes.SetAttribute("class", number >= 0 ? "underdog" : "favorite");
                 output.Content.SetContent($"{number:#,##0.00}");
             }
-
-
         }
     }
 }

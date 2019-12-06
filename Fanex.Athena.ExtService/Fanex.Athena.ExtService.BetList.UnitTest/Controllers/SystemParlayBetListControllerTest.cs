@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-
+using AutoFixture;
 using Fanex.Athena.ExtService.BetList.Controllers;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.BetList.Models.ViewModel;
@@ -15,15 +15,14 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
 {
     public class SystemParlayBetListControllerTest : BaseControllerTest
     {
+        private static readonly Fixture _fixture = new Fixture();
+
         [Fact]
         public async Task Detail_WhenCall_RetrunCorrectViewModelAsync()
         {
             //Arrange
-            var metalModel = new SystemParlayDetailMetaModel
-            {
-                BaseCurrency = "ANY",
-                Lang = "en-US"
-            };
+            var metalModel = _fixture.Create<SystemParlayDetailMetaModel>();
+            metalModel.Lang = "en-US";
             const string fakeResult = "Any Data String";
             IActionResult result = null;
             _betListApiClient.Setup(x => x.PostAsyncString(

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-
+using AutoFixture;
 using Fanex.Athena.ExtService.BetList.Controllers;
 using Fanex.Athena.ExtService.BetList.Models.DTO;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
@@ -16,14 +16,14 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
 {
     public class MixParlayBetListControllerTest : BaseControllerTest
     {
+        private static readonly Fixture _fixture = new Fixture();
+
         [Fact]
         public async Task Detail_WhenCall_RetrunCorrectViewModelAsync()
         {
             //Arrange
-            var metalModel = new MixParlayDetailMetaModel
-            {
-                Lang = "en-US"
-            };
+            var metalModel = _fixture.Create<MixParlayDetailMetaModel>();
+            metalModel.Lang = "en-US";
             IList<TicketText> fakeResult = new List<TicketText>();
             IActionResult result = null;
             _betListApiClient.Setup(x => x.PostAsync<IList<TicketText>>(
@@ -49,10 +49,8 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
         public async Task NewParlayDetail_WhenCall_RetrunCorrectViewModelAsync()
         {
             //Arrange
-            var metalModel = new NewParlayDetailMetaModel
-            {
-                Lang = "en-US"
-            };
+            var metalModel = _fixture.Create<NewParlayDetailMetaModel>();
+            metalModel.Lang = "en-US";
             var fakeResult = new NewParlayDetailViewModel();
             IActionResult result = null;
             _betListApiClient.Setup(x => x.PostAsync<NewParlayDetailViewModel>(
@@ -74,8 +72,6 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             Assert.Equal(fakeResult, viewModel);
             Assert.Equal(viewModel.Texts, fakeResult.Texts);
             Assert.Equal(viewModel.Data, fakeResult.Data);
-
         }
-
     }
 }
