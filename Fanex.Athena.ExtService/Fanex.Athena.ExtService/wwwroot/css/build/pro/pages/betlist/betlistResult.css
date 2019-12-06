@@ -300,6 +300,10 @@ body {
     width: 50px; }
   .result-container table.racing .cl-engine-no {
     width: 48px; }
+  .result-container table.badminton .cl-result.home {
+    color: #6678e0; }
+  .result-container table.badminton .cl-result.away {
+    color: #008d95; }
   .result-container table .row-noinfo {
     border-top: 0;
     text-align: center;
