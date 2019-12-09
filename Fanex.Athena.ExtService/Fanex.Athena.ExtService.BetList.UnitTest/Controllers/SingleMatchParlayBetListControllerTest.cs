@@ -21,7 +21,7 @@
 
             var expected = new List<string> { "Text1", "Text2" };
 
-            _betListApiClient.Setup(x => x.PostAsync<IList<string>>("/SingleMatchParlayBetList/Detail", metaModel, metaModel.Lang, 0))
+            _betListApiClient.Setup(x => x.PostAsync<IList<string>>("/SingleMatchParlayBetList/Detail", metaModel, metaModel.Lang))
                 .Returns(Task.FromResult<IList<string>>(expected));
 
             IActionResult result = null;

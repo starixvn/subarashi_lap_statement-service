@@ -1,9 +1,7 @@
 ﻿using System.Threading.Tasks;
-
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.BetList.Models.ViewModel;
 using Fanex.Athena.ExtService.Common.Services;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,6 +12,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
     {
         private readonly ICommonService _commonService;
         private readonly IBetListApiClient _betListApiClient;
+
         public BetListDetailByProductController(ICommonService commonService, IBetListApiClient betListApiClient)
         {
             _commonService = commonService;
@@ -35,7 +34,6 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             ViewBag.Title = "Bet List - Product";
             result.Info = licenseeInfo;
             return View(result);
-
         }
     }
 }
