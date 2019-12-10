@@ -70,9 +70,9 @@ namespace Fanex.Athena.ExtService.BetList.Helper
 
         public static string GetBetingStatementRemark(string transDescText, string productCode)
         {
-            const string NPHPromotion = "NPHP";
+            const string SabaPromotion = "SPR";
 
-            return productCode == NPHPromotion
+            return productCode == SabaPromotion
                 ? SystemHelper.GetProductName(productCode)
                 : $"{SystemHelper.GetProductName(productCode)} {transDescText}";
         }

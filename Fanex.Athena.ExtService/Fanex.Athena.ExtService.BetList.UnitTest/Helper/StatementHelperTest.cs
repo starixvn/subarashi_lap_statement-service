@@ -15,7 +15,7 @@
         private const decimal TurnOvert = 200;
         private const decimal Comm = 0.5m;
 
-        private const string NPHPromotion = "NPHP";
+        private const string SabaPromotion = "SPR";
 
         private readonly Mock<IStatementValue> _statementValue;
 
@@ -57,7 +57,7 @@
             {
                 return new[]
                 {
-                    new object[] { string.Empty, NPHPromotion, SystemHelper.GetProductName(NPHPromotion) },
+                    new object[] { string.Empty, SabaPromotion, SystemHelper.GetProductName(SabaPromotion) },
                     new object[]
                     {
                         "transDescText",

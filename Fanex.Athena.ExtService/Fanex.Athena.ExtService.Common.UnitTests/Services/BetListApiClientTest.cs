@@ -1,6 +1,7 @@
 ﻿using Fanex.Athena.ExtService.Common.Models;
 using Fanex.Athena.ExtService.Common.Services;
 using Moq;
+using Moq.Protected;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -12,16 +13,18 @@ using Xunit;
 
 namespace Fanex.Athena.ExtService.Common.UnitTests.Services
 {
-    public class BetListApiClientTest
+    public class BetListApiClientTest : IDisposable
     {
-        private readonly Mock<IHttpClientFactory> _mockClientFactory;
-        private readonly Mock<HttpClient> _mockClient;
-
+        private Mock<IHttpClientFactory> _mockClientFactory;
+        private Mock<HttpClient> _mockClient;
+        private Mock<HttpMessageHandler> _fakeHttpMessageHandler;
         public BetListApiClientTest()
         {
+            _fakeHttpMessageHandler = new Mock<HttpMessageHandler>(MockBehavior.Loose);
             _mockClientFactory = new Mock<IHttpClientFactory>();
-            _mockClient = new Mock<HttpClient> { CallBase = false };
+            _mockClient = new Mock<HttpClient>(_fakeHttpMessageHandler.Object);
             _mockClientFactory.SetReturnsDefault(_mockClient.Object);
+            _mockClientFactory.Setup(r => r.CreateClient(It.IsAny<string>())).Returns(_mockClient.Object);
             _mockClient.Object.BaseAddress = new Uri("http://test.com");
         }
 
@@ -31,20 +34,32 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             //Arrange
             const string language = "en-US";
             const string FakeContent = "ANY";
-            const int timeout = 2;
 
-            _mockClient.Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>(), CancellationToken.None))
-                .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(FakeContent) });
+            using (var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(FakeContent) })
+            {
+                FakeSendAsyncMethod(httpResponseMessage);
 
-            var apiClient = new BetListApiClient("any", _mockClientFactory.Object);
+                var apiClient = new BetListApiClient("any", _mockClientFactory.Object);
 
-            //Action
-            var result = await apiClient.PostAsyncString("/test", "test-data", language, timeout).ConfigureAwait(false);
+                //Action
+                var result = await apiClient.PostAsyncString("/test", "test-data", language).ConfigureAwait(false);
 
-            //Assert
+                //Assert
+                Assert.Equal(FakeContent, result);
+            }
+        }
 
-            Assert.Equal(FakeContent, result);
-            Assert.Equal(TimeSpan.FromMinutes(timeout), _mockClient.Object.Timeout);
+        private void FakeSendAsyncMethod(HttpResponseMessage httpResponseMessage)
+        {
+            _fakeHttpMessageHandler.Protected()
+           // Setup the PROTECTED method to mock
+           .Setup<Task<HttpResponseMessage>>(
+              "SendAsync",
+              ItExpr.IsAny<HttpRequestMessage>(),
+              ItExpr.IsAny<CancellationToken>()
+           )
+           // prepare the expected response of the mocked http call
+           .ReturnsAsync(httpResponseMessage).Verifiable();
         }
 
         [Fact]
@@ -52,42 +67,33 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
         {
             //Arrange
             const string BetListApiClientKey = "test-bet-list-api-client";
+            var expectedUrl = new Uri("http://test/base-address");
+            var requestContent = new { data = "test" };
+            using (var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent("any") })
+            {
+                _mockClient.Object.BaseAddress = expectedUrl;
 
-            HttpRequestMessage request = null;
-            _mockClientFactory.Reset();
-            _mockClientFactory.Setup(r => r.CreateClient(BetListApiClientKey)).Returns(_mockClient.Object);
-            _mockClient.Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>(), CancellationToken.None))
-                .Callback<HttpRequestMessage, CancellationToken>((x, _) => { request = x; })
-                .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent("any") });
-            _mockClient.Object.BaseAddress = new Uri("http://test/base-address");
+                FakeSendAsyncMethod(httpResponseMessage);
 
-            var apiClient = new BetListApiClient(BetListApiClientKey, _mockClientFactory.Object);
+                var apiClient = new BetListApiClient(BetListApiClientKey, _mockClientFactory.Object);
 
-            //Action
-            var result = await apiClient.PostAsyncString("/test-path", new { data = "test" }, "en-US", 3).ConfigureAwait(false);
+                //Action
+                var result = await apiClient.PostAsyncString("/test-path", requestContent, "en-US").ConfigureAwait(false);
 
-            //Assert
-            Assert.NotNull(request);
-            Assert.Equal(HttpMethod.Post, request.Method);
-            Assert.Equal("{\"data\":\"test\"}", await request.Content.ReadAsStringAsync());
-            Assert.Equal(new Uri("http://test/base-address/test-path"), request.RequestUri);
-        }
+                //Assert
+                _fakeHttpMessageHandler.Protected().Verify(
+                    "SendAsync",
+                    Times.Exactly(1),
+                    ItExpr.Is<HttpRequestMessage>(req =>
 
-        [Fact]
-        public async Task HandleAsync_WhenRequestNotOk_ThrowInvalidOperationException()
-        {
-            //Arrange
-            _mockClient.Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>(), CancellationToken.None))
-                .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = "test-error" });
-
-            var apiClient = new BetListApiClient("any", _mockClientFactory.Object);
-
-            //Action
-            var ex = await Assert.ThrowsAsync<InvalidOperationException>(
-                async () => await apiClient.PostAsyncString("/test", new { data = "test" }, "en-US", 1).ConfigureAwait(false));
-
-            //Assert
-            Assert.Equal("Http Error = 400-test-error\n Error occur when query betlist data", ex.Message);
+                         req != null
+                         && req.Method == HttpMethod.Post
+                         && req.RequestUri == new Uri(expectedUrl + "/test-path")
+                         && req.Content != null
+                    ),
+                    ItExpr.IsAny<CancellationToken>()
+                 );
+            }
         }
 
         [Fact]
@@ -95,24 +101,35 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
         {
             //Arrange
             const string language = "en-US";
-            const int timeout = 2;
 
-            _mockClient.Setup(x => x.SendAsync(It.IsAny<HttpRequestMessage>(), CancellationToken.None))
-                .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.OK)
-                {
-                    Content = new StringContent("{\"ID\":1,\"Name\":\"alex\"}")
-                });
+            using (var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StringContent("{\"ID\":1,\"Name\":\"alex\"}")
+            })
+            {
+                FakeSendAsyncMethod(httpResponseMessage);
 
-            var apiClient = new BetListApiClient("any", _mockClientFactory.Object);
+                var apiClient = new BetListApiClient("any", _mockClientFactory.Object);
 
-            //Action
-            var result = await apiClient.PostAsync<dynamic>("/test", new { data = "test" }, language, timeout).ConfigureAwait(false);
+                //Action
+                var result = await apiClient.PostAsync<dynamic>("/test", new { data = "test" }, language).ConfigureAwait(false);
 
-            //Assert
-            Assert.IsAssignableFrom<JObject>(result);
-            Assert.Equal(
-                JsonConvert.SerializeObject(new { ID = 1, Name = "alex" }),
-                JsonConvert.SerializeObject(result));
+                //Assert
+                Assert.IsAssignableFrom<JObject>(result);
+                Assert.Equal(
+                    JsonConvert.SerializeObject(new { ID = 1, Name = "alex" }),
+                    JsonConvert.SerializeObject(result));
+            }
+        }
+
+        public void Dispose()
+        {
+            _mockClient?.Object?.Dispose();
+            _mockClient = null;
+            _mockClientFactory = null;
+            _fakeHttpMessageHandler?.Object?.Dispose();
+            _fakeHttpMessageHandler = null;
+            GC.SuppressFinalize(this);
         }
     }
 }

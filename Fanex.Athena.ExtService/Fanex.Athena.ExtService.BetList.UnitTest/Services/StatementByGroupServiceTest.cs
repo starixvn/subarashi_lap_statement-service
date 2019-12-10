@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Fanex.Athena.ExtService.BetList.Models.DTO;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
@@ -40,7 +41,8 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Services
             var mockObjectDB = new Mock<IObjectDb>();
 
             mockObjectDB.Setup(x => x.QueryAsync<StatementByGroup>(It.IsAny<object>()
-                , It.IsAny<DbTransaction>(), It.IsAny<bool>()))
+                , It.IsAny<DbTransaction>(),
+                It.IsAny<CancellationToken>()))
                 .Returns(Task.FromResult(fakeData));
 
             ObjectDbFactory.SwitchToTestingMode();

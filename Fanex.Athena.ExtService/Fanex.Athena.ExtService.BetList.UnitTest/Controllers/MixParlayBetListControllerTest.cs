@@ -28,7 +28,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             IActionResult result = null;
             _betListApiClient.Setup(x => x.PostAsync<IList<TicketText>>(
                 "/MixParlayBetList/Detail", It.IsAny<MixParlayDetailMetaModel>(),
-                It.IsAny<string>(), 0))
+                It.IsAny<string>()))
                 .Returns(Task.FromResult(fakeResult));
 
             //Action
@@ -57,7 +57,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             IActionResult result = null;
             _betListApiClient.Setup(x => x.PostAsync<NewParlayDetailViewModel>(
                 "/MixParlayBetList/NewParlayDetail", It.IsAny<NewParlayDetailMetaModel>(),
-                It.IsAny<string>(), 0))
+                It.IsAny<string>()))
                 .Returns(Task.FromResult(fakeResult));
 
             //Action

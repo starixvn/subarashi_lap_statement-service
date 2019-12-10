@@ -28,42 +28,43 @@ namespace Fanex.Athena.ExtService.Common.Services
         }
 
         private async Task<T> HandleAsync<T>(string path, object value,
-           string language, Func<HttpResponseMessage, Task<T>> codeBlock, int timeout = 0)
+           string language, Func<HttpResponseMessage, Task<T>> codeBlock)
         {
             if (codeBlock == null)
             {
                 return await Task.FromResult(default(T));
             }
             var client = _clientFactory.CreateClient(_betListApiClientName);
-            var request = new HttpRequestMessage(HttpMethod.Post, new Uri(client.BaseAddress + path))
+            using (var cancelToken = new CancellationTokenSource())
             {
-                Content = ToJsonContent(value)
-            };
-            request.Headers.Add(LANGUAGEKEY, language);
+                using (var request = new HttpRequestMessage(HttpMethod.Post, new Uri(client.BaseAddress + path))
+                {
+                    Content = ToJsonContent(value)
+                })
+                {
+                    request.Headers.Add(LANGUAGEKEY, language);
+                    var result = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancelToken.Token);
+                    result?.EnsureSuccessStatusCode();
+                    return await codeBlock(result).ConfigureAwait(false);
 
-            if (timeout > 0)
-            {
-                client.Timeout = TimeSpan.FromMinutes(timeout);
+                }
             }
-
-            var result = await client.SendAsync(request, CancellationToken.None);
-            if (!result.IsSuccessStatusCode)
-            {
-                var errorMessage = $"Http Error = {(int)result.StatusCode}-{result.ReasonPhrase}\n Error occur when query betlist data";
-                throw new InvalidOperationException(errorMessage);
-            }
-
-            return await codeBlock(result).ConfigureAwait(false);
         }
 
-        public async Task<string> PostAsyncString(string path, object value, string language, int timeout = 0)
+        public async Task<string> PostAsyncString(string path, object value, string language)
         {
             return await HandleAsync(path, value, language,
-                async x => { using (x) { return await x.Content.ReadAsStringAsync(); } },
-                timeout).ConfigureAwait(false);
+                async x =>
+                {
+                    using (x)
+                    {
+                        return await x.Content.ReadAsStringAsync();
+                    }
+                }
+                ).ConfigureAwait(false);
         }
 
-        public async Task<T> PostAsync<T>(string path, object value, string language, int timeout = 0)
+        public async Task<T> PostAsync<T>(string path, object value, string language)
         {
             return await HandleAsync(path, value, language, async x =>
             {
@@ -81,7 +82,7 @@ namespace Fanex.Athena.ExtService.Common.Services
 
                 }
 
-            }, timeout).ConfigureAwait(false);
+            }).ConfigureAwait(false);
         }
 
         private static HttpContent ToJsonContent(object obj)

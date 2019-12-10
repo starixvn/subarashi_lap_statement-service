@@ -25,7 +25,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             IActionResult result = null;
             _betListApiClient.Setup(x => x.PostAsyncString(
                 "/ResultReport/ResultPopup", It.IsAny<ResultPopupMetalModel>(),
-                It.IsAny<string>(), 0))
+                It.IsAny<string>()))
                 .Returns(Task.FromResult(fakeResult));
 
             //Action
@@ -45,7 +45,9 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             Assert.Equal(title, Title);
             Assert.Equal(viewModel.Lang, metalModel.Lang);
             Assert.Equal(viewModel.AccessToken, AccessToken);
-            _betListApiClient.Verify(x => x.PostAsyncString("/ResultReport/ResultPopup", metalModel, metalModel.Lang, 0), Times.Once);
+            _betListApiClient.Verify(x => 
+            x.PostAsyncString("/ResultReport/ResultPopup", metalModel, 
+            metalModel.Lang), Times.Once);
 
         }
         [Fact]
@@ -58,7 +60,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             IActionResult result = null;
             _betListApiClient.Setup(x => x.PostAsyncString(
                 "/ResultReport/ShowRngCasinoSingleWalletResult", It.IsAny<object>(),
-                It.IsAny<string>(), 0))
+                It.IsAny<string>()))
                 .Returns(Task.FromResult(fakeResult));
 
             //Action
@@ -89,7 +91,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             string result = null;
             _betListApiClient.Setup(x => x.PostAsyncString(
                 "/VoidbridgeResultPopup/Index", It.IsAny<object>(),
-                It.IsAny<string>(), 0))
+                It.IsAny<string>()))
                 .Returns(Task.FromResult(fakeResult));
 
             //Action
@@ -116,7 +118,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             string result = null;
             _betListApiClient.Setup(x => x.PostAsyncString(
                 "/PPResultPopup/Index", It.IsAny<object>(),
-                It.IsAny<string>(), 0))
+                It.IsAny<string>()))
                 .Returns(Task.FromResult(fakeResult));
 
             //Action
@@ -146,7 +148,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
                 x => x.PostAsyncString(
                 "/CardClubResultPopup/Index",
                 It.IsAny<object>(),
-                It.IsAny<string>(), 0))
+                It.IsAny<string>()))
             .Returns(Task.FromResult(fakeResult));
 
             //Action
@@ -178,7 +180,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             IActionResult result = null;
             _betListApiClient.Setup(x => x.PostAsyncString(
                 "/AllBetResultPopup/Index", It.IsAny<object>(),
-                It.IsAny<string>(), 0))
+                It.IsAny<string>()))
                 .Returns(Task.FromResult(fakeResult));
             var mockUrl = new Mock<IUrlHelper>();
             mockUrl.Setup(x => x.Content(It.IsAny<string>())).Returns(fakeRootUrl);
@@ -215,7 +217,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             string result = null;
             _betListApiClient.Setup(x => x.PostAsyncString(
                 "/GlobalGamingResultPopup/Index", It.IsAny<object>(),
-                It.IsAny<string>(), 0))
+                It.IsAny<string>()))
                 .Returns(Task.FromResult(fakeResult));
 
             //Action

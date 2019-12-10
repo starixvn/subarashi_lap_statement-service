@@ -81,7 +81,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
                 BalanceUpDay = DateTime.Now,
                 MoveBetsDay = DateTime.Now.AddMonths(-1)
             };
-            
+
             var cachedValue = MessagePackSerializer.Get<BalanceUp>(_serializationContext)
                 .PackSingleObject(balanceupInfo);
             _mockCache.Setup(c => c.GetAsync(BalanceUpCacheKey, It.IsAny<CancellationToken>())).ReturnsAsync(cachedValue);
@@ -176,7 +176,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
                 SiteName = SiteName,
                 IsAllowedCustomerComm = HasComm
             };
-            
+
             var cachedValue = MessagePackSerializer.Get<LicenseeInfo>(_serializationContext)
                 .PackSingleObject(licenseeInfo);
             _mockCache.Setup(c => c.GetAsync(realCacheKey, It.IsAny<CancellationToken>()))
@@ -222,10 +222,12 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             MockObjectDbFactory(mockIDataReader.Object);
         }
 
-        private void MockObjectDbFactory(IDataReader reader)
+        private static void MockObjectDbFactory(IDataReader reader)
         {
             var mockObjectDB = new Mock<IObjectDb>();
-            mockObjectDB.Setup(x => x.ExecuteReaderAsync(It.IsAny<object>(), It.IsAny<DbTransaction>())).ReturnsAsync(reader);
+            mockObjectDB.Setup(x =>
+            x.ExecuteReaderAsync(It.IsAny<object>(),
+            It.IsAny<DbTransaction>(), It.IsAny<CancellationToken>())).ReturnsAsync(reader);
 
             ObjectDbFactory.SwitchToTestingMode();
             ObjectDbFactory.Mock((x, y) => mockObjectDB.Object);
