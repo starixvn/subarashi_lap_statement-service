@@ -68,7 +68,14 @@
             var viewModel = new BetListByProductViewModel
             {
                 Info = licenseeInfo,
-                Data = new List<TicketText>()
+                Data = new List<TicketText>(),
+                PageSize = metaModel.PageSize,
+                PageIndex = metaModel.PageIndex,
+                ProductCode = metaModel.ProductCode,
+                TransType = metaModel.TransType,
+                Sort = metaModel.Sort,
+                Date = metaModel.Date,
+                CustId = metaModel.CustId
             };
 
             if (metaModel.IsValid)
@@ -80,6 +87,7 @@
                     metaModel.Lang).ConfigureAwait(false);
 
                 viewModel.Data = result.Data ?? new List<TicketText>();
+                viewModel.TotalRows = result.TotalRows;
             }
 
             ViewBag.Title = "Bet List By Group";

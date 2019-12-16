@@ -1,4 +1,4 @@
-﻿@import "../../scss/abstracts/_variables";
+﻿@import "../abstracts/variables";
 
 $colorLightGray: #ccc;
 $colorDisabledPgButton: $colorLightGray;
@@ -56,6 +56,12 @@ $colorBorderPaging: #d1dae1;
         }
     }
 
+    .pagingSelect-btn {
+        &:before {
+            content: "\e90e";
+        }
+    }
+
     .paging-form {
         width: auto;
         height: auto;
@@ -72,22 +78,64 @@ $colorBorderPaging: #d1dae1;
     }
 
     .paging-info {
-        display: inline-block;
-        margin: 0 5px;
+        float: right;
+        padding: 3px;
     }
 
     .pagingSeperator {
         width: 4px;
         height: 18px;
-        margin: 0;
+        margin: 5px;
         border: 1px solid #ccc;
     }
 
-    .pageSizeSelected {
+    .pagingSelect {
+        &:hover .pagingOption {
+            display: block;
+        }
+
+        button {
+            .icon:before {
+                font-size: 0.7em;
+            }
+
+            .icon {
+                float: right;
+            }
+
+            background-color: $white;
+            border: none;
+            width: 100%;
+        }
+
+        .pagingOption {
+            a:hover {
+                background-color: $colorHyperlink;
+            }
+
+            a {
+                text-decoration: none;
+                display: block;
+                min-width: 65px;
+                color: $black;
+            }
+
+            display: none;
+            position: absolute;
+            bottom: 1em;
+            border: 1px solid $colorHyperlink;
+            background-color: $white;
+            z-index: 1;
+        }
+
+        display: inline-block;
+        background-color: $white;
+        position: relative;
         height: auto;
         font-size: inherit;
         padding: 2px;
         min-width: 65px;
         border: 1px solid #e2d6d6;
+        margin-left: 5px;
     }
 }

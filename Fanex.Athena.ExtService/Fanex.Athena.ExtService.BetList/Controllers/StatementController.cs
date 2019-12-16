@@ -5,7 +5,6 @@ using Fanex.Athena.ExtService.BetList.Models.ViewModel;
 using Fanex.Athena.ExtService.BetList.Services;
 using Fanex.Athena.ExtService.Common.Attributes;
 using Fanex.Athena.ExtService.Common.Models.DataDomain;
-using Fanex.Athena.ExtService.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,11 +21,14 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         public async Task<IActionResult> Summary([FromServices] ISummaryStatementService service,
             SummaryStatementMetaModel metalModel)
         {
-
             var viewModel = metalModel.IsValid ? await service.QueryAsync(metalModel).ConfigureAwait(false)
                 : new SummaryStatementViewModel();
             AssignCommonViewModelData(metalModel, viewModel);
             viewModel.CustId = metalModel.CustId;
+            viewModel.PageIndex = metalModel.PageIndex;
+            viewModel.PageSize = metalModel.PageSize;
+            viewModel.FromDate = metalModel.FromDate;
+            viewModel.ToDate = metalModel.ToDate;
             return View(viewModel);
         }
 
@@ -37,7 +39,6 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         public async Task<IActionResult> ByGroup([FromServices] IStatementByGroupService service,
             StatementByGroupMetaModel metalModel)
         {
-
             var viewModel = metalModel.IsValid ? await service.QueryAsync(metalModel).ConfigureAwait(false)
                 : new StatementByGroupViewModel();
             AssignCommonViewModelData(metalModel, viewModel);

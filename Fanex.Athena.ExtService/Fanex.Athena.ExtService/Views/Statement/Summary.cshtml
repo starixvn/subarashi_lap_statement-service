@@ -72,56 +72,56 @@
                                     </tr>
                                     @if (Model.DataList != null && Model.DataList.Any())
                                     {
-                                        decimal previousBalance = 0;
-                                        foreach (var item in Model.DataList)
-                                        {
-                                            previousBalance = StatementHelper.GetStatementBalance(previousBalance, item);
-                                            var remarkValue = StatementHelper.GetStatementRemark(item.TransDesc, item.TransType);
+                                    decimal previousBalance = 0;
+                                    foreach (var item in Model.DataList)
+                                    {
+                                    previousBalance = StatementHelper.GetStatementBalance(previousBalance, item);
+                                    var remarkValue = StatementHelper.GetStatementRemark(item.TransDesc, item.TransType);
 
-                                            <tr>
-                                                <td class="left-align">
-                                                    @($"{item.WinLostDate:dddd}")
-                                                    <br />
-                                                    @($"{item.WinLostDate:MM/dd/yyyy}")
-                                                </td>
-                                                <td class="left-align .detail">
-                                                    <span class='underdog'>
-                                                        @if (StatementHelper.ShowBetingStatementLink(item.TransDesc, item.TransType))
-                                                        {
-                                                            <a class="detail-link" href="@Url.Action("ByGroup","Statement",new {
-                                                                                        bc = Model.BaseCurrency,
-                                                                                        lang = Model.Lang,
-                                                                                        wd=item.WinLostDate.ToString("MM/dd/yyyy"),
-                                                                                        cid=Model.CustId,
-                                                                                        mv = TransDescValue.MaptoModeView[item.TransDesc],
-                                                                                        access_token = Model.AccessToken
-                                                                                    })">
-                                                                @remarkValue
-                                                            </a>
-                                                        }
-                                                        else
-                                                        {
-                                                            @remarkValue
-                                                        }
-                                                    </span>
-                                                </td>
-                                                <td class="right-align">
-                                                    <money>@item.TurnOver</money>
+                                    <tr>
+                                        <td class="left-align">
+                                            @($"{item.WinLostDate:dddd}")
+                                            <br />
+                                            @($"{item.WinLostDate:MM/dd/yyyy}")
+                                        </td>
+                                        <td class="left-align .detail">
+                                            <span class='underdog'>
+                                                @if (StatementHelper.ShowBetingStatementLink(item.TransDesc, item.TransType))
+                                                {
+                                                <a class="detail-link" href="@Url.Action("ByGroup","Statement",new {
+                                                   bc=Model.BaseCurrency,
+                                                   lang=Model.Lang,
+                                                   wd=item.WinLostDate.ToString("MM/dd/yyyy"),
+                                                   cid=Model.CustId,
+                                                   mv=TransDescValue.MaptoModeView[item.TransDesc],
+                                                   access_token=Model.AccessToken
+                                                   })">
+                                                    @remarkValue
+                                                </a>
+                                                }
+                                                else
+                                                {
+                                                @remarkValue
+                                                }
+                                            </span>
+                                        </td>
+                                        <td class="right-align">
+                                            <money>@item.TurnOver</money>
 
-                                                </td>
-                                                <td class="right-align">
-                                                    <money>@StatementHelper.GetCreditDebit(item)</money>
+                                        </td>
+                                        <td class="right-align">
+                                            <money>@StatementHelper.GetCreditDebit(item)</money>
 
-                                                </td>
-                                                <td class="right-align">
-                                                    <money>@item.Commission</money>
+                                        </td>
+                                        <td class="right-align">
+                                            <money>@item.Commission</money>
 
-                                                </td>
-                                                <td class="right-align">
-                                                    <money>@previousBalance</money>
-                                                </td>
-                                            </tr>
-                                        }
+                                        </td>
+                                        <td class="right-align">
+                                            <money>@previousBalance</money>
+                                        </td>
+                                    </tr>
+                                    }
                                     }
                                 </tbody>
                             </table>
@@ -130,5 +130,18 @@
                 </div>
             </div>
         </div>
+
+        <pager page-index="@Model.PageIndex"
+               page-size="@Model.PageSize"
+               total-items="@Model.TotalRows"
+               url-template="@Url.Action("Summary","Statement",new {
+               cid=Model.CustId,
+               fd=Model.FromDate.ToString("MM/dd/yyyy"),
+               td=Model.ToDate.ToString("MM/dd/yyyy"),
+               bc=Model.BaseCurrency,
+               lang=Model.Lang,
+               access_token=Model.AccessToken
+               })">
+        </pager>
     </div>
 </div>
