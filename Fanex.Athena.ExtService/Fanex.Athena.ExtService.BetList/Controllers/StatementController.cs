@@ -33,7 +33,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         }
 
         [ResponseCache(Duration = SystemConstants.ThirtySecond, NoStore = false,
-    VaryByQueryKeys = new[] { "cid", "wd", "bc", "mv", "lang" })]
+    VaryByQueryKeys = new[] { "cid", "wd", "bc", "mv", "lang", "ps", "pi" })]
 
         [HttpGet]
         public async Task<IActionResult> ByGroup([FromServices] IStatementByGroupService service,
@@ -46,6 +46,9 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             viewModel.TransDesc = TransDescValue.GetTransactionDescription(metalModel.ModeView);
             viewModel.CustId = metalModel.CustId;
             viewModel.ModeView = metalModel.ModeView == TransDescValue.ModeViewPromotion ? 0 : metalModel.ModeView;
+
+            ViewBag.PageIndex = metalModel.PageIndex;
+            ViewBag.PageSize = metalModel.PageSize;
             return View(viewModel);
         }
 
