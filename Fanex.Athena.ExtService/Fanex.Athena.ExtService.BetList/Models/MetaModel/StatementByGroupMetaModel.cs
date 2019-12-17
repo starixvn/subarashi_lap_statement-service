@@ -24,9 +24,6 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
         [FromQuery(Name = "ps")]
         public int PageSize { get; set; } = SystemConstants.DefaultPageSize;
 
-        [FromQuery(Name = "pi")]
-        public int PageIndex { get; set; } = 1;
-
         public bool IsValid => CustId > 0 && TransDescValue.MaptoModeView.Values.Contains(ModeView)
             && WinlostDate > DateTime.MinValue;
     }
