@@ -9,18 +9,25 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
     public class SummaryStatementMetaModel : IBaseMetaModel, ICustomerMetaModel
     {
         const int TotalDaysLimit = 31;
+
         [FromQuery(Name = "cid")]
         public int CustId { get; set; }
+
         [FromQuery(Name = "fd")]
         public DateTime FromDate { get; set; }
+
         [FromQuery(Name = "td")]
         public DateTime ToDate { get; set; }
+
         [FromQuery(Name = "ps")]
         public int PageSize { get; set; } = SystemConstants.DefaultPageSize;
+
         [FromQuery(Name = "pi")]
         public int PageIndex { get; set; } = 1;
+
         [FromQuery(Name = "bc")]
         public string BaseCurrency { get; set; } = SystemConstants.DefaultBaseCurrency;
+
         public string Lang { get; set; } = SystemConstants.DefaultLangCode;
 
         public bool IsValid
