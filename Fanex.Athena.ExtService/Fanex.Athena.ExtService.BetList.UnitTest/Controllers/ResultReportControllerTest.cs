@@ -135,6 +135,33 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
         }
 
         [Fact]
+        public async Task SGResultPopup_WhenCall_RetrunStringResult()
+        {
+            //Arrange
+            const string custId = "Any";
+            const string lang = "en-US";
+            const string gamePlayId = "Any SG";
+            const string fakeResult = "Any SG result data";
+            string result = null;
+            _betListApiClient.Setup(x => x.PostAsyncString(
+                "/SGResultPopup/Index", It.IsAny<object>(),
+                It.IsAny<string>()))
+                .Returns(Task.FromResult(fakeResult));
+
+            //Action
+            using (var controller = new ResultReportController(_betListApiClient.Object))
+            {
+                controller.ControllerContext = _controllerContext.Object;
+                result = await controller.SGResultPopup(custId, gamePlayId, lang).ConfigureAwait(false);
+            }
+
+            //Assert
+            var viewResult = Assert.IsType<string>(result);
+            Assert.Equal(fakeResult, viewResult);
+
+        }
+
+        [Fact]
         public async Task CCResultPopup_WhenCall_RetrunStringResult()
         {
             //Arrange

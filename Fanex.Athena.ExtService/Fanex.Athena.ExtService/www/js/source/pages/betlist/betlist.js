@@ -14,6 +14,7 @@
         const SPORT_PP = 248;
         const SPORT_GLOBALGAMING = 219;
         const SPORT_CARDCLUB = 165;
+        const SPORT_SG = 247;
 
         let _sortColumnName, _sortOrder;
 
@@ -154,6 +155,20 @@
                 });
             },
 
+            viewSGResult: function (custId, gamePlayId, title) {
+                let url = Site.resolveClientUrl('ResultReport/SGResultPopup') + '?custid=' + custId + '&gamePlayId=' + gamePlayId;
+                url = QueryString.setParam(url, 'lang', $("#lang").val());
+                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
+
+                Site.blockUI();
+                $.get(url, function (result) {
+                    if (result !== '') {
+                        showResultPopUp(result, { width: 800, height: 380, title: title });
+                        Site.unBlockUI();
+                    }
+                });
+            },
+
             viewCardClubResult: function (custId, gameTypeId, transId3rd, title) {
                 let url = Site.resolveClientUrl('ResultReport/CCResultPopup') + '?custId=' + custId + '&gameTypeId=' + gameTypeId + '&transId3rd=' + transId3rd;
                 url = QueryString.setParam(url, 'lang', $("#lang").val());
@@ -208,6 +223,9 @@
                 }
                 else if (sporttype === SPORT_CARDCLUB) {
                     _me.viewCardClubResult(custid, bettype, extension2, title);
+                }
+                else if (sporttype === SPORT_SG) {
+                    _me.viewSGResult(custid, extension2, title);
                 }
                 else if (sporttype === SPORT_ALLBET) {
                     _me.viewAllBetResult(transdecs, extension2, bettype, title);
@@ -497,7 +515,23 @@
 
                 showDetailPopUp(url, { width: 890, height: popH + 50, title: title });
             },
+            showSGDetails: function (transId, winlostDate, custId, transType) {
+                let url = Site.resolveClientUrl('BetListDetailByProduct/Detail');
+                url = QueryString.setParam(url, 'transId', transId);
+                url = QueryString.setParam(url, 'date', winlostDate);
+                url = QueryString.setParam(url, 'custId', custId);
+                url = QueryString.setParam(url, 'transType', transType);
+                url = QueryString.setParam(url, 'BaseCurrency', getBaseCurrency());
+                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
+                url = QueryString.setParam(url, 'lang', $("#lang").val());
+                url = QueryString.setParam(url, 'uspkey', 'Lrf_BetList_RNG_Detail');
+                url = QueryString.setParam(url, 'hastotal', 1);
+                const popH = Math.min($(window).height() - 100, 550);
+                const title = Site.getSingleResource('ProductSG') + ' - ' +
+                    Site.getSingleResource('DetailedBetlist');
 
+                showDetailPopUp(url, { width: 890, height: popH + 50, title: title });
+            },
             ViewCasinoHandHistory: function (refNo) {
                 let url = Site.resolveClientUrl('HandHistory/RNGCasino');
                 const urlParam = $('#casino-hand-history-' + refNo).attr('url-param');
@@ -589,6 +623,7 @@
                 window.showPPDetails = _me.showPPDetails;
                 window.showVideoPokerGameDetails = _me.showVideoPokerGameDetails;
                 window.showSingleMatchParlayDetail = _me.showSingleMatchParlayDetail;
+                window.showSGDetails = _me.showSGDetails;
 
                 const betList = {
                     ViewCasinoHandHistory: _me.ViewCasinoHandHistory
