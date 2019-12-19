@@ -10,6 +10,7 @@
     ProductFW: "Fishing World",
     ProductCC:"Card Club",
     ProductPP: "PP",
+    ProductSG: "SG",
     TransactionDetail: "",
     ErrorProcessingMsg: "Sorry, an error occurred while processing your request.",
     Result: "Results",
