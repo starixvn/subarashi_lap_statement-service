@@ -23,7 +23,7 @@ namespace Fanex.Athena.ExtService.BetList.Models.ViewModel
 
         public string Sort { get; set; }
 
-        public DateTime Date { get; set; }
+        public DateTime WinlostDate { get; set; }
 
         public int TotalRows { get; set; }
     }

@@ -60,7 +60,7 @@
         [HttpGet]
         [ServiceFilter(typeof(CheckCustomerAttribute))]
         [ResponseCache(Duration = SystemConstants.ThirtySecond, NoStore = false,
-            VaryByQueryKeys = new[] { "cid", "lang", "bc", "wd", "pc", "ps", "pi", "mv", "s" })]
+            VaryByQueryKeys = new[] { "cid", "lang", "bc", "wd", "pc", "ps", "pi", "mv", "s", "fd", "td", "sb" , "spi", "sps" })]
         public async Task<IActionResult> ByGroup(BetListByGroupMetaModel metaModel)
         {
             var siteName = HttpContext.User.Identity.Name;
@@ -74,7 +74,7 @@
                 ProductCode = metaModel.ProductCode,
                 TransType = metaModel.TransType,
                 Sort = metaModel.Sort,
-                Date = metaModel.Date,
+                WinlostDate = metaModel.WinlostDate,
                 CustId = metaModel.CustId
             };
 
@@ -95,7 +95,11 @@
             viewModel.TransDesc = StatementHelper.GetBetingStatementRemark(
                 TransDescValue.GetTransactionDescription(metaModel.TransType),
                 metaModel.ProductCode);
-
+            ViewBag.FromDate = metaModel.FromDate;
+            ViewBag.ToDate = metaModel.ToDate;
+            ViewBag.StatementPageIndex = metaModel.StatementPageIndex;
+            ViewBag.StatementPageSize = metaModel.StatementPageSize;
+            ViewBag.ShowBreadCrumb = metaModel.ShowBreadCrumb;
             return View(viewModel);
         }
 

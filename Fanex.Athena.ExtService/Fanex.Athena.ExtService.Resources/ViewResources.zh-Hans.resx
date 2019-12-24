@@ -274,4 +274,7 @@
     <value>沙巴促销活动</value>
     <comment>124612</comment>
   </data>
+  <data name="BetList" xml:space="preserve">
+    <value>投注历史</value>
+  </data>
 </root>

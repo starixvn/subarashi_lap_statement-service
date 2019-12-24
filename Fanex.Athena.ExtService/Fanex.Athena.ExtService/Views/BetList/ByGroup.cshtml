@@ -26,6 +26,42 @@
 @model Fanex.Athena.ExtService.BetList.Models.ViewModel.BetListByProductViewModel
 <div id="container" class="container-fluid">
     <div>
+        @if(ViewBag.ShowBreadCrumb)
+        {
+            var breadcrumbItems = new List<SelectListItem>
+            {
+                new SelectListItem { Text = ViewResources.Statement, Value = Url.Action("Summary", "Statement", new {
+                            cid=Model.CustId,
+                            fd=ViewBag.FromDate.ToString("MM/dd/yyyy"),
+                            td=ViewBag.ToDate.ToString("MM/dd/yyyy"),
+                            bc=Model.BaseCurrency,
+                            lang=Model.Lang,
+                            ps=ViewBag.StatementPageSize,
+                            pi=ViewBag.StatementPageIndex,
+                            sb=ViewBag.ShowBreadCrumb,
+                            access_token=Model.AccessToken
+                        }
+                    )
+                },
+                new SelectListItem { Text = ViewResources.BettingStatement, Value = Url.Action("ByGroup", "Statement", new {
+                            cid=Model.CustId,
+                            wd=Model.WinlostDate.ToString("MM/dd/yyyy"),
+                            mv=Model.TransType,
+                            fd=ViewBag.FromDate.ToString("MM/dd/yyyy"),
+                            td=ViewBag.ToDate.ToString("MM/dd/yyyy"),
+                            bc=Model.BaseCurrency,
+                            lang=Model.Lang,
+                            ps=ViewBag.StatementPageSize,
+                            pi=ViewBag.StatementPageIndex,
+                            sb=ViewBag.ShowBreadCrumb,
+                            access_token=Model.AccessToken
+                        }
+                    )
+                },
+                new SelectListItem { Text = ViewResources.BetList, Selected = true, Value = "javascript:;" }
+            };
+            <breadcrumb items="@breadcrumbItems"></breadcrumb>
+        }
         <div class="betlist-container result-content">
             <div class="report-title-container">
                 <p class="report-title">
@@ -129,10 +165,15 @@
                cid=Model.CustId,
                lang=Model.Lang,
                bc=Model.BaseCurrency,
-               wd=Model.Date.ToString("MM/dd/yyyy"),
+               wd=Model.WinlostDate.ToString("MM/dd/yyyy"),
                pc=Model.ProductCode,
                mv=Model.TransType,
                s=Model.Sort,
+               fd=ViewBag.FromDate.ToString("MM/dd/yyyy"),
+               td=ViewBag.ToDate.ToString("MM/dd/yyyy"),
+               sb=ViewBag.ShowBreadCrumb,
+               spi=ViewBag.StatementPageIndex,
+               sps=ViewBag.StatementPageSize,
                access_token=Model.AccessToken
                })">
         </pager>

@@ -1,6 +1,6 @@
-﻿@import "table";
+﻿@import "variables";
 @import "pager";
-$paddingRightContainer: 0px;
+@import "table";
 
 .table-container {
     overflow-x: auto;
@@ -41,7 +41,7 @@ $paddingRightContainer: 0px;
 
 .header-content,
 .footer-content {
-    padding-right: $paddingRightContainer;
+    padding-right: 0px;
 }
 
 .first-row {

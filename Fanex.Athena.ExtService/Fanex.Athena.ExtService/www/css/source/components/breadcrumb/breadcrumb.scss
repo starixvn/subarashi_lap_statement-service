@@ -1,15 +1,9 @@
-﻿.breadCrumbHolder {
-    display: none;
-
-    .level {
-        display: none;
-    }
-}
-
-.breadcrumb {
+﻿.breadcrumb {
     text-align: center;
     display: inline-block;
     overflow: hidden;
+    margin-bottom: 5px;
+    border: 1px solid #ddd;
 
     > a {
         text-decoration: none;
@@ -51,35 +45,31 @@
             border-top: 3px solid #ca1e58;
             border-radius: 0 5px 0 50px;
         }
-    }
 
-    &.flat {
-        a {
+        &, &::after {
+            background: #fff;
+            color: #4C6375;
+        }
+
+        &::before {
+            background: #fff;
+            box-shadow: 0 0 0 1px #ec407a;
+        }
+
+        &:hover, &.active {
+            color: #fff;
+
             &, &::after {
-                background: #fff;
-                color: #4C6375;
+                background: #4C6375;
             }
 
             &::before {
-                background: #fff;
-                box-shadow: 0 0 0 1px #ec407a;
+                color: #4C6375;
             }
+        }
 
-            &:hover, &.active {
-                color: #fff;
-
-                &, &::after {
-                    background: #4C6375;
-                }
-
-                &::before {
-                    color: #4C6375;
-                }
-            }
-
-            &.active:hover {
-                background: #4C6375;
-            }
+        &.active:hover {
+            background: #4C6375;
         }
     }
 }

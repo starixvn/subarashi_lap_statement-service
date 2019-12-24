@@ -351,4 +351,7 @@
     <value>SG</value>
     <comment>124103</comment>
   </data>
+  <data name="BetList" xml:space="preserve">
+    <value>Bet List</value>
+  </data>
 </root>

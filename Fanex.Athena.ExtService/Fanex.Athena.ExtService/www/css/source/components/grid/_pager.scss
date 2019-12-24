@@ -1,70 +1,61 @@
-﻿$colorLightGray: #ccc;
-$colorDisabledPgButton: #d1dae1;
-$bgPaging: #EFF3F8;
-$colorBorderPaging: #d1dae1;
-
-.page-container {
+﻿.pagingContainer {
     padding: 3px;
+    font-size: 1.1rem;
     background-color: $bgPaging;
-    border: 1px solid $colorBorderPaging;
-    text-align: center;
+    border-left: 1px solid $colorBorderPaging;
+    border-right: 1px solid $colorBorderPaging;
+    border-bottom: 1px solid $colorBorderPaging;
 
     .icon {
-        position: relative;
-        top: 1px;
-        display: inline-block;
-        font-family: 'Icons';
+        font-family: 'icomoon' !important;
+        speak: none;
         font-style: normal;
         font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
         line-height: 1;
         -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        font-size: 12px;
+        font-size: 1.2rem;
         color: #4c6375;
         cursor: pointer;
-        margin: 0 5px;
-
-        &:focus {
-            outline: none;
-        }
-
-        &:hover,
-        &:focus {
-            text-decoration: none;
-        }
     }
 
-    .disable {
+    .pagingDisable {
         color: $colorDisabledPgButton;
         cursor: default;
-        pointer-events: none;
     }
 
-    .page-first {
+    .pagingFirst {
         &:before {
-            content: "\e097";
+            content: "\ea21";
         }
     }
 
-    .page-prev {
+    .pagingPrev {
         &:before {
-            content: "\e02e";
+            content: "\ea1f";
         }
     }
 
-    .page-next {
+    .pagingNext {
         &:before {
-            content: "\e02f";
+            content: "\ea20";
         }
     }
 
-    .page-last {
+    .pagingLast {
         &:before {
-            content: "\e098";
+            content: "\ea22";
         }
     }
 
-    .page-form {
+    .pagingSelect-btn {
+        &:before {
+            content: "\e90e";
+        }
+    }
+
+    .paging-form {
         width: auto;
         height: auto;
         font-size: inherit;
@@ -72,43 +63,72 @@ $colorBorderPaging: #d1dae1;
         text-align: center;
         margin: 0;
 
-        &,
-        &:focus {
-            background: #fff;
+        &, &:focus {
+            background: $white;
             border: 1px solid #e2d6d6;
             box-shadow: none;
         }
     }
 
-    .page-input {
-        display: inline;
-
-        &:after,
-        &:before {
-            content: "";
-            border: 1px solid #ccc;
-        }
-
-        &:after {
-            margin-left: 5px;
-        }
-
-        &:before {
-            margin-right: 5px;
-        }
+    .paging-info {
+        float: right;
+        padding: 3px;
     }
 
-    .pagesize-select {
+    .pagingSeperator {
+        width: 4px;
+        height: 18px;
+        margin: 5px;
+        border: 1px solid #ccc;
+    }
+
+    .pagingSelect {
+        &:hover .pagingOption {
+            display: block;
+        }
+
+        button {
+            .icon:before {
+                font-size: 0.7em;
+            }
+
+            .icon {
+                float: right;
+            }
+
+            background-color: $white;
+            border: none;
+            width: 100%;
+        }
+
+        .pagingOption {
+            a:hover {
+                background-color: $colorHyperlink;
+            }
+
+            a {
+                text-decoration: none;
+                display: block;
+                min-width: 65px;
+                color: $black;
+            }
+
+            display: none;
+            position: absolute;
+            bottom: 1em;
+            border: 1px solid $colorHyperlink;
+            background-color: $white;
+            z-index: 1;
+        }
+
+        display: inline-block;
+        background-color: $white;
+        position: relative;
         height: auto;
         font-size: inherit;
         padding: 2px;
         min-width: 65px;
         border: 1px solid #e2d6d6;
         margin-left: 5px;
-    }
-
-    .page-info {
-        float: right;
-        padding: 3px;
     }
 }

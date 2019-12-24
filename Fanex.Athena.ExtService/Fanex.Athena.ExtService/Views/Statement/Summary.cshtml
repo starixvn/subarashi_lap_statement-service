@@ -96,6 +96,9 @@
                                                    mv=TransDescValue.MaptoModeView[item.TransDesc],
                                                    pi=Model.PageIndex,
                                                    ps=Model.PageSize,
+                                                   fd=Model.FromDate.ToString("MM/dd/yyyy"),
+                                                   td=Model.ToDate.ToString("MM/dd/yyyy"),
+                                                   sb=ViewBag.ShowBreadCrumb,
                                                    access_token=Model.AccessToken
                                                    })">
                                                     @remarkValue
@@ -142,6 +145,7 @@
                td=Model.ToDate.ToString("MM/dd/yyyy"),
                bc=Model.BaseCurrency,
                lang=Model.Lang,
+               sb=ViewBag.ShowBreadCrumb,
                access_token=Model.AccessToken
                })">
         </pager>
