@@ -1,6 +1,6 @@
 ﻿using System.Dynamic;
 using System.Threading.Tasks;
-
+using AutoFixture;
 using Fanex.Athena.ExtService.BetList.Controllers;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.Common.Models.ViewModels;
@@ -15,12 +15,14 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
 {
     public class ResultReportControllerTest : BaseControllerTest
     {
+        private static readonly Fixture _fixture = new Fixture();
+
         [Fact]
         public async Task ResultPopup_WhenCall_RetrunCorrectViewModelAsync()
         {
             //Arrange
             const string Title = "Result";
-            var metalModel = Mock.Of<ResultPopupMetalModel>();
+            var metalModel = _fixture.Create<ResultPopupMetalModel>();
             var fakeResult = "Any result data";
             IActionResult result = null;
             _betListApiClient.Setup(x => x.PostAsyncString(
@@ -48,8 +50,8 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             _betListApiClient.Verify(x => 
             x.PostAsyncString("/ResultReport/ResultPopup", metalModel, 
             metalModel.Lang), Times.Once);
-
         }
+
         [Fact]
         public async Task ShowRngCasinoSingleWalletResult_WhenCall_RetrunCorrectJsonResult()
         {
@@ -78,8 +80,8 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             var actualResult = Assert.IsAssignableFrom<string>(viewResult.Content);
             Assert.Equal("application/json", viewResult.ContentType);
             Assert.Equal(fakeResult, actualResult);
-
         }
+
         [Fact]
         public async Task VoidbridgeResult_WhenCall_RetrunStringResult()
         {
@@ -104,7 +106,6 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             //Assert
             var viewResult = Assert.IsType<string>(result);
             Assert.Equal(fakeResult, viewResult);
-
         }
 
         [Fact]
@@ -131,7 +132,6 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             //Assert
             var viewResult = Assert.IsType<string>(result);
             Assert.Equal(fakeResult, viewResult);
-
         }
 
         [Fact]
@@ -161,7 +161,6 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             //Assert
             var viewResult = Assert.IsType<string>(result);
             Assert.Equal(fakeResult, viewResult);
-
         }
 
         [Fact]
@@ -203,7 +202,6 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             Assert.Equal(title, Title);
             Assert.Equal(viewModel.Lang, lang);
             Assert.Equal(viewModel.AccessToken, AccessToken);
-
         }
 
         [Fact]
@@ -230,7 +228,6 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             //Assert
             var viewResult = Assert.IsType<string>(result);
             Assert.Equal(fakeResult, viewResult);
-
         }
     }
 }

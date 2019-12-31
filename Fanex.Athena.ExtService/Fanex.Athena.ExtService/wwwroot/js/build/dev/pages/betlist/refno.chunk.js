@@ -628,7 +628,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                         ? _me.getMixParlayResultUrl(refnoMixParlay, winlostdate, numberBettype)
                         : _me.getSportBookResultUrl(matchid, numberBettype, raceNo, sporttype, league, isOutright, extension1, extension2, custid);
 
-                    const height = isParlay ? 450 : (isFastMarket(numberBettype) ? 300 : 250);
+                    const height = 450;
                     const width = 750;
 
                     showResultPopUp(url, { width: width + 25, height: height + 70, title: title });
@@ -724,6 +724,45 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 else {
                     $divEvent.hide().html('');
                     $nameDiv.show();
+                    $('.ui-jqgrid-bdiv').css('height', 'auto');
+                }
+            },
+
+            showSingleMatchParlayDetail: function (transId, custId, status, transIndex) {
+                const $divEvent = $('#divEvent_' + transId + '' + transIndex);
+
+                if ($divEvent.is(':hidden')) {
+                    let url = Site.resolveClientUrl('api/SingleMatchParlayBetList/Detail');
+                    url = QueryString.setParam(url, 'transId', transId);
+                    url = QueryString.setParam(url, 'custId', custId);
+                    url = QueryString.setParam(url, 'status', status);
+                    url = QueryString.setParam(url, 'access_token', $('#access_token').val());
+                    url = QueryString.setParam(url, 'lang', $('#lang').val());
+
+                    $.ajax({
+                        type: 'GET',
+                        contentType: 'application/json',
+                        dataType: 'json',
+                        cache: false,
+                        url: url,
+                        success: function (response) {
+                            const length = response === null ? 0 : response.length;
+                            if (length > 0) {
+                                let choice = '<div class="single-match-parlay-detail">';
+                                $.each(response, function (index, item) {
+                                    choice += item;
+                                });
+
+                                choice += '</div>';
+                                $divEvent.html(choice).show();
+                            }
+                        },
+                        beforeSend: Site.blockUI,
+                        complete: Site.unBlockUI
+                    });
+                }
+                else {
+                    $divEvent.hide().html('');
                     $('.ui-jqgrid-bdiv').css('height', 'auto');
                 }
             },
@@ -955,6 +994,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 window.ShowBonusDetails = _me.showBonusDetails;
                 window.showPPDetails = _me.showPPDetails;
                 window.showVideoPokerGameDetails = _me.showVideoPokerGameDetails;
+                window.showSingleMatchParlayDetail = _me.showSingleMatchParlayDetail;
 
                 const betList = {
                     ViewCasinoHandHistory: _me.ViewCasinoHandHistory

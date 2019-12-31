@@ -157,6 +157,22 @@ body {
                 text-align: center;
             }
 
+            .cl-total {
+                td {
+                    background: $bgRowGroupLevel1;
+                }
+
+                .selection {
+                    font-size: 12px;
+                    text-align: left;
+                    padding-left: 3px;
+                }
+
+                .result {
+                    text-align: center;
+                }
+            }
+
             .cl-league {
                 background: $bgRowGroupLevel1;
                 vertical-align: middle;

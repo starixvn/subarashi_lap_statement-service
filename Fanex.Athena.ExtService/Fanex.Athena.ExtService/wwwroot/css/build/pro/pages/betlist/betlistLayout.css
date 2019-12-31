@@ -833,6 +833,15 @@ table tbody tr.row-group-level1 td {
     position: relative;
     top: 4px;
     margin-right: 2px; }
+  .betlist-container .single-match-parlay-detail {
+    border-right: solid 2px #666666;
+    margin: 0 8px 3px 0;
+    padding-right: 5px; }
+    .betlist-container .single-match-parlay-detail .single-match-parlay-selection .selection {
+      font-weight: normal;
+      color: #000000; }
+    .betlist-container .single-match-parlay-detail .single-match-parlay-selection .status {
+      color: #003399; }
 
 .ag-casino-bet-type {
   color: #808080; }
@@ -846,6 +855,9 @@ table tbody tr.row-group-level1 td {
 .allbet-bet-type-name {
   color: #696969; }
 
-.betlist-container .status {
+.betlist-container .status, .betlist-container .bettype {
   white-space: normal; }
+
+.betlist-container .combinationLink {
+  font-weight: normal; }
 

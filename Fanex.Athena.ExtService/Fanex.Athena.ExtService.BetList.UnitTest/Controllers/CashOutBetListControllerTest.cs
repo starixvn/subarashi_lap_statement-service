@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-
+using AutoFixture;
 using Fanex.Athena.ExtService.BetList.Controllers;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.BetList.Models.ViewModel;
@@ -14,16 +14,16 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
 {
     public class CashOutBetListControllerTest : BaseControllerTest
     {
+        private static readonly Fixture _fixture = new Fixture();
+
         [Fact]
         public async Task Detail_WhenCall_RetrunCorrectViewModelAsync()
         {
             //Arrange
             const string Title = "Cash Out BetList";
-            var metalModel = new CashOutBetListDetailMetaModel
-            {
-                BaseCurrency = "ANY",
-                Lang = "en-US"
-            };
+            var metalModel = _fixture.Create<CashOutBetListDetailMetaModel>();
+            metalModel.Lang = "en-US";
+
             var fakeResult = new CashOutBetListDetailViewModel();
             IActionResult result = null;
             _betListApiClient.Setup(x => x.PostAsync<CashOutBetListDetailViewModel>(
@@ -58,6 +58,5 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             Assert.Equal(viewModel.AccessToken, AccessToken);
             Assert.Equal(title, Title);
         }
-
     }
 }

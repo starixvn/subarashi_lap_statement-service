@@ -79,9 +79,7 @@ namespace Fanex.Athena.ExtService.Common.Services
                             return serializer.Deserialize<T>(jsonTextReader);
                         }
                     }
-
                 }
-
             }).ConfigureAwait(false);
         }
 

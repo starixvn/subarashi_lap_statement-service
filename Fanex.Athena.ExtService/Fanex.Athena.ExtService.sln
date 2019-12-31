@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fanex.Athena.ExtService.Res
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fanex.Athena.ExtService.Common", "Fanex.Athena.ExtService.Common\Fanex.Athena.ExtService.Common.csproj", "{D1FCB0C9-16B8-4CF0-8469-D5046BE72576}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.Athena.ExtService.Common.UnitTests", "Fanex.Athena.ExtService.Common.UnitTests\Fanex.Athena.ExtService.Common.UnitTests.csproj", "{223289E5-915C-48E2-98D7-6684006FD882}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fanex.Athena.ExtService.Common.UnitTests", "Fanex.Athena.ExtService.Common.UnitTests\Fanex.Athena.ExtService.Common.UnitTests.csproj", "{223289E5-915C-48E2-98D7-6684006FD882}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.Athena.ExtService.UnitTests", "Fanex.Athena.ExtService.UnitTests\Fanex.Athena.ExtService.UnitTests.csproj", "{A1177373-2A86-459B-B92C-947935813D1E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,10 @@ Global
 		{223289E5-915C-48E2-98D7-6684006FD882}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{223289E5-915C-48E2-98D7-6684006FD882}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{223289E5-915C-48E2-98D7-6684006FD882}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1177373-2A86-459B-B92C-947935813D1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1177373-2A86-459B-B92C-947935813D1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1177373-2A86-459B-B92C-947935813D1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1177373-2A86-459B-B92C-947935813D1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{BAB05217-3E0C-4AC0-A3A4-3B5A563C3513} = {11E5A40B-4F2B-4B08-A232-9BF19490C987}
 		{E2235EEF-2368-4FD1-9B09-E23595781B1C} = {11E5A40B-4F2B-4B08-A232-9BF19490C987}
 		{223289E5-915C-48E2-98D7-6684006FD882} = {11E5A40B-4F2B-4B08-A232-9BF19490C987}
+		{A1177373-2A86-459B-B92C-947935813D1E} = {11E5A40B-4F2B-4B08-A232-9BF19490C987}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {60178742-AE62-48DF-A876-50DB4787BCD6}
