@@ -8,7 +8,6 @@
 @{
     var appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
     var env = appSettings.Environment.Equals("PROD") ? "pro" : "dev";
-
 }
 @section pagecss
     {
@@ -26,6 +25,32 @@
 @model Fanex.Athena.ExtService.BetList.Models.ViewModel.StatementByGroupViewModel
 <div id="container" class="container-fluid">
     <div>
+        @if(ViewBag.ShowBreadCrumb)
+        {
+            var breadcrumbItems = new List<SelectListItem>
+            {
+                new SelectListItem {
+                    Text = ViewResources.Statement,
+                    Value = Url.Action(
+                        "Summary",
+                        "Statement",
+                        new {
+                            cid=Model.CustId,
+                            fd=ViewBag.FromDate.ToString("MM/dd/yyyy"),
+                            td=ViewBag.ToDate.ToString("MM/dd/yyyy"),
+                            bc=Model.BaseCurrency,
+                            lang=Model.Lang,
+                            ps=ViewBag.PageSize,
+                            pi=ViewBag.PageIndex,
+                            sb=ViewBag.ShowBreadCrumb,
+                            access_token=Model.AccessToken
+                        }
+                    )
+                },
+                new SelectListItem { Text = ViewResources.BettingStatement, Selected = true, Value = "javascript:;" }
+            };
+            <breadcrumb items="@breadcrumbItems"></breadcrumb>
+        }
         <div class="betlist-container result-content">
             <div class="report-title-container">
                 <p class="report-title">
@@ -97,12 +122,17 @@
                                                             <a class="detail-link" href="@Url.Action("ByGroup","BetList",new {
                                                                                         bc = Model.BaseCurrency,
                                                                                         lang = Model.Lang,
-                                                                                        wd=item.WinLostDate.ToString("MM/dd/yyyy"),
-                                                                                        cid=Model.CustId,
+                                                                                        wd = item.WinLostDate.ToString("MM/dd/yyyy"),
+                                                                                        cid = Model.CustId,
                                                                                         pc = item.ProductCode,
                                                                                         mv = Model.ModeView,
                                                                                         pi = 1,
                                                                                         ps = ViewBag.PageSize,
+                                                                                        spi = ViewBag.PageIndex,
+                                                                                        sps = ViewBag.PageSize,
+                                                                                        fd = ViewBag.FromDate.ToString("MM/dd/yyyy"),
+                                                                                        td = ViewBag.ToDate.ToString("MM/dd/yyyy"),
+                                                                                        sb = ViewBag.ShowBreadCrumb,
                                                                                         access_token = Model.AccessToken,
                                                                                     })">
                                                                 @remarkValue

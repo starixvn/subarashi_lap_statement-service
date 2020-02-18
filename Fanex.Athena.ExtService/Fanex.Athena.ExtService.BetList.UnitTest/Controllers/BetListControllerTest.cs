@@ -155,9 +155,9 @@
                 ProductCode = "SB",
                 PageIndex = 1,
                 PageSize = 500,
-                TransType = 1,
+                ModeView = 1,
                 CustId = 100,
-                Date = DateTime.Now
+                WinlostDate = DateTime.Now
             };
             var apiResult = new RefNoDataResult
             {

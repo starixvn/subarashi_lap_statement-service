@@ -347,4 +347,11 @@
     <value>Saba Promotion</value>
     <comment>124612</comment>
   </data>
+  <data name="ProductSG" xml:space="preserve">
+    <value>SG</value>
+    <comment>124103</comment>
+  </data>
+  <data name="BetList" xml:space="preserve">
+    <value>Bet List</value>
+  </data>
 </root>

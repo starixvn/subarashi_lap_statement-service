@@ -9,6 +9,7 @@
     AGCasino: "AG Casino",
     ProductFW: "Fishing World",
     ProductPP: "PP",
+    ProductSG: "SG",
     TransactionDetail: "Transaction Detail",
     ErrorProcessingMsg: "对不起, 处理您的请求时有错误发生。",
     Result: "赛果",

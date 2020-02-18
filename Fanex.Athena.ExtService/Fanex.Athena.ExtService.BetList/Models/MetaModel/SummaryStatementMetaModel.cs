@@ -28,6 +28,9 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
         [FromQuery(Name = "bc")]
         public string BaseCurrency { get; set; } = SystemConstants.DefaultBaseCurrency;
 
+        [FromQuery(Name = "sb")]
+        public bool ShowBreadCrumb { get; set; }
+
         public string Lang { get; set; } = SystemConstants.DefaultLangCode;
 
         public bool IsValid
