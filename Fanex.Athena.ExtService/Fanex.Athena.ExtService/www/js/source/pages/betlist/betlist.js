@@ -244,7 +244,7 @@
                     _me.viewSGResult(custid, extension2, title);
                 }
                 else if (sporttype === SPORT_VRG) {
-                    _me.viewVRGResult(extension2, defaultPlatform, title);
+                    _me.viewVRGResult(refno, defaultPlatform, title);
                 }
                 else if (sporttype === SPORT_ALLBET) {
                     _me.viewAllBetResult(transdecs, extension2, bettype, title);
