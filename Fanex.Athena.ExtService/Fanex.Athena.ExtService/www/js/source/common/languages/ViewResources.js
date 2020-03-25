@@ -12,6 +12,7 @@
     ProductPP: "PP",
     ProductSG: "SG",
     ProductVRG: "Virtual Games",
+    ProductI4D: "Indo 4D",
     TransactionDetail: "",
     ErrorProcessingMsg: "Sorry, an error occurred while processing your request.",
     Result: "Results",
