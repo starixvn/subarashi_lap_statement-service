@@ -13,7 +13,6 @@
     {
     <link href="@Url.Content($"~/css/build/{env}/pages/betlist/betlistLayout.css")" rel="stylesheet" />
     <link href="@Url.Content($"~/css/build/{env}/pages/betlist/betlistRefno.css")" rel="stylesheet" />
-
 }
 @section Scripts
     {
@@ -25,32 +24,32 @@
 @model Fanex.Athena.ExtService.BetList.Models.ViewModel.StatementByGroupViewModel
 <div id="container" class="container-fluid">
     <div>
-        @if(ViewBag.ShowBreadCrumb)
+        @if (ViewBag.ShowBreadCrumb)
         {
             var breadcrumbItems = new List<SelectListItem>
-            {
-                new SelectListItem {
-                    Text = ViewResources.Statement,
-                    Value = Url.Action(
-                        "Summary",
-                        "Statement",
-                        new {
-                            cid=Model.CustId,
-                            fd=ViewBag.FromDate.ToString("MM/dd/yyyy"),
-                            td=ViewBag.ToDate.ToString("MM/dd/yyyy"),
-                            bc=Model.BaseCurrency,
-                            lang=Model.Lang,
-                            ps=ViewBag.PageSize,
-                            pi=ViewBag.PageIndex,
-                            sb=ViewBag.ShowBreadCrumb,
-                            access_token=Model.AccessToken
-                        }
-                    )
-                },
-                new SelectListItem { Text = ViewResources.BettingStatement, Selected = true, Value = "javascript:;" }
-            };
-            <breadcrumb items="@breadcrumbItems"></breadcrumb>
-        }
+{
+    new SelectListItem {
+        Text = ViewResources.Statement,
+        Value = Url.Action(
+            "Summary",
+            "Statement",
+            new {
+                cid=Model.CustId,
+                fd=ViewBag.FromDate.ToString("MM/dd/yyyy"),
+                td=ViewBag.ToDate.ToString("MM/dd/yyyy"),
+                bc=Model.BaseCurrency,
+                lang=Model.Lang,
+                ps=ViewBag.PageSize,
+                pi=ViewBag.PageIndex,
+                sb=ViewBag.ShowBreadCrumb,
+                access_token=Model.AccessToken
+            }
+        )
+    },
+    new SelectListItem { Text = ViewResources.BettingStatement, Selected = true, Value = "javascript:;" }
+};
+<breadcrumb items="@breadcrumbItems"></breadcrumb>
+}
         <div class="betlist-container result-content">
             <div class="report-title-container">
                 <p class="report-title">
@@ -78,7 +77,6 @@
                                         <th>@ViewResources.Credit_Debit</th>
                                         <th>@ViewResources.Commission</th>
                                         <th>@ViewResources.Balance</th>
-
                                     </tr>
                                 </thead>
                             </table>
@@ -106,7 +104,7 @@
                                             var remarkValue = StatementHelper.GetBetingStatementRemark(transDescText, item.ProductCode);
                                             <tr>
                                                 <td class="left-align">
-                                                    @($"{item.WinLostDate:dddd}")
+                                                    @ViewResources.ResourceManager.GetString($"DateName_{(int)item.WinLostDate.DayOfWeek}")
                                                     <br />
                                                     @($"{item.WinLostDate:MM/dd/yyyy}")
                                                 </td>
@@ -138,20 +136,16 @@
                                                                 @remarkValue
                                                             </a>
                                                         }
-
                                                     </span>
                                                 </td>
                                                 <td class="right-align">
                                                     <money>@item.TurnOver</money>
-
                                                 </td>
                                                 <td class="right-align">
                                                     <money>@StatementHelper.GetCreditDebit(item)</money>
-
                                                 </td>
                                                 <td class="right-align">
                                                     <money>@item.Commission</money>
-
                                                 </td>
                                                 <td class="right-align">
                                                     <money>@previousBalance</money>

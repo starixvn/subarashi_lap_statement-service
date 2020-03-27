@@ -1,4 +1,14 @@
-﻿using Fanex.Athena.ExtService.BetList.Services;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+using Fanex.Athena.ExtService.BetList.Services;
 using Fanex.Athena.ExtService.Common.Attributes;
 using Fanex.Athena.ExtService.Common.Models.DTO;
 using Fanex.Athena.ExtService.Common.Services;
@@ -9,7 +19,7 @@ using Fanex.Athena.ExtService.Core.Models.DTO;
 using Fanex.Athena.ExtService.Core.Services;
 using Fanex.Data;
 using Fanex.Data.SqlServer;
-
+using Fanex.RemotingRef;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -24,22 +34,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-
 using ONEbook.UM.Configurations;
 using ONEbook.UM.Extensions;
-
 using StackExchange.Redis;
-
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Fanex.Athena.ExtService
 {
@@ -62,7 +59,9 @@ namespace Fanex.Athena.ExtService
         {
             services.Configure<TokenManagement>(Configuration.GetSection("tokenManagement"));
             services.Configure<ApplicationOptions>(Configuration.GetSection(ApplicationOptionSettingKey));
-            services.Configure<AppSettings>(Configuration.GetSection(AppSettingKey));
+
+            var appSettings = Configuration.GetSection(AppSettingKey);
+            services.Configure<AppSettings>(appSettings);
             services.Configure<List<User>>(Configuration.GetSection("Users"));
 
             var appOption = Configuration.GetSection(ApplicationOptionSettingKey).Get<ApplicationOptions>();
@@ -109,6 +108,10 @@ namespace Fanex.Athena.ExtService
             services.AddHealthChecks()
                 .AddCheck<WhoAmIHealthCheck>("WhoAmIHealthCheck");
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            RefDataTypeContainer
+                .ConnectTo(new Uri(appSettings["Fanex.RemotingRef.Service.Url"]))
+                .FromApplication("Fanex.Athena.ExtService");
 
             DIRegister(services);
         }

@@ -357,4 +357,25 @@
   <data name="ProductVRG" xml:space="preserve">
     <value>Virtual Games</value>
   </data>
+  <data name="DateName_0" xml:space="preserve">
+    <value>Sunday</value>
+  </data>
+  <data name="DateName_1" xml:space="preserve">
+    <value>Monday</value>
+  </data>
+  <data name="DateName_2" xml:space="preserve">
+    <value>Tuesday</value>
+  </data>
+  <data name="DateName_3" xml:space="preserve">
+    <value>Wednesday</value>
+  </data>
+  <data name="DateName_4" xml:space="preserve">
+    <value>Thursday</value>
+  </data>
+  <data name="DateName_5" xml:space="preserve">
+    <value>Friday</value>
+  </data>
+  <data name="DateName_6" xml:space="preserve">
+    <value>Saturday</value>
+  </data>
 </root>

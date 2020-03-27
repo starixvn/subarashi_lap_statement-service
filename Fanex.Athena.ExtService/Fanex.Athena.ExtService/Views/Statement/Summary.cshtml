@@ -7,13 +7,11 @@
 @{
     var appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
     var env = appSettings.Environment.Equals("PROD") ? "pro" : "dev";
-
 }
 @section pagecss
     {
     <link href="@Url.Content($"~/css/build/{env}/pages/betlist/betlistLayout.css")" rel="stylesheet" />
     <link href="@Url.Content($"~/css/build/{env}/pages/betlist/betlistRefno.css")" rel="stylesheet" />
-
 }
 @section Scripts
     {
@@ -52,7 +50,6 @@
                                         <th>@ViewResources.Credit_Debit</th>
                                         <th>@ViewResources.Commission</th>
                                         <th>@ViewResources.Balance</th>
-
                                     </tr>
                                 </thead>
                             </table>
@@ -72,23 +69,23 @@
                                     </tr>
                                     @if (Model.DataList != null && Model.DataList.Any())
                                     {
-                                    decimal previousBalance = 0;
-                                    foreach (var item in Model.DataList)
-                                    {
-                                    previousBalance = StatementHelper.GetStatementBalance(previousBalance, item);
-                                    var remarkValue = StatementHelper.GetStatementRemark(item.TransDesc, item.TransType);
+                                        decimal previousBalance = 0;
+                                        foreach (var item in Model.DataList)
+                                        {
+                                            previousBalance = StatementHelper.GetStatementBalance(previousBalance, item);
+                                            var remarkValue = StatementHelper.GetStatementRemark(item.TransDesc, item.TransType, item.BetTypeId);
 
-                                    <tr>
-                                        <td class="left-align">
-                                            @($"{item.WinLostDate:dddd}")
-                                            <br />
-                                            @($"{item.WinLostDate:MM/dd/yyyy}")
-                                        </td>
-                                        <td class="left-align .detail">
-                                            <span class='underdog'>
-                                                @if (StatementHelper.ShowBetingStatementLink(item.TransDesc, item.TransType))
-                                                {
-                                                <a class="detail-link" href="@Url.Action("ByGroup","Statement",new {
+                                            <tr>
+                                                <td class="left-align">
+                                                    @ViewResources.ResourceManager.GetString($"DateName_{(int)item.WinLostDate.DayOfWeek}")
+                                                    <br />
+                                                    @($"{item.WinLostDate:MM/dd/yyyy}")
+                                                </td>
+                                                <td class="left-align .detail">
+                                                    <span class='underdog'>
+                                                        @if (StatementHelper.ShowBetingStatementLink(item.TransDesc, item.TransType))
+                                                        {
+                                                            <a class="detail-link" href="@Url.Action("ByGroup","Statement",new {
                                                    bc=Model.BaseCurrency,
                                                    lang=Model.Lang,
                                                    wd=item.WinLostDate.ToString("MM/dd/yyyy"),
@@ -101,32 +98,29 @@
                                                    sb=ViewBag.ShowBreadCrumb,
                                                    access_token=Model.AccessToken
                                                    })">
-                                                    @remarkValue
-                                                </a>
-                                                }
-                                                else
-                                                {
-                                                @remarkValue
-                                                }
-                                            </span>
-                                        </td>
-                                        <td class="right-align">
-                                            <money>@item.TurnOver</money>
-
-                                        </td>
-                                        <td class="right-align">
-                                            <money>@StatementHelper.GetCreditDebit(item)</money>
-
-                                        </td>
-                                        <td class="right-align">
-                                            <money>@item.Commission</money>
-
-                                        </td>
-                                        <td class="right-align">
-                                            <money>@previousBalance</money>
-                                        </td>
-                                    </tr>
-                                    }
+                                                                @remarkValue
+                                                            </a>
+                                                        }
+                                                        else
+                                                        {
+                                                            @remarkValue
+                                                        }
+                                                    </span>
+                                                </td>
+                                                <td class="right-align">
+                                                    <money>@item.TurnOver</money>
+                                                </td>
+                                                <td class="right-align">
+                                                    <money>@StatementHelper.GetCreditDebit(item)</money>
+                                                </td>
+                                                <td class="right-align">
+                                                    <money>@item.Commission</money>
+                                                </td>
+                                                <td class="right-align">
+                                                    <money>@previousBalance</money>
+                                                </td>
+                                            </tr>
+                                        }
                                     }
                                 </tbody>
                             </table>
@@ -135,11 +129,12 @@
                 </div>
             </div>
         </div>
-
-        <pager page-index="@Model.PageIndex"
-               page-size="@Model.PageSize"
-               total-items="@Model.TotalRows"
-               url-template="@Url.Action("Summary","Statement",new {
+        @if (Model.TotalRows > 50)
+        {
+            <pager page-index="@Model.PageIndex"
+                   page-size="@Model.PageSize"
+                   total-items="@Model.TotalRows"
+                   url-template="@Url.Action("Summary","Statement",new {
                cid=Model.CustId,
                fd=Model.FromDate.ToString("MM/dd/yyyy"),
                td=Model.ToDate.ToString("MM/dd/yyyy"),
@@ -148,6 +143,7 @@
                sb=ViewBag.ShowBreadCrumb,
                access_token=Model.AccessToken
                })">
-        </pager>
+            </pager>
+        }
     </div>
 </div>
