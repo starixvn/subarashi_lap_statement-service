@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using Fanex.Athena.ExtService.Core.Attributes;
 using Fanex.Athena.ExtService.Core.Models.DTO;
@@ -175,6 +176,29 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Attributes
             Assert.Equal(expectedResult, actualResult.Content);
         }
 
+        [Theory]
+        [InlineData("119.81.247.256")]
+        [InlineData("119.81.247.200/100")]
+        public void OnActionExecuting_WhiteListIPInvalid_ThrowExceptionWithMessage(string whiteListIP)
+        {
+            //Arrange
+            const string requestIP = "119.81.247.200";
 
+            var expectedResult = $"The WhiteList IP: {whiteListIP} was invalid - client IP: ${requestIP}";
+            _options.Setup(x => x.Value).Returns(new ApplicationOptions { WhiteList = new List<string> { whiteListIP } });
+
+            var connectionInfo = new Mock<ConnectionInfo>();
+            connectionInfo.Setup(x => x.RemoteIpAddress).Returns(IPAddress.Parse(requestIP));
+
+            _mockHttpContext.Setup(x => x.Connection).Returns(connectionInfo.Object);
+
+            //Action
+            var filter = new IPFilterAttribute(_options.Object);
+
+            var ex = Assert.Throws<Exception>(() => filter.OnActionExecuting(_actionExecutingContext));
+
+            //Assert
+            Assert.Equal(expectedResult, ex.Message);
+        }
     }
 }
