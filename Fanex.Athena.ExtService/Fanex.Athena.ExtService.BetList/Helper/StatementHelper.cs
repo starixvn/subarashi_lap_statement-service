@@ -2,6 +2,7 @@
 using Fanex.Athena.ExtService.BetList.Models.DataDomain;
 using Fanex.Athena.ExtService.BetList.Models.DTO;
 using Fanex.Athena.ExtService.Common;
+using Fanex.Athena.ExtService.Common.Services;
 
 namespace Fanex.Athena.ExtService.BetList.Helper
 {
@@ -58,10 +59,20 @@ namespace Fanex.Athena.ExtService.BetList.Helper
             return productCode == AGCasino || productCode == GoldDeluxe || productCode == Exchange;
         }
 
-        public static string GetStatementRemark(string transDesc, string transType)
-        => TransDescValue.RemarkValues.ContainsKey(transDesc)
-                ? $"- {TransDescValue.RemarkValues[transDesc].Invoke()}"
-                : transType.ToUpperInvariant();
+        public static string GetStatementRemark(string transDesc, string transType, int betTypeId = 0)
+        {
+            if (TransDescValue.RemarkValues.ContainsKey(transDesc))
+            {
+                return $"- {TransDescValue.RemarkValues[transDesc].Invoke()}";
+            }
+
+            if (betTypeId != 0)
+            {
+                return new CacheRefAdapter().GetBetTypeName(betTypeId);
+            }
+
+            return transType.ToUpperInvariant();
+        }
 
         public static string GetTransDescText(string transDesc)
         => TransDescValue.RemarkValues.ContainsKey(transDesc)

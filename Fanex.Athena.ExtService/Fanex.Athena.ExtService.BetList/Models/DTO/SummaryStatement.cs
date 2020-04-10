@@ -11,5 +11,6 @@ namespace Fanex.Athena.ExtService.BetList.Models.DTO
         public Decimal TurnOver { get; set; }
         public Decimal TotalAmt { get; set; }
         public Decimal Commission { get; set; }
+        public int BetTypeId { get; set; }
     }
 }
