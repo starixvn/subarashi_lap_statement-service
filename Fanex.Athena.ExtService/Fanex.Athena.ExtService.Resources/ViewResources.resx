@@ -378,4 +378,7 @@
   <data name="DateName_6" xml:space="preserve">
     <value>Saturday</value>
   </data>
+  <data name="ProductTG" xml:space="preserve">
+    <value>Table Games</value>
+  </data>
 </root>
