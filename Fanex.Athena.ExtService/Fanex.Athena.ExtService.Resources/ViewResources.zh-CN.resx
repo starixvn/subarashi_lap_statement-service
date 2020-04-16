@@ -307,4 +307,7 @@
   <data name="OPENINGBALANCE" xml:space="preserve">
     <value>最初余额</value>
   </data>
+  <data name="ProductTG" xml:space="preserve">
+    <value>桌面游戏</value>
+  </data>
 </root>
