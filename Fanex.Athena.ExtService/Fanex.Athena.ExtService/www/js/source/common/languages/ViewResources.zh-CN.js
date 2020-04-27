@@ -16,9 +16,11 @@
     ProductVB: "澳门电子娱乐城",
     ProductVRG: "虚拟娱乐城",
     ProductI4D: "Indo 4D",
+    ProductSXG: "Sexy Gaming",
     TransactionDetail: "Transaction Detail",
     ErrorProcessingMsg: "对不起, 处理您的请求时有错误发生。",
     Result: "赛果",
     InvalidRequestMsg: "Request is not valid",
     HttpError_403: "Access denied"
+
 };

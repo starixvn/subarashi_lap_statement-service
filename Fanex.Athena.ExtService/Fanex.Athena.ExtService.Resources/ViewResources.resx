@@ -384,4 +384,7 @@
   <data name="ProductTG" xml:space="preserve">
     <value>Table Game</value>
   </data>
+  <data name="ProductSXG" xml:space="preserve">
+    <value>Sexy Gaming</value>
+  </data>
 </root>
