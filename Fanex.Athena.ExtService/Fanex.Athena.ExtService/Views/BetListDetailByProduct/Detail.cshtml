@@ -2,17 +2,14 @@
 @using Microsoft.Extensions.Configuration
 @using Fanex.Athena.ExtService.Common.Models.DTO
 @inject IConfiguration Configuration
-
 @{
     var appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
     var env = appSettings.Environment.Equals("PROD") ? "pro" : "dev";
-
 }
 @section pagecss
     {
     <link href="@Url.Content($"~/css/build/{env}/pages/betlist/betlistLayout.css")" rel="stylesheet" />
     <link href="@Url.Content($"~/css/build/{env}/pages/betlist/betlistRefno.css")" rel="stylesheet" />
-
 }
 @section Scripts
     {
@@ -21,13 +18,11 @@
 
     </script>
 }
-
 @Html.AntiForgeryToken()
-
 @model Fanex.Athena.ExtService.BetList.Models.ViewModel.BetListResultViewModel
 <div id="container" class="container-fluid">
     <div>
-        <div class="betlist-container result-content">
+        <div class="betlist-container result-content tbl-betlist-popup">
             <div>
                 <div class="table-container">
                     <div class="header-content">
@@ -44,7 +39,6 @@
                                         {
                                             <td></td>
                                         }
-
                                         <td></td>
                                         <td></td>
                                     </tr>
@@ -56,14 +50,13 @@
                                         <th>@ViewResources.Stake</th>
                                         <th>
                                             @(Model.Info.IsAllowedCustomerComm ?
-                                                                                        $"{ ViewResources.WinLoss}/{ ViewResources.Comm}" : @ViewResources.WinLoss)
+                                                                                                                        $"{ ViewResources.WinLoss}/{ ViewResources.Comm}" : @ViewResources.WinLoss)
                                         </th>
                                         @if (Model.HasLicWl)
                                         {
                                             <th>@ViewResources.LicenseeWL/@ViewResources.Comm</th>
                                         }
                                         <th>@ViewResources.Status</th>
-
                                     </tr>
                                 </thead>
                             </table>
@@ -85,7 +78,6 @@
                                         }
                                         <td></td>
                                         <td></td>
-
                                     </tr>
                                     @foreach (var item in Model.Main)
                                     {
@@ -105,7 +97,6 @@
                                             <td class="center-align">@Html.Raw(item.Status)</td>
                                         </tr>
                                     }
-
                                 </tbody>
                             </table>
                         </div>
@@ -123,7 +114,6 @@
                                             <td style="width:350px"></td>
                                             <td></td>
                                             <td></td>
-
                                             <td></td>
                                             <td></td>
                                         </tr>
@@ -135,7 +125,6 @@
                                                 @Model.Total.SumLicenseeWl
                                             }
                                             <td class="right-align"></td>
-
                                         </tr>
                                     </tbody>
                                 </table>

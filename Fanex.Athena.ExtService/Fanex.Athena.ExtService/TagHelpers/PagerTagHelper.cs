@@ -14,6 +14,8 @@
 
         public string UrlTemplate { get; set; }
 
+        public string CustomClass { get; set; }
+
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = "div";
@@ -21,7 +23,7 @@
             if (PageSize > 0 && PageIndex > 0)
             {
                 var noOfPage = TotalItems / PageSize + (TotalItems % PageSize == 0 ? 0 : 1);
-                output.Attributes.SetAttribute("class", "pagingContainer center-align");
+                output.Attributes.SetAttribute("class", "pagingContainer center-align " + CustomClass);
 
                 AddPageButton(output, "pagingFirst", PageIndex == 1, 1, PageSize);
                 AddPageButton(output, "pagingPrev", PageIndex == 1, PageIndex - 1, PageSize);
@@ -47,7 +49,7 @@
 
             output.Content.AppendHtml("<div class=\"pagingSelect\">");
             output.Content.AppendHtml($"<button>{PageSize}<i class=\"icon icon-xs-arrow\"></i></button>");
-            output.Content.AppendHtml("<div class=\"pagingOption\">");         
+            output.Content.AppendHtml("<div class=\"pagingOption\">");
             foreach (var option in options)
             {
                 output.Content.AppendHtml($"<a href=\"{BuildLink(1, option)}\">{option}</a>");

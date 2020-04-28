@@ -2,6 +2,7 @@
 @import "../pages/common";
 @import "../scss/layout/filter";
 @import "../scss/layout/content";
+
 .page-form {
     .input-field {
         input[type=radio] + label {
@@ -31,6 +32,7 @@
         }
     }
 }
+
 .page-filter {
     position: relative;
     margin: 15px 0;
@@ -38,6 +40,7 @@
     background: $white;
     border: 1px solid #d6d6d6;
 }
+
 .page-results {
     .result-content {
         box-shadow: none;
@@ -138,6 +141,7 @@ table {
 .disabled {
     pointer-events: none;
 }
+
 .report-title-container {
     background: $bgHeaderTableLevel1;
     padding: 4px 15px;
@@ -147,6 +151,18 @@ table {
     .report-title {
         margin: 0;
     }
+}
+
+.tbl-betlist .report-title-container,
+.tbl-statement .report-title-container,
+.tbl-betlist.pagingContainer,
+.tbl-statement.pagingContainer {
+    min-width: 1500px;
+}
+
+.tbl-betlist-popup .report-title-container,
+.tbl-betlist-popup.pagingContainer {
+    min-width: 890px;
 }
 
 .no-info-row {

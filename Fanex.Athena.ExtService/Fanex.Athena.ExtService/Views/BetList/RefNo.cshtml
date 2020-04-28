@@ -2,30 +2,27 @@
 @using Microsoft.Extensions.Configuration
 @using Fanex.Athena.ExtService.Common.Models.DTO
 @inject IConfiguration Configuration
-
 @{
     var appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
     var env = appSettings.Environment.Equals("PROD") ? "pro" : "dev";
-
 }
 @section pagecss
     {
     <link href="@Url.Content($"~/css/build/{env}/pages/betlist/betlistLayout.css")" rel="stylesheet" />
     <link href="@Url.Content($"~/css/build/{env}/pages/betlist/betlistRefno.css")" rel="stylesheet" />
-
 }
 @section Scripts
     {
     <script src="@Url.Content($"~/js/build/{env}/pages/betlist/refno.chunk.js")"></script>
-        <script type="text/javascript">
-         
-        </script>
+    <script type="text/javascript">
+
+    </script>
 }
 @Html.AntiForgeryToken()
 @model Fanex.Athena.ExtService.BetList.Models.ViewModel.RefNoViewModel
 <div id="container" class="container-fluid">
     <div>
-        <div class="betlist-container result-content">
+        <div class="betlist-container result-content tbl-betlist">
             <div class="report-title-container">
                 <p class="report-title">
                 </p>
@@ -62,7 +59,7 @@
                                         <th>@ViewResources.Stake</th>
                                         <th>
                                             @(Model.Info.IsAllowedCustomerComm ?
-                                                                         $"{ ViewResources.WinLoss}/{ ViewResources.Comm}" : @ViewResources.WinLoss)
+                                                                                                 $"{ ViewResources.WinLoss}/{ ViewResources.Comm}" : @ViewResources.WinLoss)
                                         </th>
                                         <th>
                                             @ViewResources.LicenseeWL/@ViewResources.Comm
@@ -120,7 +117,6 @@
                                             <td class="center-align">@Html.Raw(item.Live)</td>
                                         </tr>
                                     }
-
                                 </tbody>
                             </table>
                         </div>

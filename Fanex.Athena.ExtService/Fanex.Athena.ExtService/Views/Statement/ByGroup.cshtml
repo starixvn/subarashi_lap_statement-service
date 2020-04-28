@@ -28,29 +28,29 @@
         {
             var breadcrumbItems = new List<SelectListItem>
 {
-    new SelectListItem {
-        Text = ViewResources.Statement,
-        Value = Url.Action(
-            "Summary",
-            "Statement",
-            new {
-                cid=Model.CustId,
-                fd=ViewBag.FromDate.ToString("MM/dd/yyyy"),
-                td=ViewBag.ToDate.ToString("MM/dd/yyyy"),
-                bc=Model.BaseCurrency,
-                lang=Model.Lang,
-                ps=ViewBag.PageSize,
-                pi=ViewBag.PageIndex,
-                sb=ViewBag.ShowBreadCrumb,
-                access_token=Model.AccessToken
-            }
-        )
-    },
-    new SelectListItem { Text = ViewResources.BettingStatement, Selected = true, Value = "javascript:;" }
+new SelectListItem {
+Text = ViewResources.Statement,
+Value = Url.Action(
+"Summary",
+"Statement",
+new {
+cid=Model.CustId,
+fd=ViewBag.FromDate.ToString("MM/dd/yyyy"),
+td=ViewBag.ToDate.ToString("MM/dd/yyyy"),
+bc=Model.BaseCurrency,
+lang=Model.Lang,
+ps=ViewBag.PageSize,
+pi=ViewBag.PageIndex,
+sb=ViewBag.ShowBreadCrumb,
+access_token=Model.AccessToken
+}
+)
+},
+new SelectListItem { Text = ViewResources.BettingStatement, Selected = true, Value = "javascript:;" }
 };
 <breadcrumb items="@breadcrumbItems"></breadcrumb>
 }
-        <div class="betlist-container result-content">
+        <div class="betlist-container result-content tbl-statement">
             <div class="report-title-container">
                 <p class="report-title">
                     @Model.TransDesc

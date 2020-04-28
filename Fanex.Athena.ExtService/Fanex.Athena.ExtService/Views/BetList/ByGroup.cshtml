@@ -26,39 +26,39 @@
         {
             var breadcrumbItems = new List<SelectListItem>
 {
-    new SelectListItem { Text = ViewResources.Statement, Value = Url.Action("Summary", "Statement", new {
-                cid=Model.CustId,
-                fd=ViewBag.FromDate.ToString("MM/dd/yyyy"),
-                td=ViewBag.ToDate.ToString("MM/dd/yyyy"),
-                bc=Model.BaseCurrency,
-                lang=Model.Lang,
-                ps=ViewBag.StatementPageSize,
-                pi=ViewBag.StatementPageIndex,
-                sb=ViewBag.ShowBreadCrumb,
-                access_token=Model.AccessToken
-            }
-        )
-    },
-    new SelectListItem { Text = ViewResources.BettingStatement, Value = Url.Action("ByGroup", "Statement", new {
-                cid=Model.CustId,
-                wd=Model.WinlostDate.ToString("MM/dd/yyyy"),
-                mv=Model.TransType,
-                fd=ViewBag.FromDate.ToString("MM/dd/yyyy"),
-                td=ViewBag.ToDate.ToString("MM/dd/yyyy"),
-                bc=Model.BaseCurrency,
-                lang=Model.Lang,
-                ps=ViewBag.StatementPageSize,
-                pi=ViewBag.StatementPageIndex,
-                sb=ViewBag.ShowBreadCrumb,
-                access_token=Model.AccessToken
-            }
-        )
-    },
-    new SelectListItem { Text = ViewResources.BetList, Selected = true, Value = "javascript:;" }
+new SelectListItem { Text = ViewResources.Statement, Value = Url.Action("Summary", "Statement", new {
+cid=Model.CustId,
+fd=ViewBag.FromDate.ToString("MM/dd/yyyy"),
+td=ViewBag.ToDate.ToString("MM/dd/yyyy"),
+bc=Model.BaseCurrency,
+lang=Model.Lang,
+ps=ViewBag.StatementPageSize,
+pi=ViewBag.StatementPageIndex,
+sb=ViewBag.ShowBreadCrumb,
+access_token=Model.AccessToken
+}
+)
+},
+new SelectListItem { Text = ViewResources.BettingStatement, Value = Url.Action("ByGroup", "Statement", new {
+cid=Model.CustId,
+wd=Model.WinlostDate.ToString("MM/dd/yyyy"),
+mv=Model.TransType,
+fd=ViewBag.FromDate.ToString("MM/dd/yyyy"),
+td=ViewBag.ToDate.ToString("MM/dd/yyyy"),
+bc=Model.BaseCurrency,
+lang=Model.Lang,
+ps=ViewBag.StatementPageSize,
+pi=ViewBag.StatementPageIndex,
+sb=ViewBag.ShowBreadCrumb,
+access_token=Model.AccessToken
+}
+)
+},
+new SelectListItem { Text = ViewResources.BetList, Selected = true, Value = "javascript:;" }
 };
 <breadcrumb items="@breadcrumbItems"></breadcrumb>
 }
-        <div class="betlist-container result-content">
+        <div class="betlist-container result-content tbl-betlist">
             <div class="report-title-container">
                 <p class="report-title">
                     @Model.TransDesc
@@ -92,7 +92,7 @@
                                         <th>@ViewResources.Stake</th>
                                         <th>
                                             @(Model.Info.IsAllowedCustomerComm ?
-                                                                    $"{ ViewResources.WinLoss}/{ ViewResources.Comm}" : @ViewResources.WinLoss)
+                                                                                                                            $"{ ViewResources.WinLoss}/{ ViewResources.Comm}" : @ViewResources.WinLoss)
                                         </th>
                                         <th>
                                             @ViewResources.LicenseeWL/@ViewResources.Comm
@@ -154,6 +154,7 @@
             <pager page-index="@Model.PageIndex"
                    page-size="@Model.PageSize"
                    total-items="@Model.TotalRows"
+                   custom-class="tbl-betlist"
                    url-template="@Url.Action("ByGroup","BetList",new {
                cid=Model.CustId,
                lang=Model.Lang,

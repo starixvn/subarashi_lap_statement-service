@@ -51,6 +51,8 @@ $bgTitlebar: $bgHeaderTableLevel1;
     .wrapContent {
         overflow-y: auto;
         height: calc(100% - 38px); // 38 is height of title bar
+        width: 100%;
+
         .popup-button {
             .btn {
                 margin: 15px 0 0 15px;
