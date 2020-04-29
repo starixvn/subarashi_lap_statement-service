@@ -127,6 +127,13 @@
 .table-container {
   overflow-x: auto; }
 
+.tbl-betlist .table-container,
+.tbl-statement .table-container {
+  min-width: 1500px; }
+
+.tbl-betlist-popup .table-container {
+  min-width: 890px; }
+
 .header-content,
 .body-content,
 .footer-content {

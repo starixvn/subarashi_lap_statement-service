@@ -2,19 +2,15 @@
 @using Microsoft.Extensions.Configuration
 @using Fanex.Athena.ExtService.Common.Models.DTO
 @using Fanex.Athena.ExtService.Common
-
 @inject IConfiguration Configuration
-
 @{
     var appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
     var env = appSettings.Environment.Equals("PROD") ? "pro" : "dev";
-
 }
 @section pagecss
     {
     <link href="@Url.Content($"~/css/build/{env}/pages/betlist/betlistLayout.css")" rel="stylesheet" />
     <link href="@Url.Content($"~/css/build/{env}/pages/betlist/betlistRefno.css")" rel="stylesheet" />
-
 }
 @section Scripts
     {
@@ -26,7 +22,7 @@
 @model Fanex.Athena.ExtService.BetList.Models.ViewModel.RunningBetListByViewModel
 <div id="container" class="container-fluid">
     <div>
-        <div class="betlist-container result-content">
+        <div class="betlist-container result-content tbl-betlist">
             <div>
                 <div class="table-container">
                     <div class="header-content">
@@ -65,7 +61,6 @@
                                 <tbody>
                                     <tr class="first-row">
                                         <td style="width:39px;"></td>
-
                                         <td></td>
                                         <td></td>
                                         <td style="width:350px"></td>
@@ -80,7 +75,6 @@
                                             <td title="@item.Index" class="center-align">
                                                 @item.Index
                                             </td>
-
                                             <td class="center-align">@Html.Raw(item.RefNo)</td>
                                             <td class="center-align">@Html.Raw(item.TransTime)</td>
                                             <td class="right-align">@Html.Raw(item.Choice)</td>
@@ -92,7 +86,6 @@
                                             <td class="center-align">@Html.Raw(item.Live)</td>
                                         </tr>
                                     }
-
                                 </tbody>
                             </table>
                         </div>

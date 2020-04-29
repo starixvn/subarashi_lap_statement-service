@@ -379,6 +379,16 @@ table tbody tr.row-group-level1 td {
   .report-title-container .report-title {
     margin: 0; }
 
+.tbl-betlist .report-title-container,
+.tbl-statement .report-title-container,
+.tbl-betlist.pagingContainer,
+.tbl-statement.pagingContainer {
+  min-width: 1500px; }
+
+.tbl-betlist-popup .report-title-container,
+.tbl-betlist-popup.pagingContainer {
+  min-width: 890px; }
+
 .no-info-row {
   border: 1px solid #ccc;
   padding: 5px;
@@ -422,7 +432,8 @@ table tbody tr.row-group-level1 td {
         color: #fff; }
   .flat-popup .wrapContent {
     overflow-y: auto;
-    height: calc(100% - 38px); }
+    height: calc(100% - 38px);
+    width: 100%; }
     .flat-popup .wrapContent .popup-button .btn {
       margin: 15px 0 0 15px; }
     .flat-popup .wrapContent h1, .flat-popup .wrapContent h2, .flat-popup .wrapContent h3, .flat-popup .wrapContent h4, .flat-popup .wrapContent h5, .flat-popup .wrapContent h6 {
@@ -755,6 +766,8 @@ table tbody tr.row-group-level1 td {
       color: #000000; }
     .betlist-container .single-match-parlay-detail .single-match-parlay-selection .status {
       color: #003399; }
+  .betlist-container.page-results {
+    min-width: 800px; }
 
 .ag-casino-bet-type {
   color: #808080; }

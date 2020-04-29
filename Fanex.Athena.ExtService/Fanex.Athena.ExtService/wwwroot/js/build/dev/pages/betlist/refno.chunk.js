@@ -422,6 +422,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
         const SPORT_CARDCLUB = 165;
         const SPORT_SG = 247;
         const SPORT_VRG = 245;
+        const DetailsWidth = Math.min(890, $(window).width());
 
         let _sortColumnName, _sortOrder;
 
@@ -519,7 +520,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                                 return;
                             }
 
-                            showResultPopUp(result, { width: 800, height: 380, title: title });
+                            showResultPopUp(result, { width: DetailsWidth, height: 380, title: title });
                         }
                         else {
                             alert(Site.getSingleResource('ErrorProcessingMsg'));
@@ -542,7 +543,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 Site.blockUI();
                 $.get(url, function (result) {
                     if (result !== '') {
-                        showResultPopUp(result, { width: 800, height: 380, title: title });
+                        showResultPopUp(result, { width: DetailsWidth, height: 380, title: title });
                         Site.unBlockUI();
                     }
                 });
@@ -556,7 +557,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 Site.blockUI();
                 $.get(url, function (result) {
                     if (result !== '') {
-                        showResultPopUp(result, { width: 800, height: 380, title: title });
+                        showResultPopUp(result, { width: DetailsWidth, height: 380, title: title });
                         Site.unBlockUI();
                     }
                 });
@@ -570,7 +571,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 Site.blockUI();
                 $.get(url, function (result) {
                     if (result !== '') {
-                        showResultPopUp(result, { width: 800, height: 380, title: title });
+                        showResultPopUp(result, { width: DetailsWidth, height: 380, title: title });
                         Site.unBlockUI();
                     }
                 });
@@ -584,7 +585,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 Site.blockUI();
                 $.get(url, function (result) {
                     if (result !== '') {
-                        showResultPopUp(result, { width: 800, height: 380, title: title });
+                        showResultPopUp(result, { width: DetailsWidth, height: 380, title: title });
                         Site.unBlockUI();
                     }
                 });
@@ -598,7 +599,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 Site.blockUI();
                 $.get(url, function (result) {
                     if (result !== '') {
-                        showResultPopUp(result, { width: 800, height: 380, title: title });
+                        showResultPopUp(result, { width: DetailsWidth, height: 380, title: title });
                         Site.unBlockUI();
                     }
                 });
@@ -611,7 +612,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 url += "&access_token=" + $("#access_token").val();
 
                 Site.blockUI();
-                showResultPopUp(url, { width: 800, height: 380, title: title });
+                showResultPopUp(url, { width: DetailsWidth, height: 380, title: title });
                 Site.unBlockUI();
             },
 
@@ -624,7 +625,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 Site.blockUI();
                 $.get(url, function (result) {
                     if (result !== '') {
-                        showResultPopUp(result, { width: 800, height: 380, title: title });
+                        showResultPopUp(result, { width: DetailsWidth, height: 380, title: title });
                         Site.unBlockUI();
                     }
                 });
@@ -666,9 +667,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                         : _me.getSportBookResultUrl(matchid, numberBettype, raceNo, sporttype, league, isOutright, extension1, extension2, custid);
 
                     const height = 450;
-                    const width = 750;
-
-                    showResultPopUp(url, { width: width + 25, height: height + 70, title: title });
+                    showResultPopUp(url, { width: DetailsWidth, height: height + 70, title: title });
                 }
             },
 
@@ -832,7 +831,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 const title = Site.getSingleResource('AGCasino') + ' - ' +
                     Site.getSingleResource('DetailedBetlist');
 
-                showDetailPopUp(url, { width: 870, height: popH + 50, title: title });
+                showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
             },
 
             showRnGCasinoDetails: function (transId, winlostDate, custId, transType) {
@@ -851,7 +850,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 const title = Site.getSingleResource('ProductCS') + ' - ' +
                     Site.getSingleResource('DetailedBetlist');
 
-                showDetailPopUp(url, { width: 890, height: popH + 50, title: title });
+                showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
             },
 
             showVoidBridgeDetails: function (transId, winlostDate, custId, transType) {
@@ -870,7 +869,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 const title = Site.getSingleResource('ProductVB') + ' - ' +
                     Site.getSingleResource('DetailedBetlist');
 
-                showDetailPopUp(url, { width: 890, height: popH + 50, title: title });
+                showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
             },
             showAllBetDetails: function (transId, winlostDate, custId, transType) {
                 let url = Site.resolveClientUrl('BetListDetailByProduct/Detail');
@@ -886,7 +885,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 const title = Site.getSingleResource('ProductAB') + ' - ' +
                     Site.getSingleResource('DetailedBetlist');
 
-                showDetailPopUp(url, { width: 870, height: popH + 50, title: title });
+                showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
             },
             showColossusBetsDetails: function (refNo, winlostDate, transId, custId, betCheck) {
                 let url = Site.resolveClientUrl('ColossusBetBetList/Detail');
@@ -902,7 +901,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 const popH = Math.min($(window).height() - 100, 550);
                 const title = Site.getSingleResource('TicketDetailOf').replace('{0}', refNo);
 
-                showDetailPopUp(url, { width: 890, height: popH + 50, title: title });
+                showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
             },
             showGlobalGamingDetails: function (transId, winlostDate, custId, transType) {
                 let url = Site.resolveClientUrl('BetListDetailByProduct/Detail');
@@ -921,7 +920,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 const title = Site.getSingleResource('ProductFW') + ' - ' +
                     Site.getSingleResource('DetailedBetlist');
 
-                showDetailPopUp(url, { width: 890, height: popH + 50, title: title });
+                showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
             },
             showPPDetails: function (transId, winlostDate, custId, transType) {
                 let url = Site.resolveClientUrl('BetListDetailByProduct/Detail');
@@ -938,7 +937,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 const title = Site.getSingleResource('ProductPP') + ' - ' +
                     Site.getSingleResource('DetailedBetlist');
 
-                showDetailPopUp(url, { width: 890, height: popH + 50, title: title });
+                showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
             },
             showSGDetails: function (transId, winlostDate, custId, transType) {
                 let url = Site.resolveClientUrl('BetListDetailByProduct/Detail');
@@ -955,7 +954,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 const title = Site.getSingleResource('ProductSG') + ' - ' +
                     Site.getSingleResource('DetailedBetlist');
 
-                showDetailPopUp(url, { width: 890, height: popH + 50, title: title });
+                showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
             },
             ViewCasinoHandHistory: function (refNo) {
                 let url = Site.resolveClientUrl('HandHistory/RNGCasino');
@@ -981,7 +980,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 const popH = Math.min($(window).height() - 100, 550);
                 const title = isCashOut ? Site.getSingleResource('CashOutDetails') : Site.getSingleResource('BoughtDetails');
 
-                showDetailPopUp(url, { width: 890, height: popH + 50, title: title });
+                showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
             },
 
             showBonusDetails: function (refCode, transId) {
@@ -996,10 +995,10 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 url = QueryString.setParam(url, 'uspkey', 'Lrf_BetList_LicenseeBonus_Detail');
                 url = QueryString.setParam(url, 'haslicWl', 1);
 
-                const popH = Math.min($(window).height() - 100, 550), popW = 840;
+                const popH = Math.min($(window).height() - 100, 550);
                 const title = Site.getSingleResource('TransactionDetail');
 
-                showDetailPopUp(url, { width: popW + 50, height: popH + 50, title: title });
+                showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
             },
 
             showVideoPokerGameDetails: function (transId, winlostDate, custId, transType) {
@@ -1017,7 +1016,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 const title = Site.getSingleResource('ProductCC') + ' - ' +
                     Site.getSingleResource('DetailedBetlist');
 
-                showDetailPopUp(url, { width: 890, height: popH + 50, title: title });
+                showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
             },
             registerBetListGlobalFunctions: function () {
                 window.ViewResult = _me.viewResult;
@@ -1061,6 +1060,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
         return _me;
     }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
 
 /***/ }),
 

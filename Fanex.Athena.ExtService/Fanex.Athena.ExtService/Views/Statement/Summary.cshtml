@@ -23,7 +23,7 @@
 @model Fanex.Athena.ExtService.BetList.Models.ViewModel.SummaryStatementViewModel
 <div id="container" class="container-fluid">
     <div>
-        <div class="betlist-container result-content">
+        <div class="betlist-container result-content tbl-statement">
             <div class="report-title-container">
                 <p class="report-title">
                     @ViewResources.Statement
@@ -134,6 +134,7 @@
             <pager page-index="@Model.PageIndex"
                    page-size="@Model.PageSize"
                    total-items="@Model.TotalRows"
+                   custom-class="tbl-statement"
                    url-template="@Url.Action("Summary","Statement",new {
                cid=Model.CustId,
                fd=Model.FromDate.ToString("MM/dd/yyyy"),
