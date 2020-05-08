@@ -226,7 +226,7 @@
     <value>交易额</value>
   </data>
   <data name="ProductCC" xml:space="preserve">
-    <value>嘻嘻俱乐部</value>
+    <value>乐卡迪亚</value>
     <comment>115449</comment>
   </data>
   <data name="ProductCO" xml:space="preserve">
@@ -309,5 +309,26 @@
   </data>
   <data name="ProductTG" xml:space="preserve">
     <value>桌面游戏</value>
+  </data>
+  <data name="ProductAB" xml:space="preserve">
+    <value>欧博</value>
+  </data>
+  <data name="ProductFW" xml:space="preserve">
+    <value>GG捕鱼</value>
+  </data>
+  <data name="ProductGD" xml:space="preserve">
+    <value>GD真人娱乐场</value>
+  </data>
+  <data name="ProductLT" xml:space="preserve">
+    <value>彩票</value>
+  </data>
+  <data name="ProductPP" xml:space="preserve">
+    <value>PP王者电子</value>
+  </data>
+  <data name="ProductSG" xml:space="preserve">
+    <value>新霸电子</value>
+  </data>
+  <data name="ProductVB" xml:space="preserve">
+    <value>澳门电子娱乐城</value>
   </data>
 </root>
