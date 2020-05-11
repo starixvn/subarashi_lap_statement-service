@@ -387,4 +387,7 @@
   <data name="ProductSXG" xml:space="preserve">
     <value>Sexy Gaming</value>
   </data>
+  <data name="DetailedBetlist" xml:space="preserve">
+    <value>Detailed Bet list</value>
+  </data>
 </root>
