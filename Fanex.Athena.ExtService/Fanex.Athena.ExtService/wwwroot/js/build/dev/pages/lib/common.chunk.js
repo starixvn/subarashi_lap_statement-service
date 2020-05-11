@@ -10687,6 +10687,7 @@ module.exports = g;
     ProductSG: "SG",
     ProductVRG: "Virtual Games",
     ProductI4D: "Indo 4D",
+    ProductSXG: "Sexy Gaming",
     TransactionDetail: "",
     ErrorProcessingMsg: "Sorry, an error occurred while processing your request.",
     Result: "Results",
@@ -10707,7 +10708,7 @@ module.exports = g;
     CashOutDetails: "即时兑现详情",
     BoughtDetails: "买入详情",
     TicketDetailOf: "Ticket detail of {0}",
-    DetailedBetlist: "Detailed Bet list",
+    DetailedBetlist: "投注明细历史",
     ProductVB: "Macau Games",
     ProductCS: "娱乐城",
     ProductAB: "AllBet",
@@ -10717,13 +10718,14 @@ module.exports = g;
     ProductSG: "SG",
     ProductVRG: "虚拟娱乐城",
     ProductI4D: "Indo 4D",
+    ProductSXG: "性感百家",
     TransactionDetail: "Transaction Detail",
     ErrorProcessingMsg: "对不起, 处理您的请求时有错误发生。",
     Result: "赛果",
     ProductCC: "嘻嘻俱乐部",
     InvalidRequestMsg: "Request is not valid",
     HttpError_403: "Access denied"
-    
+
 
 };
 
@@ -10750,6 +10752,7 @@ module.exports = g;
     ProductSG: "SG",
     ProductVRG: "虚拟娱乐城",
     ProductI4D: "Indo 4D",
+    ProductSXG: "Sexy Gaming",
     TransactionDetail: "Transaction Detail",
     ErrorProcessingMsg: "对不起, 处理您的请求时有错误发生。",
     Result: "赛果",
@@ -10786,6 +10789,7 @@ module.exports = g;
     ProductSG: "SG",
     ProductVRG: "虛擬娛樂城",
     ProductI4D: "Indo 4D",
+    ProductSXG: "Sexy Gaming",
     TransactionDetail: "Transaction Detail",
     ErrorProcessingMsg: "對不起，處理您的請求時有錯誤發生。",
     Result: "賽果",

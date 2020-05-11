@@ -422,6 +422,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
         const SPORT_CARDCLUB = 165;
         const SPORT_SG = 247;
         const SPORT_VRG = 245;
+        const SPORT_SXG = 243;
         const DetailsWidth = Math.min(890, $(window).width());
 
         let _sortColumnName, _sortOrder;
@@ -616,6 +617,16 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 Site.unBlockUI();
             },
 
+            viewSexyGamingResult: function (trasdesc, matchCode, bettype, title) {
+                let url = Site.resolveClientUrl('ResultReport/SexyGamingResult?transdesc=' +
+                    encodeURIComponent(trasdesc) + '&matchCode=' + matchCode + '&bettype=' + bettype);
+                url += "&lang=" + $("#lang").val();
+                url += "&access_token=" + $("#access_token").val();
+
+                Site.blockUI();
+                showResultPopUp(url, { width: 800, height: 380, title: title });
+                Site.unBlockUI();
+            },
 
             viewGlobalGamingResult: function (custId, gameId, title) {
                 let url = Site.resolveClientUrl('ResultReport/GlobalGamingResult') + '?custid=' + custId + '&gameId=' + gameId;
@@ -655,6 +666,9 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 }
                 else if (sporttype === SPORT_ALLBET) {
                     _me.viewAllBetResult(transdecs, extension2, bettype, title);
+                }
+                else if (sporttype === SPORT_SXG) {
+                    _me.viewSexyGamingResult(transdecs, extension2, bettype, title);
                 }
                 else if (sporttype === SPORT_GLOBALGAMING) {
                     _me.viewGlobalGamingResult(custid, extension2, title);
@@ -956,6 +970,23 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
 
                 showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
             },
+            showSexyGamingBetDetails : function (transId, winlostDate, custId, transType) {
+                let url = Site.resolveClientUrl('BetListDetailByProduct/Detail');
+                url = QueryString.setParam(url, 'transId', transId);
+                url = QueryString.setParam(url, 'date', winlostDate);
+                url = QueryString.setParam(url, 'custId', custId);
+                url = QueryString.setParam(url, 'transType', transType);
+                url = QueryString.setParam(url, 'BaseCurrency', getBaseCurrency());
+                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
+                url = QueryString.setParam(url, 'lang', $("#lang").val());
+                url = QueryString.setParam(url, 'uspkey', 'Lrf_BetList_LC_Detail');
+                url = QueryString.setParam(url, 'hastotal', 1);
+                const popH = Math.min($(window).height() - 100, 550);
+                const title = Site.getSingleResource('ProductSXG') + ' - ' +
+                    Site.getSingleResource('DetailedBetlist');
+
+                showDetailPopUp(url, { width: 890, height: popH + 50, title: title });
+            },
             ViewCasinoHandHistory: function (refNo) {
                 let url = Site.resolveClientUrl('HandHistory/RNGCasino');
                 const urlParam = $('#casino-hand-history-' + refNo).attr('url-param');
@@ -1048,6 +1079,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 window.showVideoPokerGameDetails = _me.showVideoPokerGameDetails;
                 window.showSingleMatchParlayDetail = _me.showSingleMatchParlayDetail;
                 window.showSGDetails = _me.showSGDetails;
+                window.showSexyGamingBetDetails = _me.showSexyGamingBetDetails ;
 
                 const betList = {
                     ViewCasinoHandHistory: _me.ViewCasinoHandHistory
