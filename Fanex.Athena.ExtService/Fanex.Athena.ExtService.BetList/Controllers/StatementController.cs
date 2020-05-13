@@ -30,6 +30,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             viewModel.PageSize = metalModel.PageSize;
             viewModel.FromDate = metalModel.FromDate;
             viewModel.ToDate = metalModel.ToDate;
+            viewModel.IsDesktopViewOnly = metalModel.IsDesktopViewOnly;
 
             ViewBag.ShowBreadCrumb = metalModel.ShowBreadCrumb;
             return View(viewModel);
@@ -49,6 +50,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             viewModel.TransDesc = TransDescValue.GetTransactionDescription(metalModel.ModeView);
             viewModel.CustId = metalModel.CustId;
             viewModel.ModeView = metalModel.ModeView == TransDescValue.ModeViewPromotion ? 0 : metalModel.ModeView;
+            viewModel.IsDesktopViewOnly = metalModel.IsDesktopViewOnly;
 
             ViewBag.PageSize = metalModel.PageSize;
             ViewBag.PageIndex = metalModel.PageIndex;

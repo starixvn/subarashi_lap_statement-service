@@ -289,4 +289,7 @@
   <data name="ProductSXG" xml:space="preserve">
     <value>Sexy Gaming</value>
   </data>
+  <data name="Details" xml:space="preserve">
+    <value>詳細信息</value>
+  </data>
 </root>

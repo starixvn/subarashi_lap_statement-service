@@ -1,0 +1,87 @@
+﻿@using Microsoft.Extensions.Configuration
+@using Fanex.Athena.ExtService.Common.Models.DTO
+@inject IConfiguration Configuration
+@using Fanex.Athena.ExtService.Resources
+@{
+
+    var appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
+    var langCode = System.Globalization.CultureInfo.CurrentUICulture.IetfLanguageTag;
+    var env = appSettings.Environment.Equals("PROD") ? "pro" : "dev";
+}
+@section pagecss{
+    <link href="@Url.Content($"~/css/build/{env}/pages/betlist/cashouthistory.css")" rel="stylesheet" type="text/css" />
+}
+@model Fanex.Athena.ExtService.BetList.Models.ViewModel.CashOutBetListDetailViewModel
+<div class="page-results betlist-container mobile">
+    <div class="table-content">
+        <p>
+            @(ViewResources.OriginalBetTicket):
+        </p>
+        <table class="table original-ticket">
+            <thead>
+                <tr>
+                    <th class="text-left col-large small">@ViewResources.Details</th>
+                    <th class="text-right">@ViewResources.Stake</th>
+                    <th class="text-right">@ViewResources.WinLoss/@ViewResources.Comm</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var tdClass = Model.IsHighlightOriginalTicket ? "highlight" : null;
+                    var ticket = Model.OriginalTicketText;
+                }
+                <tr>
+                    <td style="width:48%">
+                        <div class="elm-block">
+                            <span class="elm-index">#1</span> - <span>@Html.Raw(ticket.TransTime)</span>
+                        </div>
+                        <div class="elm-block">@Html.Raw(ticket.RefNo)</div>
+                        <div class="elm-block">@Html.Raw(ticket.Choice)</div>
+                        <div class="elm-block elm-odd">
+                            <span>@@</span>@Html.Raw(ticket.Odds)&nbsp;<span>@Html.Raw(ticket.OddsType)</span>
+                        </div>
+                    </td>
+                    <td class="right-align">
+                        @Html.Raw(ticket.Stake)
+                    </td>
+                    <td class="right-align">
+                        @Html.Raw(ticket.WinLoss)
+                        <br />
+                        @Html.Raw(ticket.Status)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="table-content">
+        <p>
+            @(Model.IsCashOut ? ViewResources.CashOutTicketsList : ViewResources.BoughtTicketsList):
+        </p>
+        <table class="table detail-tickets">
+            <thead>
+                <tr>
+                    <th class="col-medium">@ViewResources.TransTime</th>
+                    <th class="col-large small">@(Model.IsCashOut ? ViewResources.CashOutStake : ViewResources.BoughtStake )</th>
+                    <th>@(Model.IsCashOut ? ViewResources.CashOutAmount : ViewResources.BoughtAmount )</th>
+                    <th>@ViewResources.WinLoss</th>
+                    <th>@ViewResources.Status</th>
+                    <th style="visibility: hidden; border-style: none;"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.CashOutTicketTextList)
+                {
+                    tdClass = item.IsHighlight ? "highlight" : null;
+                    <tr>
+                        <td class="@tdClass center-align @tdClass">@Html.Raw(item.TransTime)</td>
+                        <td class="@tdClass right-align @tdClass">@Html.Raw(item.Stake)</td>
+                        <td class="@tdClass right-align @tdClass">@Html.Raw(item.Price)</td>
+                        <td class="@tdClass right-align @tdClass">@Html.Raw(item.WinLoss)</td>
+                        <td class="@tdClass center-align @tdClass">@Html.Raw(item.Status)</td>
+                        <td style="visibility: hidden; border-style: none;"></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

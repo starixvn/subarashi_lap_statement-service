@@ -113,6 +113,7 @@ namespace Fanex.Athena.ExtService
             services.AddScoped<IUserManagementService, UserManagementService>();
             services.AddScoped<IPFilterAttribute>();
             services.AddScoped<CheckCustomerAttribute>();
+            services.AddScoped<IBrowserService, BrowserService>();
             services.AddSingleton<ICommonService, CommonService>();
 
             ConfigBetListApiClient(services);

@@ -44,6 +44,7 @@ namespace Fanex.Athena.ExtService.Core.Attributes
             {
                 throw new Exception($"The WhiteList IP: {ipRangeString} was invalid - client IP: ${ipAddress}");
             }
+
             return ipRange.Contains(ipAddress);
         };
     }

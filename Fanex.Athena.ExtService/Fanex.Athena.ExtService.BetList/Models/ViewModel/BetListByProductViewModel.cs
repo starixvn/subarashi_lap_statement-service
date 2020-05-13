@@ -26,5 +26,7 @@ namespace Fanex.Athena.ExtService.BetList.Models.ViewModel
         public DateTime WinlostDate { get; set; }
 
         public int TotalRows { get; set; }
+
+        public bool IsDesktopViewOnly { get; set; }
     }
 }

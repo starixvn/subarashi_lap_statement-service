@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Fanex.Athena.ExtService.Common.Models.DataDomain;
+﻿using Fanex.Athena.ExtService.Common.Models.DataDomain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
@@ -18,8 +15,9 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
         [FromQuery(Name = "bc")]
         public string BaseCurrency { get; set; } = SystemConstants.DefaultBaseCurrency;
         public string Lang { get; set; } = SystemConstants.DefaultLangCode;
+
+        public bool IsDesktopViewOnly { get; set; }
+
         public bool IsValid => RefNo > 0;
-
-
     }
 }

@@ -14,5 +14,7 @@ namespace Fanex.Athena.ExtService.BetList.Models.ViewModel
         public int CustId { get; set; }
 
         public int ModeView { get; set; }
+
+        public bool IsDesktopViewOnly { get; set; }
     }
 }

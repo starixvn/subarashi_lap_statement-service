@@ -10,6 +10,7 @@
     using Fanex.Athena.ExtService.Common.Attributes;
     using Fanex.Athena.ExtService.Common.Models.DataDomain;
     using Fanex.Athena.ExtService.Common.Services;
+    using Fanex.Athena.ExtService.Core.Services;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
@@ -18,11 +19,16 @@
     {
         private readonly ICommonService _commonService;
         private readonly IBetListApiClient _betListApiClient;
+        private readonly IBrowserService _browserService;
 
-        public BetListController(ICommonService commonService, IBetListApiClient betListApiClient)
+        public BetListController(
+            ICommonService commonService,
+            IBetListApiClient betListApiClient,
+            IBrowserService browserService)
         {
             _commonService = commonService;
             _betListApiClient = betListApiClient;
+            _browserService = browserService;
         }
 
         [HttpGet]
@@ -36,7 +42,8 @@
             {
                 Info = licenseeInfo,
                 UserName = metaModel.UserName,
-                Data = new List<TicketText>()
+                Data = new List<TicketText>(),
+                IsDesktopViewOnly = metaModel.IsDesktopViewOnly
             };
 
             if (metaModel.IsValid)
@@ -51,10 +58,8 @@
             }
 
             ViewBag.Title = "Bet List By RefNo";
-
             AssignCommonViewModelData(metaModel, viewModel);
-
-            return View(viewModel);
+            return GetView(metaModel.IsDesktopViewOnly, $"~/Views/BetList/RefNo", viewModel);
         }
 
         [HttpGet]
@@ -86,7 +91,7 @@
 
             AssignCommonViewModelData(metaModel, viewModel);
 
-            return View(viewModel);
+            return GetView(metaModel.IsDesktopViewOnly, $"~/Views/BetList/TxID", viewModel);
         }
 
         [HttpGet]
@@ -107,7 +112,8 @@
                 TransType = metaModel.TransType,
                 Sort = metaModel.Sort,
                 WinlostDate = metaModel.WinlostDate,
-                CustId = metaModel.CustId
+                CustId = metaModel.CustId,
+                IsDesktopViewOnly = metaModel.IsDesktopViewOnly
             };
 
             if (metaModel.IsValid)
@@ -126,13 +132,14 @@
             AssignCommonViewModelData(metaModel, viewModel);
             viewModel.TransDesc = StatementHelper.GetBetingStatementRemark(
                 TransDescValue.GetTransactionDescription(metaModel.TransType),
-                metaModel.ProductCode);
+                        metaModel.ProductCode);
             ViewBag.FromDate = metaModel.FromDate;
             ViewBag.ToDate = metaModel.ToDate;
             ViewBag.StatementPageIndex = metaModel.StatementPageIndex;
             ViewBag.StatementPageSize = metaModel.StatementPageSize;
             ViewBag.ShowBreadCrumb = metaModel.ShowBreadCrumb;
-            return View(viewModel);
+
+            return GetView(metaModel.IsDesktopViewOnly, $"~/Views/BetList/ByGroup", viewModel);
         }
 
         [HttpGet]
@@ -146,7 +153,8 @@
             var viewModel = new RunningBetListByViewModel
             {
                 Info = licenseeInfo,
-                Data = new List<TicketText>()
+                Data = new List<TicketText>(),
+                IsDesktopViewOnly = metaModel.IsDesktopViewOnly
             };
 
             if (metaModel.IsValid)
@@ -163,7 +171,14 @@
             ViewBag.Title = "Running Bet List";
             AssignCommonViewModelData(metaModel, viewModel);
 
-            return View(viewModel);
+            return GetView(metaModel.IsDesktopViewOnly, $"~/Views/BetList/Running", viewModel);
+        }
+
+        private ViewResult GetView(bool isDesktopViewOnly, string viewPath, object viewModel)
+        {
+            _browserService.SetContext(HttpContext);
+            var isMobileView = !isDesktopViewOnly && _browserService.IsMobile();
+            return View($"{viewPath}{(isMobileView ? "Mobile" : "")}.cshtml", viewModel);
         }
     }
 }

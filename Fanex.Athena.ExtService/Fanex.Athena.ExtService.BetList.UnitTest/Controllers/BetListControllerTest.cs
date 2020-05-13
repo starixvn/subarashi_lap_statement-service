@@ -25,7 +25,7 @@
             var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName, 0);
 
             // Action
-            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object))
+            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 expectedResult = await controller.RefNo(metalModel).ConfigureAwait(false);
@@ -53,7 +53,7 @@
             IActionResult expectedResult = null;
 
             // Action
-            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object))
+            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 expectedResult = await controller.RefNo(metalModel).ConfigureAwait(false);
@@ -83,7 +83,7 @@
             IActionResult expectedResult = null;
 
             // Action
-            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object))
+            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 expectedResult = await controller.RefNo(metalModel).ConfigureAwait(false);
@@ -108,7 +108,7 @@
             var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName, 0);
 
             // Action
-            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object))
+            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 expectedResult = await controller.TxID(metalModel).ConfigureAwait(false);
@@ -136,7 +136,7 @@
             IActionResult expectedResult = null;
 
             // Action
-            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object))
+            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 expectedResult = await controller.TxID(metalModel).ConfigureAwait(false);
@@ -166,7 +166,7 @@
             IActionResult expectedResult = null;
 
             // Action
-            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object))
+            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 expectedResult = await controller.TxID(metalModel).ConfigureAwait(false);
@@ -190,7 +190,7 @@
             var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName, 0);
 
             // Action
-            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object))
+            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 expectedResult = await controller.ByGroup(metalModel).ConfigureAwait(false);
@@ -217,7 +217,7 @@
             IActionResult expectedResult = null;
 
             // Action
-            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object))
+            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 expectedResult = await controller.ByGroup(metalModel).ConfigureAwait(false);
@@ -256,7 +256,7 @@
             IActionResult expectedResult = null;
 
             // Action
-            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object))
+            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 expectedResult = await controller.ByGroup(metalModel).ConfigureAwait(false);
@@ -293,7 +293,7 @@
             IActionResult expectedResult = null;
 
             // Action
-            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object))
+            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 expectedResult = await controller.Running(metalModel).ConfigureAwait(false);
@@ -314,7 +314,7 @@
             IActionResult expectedResult = null;
 
             // Action
-            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object))
+            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 expectedResult = await controller.Running(metalModel).ConfigureAwait(false);
@@ -349,7 +349,7 @@
             var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName, 0);
 
             // Action
-            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object))
+            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 expectedResult = await controller.Running(metalModel).ConfigureAwait(false);

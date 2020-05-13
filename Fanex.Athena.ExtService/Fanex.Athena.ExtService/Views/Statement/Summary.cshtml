@@ -96,7 +96,8 @@
                                                    fd=Model.FromDate.ToString("MM/dd/yyyy"),
                                                    td=Model.ToDate.ToString("MM/dd/yyyy"),
                                                    sb=ViewBag.ShowBreadCrumb,
-                                                   access_token=Model.AccessToken
+                                                   access_token=Model.AccessToken,
+                                                   isDesktopViewOnly=Model.IsDesktopViewOnly
                                                    })">
                                                                 @remarkValue
                                                             </a>
@@ -142,9 +143,11 @@
                bc=Model.BaseCurrency,
                lang=Model.Lang,
                sb=ViewBag.ShowBreadCrumb,
-               access_token=Model.AccessToken
+               access_token=Model.AccessToken,
+               isDesktopViewOnly =Model.IsDesktopViewOnly
                })">
             </pager>
         }
     </div>
+    <input type="hidden" id="isDesktopViewOnly" value="@(Model.IsDesktopViewOnly ? 1 : 0)" />
 </div>

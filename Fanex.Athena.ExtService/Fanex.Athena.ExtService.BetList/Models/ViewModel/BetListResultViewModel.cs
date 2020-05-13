@@ -15,5 +15,7 @@ namespace Fanex.Athena.ExtService.BetList.Models.ViewModel
 
         public bool HasTotalRow { get; set; }
         public bool HasLicWl { get; set; }
+
+        public bool IsDesktopViewOnly { get; set; }
     }
 }

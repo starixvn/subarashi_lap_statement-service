@@ -42,7 +42,8 @@ lang=Model.Lang,
 ps=ViewBag.PageSize,
 pi=ViewBag.PageIndex,
 sb=ViewBag.ShowBreadCrumb,
-access_token=Model.AccessToken
+access_token=Model.AccessToken,
+isDesktopViewOnly =Model.IsDesktopViewOnly
 }
 )
 },
@@ -132,6 +133,7 @@ new SelectListItem { Text = ViewResources.BettingStatement, Selected = true, Val
                                                                                         td = ViewBag.ToDate.ToString("MM/dd/yyyy"),
                                                                                         sb = ViewBag.ShowBreadCrumb,
                                                                                         access_token = Model.AccessToken,
+                                                                                        isDesktopViewOnly=Model.IsDesktopViewOnly
                                                                                     })">
                                                                 @remarkValue
                                                             </a>
@@ -161,4 +163,5 @@ new SelectListItem { Text = ViewResources.BettingStatement, Selected = true, Val
             </div>
         </div>
     </div>
+    <input type="hidden" id="isDesktopViewOnly" value="@(Model.IsDesktopViewOnly ? 1 : 0)" />
 </div>

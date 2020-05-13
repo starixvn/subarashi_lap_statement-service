@@ -1,11 +1,9 @@
 ﻿namespace Fanex.Athena.ExtService.BetList.Controllers
 {
-    using System.Collections.Generic;
     using Fanex.Athena.ExtService.BetList.Models.MetaModel;
     using Fanex.Athena.ExtService.Common.Models.DataDomain;
     using Fanex.Athena.ExtService.Common.Models.ViewModels;
     using Microsoft.AspNetCore.Mvc;
-    using Newtonsoft.Json;
 
     public class RunningBetListMetaModel : IBaseBetListMetaModel, ICustomerMetaModel
     {
@@ -33,5 +31,7 @@
         public string AgentListXml { get; set; }
 
         public string BaseCurrency { get; set; } = SystemConstants.DefaultBaseCurrency;
+
+        public bool IsDesktopViewOnly { get; set; }
     }
 }

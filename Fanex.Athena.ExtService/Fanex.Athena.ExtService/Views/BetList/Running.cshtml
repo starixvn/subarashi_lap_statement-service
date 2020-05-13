@@ -22,69 +22,69 @@
     </script>
 }
 @model Fanex.Athena.ExtService.BetList.Models.ViewModel.RunningBetListByViewModel
-<div id="container" class="container-fluid">
-    <div>
-        <div class="betlist-container result-content tbl-betlist">
-            <div>
-                <div class="table-container">
-                    <div class="header-content">
-                        <div class="table-wrapper">
-                            <table class="table">
-                                <thead>
-                                    <tr class="first-row">
-                                        <td style="width:39px;"></td>
-                                        <td></td>
+    <div id="container" class="container-fluid">
+        <div>
+            <div class="betlist-container result-content tbl-betlist">
+                <div>
+                    <div class="table-container">
+                        <div class="header-content">
+                            <div class="table-wrapper">
+                                <table class="table">
+                                    <thead>
+                                        <tr class="first-row">
+                                            <td style="width:39px;"></td>
+                                            <td></td>
                                         @if (isAllowTxIDColumn)
                                         {
                                             <td></td>
                                         }
-                                        <td></td>
-                                        <td style="width:350px"></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr style="height:32px;">
-                                        <th>#</th>
-                                        <th>@ViewResources.RefNo</th>
+                                            <td></td>
+                                            <td style="width:350px"></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr style="height:32px;">
+                                            <th>#</th>
+                                            <th>@ViewResources.RefNo</th>
                                         @if (isAllowTxIDColumn)
                                         {
                                             <th>@ViewResources.LicenseeTxId</th>
                                         }
-                                        <th>@ViewResources.TransTime</th>
-                                        <th>@ViewResources.Choice</th>
-                                        <th>@ViewResources.Odds</th>
-                                        <th>@ViewResources.OddsType</th>
-                                        <th>@ViewResources.Stake</th>
-                                        <th>@ViewResources.Status</th>
-                                        <th>@ViewResources.Platform</th>
-                                        <th>@ViewResources.Live</th>
-                                    </tr>
-                                </thead>
-                            </table>
+                                            <th>@ViewResources.TransTime</th>
+                                            <th>@ViewResources.Choice</th>
+                                            <th>@ViewResources.Odds</th>
+                                            <th>@ViewResources.OddsType</th>
+                                            <th>@ViewResources.Stake</th>
+                                            <th>@ViewResources.Status</th>
+                                            <th>@ViewResources.Platform</th>
+                                            <th>@ViewResources.Live</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
                         </div>
-                    </div>
-                    <div class="body-content">
-                        <div class="table-wrapper">
-                            <table class="table">
-                                <tbody>
-                                    <tr class="first-row">
-                                        <td style="width:39px;"></td>
-                                        <td></td>
+                        <div class="body-content">
+                            <div class="table-wrapper">
+                                <table class="table">
+                                    <tbody>
+                                        <tr class="first-row">
+                                            <td style="width:39px;"></td>
+                                            <td></td>
                                         @if (isAllowTxIDColumn)
                                         {
                                             <td></td>
                                         }
-                                        <td></td>
-                                        <td style="width:350px"></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    @foreach (var item in Model.Data)
-                                    {
+                                            <td></td>
+                                            <td style="width:350px"></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        @foreach (var item in Model.Data)
+                                        {
                                     <tr>
                                         <td title="@item.Index" class="center-align">
                                             @item.Index
@@ -103,13 +103,14 @@
                                         <td class="center-align">@Html.Raw(item.Platform)</td>
                                         <td class="center-align">@Html.Raw(item.Live)</td>
                                     </tr>
-                                    }
-                                </tbody>
-                            </table>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <input type="hidden" id="isDesktopViewOnly" value="@(Model.IsDesktopViewOnly ? 1 : 0)" />
     </div>
-</div>

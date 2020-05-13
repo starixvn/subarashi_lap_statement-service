@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Fanex.Athena.ExtService.Common.Models.DataDomain;
+﻿using Fanex.Athena.ExtService.Common.Models.DataDomain;
 using Newtonsoft.Json;
 
 namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
@@ -23,5 +20,8 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
         public string Lang { get; set; } = SystemConstants.DefaultLangCode;
         [JsonProperty("HasPlayerComm")]
         public bool HasPlayerCom { get; set; }
+
+        public bool IsDesktopViewOnly { get; set; }
+        public bool IsMobileView { get; set; }
     }
 }

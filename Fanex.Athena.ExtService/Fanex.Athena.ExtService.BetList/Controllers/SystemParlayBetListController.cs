@@ -4,7 +4,7 @@ using Fanex.Athena.ExtService.BetList.Models.ViewModel;
 using Fanex.Athena.ExtService.Common;
 using Fanex.Athena.ExtService.Common.Models.DataDomain;
 using Fanex.Athena.ExtService.Common.Services;
-
+using Fanex.Athena.ExtService.Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,17 +15,25 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
     {
         private readonly ICommonService _commonService;
         private readonly IBetListApiClient _betListApiClient;
+        private readonly IBrowserService _browserService;
 
-        public SystemParlayBetListController(ICommonService commonService, IBetListApiClient betListApiClient)
+        public SystemParlayBetListController(
+            ICommonService commonService,
+            IBetListApiClient betListApiClient,
+            IBrowserService browserService)
         {
             _commonService = commonService;
             _betListApiClient = betListApiClient;
+            _browserService = browserService;
         }
 
         [HttpGet]
         [ResponseCache(Duration = SystemConstants.ThirtySecond)]
         public async Task<IActionResult> Detail(SystemParlayDetailMetaModel metaModel)
         {
+            _browserService.SetContext(HttpContext);
+            metaModel.IsMobileView = !metaModel.IsDesktopViewOnly && _browserService.IsMobile();
+
             var licenseeInfo = await _commonService.GetLicenseeInfoAsync(HttpContext.User.Identity.Name);
             metaModel.AgentListXml = SystemHelper.GenerateAgentListXml(licenseeInfo);
 

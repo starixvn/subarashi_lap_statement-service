@@ -34,8 +34,8 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName, 0);
 
             //Action
-            using (var controller = new CashOutBetListController(_commonService.Object
-                , _betListApiClient.Object))
+            using (var controller = new CashOutBetListController(
+                _commonService.Object, _betListApiClient.Object, _browserService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 result = await controller.Detail(metalModel).ConfigureAwait(false);

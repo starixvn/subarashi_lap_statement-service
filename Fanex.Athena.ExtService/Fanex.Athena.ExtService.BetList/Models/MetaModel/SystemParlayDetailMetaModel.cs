@@ -14,5 +14,8 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
         public string Lang { get; set; } = SystemConstants.DefaultLangCode;
 
         public string AgentListXml { get; set; }
+
+        public bool IsDesktopViewOnly { get; set; }
+        public bool IsMobileView { get; set; }
     }
 }

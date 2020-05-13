@@ -33,6 +33,8 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 
         public string Lang { get; set; } = SystemConstants.DefaultLangCode;
 
+        public bool IsDesktopViewOnly { get; set; }
+
         public bool IsValid
         {
             get

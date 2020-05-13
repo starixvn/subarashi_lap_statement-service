@@ -1,0 +1,138 @@
+﻿@using Fanex.Athena.ExtService.Resources
+@using Microsoft.Extensions.Configuration
+@using Fanex.Athena.ExtService.Common.Models.DTO
+@inject IConfiguration Configuration
+@{
+    var appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
+    var env = appSettings.Environment.Equals("PROD") ? "pro" : "dev";
+
+    var startIndex = 1;
+    var licenseeAllowTxIDColumn = appSettings.LicenseeOfferTxIDColumn.Split(',');
+    var isAllowTxIDColumn = licenseeAllowTxIDColumn.Contains(Model.Info.SiteName, StringComparer.InvariantCultureIgnoreCase);
+}
+@section pagecss
+    {
+    <link href="@Url.Content($"~/css/build/{env}/pages/betlist/betlistLayout.css")" rel="stylesheet" />
+    <link href="@Url.Content($"~/css/build/{env}/pages/betlist/betlistRefno.css")" rel="stylesheet" />
+}
+@section Scripts
+    {
+    <script src="@Url.Content($"~/js/build/{env}/pages/betlist/refno.chunk.js")"></script>
+    <script type="text/javascript">
+    </script>
+}
+@Html.AntiForgeryToken()
+@model Fanex.Athena.ExtService.BetList.Models.ViewModel.TxIDViewModel
+<div id="container" class="container-fluid">
+    <div>
+        <div class="betlist-container result-content tbl-betlist mobile">
+            <div class="report-title-container">
+                <p class="report-title">
+                </p>
+            </div>
+            <div>
+                <div class="table-container">
+                    <div class="header-content">
+                        <div class="table-wrapper">
+                            <table class="table">
+                                <thead>
+                                    <tr class="first-row">
+                                        <td style="width:46%"></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td style="width:30px"></td>
+                                    </tr>
+                                    <tr style="height:32px;">
+                                        <th class="text-left">@ViewResources.Details</th>
+                                        <th class="text-right">@ViewResources.Stake</th>
+                                        <th class="text-right">
+                                            @(Model.Info.IsAllowedCustomerComm ? $"{ ViewResources.WinLoss}/{ ViewResources.Comm}" : @ViewResources.WinLoss)
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="body-content">
+                        <div class="table-wrapper">
+                            <table class="table">
+                                <tbody>
+                                    <tr class="first-row">
+                                        <td style="width:46%"></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td style="width:30px"></td>
+                                    </tr>
+                                    @for (var i = 0; i < Model.Data.Count; i++)
+                                    {
+                                        var item = Model.Data[i];
+
+                                        <tr>
+                                            <td>
+                                                <div class="elm-block">
+                                                    <span class="elm-index">#@((i + startIndex).ToString("N0"))</span> - <span>@Html.Raw(item.TransTime)</span>
+                                                </div>
+                                                <div class="elm-block">@Html.Raw(item.RefNo)</div>
+                                                <div class="elm-block">@Html.Raw(item.Choice)</div>
+                                                <div class="elm-block elm-odd">
+                                                    <span>@@</span>@Html.Raw(item.Odds)&nbsp;<span>@Html.Raw(item.OddsType)</span>
+                                                </div>
+                                            </td>
+                                            <td class="right-align">
+                                                @Html.Raw(item.Stake)
+                                            </td>
+                                            <td class="right-align">
+                                                @Html.Raw(item.WinLoss)
+                                                <br />
+                                                @Html.Raw(item.Status)
+                                            </td>
+                                            <td class="center-align"><span class="icon-show-more collapsed" data-refno="@item.RefNo"></span></td>
+                                        </tr>
+                                        <tr data-refno="@item.RefNo" class="more-info hide">
+                                            <td colspan="4">
+                                                <table>
+                                                    @if (isAllowTxIDColumn)
+                                                    {
+                                                        <tr>
+                                                            <td class="col-key">@ViewResources.LicenseeTxId</td>
+                                                            <td class="col-value">@Html.Raw(item.LicenseeTxId)</td>
+                                                        </tr>
+                                                    }
+                                                    <tr>
+                                                        <td class="col-key">@ViewResources.ExternalId</td>
+                                                        <td class="col-value">@Html.Raw(item.ExternalId)</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="col-key">@ViewResources.SystemId</td>
+                                                        <td class="col-value">@Html.Raw(item.SystemId)</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="col-key">
+                                                            @ViewResources.LicenseeWL/
+                                                            <br />
+                                                            @ViewResources.Comm
+                                                        </td>
+                                                        <td class="col-value licensee-wl">@Html.Raw(item.LicenseeWL)</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="col-key">@ViewResources.Platform</td>
+                                                        <td class="col-value">@Html.Raw(item.Platform)</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="col-key">@ViewResources.Live</td>
+                                                        <td class="col-value">@Html.Raw(item.Live)</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
