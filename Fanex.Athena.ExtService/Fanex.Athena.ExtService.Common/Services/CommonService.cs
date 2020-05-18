@@ -16,14 +16,14 @@ namespace Fanex.Athena.ExtService.Common.Services
         private const int CacheTimeOut30Seconds = 30;
         private const string BalanceUpCacheKey = "EXT_LAP_CACHE_BALANCEUP";
         private const string LicenseeExtInfoCacheKey = "__LicenseeExtInfoCacheKey_";
-        private readonly IDistributedCache _cache;
+        private readonly ICustomDistributedCache _cache;
 
         private static readonly SerializationContext _msgPackSerializationContext = new SerializationContext
         {
             DefaultDateTimeConversionMethod = DateTimeConversionMethod.Native
         };
 
-        public CommonService(IDistributedCache cache)
+        public CommonService(ICustomDistributedCache cache)
         {
             _cache = cache;
         }
@@ -77,7 +77,6 @@ namespace Fanex.Athena.ExtService.Common.Services
                             CurrencyId = Convert.ToInt32(reader["CurrencyId"]),
                             AgentId = Convert.ToInt32(reader["AgentId"]),
                             CurrencyName = Convert.ToString(reader["CurrencyName"])
-
                         });
                     }
                     result.Currencies = currencies.ToArray();
@@ -85,7 +84,6 @@ namespace Fanex.Athena.ExtService.Common.Services
                     {
                         result.IsAllowedCustomerComm = Convert.ToBoolean(reader["IsAllowedCustomerComm"]);
                     }
-
                 }
             }
 

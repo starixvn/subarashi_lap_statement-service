@@ -19,7 +19,8 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
         private const string BalanceUpCacheKey = "EXT_LAP_CACHE_BALANCEUP";
         private const string LicenseeExtInfoCacheKey = "__LicenseeExtInfoCacheKey_";
 
-        private readonly Mock<IDistributedCache> _mockCache;
+        private readonly Mock<ICustomDistributedCache> _mockCache;
+
         private readonly SerializationContext _serializationContext = new SerializationContext
         {
             DefaultDateTimeConversionMethod = DateTimeConversionMethod.Native
@@ -27,7 +28,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
 
         public CommonServiceTest()
         {
-            _mockCache = new Mock<IDistributedCache>();
+            _mockCache = new Mock<ICustomDistributedCache>();
             DbSettingProviderManager.StartTestingSession().Run();
         }
 

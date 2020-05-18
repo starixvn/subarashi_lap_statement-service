@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using Fanex.Athena.ExtService.BetList.Services;
+﻿using Fanex.Athena.ExtService.BetList.Services;
 using Fanex.Athena.ExtService.Common.Attributes;
 using Fanex.Athena.ExtService.Common.Models.DTO;
 using Fanex.Athena.ExtService.Common.Services;
@@ -37,6 +27,16 @@ using Microsoft.IdentityModel.Tokens;
 using ONEbook.UM.Configurations;
 using ONEbook.UM.Extensions;
 using StackExchange.Redis;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Fanex.Athena.ExtService
 {
@@ -69,19 +69,9 @@ namespace Fanex.Athena.ExtService
             ConfigDataProtection(services, appOption);
 
             ConfigFanexData();
-            services.AddStackExchangeRedisCache(options =>
-            {
-                options.ConfigurationOptions = new ConfigurationOptions
-                {
-                    KeepAlive = AliveIn180Seconds,
-                    Password = appOption.Redis.Pass,
-                    EndPoints =
-                    {
-                        { appOption.Redis.Server, appOption.Redis.Port }
-                    },
-                };
-                options.InstanceName = appOption.Redis.AppName;
-            });
+
+            ConfigDistributedCache(services, appOption);
+
             services.AddResponseCaching(options =>
             {
                 options.UseCaseSensitivePaths = true;
@@ -327,6 +317,25 @@ namespace Fanex.Athena.ExtService
             };
 
             app.UseRequestLocalization(requestLocalizationOptions);
+        }
+
+        private static void ConfigDistributedCache(IServiceCollection services, ApplicationOptions appOption)
+        {
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.ConfigurationOptions = new ConfigurationOptions
+                {
+                    KeepAlive = AliveIn180Seconds,
+                    Password = appOption.Redis.Pass,
+                    EndPoints =
+                    {
+                        { appOption.Redis.Server, appOption.Redis.Port }
+                    },
+                };
+                options.InstanceName = appOption.Redis.AppName;
+            });
+
+            services.AddSingleton<ICustomDistributedCache, CustomDistributedCache>();
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Fanex.Athena.ExtService.Common.Services
     public interface ICommonService
     {
         Task<LicenseeInfo> GetLicenseeInfoAsync(string siteName, int custId = 0);
-        Task<BalanceUp> GetBalanceUpAsync();
 
+        Task<BalanceUp> GetBalanceUpAsync();
     }
 }
