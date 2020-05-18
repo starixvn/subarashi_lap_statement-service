@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
+using MsgPack.Serialization;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,6 +9,11 @@ namespace Fanex.Athena.ExtService.Common.Services
 {
     public class CustomDistributedCache : ICustomDistributedCache
     {
+        private static readonly SerializationContext MsgPackSerializationContext = new SerializationContext
+        {
+            DefaultDateTimeConversionMethod = DateTimeConversionMethod.Native
+        };
+
         private readonly IDistributedCache _sourceCache;
         private readonly ILogger<CustomDistributedCache> _logger;
 
@@ -43,14 +49,29 @@ namespace Fanex.Athena.ExtService.Common.Services
             }
         }
 
-        public Task SetAsync(string key, byte[] value, DistributedCacheEntryOptions options, CancellationToken token = default(CancellationToken))
+        public async Task SetAsync<T>(string key, T value, DistributedCacheEntryOptions options, CancellationToken token = default(CancellationToken))
+            where T : class
         {
-            return HandleAsync(() => _sourceCache.SetAsync(key, value, options, token));
+            if (value is null)
+            {
+                return;
+            }
+
+            var packValue = await PackAsync(value);
+            await HandleAsync(() => _sourceCache.SetAsync(key, packValue, options, token));
         }
 
-        public Task<byte[]> GetAsync(string key, CancellationToken token = default(CancellationToken))
+        public async Task<T> GetAsync<T>(string key, CancellationToken token = default(CancellationToken))
+            where T : class
         {
-            return HandleAsync(() => _sourceCache.GetAsync(key, token));
+            var packValue = await HandleAsync(() => _sourceCache.GetAsync(key, token));
+            if (packValue is null)
+            {
+                return default(T);
+            }
+
+            var value = await UnpackAsync<T>(packValue);
+            return value;
         }
 
         public Task RemoveAsync(string key, CancellationToken token = default(CancellationToken))
@@ -63,24 +84,22 @@ namespace Fanex.Athena.ExtService.Common.Services
             return HandleAsync(() => _sourceCache.RefreshAsync(key, token));
         }
 
-        public void Set(string key, byte[] value, DistributedCacheEntryOptions options)
+        public static DistributedCacheEntryOptions WithAbsoluteExpiration(DateTimeOffset time)
+           => new DistributedCacheEntryOptions { AbsoluteExpiration = time };
+
+        public static DistributedCacheEntryOptions WithSlidingExpiration(TimeSpan time)
+            => new DistributedCacheEntryOptions { SlidingExpiration = time };
+
+        private static Task<T> UnpackAsync<T>(byte[] data)
         {
-            throw new System.NotImplementedException();
+            var serializer = MessagePackSerializer.Get<T>(MsgPackSerializationContext);
+            return serializer.UnpackSingleObjectAsync(data);
         }
 
-        public byte[] Get(string key)
+        private static Task<byte[]> PackAsync<T>(T value)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public void Remove(string key)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Refresh(string key)
-        {
-            throw new System.NotImplementedException();
+            var serializer = MessagePackSerializer.Get<T>(MsgPackSerializationContext);
+            return serializer.PackSingleObjectAsync(value);
         }
     }
 }
