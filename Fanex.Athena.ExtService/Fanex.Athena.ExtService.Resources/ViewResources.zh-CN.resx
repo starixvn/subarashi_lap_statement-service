@@ -331,4 +331,10 @@
   <data name="ProductVB" xml:space="preserve">
     <value>澳门电子娱乐城</value>
   </data>
+  <data name="ProductSXG" xml:space="preserve">
+    <value>性感百家</value>
+  </data>
+  <data name="DetailedBetlist" xml:space="preserve">
+    <value>投注明细历史</value>
+  </data>
 </root>

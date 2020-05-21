@@ -295,6 +295,15 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Detailed Bet list.
+        /// </summary>
+        public static string DetailedBetlist {
+            get {
+                return ResourceManager.GetString("DetailedBetlist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to External ID.
         /// </summary>
         public static string ExternalId {
@@ -574,6 +583,15 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Saba.club.
+        /// </summary>
+        public static string ProductSBC {
+            get {
+                return ResourceManager.GetString("ProductSBC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SG.
         /// </summary>
         public static string ProductSG {
@@ -588,6 +606,15 @@ namespace Fanex.Athena.ExtService.Resources {
         public static string ProductSPR {
             get {
                 return ResourceManager.GetString("ProductSPR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sexy Gaming.
+        /// </summary>
+        public static string ProductSXG {
+            get {
+                return ResourceManager.GetString("ProductSXG", resourceCulture);
             }
         }
         
