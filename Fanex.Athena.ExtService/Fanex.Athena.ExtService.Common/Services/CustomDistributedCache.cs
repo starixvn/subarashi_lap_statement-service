@@ -32,7 +32,7 @@ namespace Fanex.Athena.ExtService.Common.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, ex);
+                _logger.LogCritical(ex, ex.Message);
             }
             return default(T);
         }
@@ -45,7 +45,7 @@ namespace Fanex.Athena.ExtService.Common.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, ex);
+                _logger.LogCritical(ex, ex.Message);
             }
         }
 
