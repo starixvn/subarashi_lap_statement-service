@@ -10682,7 +10682,7 @@ module.exports = g;
     ProductAB: "AllBet",
     AGCasino: "AG Casino",
     ProductFW: "Fishing World",
-    ProductCC:"Card Club",
+    ProductCC: "Card Club",
     ProductPP: "PP",
     ProductSG: "SG",
     ProductVRG: "Virtual Games",
@@ -10693,7 +10693,8 @@ module.exports = g;
     ErrorProcessingMsg: "Sorry, an error occurred while processing your request.",
     Result: "Results",
     InvalidRequestMsg: "Request is not valid",
-    HttpError_403:	"Access denied"
+    HttpError_403: "Access denied",
+    LicenseeTxId: "TxID"
 };
 
 /***/ }),
