@@ -19,15 +19,11 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
         private const string BalanceUpCacheKey = "EXT_LAP_CACHE_BALANCEUP";
         private const string LicenseeExtInfoCacheKey = "__LicenseeExtInfoCacheKey_";
 
-        private readonly Mock<IDistributedCache> _mockCache;
-        private readonly SerializationContext _serializationContext = new SerializationContext
-        {
-            DefaultDateTimeConversionMethod = DateTimeConversionMethod.Native
-        };
+        private readonly Mock<ICustomDistributedCache> _mockCache;
 
         public CommonServiceTest()
         {
-            _mockCache = new Mock<IDistributedCache>();
+            _mockCache = new Mock<ICustomDistributedCache>();
             DbSettingProviderManager.StartTestingSession().Run();
         }
 
@@ -67,7 +63,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
 
             //Assert
             _mockCache.Verify(c => c.SetAsync(BalanceUpCacheKey,
-                It.IsAny<byte[]>(),
+                It.IsAny<BalanceUp>(),
                 It.Is<DistributedCacheEntryOptions>(o => o.AbsoluteExpiration != null),
                 It.IsAny<CancellationToken>()));
         }
@@ -82,9 +78,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
                 MoveBetsDay = DateTime.Now.AddMonths(-1)
             };
 
-            var cachedValue = MessagePackSerializer.Get<BalanceUp>(_serializationContext)
-                .PackSingleObject(balanceupInfo);
-            _mockCache.Setup(c => c.GetAsync(BalanceUpCacheKey, It.IsAny<CancellationToken>())).ReturnsAsync(cachedValue);
+            _mockCache.Setup(c => c.GetAsync<BalanceUp>(BalanceUpCacheKey, It.IsAny<CancellationToken>())).ReturnsAsync(balanceupInfo);
 
             var service = new CommonService(_mockCache.Object);
 
@@ -145,7 +139,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             SetupLicenseeInfoDatabaseData(CurrencyId, CurrencyName, AgentId, HasComm);
 
             var realCacheKey = $"{LicenseeExtInfoCacheKey}{SiteName}_{custId}";
-            _mockCache.SetReturnsDefault(Task.FromResult((byte[])null));
+            _mockCache.SetReturnsDefault(Task.FromResult<LicenseeInfo>(null));
 
             var service = new CommonService(_mockCache.Object);
             ///Action
@@ -153,7 +147,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             var result = await service.GetLicenseeInfoAsync(SiteName, custId).ConfigureAwait(false);
 
             ///Assert
-            _mockCache.Verify(c => c.SetAsync(realCacheKey, It.IsAny<byte[]>(), It.Is<DistributedCacheEntryOptions>(o =>
+            _mockCache.Verify(c => c.SetAsync(realCacheKey, It.IsAny<LicenseeInfo>(), It.Is<DistributedCacheEntryOptions>(o =>
                 (custId > 0 && o.SlidingExpiration != null) ||
                 (custId == 0 && o.AbsoluteExpiration != null)), It.IsAny<CancellationToken>()));
         }
@@ -177,10 +171,8 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
                 IsAllowedCustomerComm = HasComm
             };
 
-            var cachedValue = MessagePackSerializer.Get<LicenseeInfo>(_serializationContext)
-                .PackSingleObject(licenseeInfo);
-            _mockCache.Setup(c => c.GetAsync(realCacheKey, It.IsAny<CancellationToken>()))
-                .ReturnsAsync(cachedValue);
+            _mockCache.Setup(c => c.GetAsync<LicenseeInfo>(realCacheKey, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(licenseeInfo);
 
             var service = new CommonService(_mockCache.Object);
 
