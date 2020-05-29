@@ -393,4 +393,7 @@
   <data name="DetailedBetlist" xml:space="preserve">
     <value>Detailed Bet list</value>
   </data>
+  <data name="LicenseeTxId" xml:space="preserve">
+    <value>TxID</value>
+  </data>
 </root>
