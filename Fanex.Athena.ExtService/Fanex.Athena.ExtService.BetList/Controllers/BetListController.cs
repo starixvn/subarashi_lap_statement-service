@@ -58,9 +58,41 @@
         }
 
         [HttpGet]
+        [ResponseCache(Duration = SystemConstants.ThirtySecond, NoStore = false,
+            VaryByQueryKeys = new[] { "txId", "urs", "lang", "bc" })]
+        public async Task<IActionResult> TxID(TxIDBetListMetaModel metaModel)
+        {
+            var siteName = HttpContext.User.Identity.Name;
+            var licenseeInfo = await _commonService.GetLicenseeInfoAsync(siteName);
+            var viewModel = new TxIDViewModel
+            {
+                Info = licenseeInfo,
+                UserName = metaModel.UserName,
+                Data = new List<TicketText>()
+            };
+
+            if (metaModel.IsValid)
+            {
+                AssignCommonMetaModelValue(metaModel, licenseeInfo);
+                var result = await _betListApiClient.PostAsync<TxIDDataResult>(
+                    "/BettingTicketCenter/GetByTxID",
+                    metaModel,
+                    metaModel.Lang).ConfigureAwait(false);
+
+                viewModel.Data = result.Data ?? new List<TicketText>();
+            }
+
+            ViewBag.Title = "Bet List By TxID";
+
+            AssignCommonViewModelData(metaModel, viewModel);
+
+            return View(viewModel);
+        }
+
+        [HttpGet]
         [ServiceFilter(typeof(CheckCustomerAttribute))]
         [ResponseCache(Duration = SystemConstants.ThirtySecond, NoStore = false,
-            VaryByQueryKeys = new[] { "cid", "lang", "bc", "wd", "pc", "ps", "pi", "mv", "s", "fd", "td", "sb" , "spi", "sps" })]
+            VaryByQueryKeys = new[] { "cid", "lang", "bc", "wd", "pc", "ps", "pi", "mv", "s", "fd", "td", "sb", "spi", "sps" })]
         public async Task<IActionResult> ByGroup(BetListByGroupMetaModel metaModel)
         {
             var siteName = HttpContext.User.Identity.Name;
