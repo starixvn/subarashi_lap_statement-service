@@ -59,7 +59,7 @@
 
         [HttpGet]
         [ResponseCache(Duration = SystemConstants.ThirtySecond, NoStore = false,
-            VaryByQueryKeys = new[] { "txId", "urs", "lang", "bc" })]
+            VaryByQueryKeys = new[] { "txId", "urs", "cid", "lang", "bc" })]
         public async Task<IActionResult> TxID(TxIDBetListMetaModel metaModel)
         {
             var siteName = HttpContext.User.Identity.Name;

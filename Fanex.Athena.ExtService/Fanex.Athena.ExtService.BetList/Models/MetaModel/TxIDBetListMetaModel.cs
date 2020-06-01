@@ -12,6 +12,9 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
         [FromQuery(Name = "urs")]
         public string UserName { get; set; } = string.Empty;
 
+        [FromQuery(Name = "cid")]
+        public int CustId { get; set; }
+
         public bool HasPlayerCom { get; set; }
 
         public string AgentListXml { get; set; }
