@@ -5,6 +5,9 @@
 @{
     var appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
     var env = appSettings.Environment.Equals("PROD") ? "pro" : "dev";
+    var licenseeAllowTxIDColumn = appSettings.LicenseeOfferTxIDColumn.Split(',');
+    var isAllowTxIDColumn = licenseeAllowTxIDColumn.Contains(Model.Info.SiteName, StringComparer.InvariantCultureIgnoreCase);
+
 }
 @section pagecss
     {
@@ -15,7 +18,6 @@
     {
     <script src="@Url.Content($"~/js/build/{env}/pages/betlist/refno.chunk.js")"></script>
     <script type="text/javascript">
-
     </script>
 }
 @Html.AntiForgeryToken()
@@ -38,6 +40,10 @@
                                         <td></td>
                                         <td></td>
                                         <td></td>
+                                        @if (isAllowTxIDColumn)
+                                        {
+                                            <td></td>
+                                        }
                                         <td></td>
                                         <td style="width:350px"></td>
                                         <td></td>
@@ -52,6 +58,10 @@
                                         <th>@ViewResources.ExternalId</th>
                                         <th>@ViewResources.SystemId</th>
                                         <th>@ViewResources.RefNo</th>
+                                        @if (isAllowTxIDColumn)
+                                        {
+                                            <th>@ViewResources.LicenseeTxId</th>
+                                        }
                                         <th>@ViewResources.TransTime</th>
                                         <th>@ViewResources.Choice</th>
                                         <th>@ViewResources.Odds</th>
@@ -59,7 +69,7 @@
                                         <th>@ViewResources.Stake</th>
                                         <th>
                                             @(Model.Info.IsAllowedCustomerComm ?
-                                                                                                 $"{ ViewResources.WinLoss}/{ ViewResources.Comm}" : @ViewResources.WinLoss)
+                                                                                                                                                         $"{ ViewResources.WinLoss}/{ ViewResources.Comm}" : @ViewResources.WinLoss)
                                         </th>
                                         <th>
                                             @ViewResources.LicenseeWL/@ViewResources.Comm
@@ -83,6 +93,10 @@
                                         <td></td>
                                         <td></td>
                                         <td></td>
+                                        @if (isAllowTxIDColumn)
+                                        {
+                                            <td></td>
+                                        }
                                         <td></td>
                                         <td style="width:350px"></td>
                                         <td></td>
@@ -105,6 +119,10 @@
                                                 @item.SystemId
                                             </td>
                                             <td class="center-align">@Html.Raw(item.RefNo)</td>
+                                            @if (isAllowTxIDColumn)
+                                            {
+                                                <td class="center-align">@Html.Raw(item.LicenseeTxId)</td>
+                                            }
                                             <td class="center-align">@Html.Raw(item.TransTime)</td>
                                             <td class="right-align">@Html.Raw(item.Choice)</td>
                                             <td class="right-align">@Html.Raw(item.Odds)</td>

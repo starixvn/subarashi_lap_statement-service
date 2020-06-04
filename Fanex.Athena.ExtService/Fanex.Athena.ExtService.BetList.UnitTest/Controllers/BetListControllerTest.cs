@@ -23,7 +23,7 @@
 
             IActionResult expectedResult = null;
             var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName, 0);
-            
+
             // Action
             using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object))
             {
@@ -51,7 +51,7 @@
             var metalModel = new RefNoBetListMetaModel { UserName = UserName };
 
             IActionResult expectedResult = null;
-            
+
             // Action
             using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object))
             {
@@ -97,6 +97,89 @@
         }
 
         [Fact]
+        public async Task TxID_WhenExecute_AlwayAssignCommonViewModelValue()
+        {
+            // Arrange
+            const string UserName = "Any";
+            const string Title = "Bet List By TxID";
+            var metalModel = new TxIDBetListMetaModel { UserName = UserName };
+
+            IActionResult expectedResult = null;
+            var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName, 0);
+
+            // Action
+            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object))
+            {
+                controller.ControllerContext = _controllerContext.Object;
+                expectedResult = await controller.TxID(metalModel).ConfigureAwait(false);
+            }
+
+            // Assert
+            var viewResult = Assert.IsType<ViewResult>(expectedResult);
+            var viewModel = Assert.IsType<TxIDViewModel>(viewResult.Model);
+            var title = Assert.IsAssignableFrom<string>(viewResult.ViewData["Title"]);
+            Assert.Equal(viewModel.Info, licenseeInfo);
+            Assert.Equal(viewModel.UserName, UserName);
+            Assert.Equal(viewModel.BaseCurrency, metalModel.BaseCurrency);
+            Assert.Equal(viewModel.Lang, metalModel.Lang);
+            Assert.Equal(viewModel.AccessToken, AccessToken);
+            Assert.Equal(title, Title);
+        }
+
+        [Fact]
+        public async Task TxID_InValidMetalModel_ReturnEmptyData()
+        {
+            // Arrange
+            const string UserName = "Any";
+            var metalModel = new TxIDBetListMetaModel { UserName = UserName };
+
+            IActionResult expectedResult = null;
+
+            // Action
+            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object))
+            {
+                controller.ControllerContext = _controllerContext.Object;
+                expectedResult = await controller.TxID(metalModel).ConfigureAwait(false);
+            }
+
+            // Assert
+            var viewResult = Assert.IsType<ViewResult>(expectedResult);
+            var viewModel = Assert.IsType<TxIDViewModel>(viewResult.Model);
+            Assert.Empty(viewModel.Data);
+        }
+
+        [Fact]
+        public async Task TxID_ValidMetalModel_ReturnCorrectDataList()
+        {
+            // Arrange
+            const string UserName = "Any";
+            var metalModel = new TxIDBetListMetaModel { UserName = UserName, TxID = "100" };
+            var apiResult = new TxIDDataResult
+            {
+                Data = new List<TicketText> { new TicketText() }
+            };
+            _betListApiClient.Setup(x => x.PostAsync<TxIDDataResult>(
+                "/BettingTicketCenter/GetByTxID",
+                It.IsAny<TxIDBetListMetaModel>(),
+                It.IsAny<string>()
+               )).Returns(Task.FromResult(apiResult));
+            IActionResult expectedResult = null;
+
+            // Action
+            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object))
+            {
+                controller.ControllerContext = _controllerContext.Object;
+                expectedResult = await controller.TxID(metalModel).ConfigureAwait(false);
+            }
+
+            // Assert
+            var viewResult = Assert.IsType<ViewResult>(expectedResult);
+            var viewModel = Assert.IsType<TxIDViewModel>(viewResult.Model);
+            Assert.NotNull(viewModel.Data);
+            Assert.Equal(apiResult.Data, viewModel.Data);
+        }
+
+        [Fact]
         public async Task ByGroup_WhenExecute_AlwayAssignCommonViewModelValue()
         {
             // Arrange
@@ -105,7 +188,7 @@
 
             IActionResult expectedResult = null;
             var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName, 0);
-            
+
             // Action
             using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object))
             {
@@ -132,7 +215,7 @@
             var metalModel = new BetListByGroupMetaModel { };
 
             IActionResult expectedResult = null;
-            
+
             // Action
             using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object))
             {
@@ -229,7 +312,7 @@
             // Arrange
             var metalModel = new RunningBetListMetaModel { };
             IActionResult expectedResult = null;
-            
+
             // Action
             using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object))
             {
@@ -264,7 +347,7 @@
 
             IActionResult expectedResult = null;
             var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName, 0);
-            
+
             // Action
             using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object))
             {
