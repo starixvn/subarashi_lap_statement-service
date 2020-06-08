@@ -26,6 +26,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using ONEbook.UM.Configurations;
 using ONEbook.UM.Extensions;
+using ONEbook.UM.Helpers;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
@@ -120,6 +121,8 @@ namespace Fanex.Athena.ExtService
             services.AddTransient<IStatementByGroupService, StatementByGroupService>();
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddUMService(Configuration.GetSection("ONEbook.UM").Get<UMClientConfiguration>());
+
+            services.AddSingleton<IUMRestClient, ONEbook.UM.Transport.UMRestClient>();
         }
 
         private static void ConfigBetListApiClient(IServiceCollection services)
