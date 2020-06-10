@@ -337,4 +337,7 @@
   <data name="DetailedBetlist" xml:space="preserve">
     <value>投注明细历史</value>
   </data>
+  <data name="Details" xml:space="preserve">
+    <value>详细信息</value>
+  </data>
 </root>

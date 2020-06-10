@@ -423,7 +423,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
         const SPORT_SG = 247;
         const SPORT_VRG = 245;
         const SPORT_SXG = 243;
-        const DetailsWidth = Math.min(890, $(window).width());
 
         let _sortColumnName, _sortOrder;
 
@@ -445,6 +444,12 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
             return $('#baseCurrency').val();
         }
 
+        function calculatePopupWidth() {
+            return Math.min(890, $(window).width());
+        }
+
+        let DetailsWidth = calculatePopupWidth();
+
         const _me = {
             getSortParams: function () {
                 if (!_sortColumnName) {
@@ -464,6 +469,11 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 _sortOrder = _sortOrder || $('#SortOrder').val();
 
                 _me.registerBetListGlobalFunctions();
+
+                $(".icon-show-more").click(function () {
+                    var e = $(this);
+                    _me.showHideMoreInfo(e);
+                });
             },
 
             getMixParlayResultUrl: function (refno, winlostdate, bettype) {
@@ -624,7 +634,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 url += "&access_token=" + $("#access_token").val();
 
                 Site.blockUI();
-                showResultPopUp(url, { width: 800, height: 380, title: title });
+                showResultPopUp(url, { width: DetailsWidth, height: 380, title: title });
                 Site.unBlockUI();
             },
 
@@ -826,8 +836,10 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 url = QueryString.setParam(url, 'basecurrency', baseCurrency);
                 url = QueryString.setParam(url, 'access_token', $("#access_token").val());
                 url = QueryString.setParam(url, 'lang', $("#lang").val());
+                url = QueryString.setParam(url, 'isDesktopViewOnly', $("#isDesktopViewOnly").val() === "1");
 
-                showDetailPopUp(url, { width: 775, height: 500, title: betTeam });
+                DetailsWidth = calculatePopupWidth();
+                showDetailPopUp(url, { width: DetailsWidth, height: 500, title: betTeam });
             },
 
             showAGCasinoDetails: function (transId, winlostDate, custId, transType) {
@@ -840,6 +852,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 url = QueryString.setParam(url, 'access_token', $("#access_token").val());
                 url = QueryString.setParam(url, 'lang', $("#lang").val());
                 url = QueryString.setParam(url, 'uspkey', 'Lrf_BetList_LC_Detail');
+                url = QueryString.setParam(url, 'isDesktopViewOnly', $("#isDesktopViewOnly").val() === "1");
 
                 const popH = Math.min($(window).height() - 100, 550);
                 const title = Site.getSingleResource('AGCasino') + ' - ' +
@@ -859,6 +872,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 url = QueryString.setParam(url, 'access_token', $("#access_token").val());
                 url = QueryString.setParam(url, 'lang', $("#lang").val());
                 url = QueryString.setParam(url, 'hastotal', 1);
+                url = QueryString.setParam(url, 'isDesktopViewOnly', $("#isDesktopViewOnly").val() === "1");
 
                 const popH = Math.min($(window).height() - 100, 550);
                 const title = Site.getSingleResource('ProductCS') + ' - ' +
@@ -878,6 +892,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 url = QueryString.setParam(url, 'lang', $("#lang").val());
                 url = QueryString.setParam(url, 'uspkey', 'Lrf_BetList_RNG_Detail');
                 url = QueryString.setParam(url, 'hastotal', 1);
+                url = QueryString.setParam(url, 'isDesktopViewOnly', $("#isDesktopViewOnly").val() === "1");
 
                 const popH = Math.min($(window).height() - 100, 550);
                 const title = Site.getSingleResource('ProductVB') + ' - ' +
@@ -895,6 +910,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 url = QueryString.setParam(url, 'access_token', $("#access_token").val());
                 url = QueryString.setParam(url, 'lang', $("#lang").val());
                 url = QueryString.setParam(url, 'uspkey', 'Lrf_BetList_LC_Detail');
+                url = QueryString.setParam(url, 'isDesktopViewOnly', $("#isDesktopViewOnly").val() === "1");
+
                 const popH = Math.min($(window).height() - 100, 550);
                 const title = Site.getSingleResource('ProductAB') + ' - ' +
                     Site.getSingleResource('DetailedBetlist');
@@ -929,6 +946,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 url = QueryString.setParam(url, 'uspkey', 'Lrf_BetList_RNG_Detail');
                 url = QueryString.setParam(url, 'hastotal', 1);
                 url = QueryString.setParam(url, 'haslicWl', 1);
+                url = QueryString.setParam(url, 'isDesktopViewOnly', $("#isDesktopViewOnly").val() === "1");
 
                 const popH = Math.min($(window).height() - 100, 550);
                 const title = Site.getSingleResource('ProductFW') + ' - ' +
@@ -947,6 +965,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 url = QueryString.setParam(url, 'lang', $("#lang").val());
                 url = QueryString.setParam(url, 'uspkey', 'Lrf_BetList_RNG_Detail');
                 url = QueryString.setParam(url, 'hastotal', 1);
+                url = QueryString.setParam(url, 'isDesktopViewOnly', $("#isDesktopViewOnly").val() === "1");
+
                 const popH = Math.min($(window).height() - 100, 550);
                 const title = Site.getSingleResource('ProductPP') + ' - ' +
                     Site.getSingleResource('DetailedBetlist');
@@ -964,13 +984,15 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 url = QueryString.setParam(url, 'lang', $("#lang").val());
                 url = QueryString.setParam(url, 'uspkey', 'Lrf_BetList_RNG_Detail');
                 url = QueryString.setParam(url, 'hastotal', 1);
+                url = QueryString.setParam(url, 'isDesktopViewOnly', $("#isDesktopViewOnly").val() === "1");
+
                 const popH = Math.min($(window).height() - 100, 550);
                 const title = Site.getSingleResource('ProductSG') + ' - ' +
                     Site.getSingleResource('DetailedBetlist');
 
                 showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
             },
-            showSexyGamingBetDetails : function (transId, winlostDate, custId, transType) {
+            showSexyGamingBetDetails: function (transId, winlostDate, custId, transType) {
                 let url = Site.resolveClientUrl('BetListDetailByProduct/Detail');
                 url = QueryString.setParam(url, 'transId', transId);
                 url = QueryString.setParam(url, 'date', winlostDate);
@@ -981,11 +1003,12 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 url = QueryString.setParam(url, 'lang', $("#lang").val());
                 url = QueryString.setParam(url, 'uspkey', 'Lrf_BetList_LC_Detail');
                 url = QueryString.setParam(url, 'hastotal', 1);
+                url = QueryString.setParam(url, 'isDesktopViewOnly', $("#isDesktopViewOnly").val() === "1");
                 const popH = Math.min($(window).height() - 100, 550);
                 const title = Site.getSingleResource('ProductSXG') + ' - ' +
                     Site.getSingleResource('DetailedBetlist');
 
-                showDetailPopUp(url, { width: 890, height: popH + 50, title: title });
+                showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
             },
             showSabaClubDetails: function (transId, winlostDate, custId, transType) {
                 let url = Site.resolveClientUrl('BetListDetailByProduct/Detail');
@@ -998,11 +1021,12 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 url = QueryString.setParam(url, 'lang', $("#lang").val());
                 url = QueryString.setParam(url, 'uspkey', 'Lrf_BetList_RNG_Detail');
                 url = QueryString.setParam(url, 'hastotal', 1);
+                url = QueryString.setParam(url, 'isDesktopViewOnly', $("#isDesktopViewOnly").val() === "1");
                 const popH = Math.min($(window).height() - 100, 550);
                 const title = Site.getSingleResource('ProductSBC') + ' - ' +
                     Site.getSingleResource('DetailedBetlist');
 
-                showDetailPopUp(url, { width: 890, height: popH + 50, title: title });
+                showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
             },
             ViewCasinoHandHistory: function (refNo) {
                 let url = Site.resolveClientUrl('HandHistory/RNGCasino');
@@ -1025,6 +1049,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 url = QueryString.setParam(url, 'isCashout', isCashOut);
                 url = QueryString.setParam(url, 'access_token', $("#access_token").val());
                 url = QueryString.setParam(url, 'lang', $("#lang").val());
+                url = QueryString.setParam(url, 'isDesktopViewOnly', $("#isDesktopViewOnly").val() === "1");
+
                 const popH = Math.min($(window).height() - 100, 550);
                 const title = isCashOut ? Site.getSingleResource('CashOutDetails') : Site.getSingleResource('BoughtDetails');
 
@@ -1042,6 +1068,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 url = QueryString.setParam(url, 'lang', $("#lang").val());
                 url = QueryString.setParam(url, 'uspkey', 'Lrf_BetList_LicenseeBonus_Detail');
                 url = QueryString.setParam(url, 'haslicWl', 1);
+                url = QueryString.setParam(url, 'isDesktopViewOnly', $("#isDesktopViewOnly").val() === "1");
 
                 const popH = Math.min($(window).height() - 100, 550);
                 const title = Site.getSingleResource('TransactionDetail');
@@ -1059,6 +1086,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 url = QueryString.setParam(url, 'access_token', $("#access_token").val());
                 url = QueryString.setParam(url, 'lang', $("#lang").val());
                 url = QueryString.setParam(url, 'uspkey', 'Lrf_BetList_RNG_Detail');
+                url = QueryString.setParam(url, 'isDesktopViewOnly', $("#isDesktopViewOnly").val() === "1");
 
                 const popH = Math.min($(window).height() - 100, 550);
                 const title = Site.getSingleResource('ProductCC') + ' - ' +
@@ -1096,15 +1124,27 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 window.showVideoPokerGameDetails = _me.showVideoPokerGameDetails;
                 window.showSingleMatchParlayDetail = _me.showSingleMatchParlayDetail;
                 window.showSGDetails = _me.showSGDetails;
-                window.showSexyGamingBetDetails = _me.showSexyGamingBetDetails ;
+                window.showSexyGamingBetDetails = _me.showSexyGamingBetDetails;
                 window.showSabaClubDetails = _me.showSabaClubDetails;
 
                 const betList = {
                     ViewCasinoHandHistory: _me.ViewCasinoHandHistory
                 };
                 window.BetList = betList;
-            }
+            },
+            showHideMoreInfo: function (e) {
+                var isCollapsed = e.hasClass("collapsed");
+                var refNo = e.attr("data-refno");
+                var moreInfo = $(".more-info[data-refno='" + refNo + "']");
 
+                if (isCollapsed) {
+                    moreInfo.removeClass("hide");
+                    e.removeClass("collapsed");
+                } else {
+                    moreInfo.addClass("hide");
+                    e.addClass("collapsed");
+                }
+            }
         };
 
         return _me;

@@ -28,17 +28,17 @@
             var breadcrumbItems = new List<SelectListItem>
 {
 new SelectListItem { Text = ViewResources.Statement, Value = Url.Action("Summary", "Statement", new {
-cid=Model.CustId,
-fd=ViewBag.FromDate.ToString("MM/dd/yyyy"),
-td=ViewBag.ToDate.ToString("MM/dd/yyyy"),
-bc=Model.BaseCurrency,
-lang=Model.Lang,
-ps=ViewBag.StatementPageSize,
-pi=ViewBag.StatementPageIndex,
-sb=ViewBag.ShowBreadCrumb,
-access_token=Model.AccessToken
-}
-)
+cid =Model.CustId,
+fd =ViewBag.FromDate.ToString("MM/dd/yyyy"),
+td =ViewBag.ToDate.ToString("MM/dd/yyyy"),
+bc =Model.BaseCurrency,
+lang =Model.Lang,
+ps =ViewBag.StatementPageSize,
+pi =ViewBag.StatementPageIndex,
+sb =ViewBag.ShowBreadCrumb,
+access_token =Model.AccessToken,
+isDesktopViewOnly =Model.IsDesktopViewOnly
+})
 },
 new SelectListItem { Text = ViewResources.BettingStatement, Value = Url.Action("ByGroup", "Statement", new {
 cid=Model.CustId,
@@ -51,7 +51,8 @@ lang=Model.Lang,
 ps=ViewBag.StatementPageSize,
 pi=ViewBag.StatementPageIndex,
 sb=ViewBag.ShowBreadCrumb,
-access_token=Model.AccessToken
+access_token=Model.AccessToken,
+isDesktopViewOnly =Model.IsDesktopViewOnly
 }
 )
 },
@@ -185,9 +186,11 @@ new SelectListItem { Text = ViewResources.BetList, Selected = true, Value = "jav
                sb=ViewBag.ShowBreadCrumb,
                spi=ViewBag.StatementPageIndex,
                sps=ViewBag.StatementPageSize,
-               access_token=Model.AccessToken
+               access_token=Model.AccessToken,
+               isDesktopViewOnly =Model.IsDesktopViewOnly
                })">
             </pager>
         }
     </div>
+    <input type="hidden" id="isDesktopViewOnly" value="@(Model.IsDesktopViewOnly ? 1 : 0)" />
 </div>

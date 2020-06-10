@@ -346,3 +346,122 @@
         min-width: 800px;
     }
 }
+
+.mobile {
+    &.betlist-container {
+        .icon-show-more {
+            cursor: pointer;
+        }
+
+        &.tbl-betlist .table-container,
+        .report-title-container {
+            min-width: 375px;
+        }
+
+        .elm-index {
+            color: #AA5200;
+        }
+
+        .elm-odd {
+            * {
+                display: inline-block;
+            }
+        }
+
+        .elm-block {
+            margin: 10px 0;
+        }
+
+        .icon-show-more {
+            width: 16px;
+            height: 16px;
+            background: url(images/minus.png) no-repeat scroll center center transparent;
+            display: inline-block;
+
+            &.collapsed {
+                background: url(images/plus.png) no-repeat scroll center center transparent;
+            }
+        }
+
+        .more-info {
+            > td {
+                border: none !important;
+            }
+
+            table {
+                border: 1px solid #d6d6d6;
+                max-width: 500px;
+
+                th, td {
+                    border: 1px solid #d6d6d6
+                }
+            }
+
+            .col-key {
+                width: 200px;
+                background-color: #9eb4c3;
+            }
+
+            .licensee-wl {
+                vertical-align: top;
+            }
+        }
+
+        .bettype, .match, div.match + div.league, .time {
+            text-align: left;
+        }
+
+        .single-match-parlay-detail {
+            border-right: none;
+        }
+
+        &.tbl-betlist-popup .table-container {
+            min-width: 375px;
+
+            table {
+                width: 98%;
+            }
+        }
+
+        .text-right {
+            text-align: right !important;
+        }
+
+        .text-left {
+            text-align: left !important;
+        }
+
+        .header-content .table > thead > tr > th,
+        .table > tbody tr td {
+            border: none;
+            border-top: 1px solid #d6d6d6;
+        }
+
+        .original-ticket {
+            border: 1px solid #d6d6d6;
+
+            > thead > tr > th, > tbody tr td {
+                border: none;
+                border-top: 1px solid #d6d6d6;
+            }
+        }
+
+        .detail-tickets {
+            > thead {
+                border: none;
+            }
+
+            > thead > tr > th, > tbody tr td {
+                border: 1px solid #d6d6d6;
+            }
+        }
+
+        .tbl-grand-total tr td {
+            background-color: #b8c3c9;
+        }
+    }
+
+    &.tbl-betlist.pagingContainer {
+        min-width: 375px;
+    }
+}

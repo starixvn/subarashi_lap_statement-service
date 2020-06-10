@@ -1,0 +1,82 @@
+﻿@using Fanex.Athena.ExtService.Resources
+@using Microsoft.Extensions.Configuration
+@using Fanex.Athena.ExtService.Common.Models.DTO
+@inject IConfiguration Configuration
+@{
+    var appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
+    var env = appSettings.Environment.Equals("PROD") ? "pro" : "dev";
+}
+@section pagecss
+    {
+    <link href="@Url.Content($"~/css/build/{env}/pages/betlist/betlistLayout.css")" rel="stylesheet" />
+    <link href="@Url.Content($"~/css/build/{env}/pages/betlist/betlistRefno.css")" rel="stylesheet" />
+}
+@section Scripts
+    {
+    <script src="@Url.Content($"~/js/build/{env}/pages/betlist/refno.chunk.js")"></script>
+    <script type="text/javascript">
+
+    </script>
+}
+@Html.AntiForgeryToken()
+@model Fanex.Athena.ExtService.BetList.Models.ViewModel.BetListResultViewModel
+<div id="container" class="container-fluid">
+    <div>
+        <div class="betlist-container result-content tbl-betlist-popup mobile">
+            <div>
+                <div class="table-container">
+                    <div class="header-content">
+                        <div class="table-wrapper">
+                            <table class="table">
+                                <thead>
+                                    <tr class="first-row">
+                                        <td style="width:46%"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr style="height:32px;">
+                                        <th class="text-left">@ViewResources.Details</th>
+                                        <th class="text-right">@ViewResources.Stake</th>
+                                        <th class="text-right">@ViewResources.Status</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="body-content">
+                        <div class="table-wrapper">
+                            <table class="table">
+                                <tbody>
+                                    <tr class="first-row">
+                                        <td style="width:46%"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    @for (var i = 0; i < Model.Main.Count; i++)
+                                    {
+                                        var item = Model.Main[i];
+
+                                        <tr>
+                                            <td style="width:48%">
+                                                <div class="elm-block">
+                                                    <span class="elm-index">#@(item.Index.ToString("N0"))</span> - @Html.Raw(item.TransTime)
+                                                </div>
+                                                <div class="elm-block">@Html.Raw(item.RefNo)</div>
+                                                <div class="elm-block">@Html.Raw(item.Choice)</div>
+                                                <div class="elm-block elm-odd">
+                                                    <span>@@</span>@Html.Raw(item.Odds)
+                                                </div>
+                                            </td>
+                                            <td class="right-align">@Html.Raw(item.Stake)</td>
+                                            <td class="right-align"> @Html.Raw(item.Status)</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

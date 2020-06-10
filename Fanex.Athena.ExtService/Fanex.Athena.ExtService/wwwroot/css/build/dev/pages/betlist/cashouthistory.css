@@ -638,6 +638,86 @@ table tbody tr.row-group-level1 td {
   .betlist-container.page-results {
     min-width: 800px; }
 
+.mobile.betlist-container .icon-show-more {
+  cursor: pointer; }
+
+.mobile.betlist-container.tbl-betlist .table-container,
+.mobile.betlist-container .report-title-container {
+  min-width: 375px; }
+
+.mobile.betlist-container .elm-index {
+  color: #AA5200; }
+
+.mobile.betlist-container .elm-odd * {
+  display: inline-block; }
+
+.mobile.betlist-container .elm-block {
+  margin: 10px 0; }
+
+.mobile.betlist-container .icon-show-more {
+  width: 16px;
+  height: 16px;
+  background: url(images/minus.png) no-repeat scroll center center transparent;
+  display: inline-block; }
+  .mobile.betlist-container .icon-show-more.collapsed {
+    background: url(images/plus.png) no-repeat scroll center center transparent; }
+
+.mobile.betlist-container .more-info > td {
+  border: none !important; }
+
+.mobile.betlist-container .more-info table {
+  border: 1px solid #d6d6d6;
+  max-width: 500px; }
+  .mobile.betlist-container .more-info table th, .mobile.betlist-container .more-info table td {
+    border: 1px solid #d6d6d6; }
+
+.mobile.betlist-container .more-info .col-key {
+  width: 200px;
+  background-color: #9eb4c3; }
+
+.mobile.betlist-container .more-info .licensee-wl {
+  vertical-align: top; }
+
+.mobile.betlist-container .bettype, .mobile.betlist-container .match, .mobile.betlist-container div.match + div.league, .mobile.betlist-container .time {
+  text-align: left; }
+
+.mobile.betlist-container .single-match-parlay-detail {
+  border-right: none; }
+
+.mobile.betlist-container.tbl-betlist-popup .table-container {
+  min-width: 375px; }
+  .mobile.betlist-container.tbl-betlist-popup .table-container table {
+    width: 98%; }
+
+.mobile.betlist-container .text-right {
+  text-align: right !important; }
+
+.mobile.betlist-container .text-left {
+  text-align: left !important; }
+
+.mobile.betlist-container .header-content .table > thead > tr > th,
+.mobile.betlist-container .table > tbody tr td {
+  border: none;
+  border-top: 1px solid #d6d6d6; }
+
+.mobile.betlist-container .original-ticket {
+  border: 1px solid #d6d6d6; }
+  .mobile.betlist-container .original-ticket > thead > tr > th, .mobile.betlist-container .original-ticket > tbody tr td {
+    border: none;
+    border-top: 1px solid #d6d6d6; }
+
+.mobile.betlist-container .detail-tickets > thead {
+  border: none; }
+
+.mobile.betlist-container .detail-tickets > thead > tr > th, .mobile.betlist-container .detail-tickets > tbody tr td {
+  border: 1px solid #d6d6d6; }
+
+.mobile.betlist-container .tbl-grand-total tr td {
+  background-color: #b8c3c9; }
+
+.mobile.tbl-betlist.pagingContainer {
+  min-width: 375px; }
+
 .table > thead > tr > th {
   background: #4C6375;
   color: #fff; }

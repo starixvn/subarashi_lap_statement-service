@@ -7,5 +7,7 @@ namespace Fanex.Athena.ExtService.BetList.Models.ViewModel
     public class RunningBetListByViewModel : BaseViewModel
     {
         public IList<TicketText> Data { get; set; }
+
+        public bool IsDesktopViewOnly { get; set; }
     }
 }

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Fanex.Athena.ExtService.Common.Models.DataDomain;
+﻿using Fanex.Athena.ExtService.Common.Models.DataDomain;
 using Fanex.Athena.ExtService.Common.Models.ViewModels;
-using Newtonsoft.Json;
 
 namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 {
@@ -21,9 +17,12 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
         public bool HasTotal { get; set; }
         public bool HasLicWl { get; set; }
         public long RefCode { get; set; }
-        
+
         public string AgentListXml { get; set; }
         public string BaseCurrency { get; set; } = SystemConstants.DefaultBaseCurrency;
         public string Lang { get; set; } = SystemConstants.DefaultLangCode;
+
+        public bool IsDesktopViewOnly { get; set; }
+        public bool IsMobileView { get; set; }
     }
 }

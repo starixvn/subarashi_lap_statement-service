@@ -1,13 +1,11 @@
 ﻿using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
-
 using Fanex.Athena.ExtService.Common.Models.DTO;
 using Fanex.Athena.ExtService.Common.Services;
-
+using Fanex.Athena.ExtService.Core.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
 using Moq;
 
 namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
@@ -21,6 +19,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
         protected string AccessToken = "ANy";
         protected readonly Mock<ICommonService> _commonService;
         protected readonly Mock<IBetListApiClient> _betListApiClient;
+        protected readonly Mock<IBrowserService> _browserService;
 
         public BaseControllerTest()
         {
@@ -45,6 +44,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             _identity.Setup(x => x.Name).Returns(SiteName);
 
             _httpContext = new Mock<HttpContext>();
+            _browserService = new Mock<IBrowserService>();
             _httpContext.Setup(x => x.Request.Query["access_token"]).Returns(AccessToken);
             var claimsPrinciple = new ClaimsPrincipal(_identity.Object);
             _httpContext.Setup(x => x.User).Returns(claimsPrinciple);
