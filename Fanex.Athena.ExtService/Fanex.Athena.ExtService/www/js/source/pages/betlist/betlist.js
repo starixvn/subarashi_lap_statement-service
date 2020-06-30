@@ -42,6 +42,15 @@
             return Math.min(890, $(window).width());
         }
 
+        function resize3rdPartyResultFrame() {
+            var $frame = $("#popupFrame");
+
+            if ($frame.length) {
+                var height = $(window).height() - 10;
+                $frame.height(height < 0 ? 0 : height);
+            }
+        }
+
         let DetailsWidth = calculatePopupWidth();
 
         const _me = {
@@ -162,7 +171,8 @@
                 Site.blockUI();
                 $.get(url, function (result) {
                     if (result !== '') {
-                        showResultPopUp(result, { width: DetailsWidth, height: 380, title: title });
+                        showResultPopUp(result, { width: DetailsWidth, height: 450, title: title });
+                        resize3rdPartyResultFrame();
                         Site.unBlockUI();
                     }
                 });
