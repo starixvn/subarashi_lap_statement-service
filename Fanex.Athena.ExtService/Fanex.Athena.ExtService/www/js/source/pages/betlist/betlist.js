@@ -42,12 +42,14 @@
             return Math.min(890, $(window).width());
         }
 
-        function resize3rdPartyResultFrame() {
+        function resize3rdPartyResultFrame(minHeight) {
             var $frame = $("#popupFrame");
 
             if ($frame.length) {
                 var height = $(window).height() - 10;
-                $frame.height(height < 0 ? 0 : height);
+                height = Math.max(minHeight, height);
+
+                $frame.height(height);
             }
         }
 
@@ -171,8 +173,9 @@
                 Site.blockUI();
                 $.get(url, function (result) {
                     if (result !== '') {
-                        showResultPopUp(result, { width: DetailsWidth, height: 450, title: title });
-                        resize3rdPartyResultFrame();
+                        var height = 450;
+                        showResultPopUp(result, { width: DetailsWidth, height: height, title: title });
+                        resize3rdPartyResultFrame(height);
                         Site.unBlockUI();
                     }
                 });
