@@ -10694,7 +10694,8 @@ module.exports = g;
     Result: "Results",
     InvalidRequestMsg: "Request is not valid",
     HttpError_403: "Access denied",
-    LicenseeTxId: "TxID"
+    LicenseeTxId: "TxID",
+    JackpotWonDetails: "Jackpot Won Details"
 };
 
 /***/ }),
