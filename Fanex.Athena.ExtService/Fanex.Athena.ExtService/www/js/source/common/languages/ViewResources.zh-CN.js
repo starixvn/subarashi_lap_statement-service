@@ -22,6 +22,6 @@
     ErrorProcessingMsg: "对不起, 处理您的请求时有错误发生。",
     Result: "赛果",
     InvalidRequestMsg: "Request is not valid",
-    HttpError_403: "Access denied"
-
+    HttpError_403: "Access denied",
+    JackpotWonDetails: "头奖明细"
 };

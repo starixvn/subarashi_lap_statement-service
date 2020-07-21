@@ -292,4 +292,7 @@
   <data name="Details" xml:space="preserve">
     <value>詳細信息</value>
   </data>
+  <data name="JackpotWonDetails" xml:space="preserve">
+    <value>頭獎明細</value>
+  </data>
 </root>

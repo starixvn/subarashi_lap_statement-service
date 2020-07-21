@@ -19,9 +19,6 @@
     Result: "賽果",
     ProductCC: "嘻嘻俱樂部",
     InvalidRequestMsg: "Request is not valid",
-    HttpError_403: "Access denied"
-
-
-
-
+    HttpError_403: "Access denied",
+    JackpotWonDetails: "頭獎明細"
 };

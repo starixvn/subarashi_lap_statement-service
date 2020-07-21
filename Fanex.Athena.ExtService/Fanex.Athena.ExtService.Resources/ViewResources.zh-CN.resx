@@ -340,4 +340,7 @@
   <data name="Details" xml:space="preserve">
     <value>详细信息</value>
   </data>
+  <data name="JackpotWonDetails" xml:space="preserve">
+    <value>头奖明细</value>
+  </data>
 </root>
