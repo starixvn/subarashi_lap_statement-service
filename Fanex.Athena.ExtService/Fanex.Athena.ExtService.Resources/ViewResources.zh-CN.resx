@@ -335,12 +335,12 @@
     <value>性感百家</value>
   </data>
   <data name="DetailedBetlist" xml:space="preserve">
-    <value>投注明细历史</value>
+    <value>投注历史明细</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>详细信息</value>
   </data>
   <data name="JackpotWonDetails" xml:space="preserve">
-    <value>头奖明细</value>
+    <value>积宝头奖详情</value>
   </data>
 </root>

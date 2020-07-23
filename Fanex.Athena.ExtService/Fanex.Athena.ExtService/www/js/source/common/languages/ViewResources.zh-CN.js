@@ -23,5 +23,5 @@
     Result: "赛果",
     InvalidRequestMsg: "Request is not valid",
     HttpError_403: "Access denied",
-    JackpotWonDetails: "头奖明细"
+    JackpotWonDetails: "积宝头奖详情"
 };

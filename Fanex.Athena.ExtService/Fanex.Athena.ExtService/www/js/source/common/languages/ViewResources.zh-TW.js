@@ -20,5 +20,5 @@
     ProductCC: "嘻嘻俱樂部",
     InvalidRequestMsg: "Request is not valid",
     HttpError_403: "Access denied",
-    JackpotWonDetails: "頭獎明細"
+    JackpotWonDetails: "積寶頭獎詳情"
 };

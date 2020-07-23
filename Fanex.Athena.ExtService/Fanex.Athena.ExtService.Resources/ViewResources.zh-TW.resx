@@ -293,7 +293,7 @@
     <value>詳細信息</value>
   </data>
   <data name="JackpotWonDetails" xml:space="preserve">
-    <value>頭獎明細</value>
+    <value>積寶頭獎詳情</value>
   </data>
   <data name="DetailedBetlist" xml:space="preserve">
     <value>投注歷史明細</value>
