@@ -10732,7 +10732,7 @@ module.exports = g;
     Result: "赛果",
     InvalidRequestMsg: "Request is not valid",
     HttpError_403: "Access denied",
-    JackpotWonDetails: "头奖明细"
+    JackpotWonDetails: "积宝头奖详情"
 };
 
 /***/ }),
@@ -10766,7 +10766,7 @@ module.exports = g;
     ProductCC: "嘻嘻俱乐部",
     InvalidRequestMsg: "Request is not valid",
     HttpError_403: "Access denied",
-    JackpotWonDetails: "头奖明细"
+    JackpotWonDetails: "积宝头奖详情"
 };
 
 /***/ }),
@@ -10800,7 +10800,7 @@ module.exports = g;
     ProductCC: "嘻嘻俱樂部",
     InvalidRequestMsg: "Request is not valid",
     HttpError_403: "Access denied",
-    JackpotWonDetails: "頭獎明細"
+    JackpotWonDetails: "積寶頭獎詳情"
 };
 
 /***/ }),
