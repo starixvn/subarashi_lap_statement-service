@@ -2,13 +2,13 @@
     CashOutDetails: "即時兌現詳情",
     BoughtDetails: "買入詳情",
     TicketDetailOf: "Ticket detail of {0}",
-    DetailedBetlist: "Detailed Bet list",
+    DetailedBetlist: "投注歷史明細",
     ProductVB: "Macau Games",
     ProductCS: "娛樂城",
     ProductAB: "AllBet",
     AGCasino: "AG Casino",
     ProductFW: "Fishing World",
-    ProductPP: "PP",
+    ProductPP: "PP王者電子",
     ProductSG: "SG",
     ProductVRG: "虛擬娛樂城",
     ProductI4D: "Indo 4D",
@@ -19,9 +19,6 @@
     Result: "賽果",
     ProductCC: "嘻嘻俱樂部",
     InvalidRequestMsg: "Request is not valid",
-    HttpError_403: "Access denied"
-
-
-
-
+    HttpError_403: "Access denied",
+    JackpotWonDetails: "積寶頭獎詳情"
 };

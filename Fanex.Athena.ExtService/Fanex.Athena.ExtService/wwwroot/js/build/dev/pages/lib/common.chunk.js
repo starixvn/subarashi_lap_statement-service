@@ -10694,7 +10694,8 @@ module.exports = g;
     Result: "Results",
     InvalidRequestMsg: "Request is not valid",
     HttpError_403: "Access denied",
-    LicenseeTxId: "TxID"
+    LicenseeTxId: "TxID",
+    JackpotWonDetails: "Jackpot Won Details"
 };
 
 /***/ }),
@@ -10710,7 +10711,7 @@ module.exports = g;
     CashOutDetails: "即时兑现详情",
     BoughtDetails: "买入详情",
     TicketDetailOf: "Ticket detail of {0}",
-    DetailedBetlist: "投注明细历史",
+    DetailedBetlist: "投注历史明细",
     ProductVB: "Macau Games",
     ProductCS: "娱乐城",
     ProductAB: "欧博",
@@ -10730,8 +10731,8 @@ module.exports = g;
     ErrorProcessingMsg: "对不起, 处理您的请求时有错误发生。",
     Result: "赛果",
     InvalidRequestMsg: "Request is not valid",
-    HttpError_403: "Access denied"
-
+    HttpError_403: "Access denied",
+    JackpotWonDetails: "积宝头奖详情"
 };
 
 /***/ }),
@@ -10747,13 +10748,13 @@ module.exports = g;
     CashOutDetails: "即时兑现详情",
     BoughtDetails: "买入详情",
     TicketDetailOf: "Ticket detail of {0}",
-    DetailedBetlist: "Detailed Bet list",
+    DetailedBetlist: "投注历史明细",
     ProductVB: "Macau Games",
     ProductCS: "娱乐城",
     ProductAB: "AllBet",
     AGCasino: "AG Casino",
     ProductFW: "Fishing World",
-    ProductPP: "PP",
+    ProductPP: "PP王者电子",
     ProductSG: "SG",
     ProductVRG: "虚拟娱乐城",
     ProductI4D: "Indo 4D",
@@ -10764,12 +10765,8 @@ module.exports = g;
     Result: "赛果",
     ProductCC: "嘻嘻俱乐部",
     InvalidRequestMsg: "Request is not valid",
-    HttpError_403: "Access denied"
-
-
-
-
-
+    HttpError_403: "Access denied",
+    JackpotWonDetails: "积宝头奖详情"
 };
 
 /***/ }),
@@ -10785,13 +10782,13 @@ module.exports = g;
     CashOutDetails: "即時兌現詳情",
     BoughtDetails: "買入詳情",
     TicketDetailOf: "Ticket detail of {0}",
-    DetailedBetlist: "Detailed Bet list",
+    DetailedBetlist: "投注歷史明細",
     ProductVB: "Macau Games",
     ProductCS: "娛樂城",
     ProductAB: "AllBet",
     AGCasino: "AG Casino",
     ProductFW: "Fishing World",
-    ProductPP: "PP",
+    ProductPP: "PP王者電子",
     ProductSG: "SG",
     ProductVRG: "虛擬娛樂城",
     ProductI4D: "Indo 4D",
@@ -10802,11 +10799,8 @@ module.exports = g;
     Result: "賽果",
     ProductCC: "嘻嘻俱樂部",
     InvalidRequestMsg: "Request is not valid",
-    HttpError_403: "Access denied"
-
-
-
-
+    HttpError_403: "Access denied",
+    JackpotWonDetails: "積寶頭獎詳情"
 };
 
 /***/ }),

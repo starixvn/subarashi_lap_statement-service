@@ -292,4 +292,13 @@
   <data name="Details" xml:space="preserve">
     <value>詳細信息</value>
   </data>
+  <data name="JackpotWonDetails" xml:space="preserve">
+    <value>積寶頭獎詳情</value>
+  </data>
+  <data name="DetailedBetlist" xml:space="preserve">
+    <value>投注歷史明細</value>
+  </data>
+  <data name="ProductPP" xml:space="preserve">
+    <value>PP王者電子</value>
+  </data>
 </root>

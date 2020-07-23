@@ -399,4 +399,7 @@
   <data name="LicenseeTxId" xml:space="preserve">
     <value>TxID</value>
   </data>
+  <data name="JackpotWonDetails" xml:space="preserve">
+    <value>Jackpot Won Details</value>
+  </data>
 </root>

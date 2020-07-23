@@ -2,7 +2,7 @@
     CashOutDetails: "即时兑现详情",
     BoughtDetails: "买入详情",
     TicketDetailOf: "Ticket detail of {0}",
-    DetailedBetlist: "投注明细历史",
+    DetailedBetlist: "投注历史明细",
     ProductVB: "Macau Games",
     ProductCS: "娱乐城",
     ProductAB: "欧博",
@@ -22,6 +22,6 @@
     ErrorProcessingMsg: "对不起, 处理您的请求时有错误发生。",
     Result: "赛果",
     InvalidRequestMsg: "Request is not valid",
-    HttpError_403: "Access denied"
-
+    HttpError_403: "Access denied",
+    JackpotWonDetails: "积宝头奖详情"
 };
