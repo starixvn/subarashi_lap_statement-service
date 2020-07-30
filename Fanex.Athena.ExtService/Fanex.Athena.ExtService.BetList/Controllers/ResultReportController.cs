@@ -25,7 +25,6 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         [ResponseCache(Duration = SystemConstants.ThirtySecond)]
         public async Task<IActionResult> ResultPopup(ResultPopupMetalModel metaModel)
         {
-
             var result = await _betListApiClient.PostAsyncString(
                  "/ResultReport/ResultPopup",
                  metaModel,
@@ -42,8 +41,6 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             ViewBag.Title = "Result";
 
             return View(viewModel);
-
-
         }
 
         [HttpPost]
@@ -127,6 +124,20 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             return await _betListApiClient.PostAsyncString("/CardClubResultPopup/Index", model, lang).ConfigureAwait(false);
         }
 
+        [ResponseCache(Duration = SystemConstants.ThirtySecond, VaryByQueryKeys = new[] { "custId", "lang", "gameId", "gameRoundId" })]
+        [HttpGet]
+        public async Task<string> SBCResultPopup(string custId, string gameId, string gameRoundId, string lang)
+        {
+            var model = new
+            {
+                custId,
+                gameId,
+                gameRoundId,
+                languageCode = lang
+            };
+            return await _betListApiClient.PostAsyncString("/SabaClubResultPopup/Index", model, lang).ConfigureAwait(false);
+        }
+
         [ResponseCache(Duration = SystemConstants.ThirtySecond, VaryByQueryKeys = new[] { "transDesc", "lang", "betCheck", "betType" })]
         [HttpGet]
         public async Task<IActionResult> AllBetResult(string transDesc, string betCheck, string betType, string lang)
@@ -150,6 +161,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
 
             return View(viewModel);
         }
+
         [ResponseCache(Duration = SystemConstants.ThirtySecond, VaryByQueryKeys = new[] { "custId", "lang", "gameId" })]
         [HttpGet]
         public async Task<string> GlobalGamingResult(string custId, string gameId, string lang)
