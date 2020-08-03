@@ -629,8 +629,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 });
             },
 
-            viewSabaClubResult: function (custId, gameId, gameRoundId, title) {
-                let url = Site.resolveClientUrl('ResultReport/SBCResultPopup') + '?custId=' + custId + '&gameId=' + gameId + '&gameRoundId=' + gameRoundId;
+            viewSabaClubResult: function (custId, gameId, siteId, gameRoundId, title) {
+                let url = Site.resolveClientUrl('ResultReport/SBCResultPopup') + '?custId=' + custId + '&gameId=' + gameId + '&siteId=' + siteId + '&gameRoundId=' + gameRoundId;
                 url = QueryString.setParam(url, 'lang', $("#lang").val());
                 url = QueryString.setParam(url, 'access_token', $("#access_token").val());
 
@@ -696,7 +696,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                     _me.viewCardClubResult(custid, bettype, extension2, title);
                 }
                 else if (sporttype === SPORT_SBC) {
-                    _me.viewSabaClubResult(custid, bettype, extension2, title);
+                    _me.viewSabaClubResult(custid, bettype, extension2, transdecs, title);
                 }
                 else if (sporttype === SPORT_SG) {
                     _me.viewSGResult(custid, extension2, title);
@@ -1199,6 +1199,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
         return _me;
     }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
 
 /***/ }),
 
