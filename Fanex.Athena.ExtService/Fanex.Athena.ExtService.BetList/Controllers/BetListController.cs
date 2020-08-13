@@ -100,6 +100,9 @@
             VaryByQueryKeys = new[] { "cid", "lang", "bc", "wd", "pc", "ps", "pi", "mv", "s", "fd", "td", "sb", "spi", "sps" })]
         public async Task<IActionResult> ByGroup(BetListByGroupMetaModel metaModel)
         {
+            var originModeView = metaModel.ModeView;
+            metaModel.ModeView = metaModel.ModeView == TransDescValue.ModeViewPromotion ? 0 : metaModel.ModeView;
+
             var siteName = HttpContext.User.Identity.Name;
             var licenseeInfo = await _commonService.GetLicenseeInfoAsync(siteName, metaModel.CustId);
             var viewModel = new BetListByProductViewModel
@@ -109,7 +112,7 @@
                 PageSize = metaModel.PageSize,
                 PageIndex = metaModel.PageIndex,
                 ProductCode = metaModel.ProductCode,
-                TransType = metaModel.TransType,
+                TransType = originModeView,
                 Sort = metaModel.Sort,
                 WinlostDate = metaModel.WinlostDate,
                 CustId = metaModel.CustId,
