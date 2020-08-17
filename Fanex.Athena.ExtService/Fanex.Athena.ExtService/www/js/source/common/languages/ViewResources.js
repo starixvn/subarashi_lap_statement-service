@@ -16,6 +16,7 @@
     ProductSXG: "AE Casino",
     ProductSAG: "SA Gaming",
     ProductSBC: "Saba.club",
+    ProductPGS: "PG Soft",
     TransactionDetail: "",
     ErrorProcessingMsg: "Sorry, an error occurred while processing your request.",
     Result: "Results",
