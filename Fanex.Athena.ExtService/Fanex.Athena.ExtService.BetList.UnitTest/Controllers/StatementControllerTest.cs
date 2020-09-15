@@ -47,7 +47,6 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             Assert.Equal(viewModel.Lang, metalModel.Lang);
             Assert.Equal(viewModel.AccessToken, AccessToken);
             Assert.Equal(viewModel.CustId, Custid);
-
         }
 
         [Fact]
@@ -79,12 +78,11 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             fakeService.Verify(x => x.QueryAsync(metalModel), Times.Once());
         }
 
-
         [Theory]
         [InlineData(TransDescValue.ModeViewBetStatement, TransDescValue.ModeViewBetStatement, "Betting Statement")]
         [InlineData(TransDescValue.ModeViewCancell, TransDescValue.ModeViewCancell, "Void/Cancelled Bet")]
         [InlineData(TransDescValue.ModeViewOutstanding, TransDescValue.ModeViewOutstanding, "Outstanding Bet")]
-        [InlineData(TransDescValue.ModeViewPromotion, 0, "Promotion")]
+        [InlineData(TransDescValue.ModeViewPromotion, TransDescValue.ModeViewPromotion, "Promotion")]
         [InlineData(0, 0, "Statement")]
         public async Task ByGroup_WhenExecute_AlwayAssignCommonViewModelValue(int modeView, int expectedModelView, string expectedTransDesc)
         {
