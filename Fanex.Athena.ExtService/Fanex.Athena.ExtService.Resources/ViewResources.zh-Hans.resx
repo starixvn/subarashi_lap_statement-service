@@ -283,9 +283,6 @@
   <data name="ProductTG" xml:space="preserve">
     <value>Table Game</value>
   </data>
-  <data name="ProductSXG" xml:space="preserve">
-    <value>Sexy Gaming</value>
-  </data>
   <data name="Details" xml:space="preserve">
     <value>详细信息</value>
   </data>
@@ -297,5 +294,9 @@
   </data>
   <data name="ProductPP" xml:space="preserve">
     <value>PP王者电子</value>
+  </data>
+  <data name="ProductSXG" xml:space="preserve">
+    <value>AE 真人</value>
+    <comment>#141118</comment>
   </data>
 </root>

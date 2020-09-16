@@ -13,7 +13,7 @@
     ProductSG: "SG",
     ProductVRG: "Virtual Games",
     ProductI4D: "Indo 4D",
-    ProductSXG: "Sexy Gaming",
+    ProductSXG: "AE Casino",
     ProductSBC: "Saba.club",
     TransactionDetail: "",
     ErrorProcessingMsg: "Sorry, an error occurred while processing your request.",
