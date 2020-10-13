@@ -18,6 +18,7 @@
     ProductI4D: "Indo 4D",
     ProductSXG: "AE真人",
     ProductSBC: "Saba.club",
+    ProductSAG: "SA真人娱乐场",
     TransactionDetail: "Transaction Detail",
     ErrorProcessingMsg: "对不起, 处理您的请求时有错误发生。",
     Result: "赛果",
