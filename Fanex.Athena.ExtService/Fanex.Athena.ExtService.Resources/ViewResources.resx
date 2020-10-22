@@ -277,7 +277,7 @@
     <comment>#63785</comment>
   </data>
   <data name="ProductCC" xml:space="preserve">
-    <value>Card Club</value>
+    <value>Arcadia Gaming</value>
     <comment>115449</comment>
   </data>
   <data name="ProductCO" xml:space="preserve">
@@ -359,6 +359,9 @@
   </data>
   <data name="ProductI4D" xml:space="preserve">
     <value>Indo 4D</value>
+  </data>
+  <data name="ProductSAG" xml:space="preserve">
+    <value>SA Gaming</value>
   </data>
   <data name="DateName_0" xml:space="preserve">
     <value>Sunday</value>

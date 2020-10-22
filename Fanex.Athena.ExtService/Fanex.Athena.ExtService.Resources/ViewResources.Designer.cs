@@ -493,7 +493,7 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Card Club.
+        ///   Looks up a localized string similar to Arcadia Gaming.
         /// </summary>
         public static string ProductCC {
             get {
@@ -597,6 +597,15 @@ namespace Fanex.Athena.ExtService.Resources {
         public static string ProductPTCS {
             get {
                 return ResourceManager.GetString("ProductPTCS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SA Gaming.
+        /// </summary>
+        public static string ProductSAG {
+            get {
+                return ResourceManager.GetString("ProductSAG", resourceCulture);
             }
         }
         
