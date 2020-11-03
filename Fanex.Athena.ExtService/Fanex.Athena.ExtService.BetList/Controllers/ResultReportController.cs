@@ -14,6 +14,9 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
     [Authorize]
     public class ResultReportController : BaseController
     {
+        private const string PopupTitle = "Result";
+        private const string AccessToken = "access_token";
+
         private readonly IBetListApiClient _betListApiClient;
 
         public ResultReportController(IBetListApiClient betListApiClient)
@@ -34,11 +37,11 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             ViewBag.Data = result;
             var viewModel = new BaseViewModel
             {
-                AccessToken = HttpContext.Request.Query["access_token"],
+                AccessToken = HttpContext.Request.Query[AccessToken],
                 Lang = metaModel.Lang
             };
 
-            ViewBag.Title = "Result";
+            ViewBag.Title = PopupTitle;
 
             return View(viewModel);
         }
@@ -154,11 +157,11 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             ViewBag.Data = data.Replace("{rootUrl}/", Url.Content("~/"));
             var viewModel = new BaseViewModel
             {
-                AccessToken = HttpContext.Request.Query["access_token"],
+                AccessToken = HttpContext.Request.Query[AccessToken],
                 Lang = lang
             };
 
-            ViewBag.Title = "Result";
+            ViewBag.Title = PopupTitle;
 
             return View(viewModel);
         }
@@ -178,11 +181,11 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             ViewBag.Data = data.Replace("{rootUrl}/", Url.Content("~/"));
             var viewModel = new BaseViewModel
             {
-                AccessToken = HttpContext.Request.Query["access_token"],
+                AccessToken = HttpContext.Request.Query[AccessToken],
                 Lang = lang
             };
 
-            ViewBag.Title = "Result";
+            ViewBag.Title = PopupTitle;
 
             return View(viewModel);
         }
@@ -215,11 +218,11 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             ViewBag.Data = data.Replace("{rootUrl}/", Url.Content("~/"));
             var viewModel = new BaseViewModel
             {
-                AccessToken = HttpContext.Request.Query["access_token"],
+                AccessToken = HttpContext.Request.Query[AccessToken],
                 Lang = lang
             };
 
-            ViewBag.Title = "Result";
+            ViewBag.Title = PopupTitle;
 
             return View("~/Views/ResultReport/AllBetResult.cshtml", viewModel);
         }
