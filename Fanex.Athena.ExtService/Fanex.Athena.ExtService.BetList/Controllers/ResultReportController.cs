@@ -226,5 +226,21 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
 
             return View("~/Views/ResultReport/AllBetResult.cshtml", viewModel);
         }
+
+        [ResponseCache(Duration = SystemConstants.ThirtySecond, VaryByQueryKeys = new[] { "custId", "lang", "gamePlayId", "gameId3rd", "siteId", "lang" })]
+        [HttpGet]
+        public async Task<string> PGSoftResultPopup(string custid, string gamePlayId, string gameId3rd, string siteId, string lang)
+        {
+            var model = new
+            {
+                custid,
+                gamePlayId,
+                gameId3rd,
+                siteId,
+                languageCode = lang
+            };
+
+            return await _betListApiClient.PostAsyncString("/PGSoftResultPopup/Index", model, lang).ConfigureAwait(false);
+        }
     }
 }

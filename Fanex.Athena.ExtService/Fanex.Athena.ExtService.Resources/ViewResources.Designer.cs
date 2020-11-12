@@ -583,6 +583,15 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to PG Soft.
+        /// </summary>
+        public static string ProductPGS {
+            get {
+                return ResourceManager.GetString("ProductPGS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to PP.
         /// </summary>
         public static string ProductPP {

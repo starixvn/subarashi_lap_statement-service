@@ -406,4 +406,7 @@
   <data name="JackpotWonDetails" xml:space="preserve">
     <value>Jackpot Won Details</value>
   </data>
+  <data name="ProductPGS" xml:space="preserve">
+    <value>PG Soft</value>
+  </data>
 </root>
