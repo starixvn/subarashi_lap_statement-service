@@ -409,4 +409,8 @@
   <data name="ProductPGS" xml:space="preserve">
     <value>PG Soft</value>
   </data>
+  <data name="ProductJK" xml:space="preserve">
+    <value>Joker</value>
+    <comment>141408</comment>
+  </data>
 </root>

@@ -47,8 +47,8 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             Assert.Equal(title, Title);
             Assert.Equal(viewModel.Lang, metalModel.Lang);
             Assert.Equal(viewModel.AccessToken, AccessToken);
-            _betListApiClient.Verify(x => 
-            x.PostAsyncString("/ResultReport/ResultPopup", metalModel, 
+            _betListApiClient.Verify(x =>
+            x.PostAsyncString("/ResultReport/ResultPopup", metalModel,
             metalModel.Lang), Times.Once);
         }
 
@@ -158,7 +158,6 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             //Assert
             var viewResult = Assert.IsType<string>(result);
             Assert.Equal(fakeResult, viewResult);
-
         }
 
         [Fact]
@@ -185,7 +184,6 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             //Assert
             var viewResult = Assert.IsType<string>(result);
             Assert.Equal(fakeResult, viewResult);
-
         }
 
         [Fact]
@@ -297,6 +295,38 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             Assert.Equal(title, Title);
             Assert.Equal(viewModel.Lang, lang);
             Assert.Equal(viewModel.AccessToken, AccessToken);
+        }
+
+        [Fact]
+        public async Task JokerResult_WhenCall_RetrunCorrectViewModelAsync()
+        {
+            //Arrange
+            const string custId = "Any";
+            const string gamePlayId = "en-US";
+            const string gameCode = "Any";
+            const string lang = "en-US";
+
+            const string fakeResult = "Any result data{rootUrl}/";
+            const string fakeRootUrl = "RootURL";
+            string result = null;
+            _betListApiClient.Setup(x => x.PostAsyncString(
+                "/JokerResultPopup/Index", It.IsAny<object>(),
+                It.IsAny<string>()))
+                .Returns(Task.FromResult(fakeResult));
+            var mockUrl = new Mock<IUrlHelper>();
+            mockUrl.Setup(x => x.Content(It.IsAny<string>())).Returns(fakeRootUrl);
+
+            //Action
+            using (var controller = new ResultReportController(_betListApiClient.Object))
+            {
+                controller.ControllerContext = _controllerContext.Object;
+                controller.Url = mockUrl.Object;
+                result = await controller.JokerResult(custId, gamePlayId, gameCode, lang).ConfigureAwait(false);
+            }
+
+            //Assert
+            var viewResult = Assert.IsType<string>(result);
+            Assert.Equal(fakeResult, viewResult);
         }
 
         [Fact]

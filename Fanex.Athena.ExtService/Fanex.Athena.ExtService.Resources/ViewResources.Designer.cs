@@ -547,6 +547,15 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Joker.
+        /// </summary>
+        public static string ProductJK {
+            get {
+                return ResourceManager.GetString("ProductJK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to RNG Keno.
         /// </summary>
         public static string ProductKN {
