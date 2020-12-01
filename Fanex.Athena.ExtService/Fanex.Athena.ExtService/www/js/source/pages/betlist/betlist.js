@@ -20,6 +20,7 @@
         const SPORT_SBC = 200;
         const SPORT_SAG = 244;
         const SPORT_PGS = 232;
+        const SPORT_JK = 234;
 
         let _sortColumnName, _sortOrder;
 
@@ -260,7 +261,7 @@
                 showResultPopUp(url, { width: DetailsWidth, height: 380, title: title });
                 Site.unBlockUI();
             },
-
+            
             viewSAGamingResult: function (trasdesc, matchCode, bettype, title) {
                 let url = Site.resolveClientUrl('ResultReport/SAGamingResult?transdesc=' +
                     encodeURIComponent(trasdesc) + '&matchCode=' + matchCode + '&bettype=' + bettype);
@@ -270,6 +271,20 @@
                 Site.blockUI();
                 showResultPopUp(url, { width: DetailsWidth, height: 380, title: title });
                 Site.unBlockUI();
+            },
+
+            ViewJokerResult: function (custId, gamePlayId, gameCode, title) {
+                let url = Site.resolveClientUrl('ResultReport/JokerResult?custId=' + custId + '&gamePlayId=' + gamePlayId + '&gameCode=' + gameCode);
+                url += "&lang=" + $("#lang").val();
+                url += "&access_token=" + $("#access_token").val();
+
+                Site.blockUI();
+                $.get(url, function (result) {
+                    if (result !== '') {
+                        showResultPopUp(result, { width: DetailsWidth, height: 380, title: title });
+                        Site.unBlockUI();
+                    }
+                });
             },
 
             viewGlobalGamingResult: function (custId, gameId, title) {
@@ -336,6 +351,9 @@
                 }
                 else if (sporttype === SPORT_SAG) {
                     _me.viewSAGamingResult(transdecs, extension2, bettype, title);
+                }
+                else if (sporttype === SPORT_JK) {
+                    _me.ViewJokerResult(custid, transdecs, extension2, title);
                 }
                 else if (sporttype === SPORT_GLOBALGAMING) {
                     _me.viewGlobalGamingResult(custid, extension2, title);
@@ -688,6 +706,24 @@
 
                 showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
             },
+            showJokerBetDetails: function (transId, winlostDate, custId, transType) {
+                let url = Site.resolveClientUrl('BetListDetailByProduct/Detail');
+                url = QueryString.setParam(url, 'transId', transId);
+                url = QueryString.setParam(url, 'date', winlostDate);
+                url = QueryString.setParam(url, 'custId', custId);
+                url = QueryString.setParam(url, 'transType', transType);
+                url = QueryString.setParam(url, 'BaseCurrency', getBaseCurrency());
+                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
+                url = QueryString.setParam(url, 'lang', $("#lang").val());
+                url = QueryString.setParam(url, 'uspkey', 'Lrf_BetList_RNG_Detail');
+                url = QueryString.setParam(url, 'hastotal', 1);
+                url = QueryString.setParam(url, 'isDesktopViewOnly', $("#isDesktopViewOnly").val() === "1");
+                const popH = Math.min($(window).height() - 100, 550);
+                const title = Site.getSingleResource('ProductJK') + ' - ' +
+                    Site.getSingleResource('DetailedBetlist');
+
+                showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
+            },
             showSabaClubDetails: function (transId, winlostDate, custId, transType) {
                 let url = Site.resolveClientUrl('BetListDetailByProduct/Detail');
                 url = QueryString.setParam(url, 'transId', transId);
@@ -840,6 +876,7 @@
                 window.showSGDetails = _me.showSGDetails;
                 window.showSexyGamingBetDetails = _me.showSexyGamingBetDetails;
                 window.showSAGamingDetails = _me.showSAGamingDetails;
+                window.showJokerBetDetails = _me.showJokerBetDetails;
                 window.showSabaClubDetails = _me.showSabaClubDetails;
                 window.showPGSoftDetails = _me.showPGSoftDetails;
 

@@ -17,6 +17,7 @@
     ProductSAG: "SA Gaming",
     ProductSBC: "Saba.club",
     ProductPGS: "PG Soft",
+    ProductJK: "Joker",
     TransactionDetail: "",
     ErrorProcessingMsg: "Sorry, an error occurred while processing your request.",
     Result: "Results",
