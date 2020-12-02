@@ -18,6 +18,7 @@
         const SPORT_VRG = 245;
         const SPORT_SXG = 243;
         const SPORT_SBC = 200;
+        const SPORT_SBC_FreeBets = 150;
         const SPORT_SAG = 244;
         const SPORT_PGS = 232;
         const SPORT_JK = 234;
@@ -226,8 +227,8 @@
                 });
             },
 
-            viewSabaClubResult: function (custId, gameId, siteId, gameRoundId, title) {
-                let url = Site.resolveClientUrl('ResultReport/SBCResultPopup') + '?custId=' + custId + '&gameId=' + gameId + '&siteId=' + siteId + '&gameRoundId=' + gameRoundId;
+            viewSabaClubResult: function (custId, gameId, siteId, gameRoundId, title, sporttype) {
+                let url = Site.resolveClientUrl('ResultReport/SBCResultPopup') + '?custId=' + custId + '&gameId=' + gameId + '&siteId=' + siteId + '&gameRoundId=' + gameRoundId + '&sportType=' + sporttype;
                 url = QueryString.setParam(url, 'lang', $("#lang").val());
                 url = QueryString.setParam(url, 'access_token', $("#access_token").val());
 
@@ -334,8 +335,8 @@
                 else if (sporttype === SPORT_CARDCLUB) {
                     _me.viewCardClubResult(custid, bettype, extension2, title);
                 }
-                else if (sporttype === SPORT_SBC) {
-                    _me.viewSabaClubResult(custid, bettype, extension2, transdecs, title);
+                else if (sporttype === SPORT_SBC || sporttype === SPORT_SBC_FreeBets) {
+                    _me.viewSabaClubResult(custid, bettype, extension2, transdecs, title, sporttype);
                 }
                 else if (sporttype === SPORT_SG) {
                     _me.viewSGResult(custid, extension2, title);
