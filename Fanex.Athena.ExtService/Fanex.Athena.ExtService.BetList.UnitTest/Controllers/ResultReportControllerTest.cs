@@ -552,5 +552,33 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             var viewResult = Assert.IsType<string>(result);
             Assert.Equal(fakeResult, viewResult);
         }
+
+        [Fact]
+        public async Task BGGResultPopup_WhenCall_RetrunStringResult()
+        {
+            //Arrange
+            const string custId = "Any";
+            const string lang = "en-US";
+            const string transId3rd = "Any";
+            const string currencyId = "Any";
+            const string siteId = "Any";
+            const string fakeResult = "Any result data";
+            string result = null;
+            _betListApiClient.Setup(x => x.PostAsyncString(
+                "/BGGResultPopup/Index", It.IsAny<object>(),
+                It.IsAny<string>()))
+                .Returns(Task.FromResult(fakeResult));
+
+            //Action
+            using (var controller = new ResultReportController(_betListApiClient.Object))
+            {
+                controller.ControllerContext = _controllerContext.Object;
+                result = await controller.BGGResultPopup(custId, transId3rd, currencyId, siteId, lang).ConfigureAwait(false);
+            }
+
+            //Assert
+            var viewResult = Assert.IsType<string>(result);
+            Assert.Equal(fakeResult, viewResult);
+        }
     }
 }

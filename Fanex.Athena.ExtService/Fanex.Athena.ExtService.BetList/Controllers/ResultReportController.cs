@@ -16,6 +16,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
     {
         private const string PopupTitle = "Result";
         private const string AccessToken = "access_token";
+        private const string ROOT_URL = "{rootUrl}/";
 
         private readonly IBetListApiClient _betListApiClient;
 
@@ -169,7 +170,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
                 languageCode = lang
             };
             var data = await _betListApiClient.PostAsyncString("/AllBetResultPopup/Index", model, lang).ConfigureAwait(false);
-            ViewBag.Data = data.Replace("{rootUrl}/", Url.Content("~/"));
+            ViewBag.Data = data.Replace(ROOT_URL, Url.Content("~/"));
             var viewModel = new BaseViewModel
             {
                 AccessToken = HttpContext.Request.Query[AccessToken],
@@ -193,7 +194,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
                 languageCode = lang
             };
             var data = await _betListApiClient.PostAsyncString("/SAGamingResultPopup/Index", model, lang).ConfigureAwait(false);
-            ViewBag.Data = data.Replace("{rootUrl}/", Url.Content("~/"));
+            ViewBag.Data = data.Replace(ROOT_URL, Url.Content("~/"));
             var viewModel = new BaseViewModel
             {
                 AccessToken = HttpContext.Request.Query[AccessToken],
@@ -230,7 +231,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
                 languageCode = lang
             };
             var data = await _betListApiClient.PostAsyncString("/SexyGamingResultPopup/Index", model, lang).ConfigureAwait(false);
-            ViewBag.Data = data.Replace("{rootUrl}/", Url.Content("~/"));
+            ViewBag.Data = data.Replace(ROOT_URL, Url.Content("~/"));
             var viewModel = new BaseViewModel
             {
                 AccessToken = HttpContext.Request.Query[AccessToken],
@@ -301,7 +302,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
                 languageCode = lang
             };
             var data = await _betListApiClient.PostAsyncString("/WMResultPopup/Index", model, lang).ConfigureAwait(false);
-            ViewBag.Data = data.Replace("{rootUrl}/", Url.Content("~/"));
+            ViewBag.Data = data.Replace(ROOT_URL, Url.Content("~/"));
             var viewModel = new BaseViewModel
             {
                 AccessToken = HttpContext.Request.Query[AccessToken],
@@ -342,6 +343,22 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             };
 
             return await _betListApiClient.PostAsyncString("/HabaneroResultPopup/Index", model, lang).ConfigureAwait(false);
+        }
+        
+        [ResponseCache(Duration = SystemConstants.ThirtySecond, VaryByQueryKeys = new[] { "custId", "transId3rd", "currencyId", "siteId", "language" })]
+        [HttpGet]
+        public async Task<string> BGGResultPopup(string custId, string transId3rd, string currencyId, string siteId, string lang)
+        {
+            var model = new
+            {
+                custId,
+                transId3rd,
+                currencyId,
+                siteId,
+                languageCode = lang
+            };
+
+            return await _betListApiClient.PostAsyncString("/BGGResultPopup/Index", model, lang).ConfigureAwait(false);
         }
     }
 }

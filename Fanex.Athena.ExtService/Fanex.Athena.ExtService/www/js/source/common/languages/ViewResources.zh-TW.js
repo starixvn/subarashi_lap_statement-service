@@ -15,6 +15,7 @@
     ProductSXG: "AE Casino",
     ProductSBC: "Saba.club",
     ProductPGS: "PG Soft",
+    ProductBGG: "BG",
     ProductGDG: "GDG",
     ProductSLT: "體育時時彩",
     ProductHB: "HB電子",
