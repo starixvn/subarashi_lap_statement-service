@@ -428,6 +428,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
         const SPORT_SAG = 244;
         const SPORT_PGS = 232;
         const SPORT_JK = 234;
+        const SPORT_HAPPY5LINKEDGAMES = 168;
 
         let _sortColumnName, _sortOrder;
 
@@ -668,7 +669,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 showResultPopUp(url, { width: DetailsWidth, height: 380, title: title });
                 Site.unBlockUI();
             },
-            
+
             viewSAGamingResult: function (trasdesc, matchCode, bettype, title) {
                 let url = Site.resolveClientUrl('ResultReport/SAGamingResult?transdesc=' +
                     encodeURIComponent(trasdesc) + '&matchCode=' + matchCode + '&bettype=' + bettype);
@@ -724,6 +725,21 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 });
             },
 
+            ViewHappy5LinkedGamesResult: function (custId, transId3rd, platform, title) {
+                let url = Site.resolveClientUrl('ResultReport/Happy5LinkedGamesResultPopup?custId=' + custId +
+                    '&transId3rd=' + transId3rd + '&platform=' + platform);
+                url += "&lang=" + $("#lang").val();
+                url += "&access_token=" + $("#access_token").val();
+
+                Site.blockUI();
+                $.get(url, function (result) {
+                    if (result !== '') {
+                        showResultPopUp(result, { width: DetailsWidth, height: 380, title: title });
+                        Site.unBlockUI();
+                    }
+                });
+            },
+
             viewResult: function (matchid, raceNo, bettype, sporttype, refno,
                 username, winlostdate, refnoMixParlay, league, isOutright, extension1, extension2, custid, transdecs) {
                 const title = Site.getSingleResource('Result');
@@ -767,6 +783,9 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 }
                 else if (sporttype === SPORT_PGS) {
                     _me.viewPGSResult(custid, transdecs, extension2, title);
+                }
+                else if (sporttype === SPORT_HAPPY5LINKEDGAMES) {
+                    _me.ViewHappy5LinkedGamesResult(extension1, refno, defaultPlatform, title);
                 }
                 else {
                     const numberBettype = Number(bettype);
@@ -1310,6 +1329,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
         return _me;
     }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
 
 /***/ }),
 
