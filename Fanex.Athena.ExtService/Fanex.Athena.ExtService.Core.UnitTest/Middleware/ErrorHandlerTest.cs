@@ -153,10 +153,12 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
 
             var mockLogger = new Mock<ILogger<ErrorHandler>>();
 
+            Exception exc = new Exception("message", new Exception("inner message"));
+
             var errorHandler = new ErrorHandler(async (x) =>
             {
                 await Task.CompletedTask;
-                throw new Exception();
+                throw exc;
             }, mockLogger.Object);
 
             //Action
