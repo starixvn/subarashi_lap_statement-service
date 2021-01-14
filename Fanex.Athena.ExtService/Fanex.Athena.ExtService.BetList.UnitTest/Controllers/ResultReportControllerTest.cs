@@ -216,6 +216,37 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
         }
 
         [Fact]
+        public async Task SBCResultPopup_WhenCall_RetrunStringResult()
+        {
+            //Arrange
+            const string custId = "Any";
+            const string lang = "en-US";
+            const string gameId = "gameId";
+            const string gameRoundId = "gameRoundId";
+            const int sportType = 1;
+            const string siteId = "1";
+            const string fakeResult = "Any result data";
+            string result = null;
+            _betListApiClient.Setup(
+                x => x.PostAsyncString(
+                "/SabaClubResultPopup/Index",
+                It.IsAny<object>(),
+                It.IsAny<string>()))
+            .Returns(Task.FromResult(fakeResult));
+
+            //Action
+            using (var controller = new ResultReportController(_betListApiClient.Object))
+            {
+                controller.ControllerContext = _controllerContext.Object;
+                result = await controller.SBCResultPopup(custId, gameId, gameRoundId, sportType, siteId, lang).ConfigureAwait(false);
+            }
+
+            //Assert
+            var viewResult = Assert.IsType<string>(result);
+            Assert.Equal(fakeResult, viewResult);
+        }
+
+        [Fact]
         public async Task AllBetResult_WhenCall_RetrunCorrectViewModelAsync()
         {
             //Arrange
@@ -242,6 +273,47 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
                 controller.ControllerContext = _controllerContext.Object;
                 controller.Url = mockUrl.Object;
                 result = await controller.AllBetResult(transDesc, betCheck, betType, lang).ConfigureAwait(false);
+            }
+
+            //Assert
+            var viewResult = Assert.IsType<ViewResult>(result);
+            var viewModel = Assert.IsType<BaseViewModel>(viewResult.Model);
+
+            var title = Assert.IsAssignableFrom<string>(viewResult.ViewData["Title"]);
+            var actualResult = Assert.IsAssignableFrom<string>(viewResult.ViewData["Data"]);
+            Assert.Contains(fakeRootUrl, actualResult);
+            Assert.Equal(title, Title);
+            Assert.Equal(viewModel.Lang, lang);
+            Assert.Equal(viewModel.AccessToken, AccessToken);
+        }
+
+        [Fact]
+        public async Task SAGamingResult_WhenCall_RetrunCorrectViewModelAsync()
+        {
+            //Arrange
+            const string Title = "Result";
+
+            const string transDesc = "Any";
+            const string lang = "en-US";
+            const string betCheck = "Any";
+            const string betType = "Any";
+
+            const string fakeResult = "Any result data{rootUrl}/";
+            const string fakeRootUrl = "RootURL";
+            IActionResult result = null;
+            _betListApiClient.Setup(x => x.PostAsyncString(
+                "/SAGamingResultPopup/Index", It.IsAny<object>(),
+                It.IsAny<string>()))
+                .Returns(Task.FromResult(fakeResult));
+            var mockUrl = new Mock<IUrlHelper>();
+            mockUrl.Setup(x => x.Content(It.IsAny<string>())).Returns(fakeRootUrl);
+
+            //Action
+            using (var controller = new ResultReportController(_betListApiClient.Object))
+            {
+                controller.ControllerContext = _controllerContext.Object;
+                controller.Url = mockUrl.Object;
+                result = await controller.SAGamingResult(transDesc, betCheck, betType, lang).ConfigureAwait(false);
             }
 
             //Assert
@@ -348,6 +420,34 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             {
                 controller.ControllerContext = _controllerContext.Object;
                 result = await controller.GlobalGamingResult(custId, gameId, lang).ConfigureAwait(false);
+            }
+
+            //Assert
+            var viewResult = Assert.IsType<string>(result);
+            Assert.Equal(fakeResult, viewResult);
+        }
+
+        [Fact]
+        public async Task PGSoftResultPopup_WhenCall_RetrunStringResult()
+        {
+            //Arrange
+            const string custId = "Any";
+            const string gamePlayId = "Any";
+            const string gameId3rd = "Any";
+            const string siteId = "Any";
+            const string lang = "en-US";
+            const string fakeResult = "Any result data";
+            string result = null;
+            _betListApiClient.Setup(x => x.PostAsyncString(
+                "/PGSoftResultPopup/Index", It.IsAny<object>(),
+                It.IsAny<string>()))
+                .Returns(Task.FromResult(fakeResult));
+
+            //Action
+            using (var controller = new ResultReportController(_betListApiClient.Object))
+            {
+                controller.ControllerContext = _controllerContext.Object;
+                result = await controller.PGSoftResultPopup(custId, gamePlayId, gameId3rd, siteId, lang).ConfigureAwait(false);
             }
 
             //Assert
