@@ -413,4 +413,7 @@
     <value>Joker</value>
     <comment>141408</comment>
   </data>
+  <data name="ProductGDG" xml:space="preserve">
+    <value>GDG</value>
+  </data>
 </root>
