@@ -538,6 +538,15 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to GDG.
+        /// </summary>
+        public static string ProductGDG {
+            get {
+                return ResourceManager.GetString("ProductGDG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Indo 4D.
         /// </summary>
         public static string ProductI4D {

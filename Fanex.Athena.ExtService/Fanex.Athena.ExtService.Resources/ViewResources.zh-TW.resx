@@ -298,4 +298,7 @@
   <data name="ProductPP" xml:space="preserve">
     <value>PP王者電子</value>
   </data>
+  <data name="ProductGDG" xml:space="preserve">
+    <value>GDG</value>
+  </data>
 </root>

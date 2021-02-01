@@ -15,6 +15,7 @@
     ProductSXG: "AE Casino",
     ProductSBC: "Saba.club",
     ProductPGS: "PG Soft",
+    ProductGDG: "GDG",
     TransactionDetail: "Transaction Detail",
     ErrorProcessingMsg: "對不起，處理您的請求時有錯誤發生。",
     Result: "賽果",
