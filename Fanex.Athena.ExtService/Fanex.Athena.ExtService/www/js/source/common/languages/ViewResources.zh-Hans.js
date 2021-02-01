@@ -11,7 +11,7 @@
     ProductPP: "PP王者电子",
     ProductSG: "SG",
     ProductVRG: "虚拟娱乐城",
-    ProductI4D: "Indo 4D",
+    ProductI4D: "Togel 4D",
     ProductSXG: "AE真人",
     ProductSBC: "Saba.club",
     ProductPGS: "PG Soft",
