@@ -2,10 +2,11 @@
 
 /*Odds Table list*/
 .oddsTable {
-	font-size:11px;
-	line-height: 16px;
-	border-collapse: separate;
-	margin-bottom:8px;
+    font-size: 11px;
+    line-height: 16px;
+    border-collapse: separate;
+    margin-bottom: 8px;
+    white-space: nowrap;
 }
 .oddsTable th {
 	background-image:url(images/layout/oddsTable_th.png);
@@ -128,4 +129,12 @@
 	box-shadow: 7px 7px 10px rgba(0, 0, 0, 0.4);
 	min-width: 350px;
 	max-width:680px;
+}
+
+.left-border {
+    border-left: 1px solid #b1b1b1;
+}
+
+.popWTableArea div {
+    display: inline-block;
 }
