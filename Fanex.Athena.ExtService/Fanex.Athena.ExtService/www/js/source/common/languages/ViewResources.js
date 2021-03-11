@@ -12,7 +12,7 @@
     ProductPP: "PP",
     ProductSG: "SG",
     ProductVRG: "Virtual Games",
-    ProductI4D: "Indo 4D",
+    ProductI4D: "Togel 4D",
     ProductSXG: "AE Casino",
     ProductSAG: "SA Gaming",
     ProductSBC: "Saba.club",

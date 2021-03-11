@@ -15,7 +15,7 @@
     ProductSG: "新霸电子",
     ProductVB: "澳门电子娱乐城",
     ProductVRG: "虚拟娱乐城",
-    ProductI4D: "Indo 4D",
+    ProductI4D: "Togel 4D",
     ProductSXG: "AE真人",
     ProductSBC: "Saba.club",
     ProductPGS: "PG Soft",
