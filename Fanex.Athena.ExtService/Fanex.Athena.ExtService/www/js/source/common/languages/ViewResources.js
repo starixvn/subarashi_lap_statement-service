@@ -19,6 +19,7 @@
     ProductPGS: "PG Soft",
     ProductJK: "Joker",
     ProductGDG: "GDG",
+    ProductSLT: "Sports Lottery",
     TransactionDetail: "",
     ErrorProcessingMsg: "Sorry, an error occurred while processing your request.",
     Result: "Results",

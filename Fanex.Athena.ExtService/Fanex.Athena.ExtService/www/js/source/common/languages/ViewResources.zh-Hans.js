@@ -16,6 +16,7 @@
     ProductSBC: "Saba.club",
     ProductPGS: "PG Soft",
     ProductGDG: "金大门",
+    ProductSLT: "体育时时彩",
     TransactionDetail: "Transaction Detail",
     ErrorProcessingMsg: "对不起, 处理您的请求时有错误发生。",
     Result: "赛果",

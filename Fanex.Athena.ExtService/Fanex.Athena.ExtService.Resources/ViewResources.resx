@@ -416,4 +416,7 @@
   <data name="ProductGDG" xml:space="preserve">
     <value>GDG</value>
   </data>
+  <data name="ProductSLT" xml:space="preserve">
+    <value>Sports Lottery</value>
+  </data>
 </root>
