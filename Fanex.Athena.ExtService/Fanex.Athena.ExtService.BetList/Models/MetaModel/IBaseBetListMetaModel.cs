@@ -8,5 +8,7 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
     {
         bool HasPlayerCom { get; set; }
         string AgentListXml { get; set; }
+
+        bool IsShowIpvn { get; set; }
     }
 }

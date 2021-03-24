@@ -33,5 +33,7 @@
         public string BaseCurrency { get; set; } = SystemConstants.DefaultBaseCurrency;
 
         public bool IsDesktopViewOnly { get; set; }
+
+        public bool IsShowIpvn { get; set; } = true;
     }
 }

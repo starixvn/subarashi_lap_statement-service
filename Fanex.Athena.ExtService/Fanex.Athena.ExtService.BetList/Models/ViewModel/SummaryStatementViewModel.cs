@@ -22,5 +22,7 @@
         public DateTime ToDate { get; set; }
 
         public bool IsDesktopViewOnly { get; set; }
+
+        public bool IsShowIpvn { get; internal set; }
     }
 }

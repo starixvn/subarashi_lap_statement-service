@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 {
-    public class CashOutBetListDetailMetaModel : IBaseBetListMetaModel
+    public class CashOutBetListDetailMetaModel : IBaseBetListMetaModel, IMetaModelShowIPVN
     {
         public long TransId { get; set; }
 
@@ -20,6 +20,7 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
         public string Lang { get; set; } = SystemConstants.DefaultLangCode;
         [JsonProperty("HasPlayerComm")]
         public bool HasPlayerCom { get; set; }
+        public bool IsShowIpvn { get; set; }
 
         public bool IsDesktopViewOnly { get; set; }
         public bool IsMobileView { get; set; }

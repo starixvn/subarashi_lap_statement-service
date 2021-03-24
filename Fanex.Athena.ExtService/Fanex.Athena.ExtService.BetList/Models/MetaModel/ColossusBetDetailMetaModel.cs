@@ -6,7 +6,7 @@ using Fanex.Athena.ExtService.Common.Models.ViewModels;
 
 namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 {
-    public class ColossusBetDetailMetaModel : IBaseMetaModel, ICustomerMetaModel
+    public class ColossusBetDetailMetaModel : IBaseMetaModel, ICustomerMetaModel, IMetaModelShowIPVN
     {
         public int UserId { get; set; } = 1;
 
@@ -18,6 +18,7 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
         public string BaseCurrency { get; set; } = SystemConstants.DefaultBaseCurrency;
         public string Lang { get; set; } = SystemConstants.DefaultLangCode;
         public string AgentListXml { get; set; }
+        public bool IsShowIpvn { get; set; }
 
     }
 }

@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.BetList.Models.ViewModel;
 using Fanex.Athena.ExtService.Common.Services;
+using Fanex.Athena.ExtService.Core.Constant;
 using Fanex.Athena.ExtService.Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -32,6 +34,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             var isMobileView = !metaModel.IsDesktopViewOnly && _browserService.IsMobile();
             var licenseeInfo = await _commonService.GetLicenseeInfoAsync(HttpContext.User.Identity.Name, metaModel.CustId);
             metaModel.IsMobileView = isMobileView;
+            metaModel.IsShowIpvn = IsShowIpvn();
 
             AssignCommonMetaModelValue(metaModel, licenseeInfo);
             var result =
@@ -46,6 +49,15 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
 
             var viewSuffix = isMobileView ? "Mobile" : "";
             return View($"~/Views/BetListDetailByProduct/Detail{viewSuffix}.cshtml", result);
+        }
+
+        private bool IsShowIpvn()
+        {
+            if (string.IsNullOrEmpty(HttpContext.User.FindFirst(CustomClaimType.IsShowIPVN)?.Value))
+            {
+                return true;
+            }
+            return Convert.ToBoolean(HttpContext.User.FindFirst(CustomClaimType.IsShowIPVN).Value);
         }
     }
 }
