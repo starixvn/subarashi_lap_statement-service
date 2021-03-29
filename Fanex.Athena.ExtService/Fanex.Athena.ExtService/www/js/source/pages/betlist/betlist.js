@@ -24,6 +24,7 @@
         const SPORT_JK = 234;
         const SPORT_HAPPY5LINKEDGAMES = 168;
         const SPORT_GDG = 236;
+        const SPORT_SPORTSLOTTERY = 169;
 
         let _sortColumnName, _sortOrder;
 
@@ -335,8 +336,23 @@
                     }
                 });
             },
-            
-	    viewGDGResult: function (custId, transId3rd, gameId3rd, siteId, title) {
+
+            viewSportsLotteryResult: function (custId, transId3rd, platform, title) {
+                let url = Site.resolveClientUrl('ResultReport/SportsLotteryResult?custId=' + custId +
+                    '&transId3rd=' + transId3rd + '&platform=' + platform);
+                url += "&lang=" + $("#lang").val();
+                url += "&access_token=" + $("#access_token").val();
+
+                Site.blockUI();
+                $.get(url, function (result) {
+                    if (result !== '') {
+                        showResultPopUp(result, { width: DetailsWidth, height: 380, title: title });
+                        Site.unBlockUI();
+                    }
+                });
+            },
+
+            viewGDGResult: function (custId, transId3rd, gameId3rd, siteId, title) {
                 let url = Site.resolveClientUrl('ResultReport/GDGResult?custId=' + custId + '&transId3rd=' + transId3rd + '&gameId3rd=' + gameId3rd + '&siteId=' + siteId);
                 url += "&lang=" + $("#lang").val();
                 url += "&access_token=" + $("#access_token").val();
@@ -349,7 +365,7 @@
                     }
                 });
             },
-            
+
             viewResult: function (matchid, raceNo, bettype, sporttype, refno,
                 username, winlostdate, refnoMixParlay, league, isOutright, extension1, extension2, custid, transdecs) {
                 const title = Site.getSingleResource('Result');
@@ -399,6 +415,9 @@
                 }
                 else if (sporttype === SPORT_GDG) {
                     _me.viewGDGResult(custid, transdecs, extension2, league, title);
+                }
+                else if (sporttype === SPORT_SPORTSLOTTERY) {
+                    _me.viewSportsLotteryResult(custid, transdecs, defaultPlatform, title);
                 }
                 else {
                     const numberBettype = Number(bettype);
