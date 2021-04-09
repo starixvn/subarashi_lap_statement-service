@@ -10,6 +10,7 @@
     using Fanex.Athena.ExtService.BetList.Models.ViewModel;
     using Fanex.Athena.ExtService.Common.Attributes;
     using Fanex.Athena.ExtService.Common.Models.DataDomain;
+    using Fanex.Athena.ExtService.Common.Models.DTO;
     using Fanex.Athena.ExtService.Common.Services;
     using Fanex.Athena.ExtService.Core.Constant;
     using Fanex.Athena.ExtService.Core.Services;
@@ -57,10 +58,13 @@
                 IsDesktopViewOnly = metaModel.IsDesktopViewOnly
             };
 
+            bool isShowIp = _commonService.IsShowIp(licenseeInfo.SiteName);
+
             if (metaModel.IsValid)
             {
                 AssignCommonMetaModelValue(metaModel, licenseeInfo);
-                metaModel.IsShowIpvn = IsShowIpvn();
+                metaModel.IsShowIpvn = IsShowIpvn() && isShowIp;
+                metaModel.IsShowIp = isShowIp;
 
                 var result = await _betListApiClient.PostAsync<RefNoDataResult>(
                     "/BettingTicketCenter/GetByRefno",
@@ -89,10 +93,13 @@
                 Data = new List<TicketText>()
             };
 
+            bool isShowIp = _commonService.IsShowIp(licenseeInfo.SiteName);
+
             if (metaModel.IsValid)
             {
                 AssignCommonMetaModelValue(metaModel, licenseeInfo);
-                metaModel.IsShowIpvn = IsShowIpvn();
+                metaModel.IsShowIpvn = IsShowIpvn() && isShowIp;
+                metaModel.IsShowIp = isShowIp;
 
                 var result = await _betListApiClient.PostAsync<TxIDDataResult>(
                     "/BettingTicketCenter/GetByTxID",
@@ -134,10 +141,13 @@
                 IsDesktopViewOnly = metaModel.IsDesktopViewOnly
             };
 
+            bool isShowIp = _commonService.IsShowIp(licenseeInfo.SiteName);
+
             if (metaModel.IsValid)
             {
                 AssignCommonMetaModelValue(metaModel, licenseeInfo);
-                metaModel.IsShowIpvn = IsShowIpvn();
+                metaModel.IsShowIpvn = IsShowIpvn() && isShowIp;
+                metaModel.IsShowIp = isShowIp;
 
                 var result = await _betListApiClient.PostAsync<RefNoDataResult>(
                     "/BetListByProduct/Index",
@@ -177,10 +187,13 @@
                 IsDesktopViewOnly = metaModel.IsDesktopViewOnly
             };
 
+            bool isShowIp = _commonService.IsShowIp(licenseeInfo.SiteName);
+
             if (metaModel.IsValid)
             {
                 AssignCommonMetaModelValue(metaModel, licenseeInfo);
-                metaModel.IsShowIpvn = IsShowIpvn();
+                metaModel.IsShowIpvn = IsShowIpvn() && isShowIp;
+                metaModel.IsShowIp = isShowIp;
 
                 var result = await _betListApiClient.PostAsync<RefNoDataResult>(
                     "/PlayerAdminBetList/GetBetList",

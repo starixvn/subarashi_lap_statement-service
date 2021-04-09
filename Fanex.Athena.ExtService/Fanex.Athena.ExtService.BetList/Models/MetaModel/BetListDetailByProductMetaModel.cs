@@ -3,7 +3,7 @@ using Fanex.Athena.ExtService.Common.Models.ViewModels;
 
 namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 {
-    public class BetListDetailByProductMetaModel : IBaseBetListMetaModel, ICustomerMetaModel, IMetaModelShowIPVN
+    public class BetListDetailByProductMetaModel : IBaseBetListMetaModel, ICustomerMetaModel, IMetaModelShowIP
     {
         public long TransId { get; set; }
 
@@ -25,5 +25,6 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
         public bool IsDesktopViewOnly { get; set; }
         public bool IsMobileView { get; set; }
         public bool IsShowIpvn { get; set; }
+        public bool IsShowIp { get; set; }
     }
 }

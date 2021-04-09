@@ -12,6 +12,7 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
         public bool HasPlayerCom { get; set; }
         public string AgentListXml { get; set; }
         public bool IsShowIpvn { get; set; } = true;
+        public bool IsShowIp { get; set; }
 
         [FromQuery(Name = "bc")]
         public string BaseCurrency { get; set; } = SystemConstants.DefaultBaseCurrency;

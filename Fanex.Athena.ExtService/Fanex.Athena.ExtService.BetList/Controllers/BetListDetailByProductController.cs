@@ -33,8 +33,11 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             _browserService.SetContext(HttpContext);
             var isMobileView = !metaModel.IsDesktopViewOnly && _browserService.IsMobile();
             var licenseeInfo = await _commonService.GetLicenseeInfoAsync(HttpContext.User.Identity.Name, metaModel.CustId);
+            bool isShowIp = _commonService.IsShowIp(licenseeInfo.SiteName);
+
             metaModel.IsMobileView = isMobileView;
-            metaModel.IsShowIpvn = IsShowIpvn();
+            metaModel.IsShowIpvn = IsShowIpvn() && isShowIp;
+            metaModel.IsShowIp = isShowIp;
 
             AssignCommonMetaModelValue(metaModel, licenseeInfo);
             var result =

@@ -8,5 +8,6 @@ namespace Fanex.Athena.ExtService.Common.Models.DTO
         public string BetListApiTokenValue { get; set; }
         public string Environment { get; set; }
         public string LicenseeOfferTxIDColumn { get; set; }
+        public string LicenseeOfferShowIp { get; set; }
     }
 }

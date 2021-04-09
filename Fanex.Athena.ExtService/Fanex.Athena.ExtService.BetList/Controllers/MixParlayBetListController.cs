@@ -18,17 +18,24 @@
     public class MixParlayBetListController : BaseController
     {
         private readonly IBetListApiClient _betListApiClient;
+        private readonly ICommonService _commonService;
 
-        public MixParlayBetListController(IBetListApiClient betListApiClient)
+        public MixParlayBetListController(IBetListApiClient betListApiClient, ICommonService commonService)
         {
             _betListApiClient = betListApiClient;
+            _commonService = commonService;
         }
 
         [ResponseCache(Duration = SystemConstants.ThirtySecond)]
         [HttpGet]
         public async Task<IActionResult> Detail(MixParlayDetailMetaModel metaModel)
         {
-            metaModel.IsShowIpvn = IsShowIpvn();
+            var licenseeInfo = await _commonService.GetLicenseeInfoAsync(HttpContext.User.Identity.Name, metaModel.CustId);
+            bool isShowIp = _commonService.IsShowIp(licenseeInfo.SiteName);
+
+            metaModel.IsShowIpvn = IsShowIpvn() && isShowIp;
+            metaModel.IsShowIp = isShowIp;
+
             var result = await _betListApiClient.PostAsync<IList<TicketText>>("/MixParlayBetList/Detail",
                 metaModel,
                 metaModel.Lang).ConfigureAwait(false);
@@ -41,7 +48,12 @@
         public async Task<IActionResult> NewParlayDetail(
             NewParlayDetailMetaModel metaModel)
         {
-            metaModel.IsShowIpvn = IsShowIpvn();
+            var licenseeInfo = await _commonService.GetLicenseeInfoAsync(HttpContext.User.Identity.Name, metaModel.CustId);
+            bool isShowIp = _commonService.IsShowIp(licenseeInfo.SiteName);
+
+            metaModel.IsShowIpvn = IsShowIpvn() && isShowIp;
+            metaModel.IsShowIp = isShowIp;
+
             var result = await _betListApiClient.PostAsync<NewParlayDetailViewModel>("/MixParlayBetList/NewParlayDetail",
                 metaModel, metaModel.Lang).ConfigureAwait(false);
             return Json(result);

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Fanex.Athena.ExtService.BetList.Controllers
 {
-    public class BetListByGroupMetaModel : StatementByGroupMetaModel, IBaseBetListMetaModel, IMetaModelShowIPVN
+    public class BetListByGroupMetaModel : StatementByGroupMetaModel, IBaseBetListMetaModel, IMetaModelShowIP
     {
         public new bool IsValid
         {
@@ -38,5 +38,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         public string AgentListXml { get; set; }
 
         public bool IsShowIpvn { get; set; }
+
+        public bool IsShowIp { get; set; }
     }
 }

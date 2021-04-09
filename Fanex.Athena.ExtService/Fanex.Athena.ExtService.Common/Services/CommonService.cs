@@ -1,5 +1,6 @@
 ﻿using Fanex.Athena.ExtService.Common.Models.DTO;
 using Fanex.Data;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +18,12 @@ namespace Fanex.Athena.ExtService.Common.Services
 
         private readonly ICustomDistributedCache _cache;
 
-        public CommonService(ICustomDistributedCache cache)
+        private readonly AppSettings _settings;
+
+        public CommonService(ICustomDistributedCache cache, IOptions<AppSettings> settings)
         {
             _cache = cache;
+            _settings = settings.Value;
         }
 
         public async Task<LicenseeInfo> GetLicenseeInfoAsync(string siteName, int custId = 0)
@@ -39,6 +43,11 @@ namespace Fanex.Athena.ExtService.Common.Services
             }
 
             return result;
+        }
+
+        public bool IsShowIp(string siteName)
+        {
+            return _settings.LicenseeOfferShowIp.Split(',').Contains(siteName, StringComparer.InvariantCultureIgnoreCase);
         }
 
         private static async Task<LicenseeInfo> GetLicenseeInfoFromDBAsync(string siteName, int custId)

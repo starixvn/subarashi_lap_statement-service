@@ -6,12 +6,13 @@ using Fanex.Athena.ExtService.Common.Models.ViewModels;
 
 namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 {
-    public class MixParlayDetailMetaModel : ICustomerMetaModel, IMetaModelShowIPVN
+    public class MixParlayDetailMetaModel : ICustomerMetaModel, IMetaModelShowIP
     {
         public long TransId { get; set; }
 
         public int CustId { get; set; }
         public string Lang { get; set; } = SystemConstants.DefaultLangCode;
         public bool IsShowIpvn { get; set; }
+        public bool IsShowIp { get; set; }
     }
 }

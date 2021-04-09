@@ -35,5 +35,7 @@
         public bool IsDesktopViewOnly { get; set; }
 
         public bool IsShowIpvn { get; set; } = true;
+
+        public bool IsShowIp { get; set; } = true;
     }
 }

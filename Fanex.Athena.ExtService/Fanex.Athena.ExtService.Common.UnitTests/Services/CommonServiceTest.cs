@@ -2,6 +2,7 @@
 using Fanex.Athena.ExtService.Common.Services;
 using Fanex.Data;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Options;
 using Moq;
 using MsgPack.Serialization;
 using System;
@@ -21,9 +22,12 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
 
         private readonly Mock<ICustomDistributedCache> _mockCache;
 
+        private readonly Mock<IOptions<AppSettings>> _mockAppSettings;
+
         public CommonServiceTest()
         {
             _mockCache = new Mock<ICustomDistributedCache>();
+            _mockAppSettings = new Mock<IOptions<AppSettings>>();
             DbSettingProviderManager.StartTestingSession().Run();
         }
 
@@ -39,7 +43,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             SetupBalanceUpDatabaseData(balanceupInfo);
             _mockCache.SetReturnsDefault(Task.FromResult((byte[])null));
 
-            var service = new CommonService(_mockCache.Object);
+            var service = new CommonService(_mockCache.Object, _mockAppSettings.Object);
 
             //Action
             var result = await service.GetBalanceUpAsync().ConfigureAwait(false);
@@ -56,7 +60,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             SetupBalanceUpDatabaseData(new BalanceUp());
             _mockCache.SetReturnsDefault(Task.FromResult((byte[])null));
 
-            var service = new CommonService(_mockCache.Object);
+            var service = new CommonService(_mockCache.Object, _mockAppSettings.Object);
 
             //Action
             var result = await service.GetBalanceUpAsync().ConfigureAwait(false);
@@ -80,7 +84,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
 
             _mockCache.Setup(c => c.GetAsync<BalanceUp>(BalanceUpCacheKey, It.IsAny<CancellationToken>())).ReturnsAsync(balanceupInfo);
 
-            var service = new CommonService(_mockCache.Object);
+            var service = new CommonService(_mockCache.Object, _mockAppSettings.Object);
 
             //Action
             var result = await service.GetBalanceUpAsync().ConfigureAwait(false);
@@ -105,7 +109,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             SetupLicenseeInfoDatabaseData(CurrencyId, CurrencyName, AgentId, HasComm);
             _mockCache.SetReturnsDefault(Task.FromResult((byte[])null));
 
-            var service = new CommonService(_mockCache.Object);
+            var service = new CommonService(_mockCache.Object, _mockAppSettings.Object);
 
             ///Action
 
@@ -141,7 +145,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             var realCacheKey = $"{LicenseeExtInfoCacheKey}{SiteName}_{custId}";
             _mockCache.SetReturnsDefault(Task.FromResult<LicenseeInfo>(null));
 
-            var service = new CommonService(_mockCache.Object);
+            var service = new CommonService(_mockCache.Object, _mockAppSettings.Object);
             ///Action
 
             var result = await service.GetLicenseeInfoAsync(SiteName, custId).ConfigureAwait(false);
@@ -174,7 +178,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             _mockCache.Setup(c => c.GetAsync<LicenseeInfo>(realCacheKey, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(licenseeInfo);
 
-            var service = new CommonService(_mockCache.Object);
+            var service = new CommonService(_mockCache.Object, _mockAppSettings.Object);
 
             ///Action
 
