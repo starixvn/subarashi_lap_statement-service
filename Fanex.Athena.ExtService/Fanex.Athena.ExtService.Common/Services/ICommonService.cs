@@ -9,5 +9,7 @@ namespace Fanex.Athena.ExtService.Common.Services
         Task<LicenseeInfo> GetLicenseeInfoAsync(string siteName, int custId = 0);
 
         Task<BalanceUp> GetBalanceUpAsync();
+
+        bool IsShowIp(string siteName);
     }
 }

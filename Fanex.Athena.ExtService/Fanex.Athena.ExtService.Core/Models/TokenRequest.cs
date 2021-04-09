@@ -17,5 +17,9 @@ namespace Fanex.Athena.ExtService.Core.Models
         [Required]
         [JsonProperty("password")]
         public string Password { get; set; }
+
+        public bool IsShowIpvn { get; set; } = true;
+
+        public bool IsShowIp { get; set; }
     }
 }
