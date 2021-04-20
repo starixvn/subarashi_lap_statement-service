@@ -13,7 +13,7 @@
     ProductSG: "SG",
     ProductVRG: "Virtual Games",
     ProductI4D: "Togel 4D",
-    ProductSXG: "AE Casino",
+    ProductSXG: "AE Sexy",
     ProductSAG: "SA Gaming",
     ProductSBC: "Saba.club",
     ProductPGS: "PG Soft",
