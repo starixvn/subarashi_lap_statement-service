@@ -12,7 +12,7 @@
     ProductSG: "SG",
     ProductVRG: "虚拟娱乐城",
     ProductI4D: "Togel 4D",
-    ProductSXG: "AE真人",
+    ProductSXG: "AE性感真人",
     ProductSBC: "Saba.club",
     ProductPGS: "PG Soft",
     ProductGDG: "金大门",
