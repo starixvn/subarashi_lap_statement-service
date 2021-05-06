@@ -303,5 +303,21 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
 
             return await _betListApiClient.PostAsyncString("/SportsLotteryResultPopup/Index", model, lang).ConfigureAwait(false);
         }
+
+        [ResponseCache(Duration = SystemConstants.ThirtySecond, VaryByQueryKeys = new[] { "custId", "transId3rd", "gameId3rd", "siteId", "lang" })]
+        [HttpGet]
+        public async Task<string> HabaneroResult(string custid, string transId3rd, string gameId3rd, string siteId, string lang)
+        {
+            var model = new
+            {
+                custid,
+                transId3rd,
+                gameId3rd,
+                siteId,
+                languageCode = lang
+            };
+
+            return await _betListApiClient.PostAsyncString("/HabaneroResultPopup/Index", model, lang).ConfigureAwait(false);
+        }
     }
 }
