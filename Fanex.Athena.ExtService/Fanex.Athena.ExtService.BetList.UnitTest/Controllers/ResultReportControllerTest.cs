@@ -435,6 +435,39 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
         }
 
         [Fact]
+        public async Task HabaneroResult_WhenCall_RetrunCorrectViewModelAsync()
+        {
+            //Arrange
+            const string custId = "Any";
+            const string gamePlayId = "Any";
+            const string gameId3rd = "Any";
+            const string siteId = "Any";
+            const string lang = "en-US";
+
+            const string fakeResult = "Any result data{rootUrl}/";
+            const string fakeRootUrl = "RootURL";
+            string result = null;
+            _betListApiClient.Setup(x => x.PostAsyncString(
+                "/HabaneroResultPopup/Index", It.IsAny<object>(),
+                It.IsAny<string>()))
+                .Returns(Task.FromResult(fakeResult));
+            var mockUrl = new Mock<IUrlHelper>();
+            mockUrl.Setup(x => x.Content(It.IsAny<string>())).Returns(fakeRootUrl);
+
+            //Action
+            using (var controller = new ResultReportController(_betListApiClient.Object))
+            {
+                controller.ControllerContext = _controllerContext.Object;
+                controller.Url = mockUrl.Object;
+                result = await controller.HabaneroResult(custId, gamePlayId, gameId3rd, siteId, lang).ConfigureAwait(false);
+            }
+
+            //Assert
+            var viewResult = Assert.IsType<string>(result);
+            Assert.Equal(fakeResult, viewResult);
+        }
+
+        [Fact]
         public async Task SportsLotteryResult_WhenCall_RetrunCorrectViewModelAsync()
         {
             //Arrange

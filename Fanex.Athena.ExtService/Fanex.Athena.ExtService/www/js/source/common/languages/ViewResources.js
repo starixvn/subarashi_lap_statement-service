@@ -20,6 +20,7 @@
     ProductJK: "Joker",
     ProductGDG: "GDG",
     ProductSLT: "Sports Lottery",
+    ProductHB: "Habanero",
     TransactionDetail: "",
     ErrorProcessingMsg: "Sorry, an error occurred while processing your request.",
     Result: "Results",

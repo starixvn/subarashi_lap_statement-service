@@ -304,4 +304,7 @@
   <data name="ProductSLT" xml:space="preserve">
     <value>體育時時彩</value>
   </data>
+  <data name="ProductHB" xml:space="preserve">
+    <value>HB電子</value>
+  </data>
 </root>

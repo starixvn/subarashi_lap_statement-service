@@ -419,4 +419,7 @@
   <data name="ProductSLT" xml:space="preserve">
     <value>Sports Lottery</value>
   </data>
+  <data name="ProductHB" xml:space="preserve">
+    <value>Habanero</value>
+  </data>
 </root>
