@@ -289,6 +289,30 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             return await _betListApiClient.PostAsyncString("/GDGResultPopup/Index", model, lang).ConfigureAwait(false);
         }
 
+        [ResponseCache(Duration = SystemConstants.ThirtySecond, VaryByQueryKeys = new[] { "transDesc", "lang", "gameId3rd", "betType" })]
+        [HttpGet]
+        public async Task<IActionResult> WMResult(string transDesc, string gameId3rd, int betType, string lang)
+        {
+            var model = new
+            {
+                transDesc,
+                gameId3rd,
+                betType,
+                languageCode = lang
+            };
+            var data = await _betListApiClient.PostAsyncString("/WMResultPopup/Index", model, lang).ConfigureAwait(false);
+            ViewBag.Data = data.Replace("{rootUrl}/", Url.Content("~/"));
+            var viewModel = new BaseViewModel
+            {
+                AccessToken = HttpContext.Request.Query[AccessToken],
+                Lang = lang
+            };
+
+            ViewBag.Title = PopupTitle;
+
+            return View("~/Views/ResultReport/WMResult.cshtml", viewModel);
+        }
+
         [ResponseCache(Duration = SystemConstants.ThirtySecond, VaryByQueryKeys = new[] { "custId", "lang", "transId3rd", "platform" })]
         [HttpGet]
         public async Task<string> SportsLotteryResult(string custId, string transId3rd, string platform, string lang)

@@ -422,4 +422,7 @@
   <data name="ProductHB" xml:space="preserve">
     <value>Habanero</value>
   </data>
+  <data name="ProductWM" xml:space="preserve">
+    <value>WM</value>
+  </data>
 </root>
