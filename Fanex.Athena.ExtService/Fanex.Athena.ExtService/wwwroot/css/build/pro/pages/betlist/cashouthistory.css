@@ -637,6 +637,9 @@ table tbody tr.row-group-level1 td {
       color: #003399; }
   .betlist-container.page-results {
     min-width: 800px; }
+  .betlist-container .underdog > .bet-id, .betlist-container .favorite > .bet-id {
+    color: #bbb;
+    display: block; }
 
 .mobile.betlist-container .icon-show-more {
   cursor: pointer; }

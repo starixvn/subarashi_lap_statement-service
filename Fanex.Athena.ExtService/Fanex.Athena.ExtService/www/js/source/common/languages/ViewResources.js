@@ -17,6 +17,7 @@
     ProductSAG: "SA Gaming",
     ProductSBC: "Saba.club",
     ProductPGS: "PG Soft",
+    ProductBGG: "BG",
     ProductJK: "Joker",
     ProductGDG: "GDG",
     ProductSLT: "Sports Lottery",

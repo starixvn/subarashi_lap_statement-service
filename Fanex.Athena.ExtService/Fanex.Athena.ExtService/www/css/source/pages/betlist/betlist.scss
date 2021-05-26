@@ -345,6 +345,11 @@
     &.page-results {
         min-width: 800px;
     }
+
+    .underdog > .bet-id, .favorite > .bet-id {
+        color: #bbb;
+        display: block;
+    }
 }
 
 .mobile {

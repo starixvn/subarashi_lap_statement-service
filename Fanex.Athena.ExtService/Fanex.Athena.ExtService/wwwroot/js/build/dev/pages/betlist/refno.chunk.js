@@ -433,6 +433,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
         const SPORT_SPORTSLOTTERY = 169;
         const SPORT_HB = 238;
         const SPORT_WM = 233;
+        const SPORT_BGG = 239;
 
         let _sortColumnName, _sortOrder;
 
@@ -730,6 +731,24 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 });
             },
 
+            viewBGGResult: function (custId, transId3rd, currencyId, siteId, title) {
+                let url = Site.resolveClientUrl('ResultReport/BGGResultPopup') +
+                    '?custid=' + custId +
+                    '&transId3rd=' + transId3rd +
+                    '&currencyId=' + currencyId +
+                    '&siteId=' + siteId;
+                url = QueryString.setParam(url, 'lang', $("#lang").val());
+                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
+
+                Site.blockUI();
+                $.get(url, function (result) {
+                    if (result !== '') {
+                        showResultPopUp(result, { width: DetailsWidth, height: 450, title: title });
+                        Site.unBlockUI();
+                    }
+                });
+            },
+
             ViewHappy5LinkedGamesResult: function (custId, transId3rd, platform, title) {
                 let url = Site.resolveClientUrl('ResultReport/Happy5LinkedGamesResultPopup?custId=' + custId +
                     '&transId3rd=' + transId3rd + '&platform=' + platform);
@@ -857,6 +876,9 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 }
                 else if (sporttype === SPORT_WM) {
                     _me.viewWMResult(transdecs, extension2, bettype, title);
+                }
+                else if (sporttype === SPORT_BGG) {
+                    _me.viewBGGResult(custid, transdecs, league, extension2, title);
                 }
                 else {
                     const numberBettype = Number(bettype);
@@ -1346,6 +1368,24 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
 
                 showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
             },
+            showBGGDetails: function (transId, winlostDate, custId, transType) {
+                let url = Site.resolveClientUrl('BetListDetailByProduct/Detail');
+                url = QueryString.setParam(url, 'transId', transId);
+                url = QueryString.setParam(url, 'date', winlostDate);
+                url = QueryString.setParam(url, 'custId', custId);
+                url = QueryString.setParam(url, 'transType', transType);
+                url = QueryString.setParam(url, 'BaseCurrency', getBaseCurrency());
+                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
+                url = QueryString.setParam(url, 'lang', $("#lang").val());
+                url = QueryString.setParam(url, 'uspkey', 'Lrf_BetList_LC_Detail');
+                url = QueryString.setParam(url, 'hastotal', 1);
+                url = QueryString.setParam(url, 'isDesktopViewOnly', $("#isDesktopViewOnly").val() === "1");
+                const popH = Math.min($(window).height() - 100, 550);
+                const title = Site.getSingleResource('ProductBGG') + ' - ' +
+                    Site.getSingleResource('DetailedBetlist');
+
+                showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
+            },
             ViewCasinoHandHistory: function (refNo) {
                 let url = Site.resolveClientUrl('HandHistory/RNGCasino');
                 const urlParam = $('#casino-hand-history-' + refNo).attr('url-param');
@@ -1452,6 +1492,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 window.showGDGBetDetails = _me.showGDGBetDetails;
                 window.showHabaneroBetDetails = _me.showHabaneroBetDetails;
                 window.showWMBetDetails = _me.showWMBetDetails;
+                window.showBGBetDetails = _me.showBGGDetails;
 
                 const betList = {
                     ViewCasinoHandHistory: _me.ViewCasinoHandHistory

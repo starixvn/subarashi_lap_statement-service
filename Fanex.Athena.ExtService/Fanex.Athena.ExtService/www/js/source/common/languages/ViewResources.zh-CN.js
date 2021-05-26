@@ -19,6 +19,7 @@
     ProductSXG: "AE性感真人",
     ProductSBC: "Saba.club",
     ProductPGS: "PG Soft",
+    ProductBGG: "BG",
     ProductGDG: "金大门",
     ProductSLT: "体育时时彩",
     ProductHB: "HB电子",

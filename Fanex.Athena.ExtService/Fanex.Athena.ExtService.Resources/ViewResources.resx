@@ -425,4 +425,7 @@
   <data name="ProductWM" xml:space="preserve">
     <value>WM</value>
   </data>
+  <data name="ProductBGG" xml:space="preserve">
+    <value>BG</value>
+  </data>
 </root>
