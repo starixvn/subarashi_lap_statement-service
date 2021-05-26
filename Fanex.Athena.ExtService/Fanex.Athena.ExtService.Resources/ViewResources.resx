@@ -428,4 +428,7 @@
   <data name="ProductBGG" xml:space="preserve">
     <value>BG</value>
   </data>
+  <data name="ProductVGA" xml:space="preserve">
+    <value>Vgaming</value>
+  </data>
 </root>

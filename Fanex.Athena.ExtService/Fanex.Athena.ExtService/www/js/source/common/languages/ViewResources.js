@@ -23,6 +23,7 @@
     ProductSLT: "Sports Lottery",
     ProductHB: "Habanero",
     ProductWM: "WM",
+    ProductVGA: "Vgaming",
     TransactionDetail: "",
     ErrorProcessingMsg: "Sorry, an error occurred while processing your request.",
     Result: "Results",
