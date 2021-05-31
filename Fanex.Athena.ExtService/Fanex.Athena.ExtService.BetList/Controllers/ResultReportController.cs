@@ -344,7 +344,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
 
             return await _betListApiClient.PostAsyncString("/HabaneroResultPopup/Index", model, lang).ConfigureAwait(false);
         }
-        
+
         [ResponseCache(Duration = SystemConstants.ThirtySecond, VaryByQueryKeys = new[] { "custId", "transId3rd", "currencyId", "siteId", "language" })]
         [HttpGet]
         public async Task<string> BGGResultPopup(string custId, string transId3rd, string currencyId, string siteId, string lang)
@@ -361,7 +361,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             return await _betListApiClient.PostAsyncString("/BGGResultPopup/Index", model, lang).ConfigureAwait(false);
         }
 
-        [ResponseCache(Duration = SystemConstants.ThirtySecond, VaryByQueryKeys = new[] { "custId", "lang", "gameId", "gameRoundId" })]
+        [ResponseCache(Duration = SystemConstants.ThirtySecond, VaryByQueryKeys = new[] { "custId", "gameId", "gameRoundId", "sportType", "siteId", "lang" })]
         [HttpGet]
         public async Task<string> VGamingResultPopup(string custId, string gameId, string gameRoundId, int sportType, string siteId, string lang)
         {
