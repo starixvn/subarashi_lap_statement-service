@@ -310,4 +310,7 @@
   <data name="ProductWM" xml:space="preserve">
     <value>完美真人</value>
   </data>
+  <data name="ProductVGA" xml:space="preserve">
+    <value>Vgaming</value>
+  </data>
 </root>
