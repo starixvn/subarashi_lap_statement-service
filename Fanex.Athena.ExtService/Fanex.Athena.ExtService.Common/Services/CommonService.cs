@@ -26,6 +26,15 @@ namespace Fanex.Athena.ExtService.Common.Services
             _settings = settings.Value;
         }
 
+        public async Task<bool> IsEnableSingleWallet(string siteName)
+        {
+            const string KeyName = "EnableSingleWallet";
+            const string ExpectedKeyValue = "true";
+            var env = string.Equals(_settings.Environment, "uattw", StringComparison.OrdinalIgnoreCase) ? "UAT" : "Production";
+            var result = await GetConfigDetailByKeyName(siteName, env, KeyName);
+            return !string.IsNullOrEmpty(result) && string.Equals(result, ExpectedKeyValue, StringComparison.OrdinalIgnoreCase);
+        }
+
         public async Task<LicenseeInfo> GetLicenseeInfoAsync(string siteName, int custId = 0)
         {
             var realCacheKey = $"{LicenseeExtInfoCacheKey}{siteName}_{custId}";
@@ -118,6 +127,24 @@ namespace Fanex.Athena.ExtService.Common.Services
 
                     return balanceUp;
                 }
+            }
+        }
+
+        private static async Task<string> GetConfigDetailByKeyName(string siteName, string environment, string keyName)
+        {
+            const string UspName = "Lrf_GetConfigDetailByKeyName";
+            using (var db = ObjectDbFactory.CreateInstance(UspName))
+            {
+                db.SetParameterValue("SiteName", siteName);
+                db.SetParameterValue("Environment", environment);
+                db.SetParameterValue("KeyName", keyName);
+                db.SetParameterValue("KeyValue", null);
+
+                await db.ExecuteNonQueryAsync();
+
+                var keyValue = Convert.ToString(db.GetParameterValue("KeyValue"));
+
+                return keyValue;
             }
         }
     }

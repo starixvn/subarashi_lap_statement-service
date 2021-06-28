@@ -5,6 +5,7 @@ using Fanex.Athena.ExtService.BetList.Models.ViewModel;
 using Fanex.Athena.ExtService.BetList.Services;
 using Fanex.Athena.ExtService.Common.Attributes;
 using Fanex.Athena.ExtService.Common.Models.DataDomain;
+using Fanex.Athena.ExtService.Common.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,6 +15,12 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
     [ServiceFilter(typeof(CheckCustomerAttribute))]
     public class StatementController : BaseController
     {
+        private readonly ICommonService _commonService;
+
+        public StatementController(ICommonService commonService)
+        {
+            _commonService = commonService;
+        }
 
         [HttpGet]
         [ResponseCache(Duration = SystemConstants.ThirtySecond, NoStore = false,
@@ -33,6 +40,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             viewModel.IsDesktopViewOnly = metalModel.IsDesktopViewOnly;
 
             ViewBag.ShowBreadCrumb = metalModel.ShowBreadCrumb;
+            ViewBag.IsEnableSingleWallet = await _commonService.IsEnableSingleWallet(HttpContext.User.Identity.Name);
             return View(viewModel);
         }
 
@@ -57,6 +65,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             ViewBag.ShowBreadCrumb = metalModel.ShowBreadCrumb;
             ViewBag.FromDate = metalModel.FromDate;
             ViewBag.ToDate = metalModel.ToDate;
+            ViewBag.IsEnableSingleWallet = await _commonService.IsEnableSingleWallet(HttpContext.User.Identity.Name);
             return View(viewModel);
         }
 

@@ -10,6 +10,8 @@ namespace Fanex.Athena.ExtService.Common.Services
 
         Task<BalanceUp> GetBalanceUpAsync();
 
+        Task<bool> IsEnableSingleWallet(string siteName);
+
         bool IsShowIp(string siteName);
     }
 }

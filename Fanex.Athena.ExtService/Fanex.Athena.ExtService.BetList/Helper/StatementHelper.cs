@@ -8,6 +8,9 @@ namespace Fanex.Athena.ExtService.BetList.Helper
 {
     public static class StatementHelper
     {
+        private const int DDEPBettypeId = 22001;
+        private const int DWITBettypeId = 22002;
+
         public static decimal GetStatementBalance(Decimal previousBalance, IStatementValue item)
         {
             switch (item.TransType?.ToUpperInvariant())
@@ -73,6 +76,9 @@ namespace Fanex.Athena.ExtService.BetList.Helper
 
             return transType.ToUpperInvariant();
         }
+
+        public static bool ShouldHideTransferTrans(bool isEnableSingleWallet, int bettypeId)
+            => isEnableSingleWallet && (bettypeId == DDEPBettypeId || bettypeId == DWITBettypeId);
 
         public static string GetTransDescText(string transDesc)
         => TransDescValue.RemarkValues.ContainsKey(transDesc)
