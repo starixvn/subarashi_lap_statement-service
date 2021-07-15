@@ -17,6 +17,8 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
 {
     public class StatementControllerTest : BaseControllerTest
     {
+        private const bool IsEnableSingleWallet = true;
+
         [Fact]
         public async Task Summary_WhenExecute_AlwayAssignCommonViewModelValue()
         {
@@ -35,13 +37,12 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             .Returns(Task.FromResult(fakeData));
 
             var commService = new Mock<ICommonService>();
-            commService.Setup(_ => _.IsEnableSingleWallet(It.IsAny<string>())).Returns(Task.FromResult(false));
+            commService.Setup(_ => _.IsEnableSingleWallet(It.IsAny<string>())).Returns(Task.FromResult(IsEnableSingleWallet));
+
             //Action
-            using (var controller = new StatementController(commService.Object))
-            {
+            var controller = new StatementController(commService.Object);
                 controller.ControllerContext = _controllerContext.Object;
                 expectedResult = await controller.Summary(fakeService.Object, metalModel).ConfigureAwait(false);
-            }
 
             //Assert
             var viewResult = Assert.IsType<ViewResult>(expectedResult);
@@ -50,6 +51,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             Assert.Equal(viewModel.Lang, metalModel.Lang);
             Assert.Equal(viewModel.AccessToken, AccessToken);
             Assert.Equal(viewModel.CustId, Custid);
+            Assert.Equal(IsEnableSingleWallet, controller.ViewBag.IsEnableSingleWallet);
         }
 
         [Fact]
@@ -71,16 +73,12 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             fakeService.Setup(x => x.QueryAsync(It.IsAny<SummaryStatementMetaModel>()))
             .Returns(Task.FromResult(fakeData));
 
-            var commService = new Mock<ICommonService>();
-            commService.Setup(_ => _.IsEnableSingleWallet(It.IsAny<string>())).Returns(Task.FromResult(false));
-
             //Action
-            using (var controller = new StatementController(commService.Object))
+            using (var controller = new StatementController(Mock.Of<ICommonService>()))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 await controller.Summary(fakeService.Object, metalModel).ConfigureAwait(false);
             }
-
             //Assert
             fakeService.Verify(x => x.QueryAsync(metalModel), Times.Once());
         }
@@ -109,14 +107,12 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             .Returns(Task.FromResult(fakeData));
 
             var commService = new Mock<ICommonService>();
-            commService.Setup(_ => _.IsEnableSingleWallet(It.IsAny<string>())).Returns(Task.FromResult(false));
+            commService.Setup(_ => _.IsEnableSingleWallet(It.IsAny<string>())).Returns(Task.FromResult(IsEnableSingleWallet));
 
             //Action
-            using (var controller = new StatementController(commService.Object))
-            {
-                controller.ControllerContext = _controllerContext.Object;
-                expectedResult = await controller.ByGroup(fakeService.Object, metalModel).ConfigureAwait(false);
-            }
+            var controller = new StatementController(commService.Object);
+            controller.ControllerContext = _controllerContext.Object;
+            expectedResult = await controller.ByGroup(fakeService.Object, metalModel).ConfigureAwait(false);
 
             //Assert
             var viewResult = Assert.IsType<ViewResult>(expectedResult);
@@ -127,6 +123,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             Assert.Equal(viewModel.CustId, Custid);
             Assert.Equal(viewModel.ModeView, expectedModelView);
             Assert.Equal(viewModel.TransDesc, expectedTransDesc);
+            Assert.Equal(IsEnableSingleWallet, controller.ViewBag.IsEnableSingleWallet);
         }
 
         [Fact]
@@ -146,11 +143,8 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             fakeService.Setup(x => x.QueryAsync(It.IsAny<StatementByGroupMetaModel>()))
             .Returns(Task.FromResult(fakeData));
 
-            var commService = new Mock<ICommonService>();
-            commService.Setup(_ => _.IsEnableSingleWallet(It.IsAny<string>())).Returns(Task.FromResult(false));
-
             //Action
-            using (var controller = new StatementController(commService.Object))
+            using (var controller = new StatementController(Mock.Of<ICommonService>()))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 await controller.ByGroup(fakeService.Object, metalModel).ConfigureAwait(false);
