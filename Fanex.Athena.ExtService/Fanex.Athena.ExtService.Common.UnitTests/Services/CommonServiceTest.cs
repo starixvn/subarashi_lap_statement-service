@@ -192,6 +192,62 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             Assert.Equal(result.Currencies[0].AgentId, AgentId);
         }
 
+        [Theory]
+        [InlineData("UATTW", "UAT")]
+        [InlineData("PROD", "Production")]
+        [InlineData("LOCAL", "Production")]
+        [InlineData("SIT", "Production")]
+        public async Task IsEnableSingleWallet_WhenCall_CorrectlySPParams(string settingEnv, string spParamEnv)
+        {
+            //Arrange
+            const string SiteName = "12Bet";
+            _mockAppSettings.Setup(_ => _.Value).Returns(new AppSettings
+            {
+                Environment = settingEnv
+            });
+
+            var mockObjectDB = new Mock<IObjectDb>();
+            ObjectDbFactory.SwitchToTestingMode();
+            ObjectDbFactory.Mock((x, y) => mockObjectDB.Object);
+
+            var service = new CommonService(_mockCache.Object, _mockAppSettings.Object);
+
+            ///Action
+            _ = await service.IsEnableSingleWallet(SiteName);
+
+            ///Assert
+            mockObjectDB.Verify(_ => _.SetParameterValue("SiteName", SiteName), Times.Once);
+            mockObjectDB.Verify(_ => _.SetParameterValue("Environment", spParamEnv), Times.Once);
+            mockObjectDB.Verify(_ => _.SetParameterValue("KeyName", "EnableSingleWallet"), Times.Once);
+            mockObjectDB.Verify(_ => _.SetParameterValue("KeyValue", null), Times.Once);
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task IsEnableSingleWallet_WhenCall_CorrectlyResultFromOutputParam(bool expectedResult)
+        {
+            //Arrange
+            const string SiteName = "12Bet";
+            _mockAppSettings.Setup(_ => _.Value).Returns(new AppSettings
+            {
+                Environment = "any"
+            });
+
+            var mockObjectDB = new Mock<IObjectDb>();
+            mockObjectDB.Setup(_ => _.GetParameterValue("KeyValue")).Returns(expectedResult);
+            ObjectDbFactory.SwitchToTestingMode();
+            ObjectDbFactory.Mock((x, y) => mockObjectDB.Object);
+
+            var service = new CommonService(_mockCache.Object, _mockAppSettings.Object);
+
+            ///Action
+            var result = await service.IsEnableSingleWallet(SiteName);
+
+            ///Assert
+            Assert.Equal(expectedResult, result);
+        }
+
         private void SetupBalanceUpDatabaseData(BalanceUp balanceup)
         {
             var mockIDataReader = new Mock<IDataReader>();

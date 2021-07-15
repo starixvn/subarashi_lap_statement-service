@@ -7,6 +7,7 @@
 @{
     var appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
     var env = appSettings.Environment.Equals("PROD") ? "pro" : "dev";
+    var isEnableSingleWallet = (bool)ViewBag.IsEnableSingleWallet;
 }
 @section pagecss
     {
@@ -41,7 +42,10 @@
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td></td>
+                                        @if (!isEnableSingleWallet)
+                                        {
+                                            <td></td>
+                                        }
                                     </tr>
                                     <tr style="height:32px;">
                                         <th>@ViewResources.Date</th>
@@ -49,7 +53,10 @@
                                         <th>@ViewResources.Turnover</th>
                                         <th>@ViewResources.Credit_Debit</th>
                                         <th>@ViewResources.Commission</th>
-                                        <th>@ViewResources.Balance</th>
+                                        @if (!isEnableSingleWallet)
+                                        {
+                                            <th>@ViewResources.Balance</th>
+                                        }
                                     </tr>
                                 </thead>
                             </table>
@@ -65,13 +72,21 @@
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td></td>
+                                        @if (!isEnableSingleWallet)
+                                        {
+                                            <td></td>
+                                        }
                                     </tr>
                                     @if (Model.DataList != null && Model.DataList.Any())
                                     {
                                         decimal previousBalance = 0;
                                         foreach (var item in Model.DataList)
                                         {
+                                            if(StatementHelper.ShouldHideTransferTrans(isEnableSingleWallet, item.BetTypeId))
+                                            {
+                                                continue;
+                                            }
+
                                             previousBalance = StatementHelper.GetStatementBalance(previousBalance, item);
                                             var remarkValue = StatementHelper.GetStatementRemark(item.TransDesc, item.TransType, item.BetTypeId);
 
@@ -86,21 +101,21 @@
                                                         @if (StatementHelper.ShowBetingStatementLink(item.TransDesc, item.TransType))
                                                         {
                                                             <a class="detail-link" href="@Url.Action("ByGroup","Statement",new {
-                                                   bc=Model.BaseCurrency,
-                                                   lang=Model.Lang,
-                                                   wd=item.WinLostDate.ToString("MM/dd/yyyy"),
-                                                   cid=Model.CustId,
-                                                   mv=TransDescValue.MaptoModeView[item.TransDesc],
-                                                   pi=Model.PageIndex,
-                                                   ps=Model.PageSize,
-                                                   fd=Model.FromDate.ToString("MM/dd/yyyy"),
-                                                   td=Model.ToDate.ToString("MM/dd/yyyy"),
-                                                   sb=ViewBag.ShowBreadCrumb,
-                                                   access_token=Model.AccessToken,
-                                                   isDesktopViewOnly=Model.IsDesktopViewOnly
-                                                   })">
-                                                                @remarkValue
-                                                            </a>
+                                                                                               bc=Model.BaseCurrency,
+                                                                                               lang=Model.Lang,
+                                                                                               wd=item.WinLostDate.ToString("MM/dd/yyyy"),
+                                                                                               cid=Model.CustId,
+                                                                                               mv=TransDescValue.MaptoModeView[item.TransDesc],
+                                                                                               pi=Model.PageIndex,
+                                                                                               ps=Model.PageSize,
+                                                                                               fd=Model.FromDate.ToString("MM/dd/yyyy"),
+                                                                                               td=Model.ToDate.ToString("MM/dd/yyyy"),
+                                                                                               sb=ViewBag.ShowBreadCrumb,
+                                                                                               access_token=Model.AccessToken,
+                                                                                               isDesktopViewOnly=Model.IsDesktopViewOnly
+                                                                                               })">
+                                                                                                            @remarkValue
+                                                                                                        </a>
                                                         }
                                                         else
                                                         {
@@ -117,9 +132,13 @@
                                                 <td class="right-align">
                                                     <money>@item.Commission</money>
                                                 </td>
-                                                <td class="right-align">
-                                                    <money>@previousBalance</money>
-                                                </td>
+                                                @if (!isEnableSingleWallet)
+                                                {
+                                                    <td class="right-align">
+                                                        <money>@previousBalance</money>
+                                                    </td>
+                                                }
+
                                             </tr>
                                         }
                                     }

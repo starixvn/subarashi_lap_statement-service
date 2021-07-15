@@ -241,6 +241,11 @@ namespace Fanex.Athena.ExtService
                     "DBACC.bodb02.bodbLicenseeNet",
                     new ConnectionConfiguration("DBACC.bodb02.bodbLicenseeNet",
                 Configuration.GetConnectionString("DBACC.bodb02.bodbLicenseeNet"))
+                },
+                {
+                    "DBCUST.SiteConfig.bodbLicenseeNet",
+                    new ConnectionConfiguration("DBCUST.SiteConfig.bodbLicenseeNet",
+                Configuration.GetConnectionString("DBCUST.SiteConfig.bodbLicenseeNet"))
                 }
             };
             return connectionStrings;

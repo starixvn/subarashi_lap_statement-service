@@ -8,6 +8,7 @@
 @{
     var appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
     var env = appSettings.Environment.Equals("PROD") ? "pro" : "dev";
+    var isEnableSingleWallet = (bool)ViewBag.IsEnableSingleWallet;
 }
 @section pagecss
     {
@@ -18,7 +19,6 @@
     {
     <script src="@Url.Content($"~/js/build/{env}/pages/betlist/refno.chunk.js")"></script>
     <script type="text/javascript">
-
     </script>
 }
 @model Fanex.Athena.ExtService.BetList.Models.ViewModel.StatementByGroupViewModel
@@ -69,7 +69,10 @@ new SelectListItem { Text = ViewResources.BettingStatement, Selected = true, Val
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td></td>
+                                        @if (!isEnableSingleWallet)
+                                        {
+                                            <td></td>
+                                        }
                                     </tr>
                                     <tr style="height:32px;">
                                         <th>@ViewResources.Date</th>
@@ -77,7 +80,10 @@ new SelectListItem { Text = ViewResources.BettingStatement, Selected = true, Val
                                         <th>@ViewResources.Turnover</th>
                                         <th>@ViewResources.Credit_Debit</th>
                                         <th>@ViewResources.Commission</th>
-                                        <th>@ViewResources.Balance</th>
+                                        @if (!isEnableSingleWallet)
+                                        {
+                                            <th>@ViewResources.Balance</th>
+                                        }
                                     </tr>
                                 </thead>
                             </table>
@@ -93,7 +99,10 @@ new SelectListItem { Text = ViewResources.BettingStatement, Selected = true, Val
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td></td>
+                                        @if (!isEnableSingleWallet)
+                                        {
+                                            <td></td>
+                                        }
                                     </tr>
                                     @if (Model.DataList != null && Model.DataList.Any())
                                     {
@@ -149,9 +158,12 @@ new SelectListItem { Text = ViewResources.BettingStatement, Selected = true, Val
                                                 <td class="right-align">
                                                     <money>@item.Commission</money>
                                                 </td>
-                                                <td class="right-align">
-                                                    <money>@previousBalance</money>
-                                                </td>
+                                                @if (!isEnableSingleWallet)
+                                                {
+                                                    <td class="right-align">
+                                                        <money>@previousBalance</money>
+                                                    </td>
+                                                }
                                             </tr>
                                         }
                                     }
