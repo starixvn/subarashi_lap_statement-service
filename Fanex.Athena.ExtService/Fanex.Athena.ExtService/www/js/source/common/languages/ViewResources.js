@@ -24,6 +24,7 @@
     ProductHB: "Habanero",
     ProductWM: "WM",
     ProductVGA: "Vgaming",
+    ProductCG: "CG",
     TransactionDetail: "",
     ErrorProcessingMsg: "Sorry, an error occurred while processing your request.",
     Result: "Results",

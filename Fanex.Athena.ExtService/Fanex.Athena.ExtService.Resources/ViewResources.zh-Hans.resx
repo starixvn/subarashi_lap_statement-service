@@ -314,4 +314,7 @@
   <data name="ProductVGA" xml:space="preserve">
     <value>Vgaming</value>
   </data>
+  <data name="ProductCG" xml:space="preserve">
+    <value>CG电子</value>
+  </data>
 </root>
