@@ -821,8 +821,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 Site.unBlockUI();
             },
 
-            viewVGamingResult: function (custId, gameId, siteId, gameRoundId, title, sporttype) {
-                let url = Site.resolveClientUrl('ResultReport/VGamingResultPopup') + '?custId=' + custId + '&gameId=' + gameId + '&siteId=' + siteId + '&gameRoundId=' + gameRoundId + '&sportType=' + sporttype;
+            viewVGamingResult: function (custId, gameId, siteId, gameRoundId, title, sporttype, currencyName) {
+                let url = Site.resolveClientUrl('ResultReport/VGamingResultPopup') + '?custId=' + custId + '&gameId=' + gameId + '&siteId=' + siteId + '&gameRoundId=' + gameRoundId + '&sportType=' + sporttype + '&currencyName=' + currencyName;
                 url = QueryString.setParam(url, 'lang', $("#lang").val());
                 url = QueryString.setParam(url, 'access_token', $("#access_token").val());
 
@@ -850,7 +850,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
             },
 
             viewResult: function (matchid, raceNo, bettype, sporttype, refno,
-                username, winlostdate, refnoMixParlay, league, isOutright, extension1, extension2, custid, transdecs) {
+                currency, winlostdate, refnoMixParlay, league, isOutright, extension1, extension2, custid, transdecs) {
                 const title = Site.getSingleResource('Result');
                 const defaultPlatform = 'd';  // desktop
 
@@ -912,7 +912,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                     _me.viewBGGResult(custid, transdecs, league, extension2, title);
                 }
                 else if (sporttype === SPORT_VGA || sporttype === SPORT_VGA_FreeBets) {
-                    _me.viewVGamingResult(custid, bettype, extension2, transdecs, title, sporttype);
+                    _me.viewVGamingResult(custid, bettype, extension2, transdecs, title, sporttype, currency);
                 }
                 else if (sporttype === SPORT_CG) {
                     _me.viewCGResult(custid, transdecs, extension2, extension1, title);
