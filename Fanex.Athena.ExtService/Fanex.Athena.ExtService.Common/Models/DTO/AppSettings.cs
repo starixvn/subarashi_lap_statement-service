@@ -9,5 +9,6 @@ namespace Fanex.Athena.ExtService.Common.Models.DTO
         public string Environment { get; set; }
         public string LicenseeOfferTxIDColumn { get; set; }
         public string LicenseeOfferShowIp { get; set; }
+        public bool IsShowIpToAllLicensee { get; set; }
     }
 }
