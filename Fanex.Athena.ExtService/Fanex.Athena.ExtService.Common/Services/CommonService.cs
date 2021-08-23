@@ -56,7 +56,7 @@ namespace Fanex.Athena.ExtService.Common.Services
 
         public bool IsShowIp(string siteName)
         {
-            return _settings.LicenseeOfferShowIp.Split(',').Contains(siteName, StringComparer.InvariantCultureIgnoreCase);
+            return !string.IsNullOrEmpty(siteName);
         }
 
         private static async Task<LicenseeInfo> GetLicenseeInfoFromDBAsync(string siteName, int custId)
