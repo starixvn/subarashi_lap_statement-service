@@ -17,9 +17,11 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
         protected readonly Mock<ControllerContext> _controllerContext;
         protected const string SiteName = "12BET";
         protected string AccessToken = "ANy";
+        protected const bool IsEnableSingleWallet = true;
         protected readonly Mock<ICommonService> _commonService;
         protected readonly Mock<IBetListApiClient> _betListApiClient;
         protected readonly Mock<IBrowserService> _browserService;
+
 
         public BaseControllerTest()
         {
@@ -36,6 +38,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
                     IsAllowedCustomerComm = true
 
                 }));
+            _commonService.Setup(_ => _.IsEnableSingleWallet(It.IsAny<string>())).Returns(Task.FromResult(IsEnableSingleWallet));
 
             _betListApiClient = new Mock<IBetListApiClient>();
 

@@ -75,6 +75,7 @@
             }
 
             ViewBag.Title = "Bet List By RefNo";
+            ViewBag.IsEnableSingleWallet = await _commonService.IsEnableSingleWallet(HttpContext.User.Identity.Name);
             AssignCommonViewModelData(metaModel, viewModel);
             return GetView(metaModel.IsDesktopViewOnly, $"~/Views/BetList/RefNo", viewModel);
         }
@@ -168,6 +169,7 @@
             ViewBag.StatementPageIndex = metaModel.StatementPageIndex;
             ViewBag.StatementPageSize = metaModel.StatementPageSize;
             ViewBag.ShowBreadCrumb = metaModel.ShowBreadCrumb;
+            ViewBag.IsEnableSingleWallet = await _commonService.IsEnableSingleWallet(HttpContext.User.Identity.Name);
 
             return GetView(metaModel.IsDesktopViewOnly, $"~/Views/BetList/ByGroup", viewModel);
         }
@@ -204,6 +206,8 @@
             }
 
             ViewBag.Title = "Running Bet List";
+            ViewBag.IsEnableSingleWallet = await _commonService.IsEnableSingleWallet(HttpContext.User.Identity.Name);
+
             AssignCommonViewModelData(metaModel, viewModel);
 
             return GetView(metaModel.IsDesktopViewOnly, $"~/Views/BetList/Running", viewModel);

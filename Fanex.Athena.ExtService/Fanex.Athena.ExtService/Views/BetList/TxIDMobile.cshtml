@@ -5,10 +5,7 @@
 @{
     var appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
     var env = appSettings.Environment.Equals("PROD") ? "pro" : "dev";
-
     var startIndex = 1;
-    var licenseeAllowTxIDColumn = appSettings.LicenseeOfferTxIDColumn.Split(',');
-    var isAllowTxIDColumn = licenseeAllowTxIDColumn.Contains(Model.Info.SiteName, StringComparer.InvariantCultureIgnoreCase);
 }
 @section pagecss
     {
@@ -92,13 +89,10 @@
                                         <tr data-refno="@item.RefNo" class="more-info hide">
                                             <td colspan="4">
                                                 <table>
-                                                    @if (isAllowTxIDColumn)
-                                                    {
-                                                        <tr>
-                                                            <td class="col-key">@ViewResources.LicenseeTxId</td>
-                                                            <td class="col-value">@Html.Raw(item.LicenseeTxId)</td>
-                                                        </tr>
-                                                    }
+                                                    <tr>
+                                                        <td class="col-key">@ViewResources.LicenseeTxId</td>
+                                                        <td class="col-value">@Html.Raw(item.LicenseeTxId)</td>
+                                                    </tr>
                                                     <tr>
                                                         <td class="col-key">@ViewResources.ExternalId</td>
                                                         <td class="col-value">@Html.Raw(item.ExternalId)</td>
