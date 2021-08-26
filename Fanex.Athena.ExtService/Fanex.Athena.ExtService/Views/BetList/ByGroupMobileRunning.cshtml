@@ -7,8 +7,7 @@
     var env = appSettings.Environment.Equals("PROD") ? "pro" : "dev";
     var startIndex = (Model.PageIndex - 1) * Model.PageSize + 1;
 
-    var licenseeAllowTxIDColumn = appSettings.LicenseeOfferTxIDColumn.Split(',');
-    var isAllowTxIDColumn = licenseeAllowTxIDColumn.Contains(Model.Info.SiteName, StringComparer.InvariantCultureIgnoreCase);
+    var isAllowTxIDColumn = (bool)ViewBag.IsEnableSingleWallet;
 }
 @section pagecss
     {
