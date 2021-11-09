@@ -136,6 +136,10 @@
     }
 }
 
+.table > tbody tr.high-light td {
+    background-color: $colorRowHighlight;
+}
+
 *,
 *::before,
 *::after {

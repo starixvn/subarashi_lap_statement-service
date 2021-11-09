@@ -82,20 +82,28 @@
                                         decimal previousBalance = 0;
                                         foreach (var item in Model.DataList)
                                         {
-                                            if(StatementHelper.ShouldHideTransferTrans(isEnableSingleWallet, item.BetTypeId))
+                                            if (StatementHelper.ShouldHideTransferTrans(isEnableSingleWallet, item.BetTypeId))
                                             {
                                                 continue;
                                             }
 
                                             previousBalance = StatementHelper.GetStatementBalance(previousBalance, item);
                                             var remarkValue = StatementHelper.GetStatementRemark(item.TransDesc, item.TransType, item.BetTypeId);
+                                            var highlight = StatementHelper.ShouldHighlight(item.TransDesc) ? "class=high-light" : string.Empty;
+                                            <tr @highlight>
+                                                @if (StatementHelper.ShouldHideWinLossDate(item.TransDesc))
+                                                {
+                                                    <td class="left-align">-</td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="left-align">
+                                                        @ViewResources.ResourceManager.GetString($"DateName_{(int)item.WinLostDate.DayOfWeek}")
+                                                        <br />
+                                                        @($"{item.WinLostDate:MM/dd/yyyy}")
+                                                    </td>
+                                                }
 
-                                            <tr>
-                                                <td class="left-align">
-                                                    @ViewResources.ResourceManager.GetString($"DateName_{(int)item.WinLostDate.DayOfWeek}")
-                                                    <br />
-                                                    @($"{item.WinLostDate:MM/dd/yyyy}")
-                                                </td>
                                                 <td class="left-align .detail">
                                                     <span class='underdog'>
                                                         @if (StatementHelper.ShowBetingStatementLink(item.TransDesc, item.TransType))
@@ -114,8 +122,8 @@
                                                                                                access_token=Model.AccessToken,
                                                                                                isDesktopViewOnly=Model.IsDesktopViewOnly
                                                                                                })">
-                                                                                                            @remarkValue
-                                                                                                        </a>
+                                                                @remarkValue
+                                                            </a>
                                                         }
                                                         else
                                                         {

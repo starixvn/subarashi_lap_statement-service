@@ -317,4 +317,7 @@
   <data name="ProductCG" xml:space="preserve">
     <value>CG电子</value>
   </data>
+  <data name="ACCUMULATEDBALANCE" xml:space="preserve">
+    <value>累計餘額</value>
+  </data>
 </root>

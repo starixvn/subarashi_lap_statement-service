@@ -209,6 +209,9 @@
     .footer-content .table .fixed-table-grant-total td {
       background: #b8c3c9; }
 
+.table > tbody tr.high-light td {
+  background-color: #F8F1A0; }
+
 *,
 *::before,
 *::after {

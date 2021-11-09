@@ -365,4 +365,7 @@
   <data name="ProductCG" xml:space="preserve">
     <value>CG电子</value>
   </data>
+  <data name="ACCUMULATEDBALANCE" xml:space="preserve">
+    <value>累计余额</value>
+  </data>
 </root>

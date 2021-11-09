@@ -431,4 +431,7 @@
   <data name="ProductVGA" xml:space="preserve">
     <value>Vgaming</value>
   </data>
+  <data name="ACCUMULATEDBALANCE" xml:space="preserve">
+    <value>ACCUMULATED BALANCE</value>
+  </data>
 </root>
