@@ -61,6 +61,15 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ACCUMULATED BALANCE.
+        /// </summary>
+        public static string ACCUMULATEDBALANCE {
+            get {
+                return ResourceManager.GetString("ACCUMULATEDBALANCE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to AG Casino.
         /// </summary>
         public static string AGCasino {
@@ -507,15 +516,6 @@ namespace Fanex.Athena.ExtService.Resources {
         public static string ProductCC {
             get {
                 return ResourceManager.GetString("ProductCC", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to CG.
-        /// </summary>
-        public static string ProductCG {
-            get {
-                return ResourceManager.GetString("ProductCG", resourceCulture);
             }
         }
         

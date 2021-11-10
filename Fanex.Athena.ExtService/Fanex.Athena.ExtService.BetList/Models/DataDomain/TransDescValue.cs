@@ -26,6 +26,8 @@ namespace Fanex.Athena.ExtService.BetList.Models.DataDomain
 
         public const string PromotionPrize = "Promotion_Prize";
 
+        public const string AccumulatedBalance = "Accumulated_Balance";
+
         public static readonly IDictionary<string, int> MaptoModeView = new Dictionary<string, int>
         {
             { BetStatement, ModeViewBetStatement },
@@ -41,7 +43,8 @@ namespace Fanex.Athena.ExtService.BetList.Models.DataDomain
             { Outstanding,() => ViewResources.OutstandingBet },
             { GrandPrize,() => ViewResources.GrandPrize },
             { OpeningBalance,() => ViewResources.OPENINGBALANCE },
-            { PromotionPrize,() => ViewResources.Promotion_Prize }
+            { PromotionPrize,() => ViewResources.Promotion_Prize },
+            { AccumulatedBalance, () => ViewResources.ACCUMULATEDBALANCE }
         };
 
         public static string GetTransactionDescription(int modeView)

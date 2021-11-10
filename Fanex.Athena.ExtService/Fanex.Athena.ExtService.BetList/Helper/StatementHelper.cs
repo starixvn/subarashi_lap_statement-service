@@ -80,6 +80,12 @@ namespace Fanex.Athena.ExtService.BetList.Helper
         public static bool ShouldHideTransferTrans(bool isEnableSingleWallet, int bettypeId)
             => isEnableSingleWallet && (bettypeId == DDEPBettypeId || bettypeId == DWITBettypeId);
 
+        public static bool ShouldHideWinLossDate(string transDesc)
+          => string.Equals(TransDescValue.AccumulatedBalance, transDesc, StringComparison.InvariantCultureIgnoreCase);
+
+        public static bool ShouldHighlight(string transDesc)
+         => string.Equals(TransDescValue.AccumulatedBalance, transDesc, StringComparison.InvariantCultureIgnoreCase);
+
         public static string GetTransDescText(string transDesc)
         => TransDescValue.RemarkValues.ContainsKey(transDesc)
                 ? TransDescValue.RemarkValues[transDesc].Invoke()
