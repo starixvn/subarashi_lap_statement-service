@@ -36,7 +36,7 @@
 
         private bool IsShowIpvn()
         {
-            if(string.IsNullOrEmpty(HttpContext.User.FindFirst(CustomClaimType.IsShowIPVN)?.Value))
+            if (string.IsNullOrEmpty(HttpContext.User.FindFirst(CustomClaimType.IsShowIPVN)?.Value))
             {
                 return true;
             }
@@ -149,6 +149,7 @@
                 AssignCommonMetaModelValue(metaModel, licenseeInfo);
                 metaModel.IsShowIpvn = IsShowIpvn() && isShowIp;
                 metaModel.IsShowIp = isShowIp;
+                metaModel.ProductCode = GetSubProductCode(metaModel.ProductCode);
 
                 var result = await _betListApiClient.PostAsync<RefNoDataResult>(
                     "/BetListByProduct/Index",
@@ -218,6 +219,13 @@
             _browserService.SetContext(HttpContext);
             var isMobileView = !isDesktopViewOnly && _browserService.IsMobile();
             return View($"{viewPath}{(isMobileView ? "Mobile" : "")}.cshtml", viewModel);
+        }
+
+        private static string GetSubProductCode(string ProductCode)
+        {
+            var subProductList = new List<string> { Product.SLT };
+
+            return ProductCode.Contains(Product.SB, StringComparison.OrdinalIgnoreCase) ? ProductCode + "," + string.Join(',', subProductList) : ProductCode;
         }
     }
 }
