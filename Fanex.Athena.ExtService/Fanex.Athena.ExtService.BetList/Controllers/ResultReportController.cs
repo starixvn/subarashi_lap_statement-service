@@ -48,7 +48,6 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ShowRngCasinoSingleWalletResult([FromBody]dynamic data)
         {
             var result = await _betListApiClient.PostAsyncString(

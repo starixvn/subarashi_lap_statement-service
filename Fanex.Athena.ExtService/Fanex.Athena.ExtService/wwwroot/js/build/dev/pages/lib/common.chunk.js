@@ -11105,7 +11105,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿///
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿/*global _language_en_US*/
 !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js-exposed"), __webpack_require__(/*! common/querystring */ "./www/js/source/common/querystring.js"), __webpack_require__(/*! common/popup */ "./www/js/source/common/popup.js"), __webpack_require__(/*! extensions/prototype */ "./www/js/source/extensions/prototype.js"),], __WEBPACK_AMD_DEFINE_RESULT__ = (function ($, QueryString, Popup) {// jshint ignore:line
         'use strict';
-        let REQUEST_VERIFICATION_TOKEN;
         let _rootUrl = null;
 
         function setProductCodeListParam(url, productCodeList) {
@@ -11163,7 +11162,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿/*global _lan
             throw new Error('Unable to copy obj! Its type isn\'t supported.');
         }
         function initialize() {
-            REQUEST_VERIFICATION_TOKEN = $('input[name=__lap_ext_service__]').val();
             initEvent();
             _rootUrl = $('#RootUrl').val();
         }
@@ -11171,7 +11169,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿/*global _lan
             $.ajaxSetup({
                 cache: false,
                 headers: {
-                    'X-CSRF-TOKEN-LAP-EXT': REQUEST_VERIFICATION_TOKEN,
                     "Authorization": "Bearer " + $("#access_token").val()
                 },
                 statusCode: {
@@ -11269,10 +11266,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿/*global _lan
         function getLocation() {
             return window.location;
         }
-      
-        function getXsrfToken() {
-            return REQUEST_VERIFICATION_TOKEN;
-        }
 
         return {
             initialize: initialize,
@@ -11286,8 +11279,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿/*global _lan
             getResources: getResources,
             redirect: redirect,
             getCurrentUrl: getCurrentUrl,
-            getLocation: getLocation,
-            getXsrfToken: getXsrfToken,
+            getLocation: getLocation
         };
     }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
