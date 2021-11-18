@@ -2,7 +2,6 @@
 define(['jquery', 'common/querystring', 'common/popup', 'extensions/prototype',],
     function ($, QueryString, Popup) {// jshint ignore:line
         'use strict';
-        let REQUEST_VERIFICATION_TOKEN;
         let _rootUrl = null;
 
         function setProductCodeListParam(url, productCodeList) {
@@ -60,7 +59,6 @@ define(['jquery', 'common/querystring', 'common/popup', 'extensions/prototype',]
             throw new Error('Unable to copy obj! Its type isn\'t supported.');
         }
         function initialize() {
-            REQUEST_VERIFICATION_TOKEN = $('input[name=__lap_ext_service__]').val();
             initEvent();
             _rootUrl = $('#RootUrl').val();
         }
@@ -68,7 +66,6 @@ define(['jquery', 'common/querystring', 'common/popup', 'extensions/prototype',]
             $.ajaxSetup({
                 cache: false,
                 headers: {
-                    'X-CSRF-TOKEN-LAP-EXT': REQUEST_VERIFICATION_TOKEN,
                     "Authorization": "Bearer " + $("#access_token").val()
                 },
                 statusCode: {
@@ -166,10 +163,6 @@ define(['jquery', 'common/querystring', 'common/popup', 'extensions/prototype',]
         function getLocation() {
             return window.location;
         }
-      
-        function getXsrfToken() {
-            return REQUEST_VERIFICATION_TOKEN;
-        }
 
         return {
             initialize: initialize,
@@ -183,7 +176,6 @@ define(['jquery', 'common/querystring', 'common/popup', 'extensions/prototype',]
             getResources: getResources,
             redirect: redirect,
             getCurrentUrl: getCurrentUrl,
-            getLocation: getLocation,
-            getXsrfToken: getXsrfToken,
+            getLocation: getLocation
         };
     });

@@ -45,7 +45,6 @@ namespace Fanex.Athena.ExtService
     {
         private const string ApplicationOptionSettingKey = "ApplicationOptions";
         private const string AppSettingKey = "AppSettings";
-        private const int SixtyDays = 60;
         private const int AliveIn180Seconds = 180;
 
         public Startup(IConfiguration configuration)
@@ -67,8 +66,6 @@ namespace Fanex.Athena.ExtService
 
             var appOption = Configuration.GetSection(ApplicationOptionSettingKey).Get<ApplicationOptions>();
 
-            ConfigDataProtection(services, appOption);
-
             ConfigFanexData();
 
             ConfigDistributedCache(services, appOption);
@@ -87,14 +84,6 @@ namespace Fanex.Athena.ExtService
                 options.KnownProxies.Clear();
             });
 
-            services.AddAntiforgery(options =>
-            {
-                // Set Cookie properties using CookieBuilder properties†.
-                options.FormFieldName = "__lap_ext_service__";
-                options.HeaderName = "X-CSRF-TOKEN-LAP-EXT";
-                options.Cookie.SameSite = SameSiteMode.None;
-                options.SuppressXFrameOptionsHeader = true;
-            });
             services.AddResponseCompression(options =>
             {
                 options.Providers.Add<BrotliCompressionProvider>();
@@ -208,24 +197,6 @@ namespace Fanex.Athena.ExtService
               .WithSqlServer(resourcePath: "~/SpConfig")
               .Use(conns)
               .Run();
-        }
-
-        private static void ConfigDataProtection(IServiceCollection services, ApplicationOptions appOption)
-        {
-            var configRedix = new ConfigurationOptions
-            {
-                EndPoints =
-                {
-                    { appOption.Redis.Server, appOption.Redis.Port }
-                },
-                KeepAlive = AliveIn180Seconds,
-                Password = appOption.Redis.Pass
-            };
-            var redis = ConnectionMultiplexer.Connect(configRedix);
-            services.AddDataProtection()
-                .PersistKeysToStackExchangeRedis(redis, appOption.Redis.Pass)
-                .SetDefaultKeyLifetime(TimeSpan.FromDays(SixtyDays))
-                .SetApplicationName(appOption.Redis.AppName);
         }
 
         private Dictionary<string, ConnectionConfiguration> GetConnectionString()
