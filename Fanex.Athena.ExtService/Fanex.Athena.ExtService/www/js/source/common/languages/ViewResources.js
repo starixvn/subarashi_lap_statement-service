@@ -31,5 +31,7 @@
     InvalidRequestMsg: "Request is not valid",
     HttpError_403: "Access denied",
     LicenseeTxId: "TxID",
-    JackpotWonDetails: "Jackpot Won Details"
+    JackpotWonDetails: "Jackpot Won Details",
+    ProductAP: "AdvantPlay",
+    ProductAPM: "AdvantPlay Mini"
 };
