@@ -437,6 +437,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
         const SPORT_VGA = 171;
         const SPORT_VGA_FreeBets = 173;
         const SPORT_CG = 167;
+        const SPORT_AP = 172;
+        const SPORT_APM = 174;
 
         let _sortColumnName, _sortOrder;
 
@@ -849,6 +851,34 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 });
             },
 
+            viewAdvantPlayResult: function (custId, transId3rd, gameId3rd, siteId, title) {
+                let url = Site.resolveClientUrl('ResultReport/AdvantPlayResult?custId=' + custId + '&transId3rd=' + transId3rd + '&gameId3rd=' + gameId3rd + '&siteId=' + siteId);
+                url += "&lang=" + $("#lang").val();
+                url += "&access_token=" + $("#access_token").val();
+
+                Site.blockUI();
+                $.get(url, function (result) {
+                    if (result !== '') {
+                        showResultPopUp(result, { width: DetailsWidth, height: 380, title: title });
+                        Site.unBlockUI();
+                    }
+                });
+            },
+            
+            viewAdvantPlayMiniResult: function (custId, transId3rd, gameId3rd, siteId, title) {
+                let url = Site.resolveClientUrl('ResultReport/AdvantPlayMiniResult?custId=' + custId + '&transId3rd=' + transId3rd + '&gameId3rd=' + gameId3rd + '&siteId=' + siteId);
+                url += "&lang=" + $("#lang").val();
+                url += "&access_token=" + $("#access_token").val();
+
+                Site.blockUI();
+                $.get(url, function (result) {
+                    if (result !== '') {
+                        showResultPopUp(result, { width: DetailsWidth, height: 380, title: title });
+                        Site.unBlockUI();
+                    }
+                });
+            },
+
             viewResult: function (matchid, raceNo, bettype, sporttype, refno,
                 currency, winlostdate, refnoMixParlay, league, isOutright, extension1, extension2, custid, transdecs) {
                 const title = Site.getSingleResource('Result');
@@ -916,6 +946,12 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 }
                 else if (sporttype === SPORT_CG) {
                     _me.viewCGResult(custid, transdecs, extension2, extension1, title);
+                }
+                else if (sporttype === SPORT_AP) {
+                    _me.viewAdvantPlayResult(custid, transdecs, extension2, extension1, title);
+                }
+                else if (sporttype === SPORT_APM) {
+                    _me.viewAdvantPlayMiniResult(custid, transdecs, extension2, extension1, title);
                 }
                 else {
                     const numberBettype = Number(bettype);
@@ -1477,6 +1513,42 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
 
                 showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
             },
+            showAdvantPlayBetDetails: function (transId, winlostDate, custId, transType) {
+                let url = Site.resolveClientUrl('BetListDetailByProduct/Detail');
+                url = QueryString.setParam(url, 'transId', transId);
+                url = QueryString.setParam(url, 'date', winlostDate);
+                url = QueryString.setParam(url, 'custId', custId);
+                url = QueryString.setParam(url, 'transType', transType);
+                url = QueryString.setParam(url, 'BaseCurrency', getBaseCurrency());
+                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
+                url = QueryString.setParam(url, 'lang', $("#lang").val());
+                url = QueryString.setParam(url, 'uspkey', 'Lrf_BetList_RNG_Detail');
+                url = QueryString.setParam(url, 'hastotal', 1);
+                url = QueryString.setParam(url, 'isDesktopViewOnly', $("#isDesktopViewOnly").val() === "1");
+                const popH = Math.min($(window).height() - 100, 550);
+                const title = Site.getSingleResource('ProductAP') + ' - ' +
+                    Site.getSingleResource('DetailedBetlist');
+
+                showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
+            },
+            showAdvantPlayMiniBetDetails: function (transId, winlostDate, custId, transType) {
+                let url = Site.resolveClientUrl('BetListDetailByProduct/Detail');
+                url = QueryString.setParam(url, 'transId', transId);
+                url = QueryString.setParam(url, 'date', winlostDate);
+                url = QueryString.setParam(url, 'custId', custId);
+                url = QueryString.setParam(url, 'transType', transType);
+                url = QueryString.setParam(url, 'BaseCurrency', getBaseCurrency());
+                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
+                url = QueryString.setParam(url, 'lang', $("#lang").val());
+                url = QueryString.setParam(url, 'uspkey', 'Lrf_BetList_RNG_Detail');
+                url = QueryString.setParam(url, 'hastotal', 1);
+                url = QueryString.setParam(url, 'isDesktopViewOnly', $("#isDesktopViewOnly").val() === "1");
+                const popH = Math.min($(window).height() - 100, 550);
+                const title = Site.getSingleResource('ProductAPM') + ' - ' +
+                    Site.getSingleResource('DetailedBetlist');
+
+                showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
+            },
             ViewCasinoHandHistory: function (refNo) {
                 let url = Site.resolveClientUrl('HandHistory/RNGCasino');
                 const urlParam = $('#casino-hand-history-' + refNo).attr('url-param');
@@ -1587,6 +1659,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;﻿!(__WEBPACK_A
                 window.showVGamingDetails = _me.showVGamingDetails;
                 window.showVGamingJackpotWonDetails = _me.showVGamingJackpotWonDetails;
                 window.showCGBetDetails = _me.showCGBetDetails;
+                window.showAdvantPlayBetDetails = _me.showAdvantPlayBetDetails;
+                window.showAdvantPlayMiniBetDetails = _me.showAdvantPlayMiniBetDetails;
 
                 const betList = {
                     ViewCasinoHandHistory: _me.ViewCasinoHandHistory

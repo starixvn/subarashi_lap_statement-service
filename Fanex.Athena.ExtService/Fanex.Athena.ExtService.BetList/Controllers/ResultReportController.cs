@@ -48,7 +48,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ShowRngCasinoSingleWalletResult([FromBody]dynamic data)
+        public async Task<IActionResult> ShowRngCasinoSingleWalletResult([FromBody] dynamic data)
         {
             var result = await _betListApiClient.PostAsyncString(
                 "/ResultReport/ShowRngCasinoSingleWalletResult",
@@ -358,6 +358,38 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             };
 
             return await _betListApiClient.PostAsyncString("/CGResultPopup/Index", model, lang).ConfigureAwait(false);
+        }
+
+        [ResponseCache(Duration = SystemConstants.ThirtySecond, VaryByQueryKeys = new[] { "custId", "transId3rd", "gameId3rd", "siteId", "lang" })]
+        [HttpGet]
+        public async Task<string> AdvantPlayResult(string custid, string transId3rd, string gameId3rd, string siteId, string lang)
+        {
+            var model = new
+            {
+                custid,
+                transId3rd,
+                gameId3rd,
+                siteId,
+                languageCode = lang
+            };
+
+            return await _betListApiClient.PostAsyncString("/AdvantPlayResultPopup/Index", model, lang).ConfigureAwait(false);
+        }
+        
+        [ResponseCache(Duration = SystemConstants.ThirtySecond, VaryByQueryKeys = new[] { "custId", "transId3rd", "gameId3rd", "siteId", "lang" })]
+        [HttpGet]
+        public async Task<string> AdvantPlayMiniResult(string custid, string transId3rd, string gameId3rd, string siteId, string lang)
+        {
+            var model = new
+            {
+                custid,
+                transId3rd,
+                gameId3rd,
+                siteId,
+                languageCode = lang
+            };
+
+            return await _betListApiClient.PostAsyncString("/AdvantPlayMiniResultPopup/Index", model, lang).ConfigureAwait(false);
         }
 
         [ResponseCache(Duration = SystemConstants.ThirtySecond, VaryByQueryKeys = new[] { "custId", "transId3rd", "currencyId", "siteId", "language" })]

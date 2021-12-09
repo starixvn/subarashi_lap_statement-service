@@ -434,4 +434,13 @@
   <data name="ACCUMULATEDBALANCE" xml:space="preserve">
     <value>ACCUMULATED BALANCE</value>
   </data>
+  <data name="ProductAP" xml:space="preserve">
+    <value>AdvantPlay</value>
+  </data>
+  <data name="ProductAPM" xml:space="preserve">
+    <value>AdvantPlay Mini</value>
+  </data>
+  <data name="ProductCG" xml:space="preserve">
+    <value>CG</value>
+  </data>
 </root>
