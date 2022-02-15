@@ -458,7 +458,7 @@
                     }
                 });
             },
-            
+
             viewAdvantPlayMiniResult: function (custId, transId3rd, gameId3rd, siteId, title) {
                 let url = Site.resolveClientUrl('ResultReport/AdvantPlayMiniResult?custId=' + custId + '&transId3rd=' + transId3rd + '&gameId3rd=' + gameId3rd + '&siteId=' + siteId);
                 url += "&lang=" + $("#lang").val();
@@ -473,28 +473,47 @@
                 });
             },
 
+            viewThirdPartyProductResult: function (custId, transId3rd, gameId3rd, currencyId, siteId, betTypeId, productPath, title) {
+                const param = 'custId=' + custId +
+                    '&transId3rd=' + transId3rd +
+                    '&gameId3rd=' + gameId3rd +
+                    '&siteId=' + siteId +
+                    '&currencyId=' + currencyId +
+                    '&betTypeId=' + betTypeId +
+                    '&productPath=' + productPath;
+                const url = Site.resolveClientUrl('ResultReport/ThirdPartyProduct?' + param);
+                Site.blockUI();
+
+                $.get(url, function (result) {
+                    if (result !== '') {
+                        showResultPopUp(result, { width: 800, height: 380, title: title });
+                        Site.unBlockUI();
+                    }
+                });
+            },
+
             viewResult: function (matchid, raceNo, bettype, sporttype, refno,
-                currency, winlostdate, refnoMixParlay, league, isOutright, extension1, extension2, custid, transdecs) {
+                currency, winlostdate, refnoMixParlay, league, isOutright, extension1, extension2, custid, transdecs, siteId) {
                 const title = Site.getSingleResource('Result');
                 const defaultPlatform = 'd';  // desktop
 
                 if (sporttype === SPORT_RNG_GAME || sporttype === SPORT_RNG_MINIGAME || sporttype === SPORT_RNG_MOBILE) {
-                    _me.viewRngCasinoResult(title, refno);
+                    _me.viewThirdPartyProductResult(custid, transdecs, extension2, extension1, siteId, bettype, 'RNGCasino', title);
                 }
                 else if (sporttype === SPORT_VOIDBRIDGE) {
-                    _me.viewVoidbridgeResult(custid, extension2, title);
+                    _me.viewThirdPartyProductResult(custid, transdecs, extension2, extension1, siteId, bettype, 'Voidbridge', title);
                 }
                 else if (sporttype === SPORT_PP) {
-                    _me.viewPPResult(custid, extension2, title);
+                    _me.viewThirdPartyProductResult(custid, transdecs, extension2, extension1, siteId, bettype, 'PP', title);
                 }
                 else if (sporttype === SPORT_CARDCLUB) {
-                    _me.viewCardClubResult(custid, bettype, extension2, title);
+                    _me.viewThirdPartyProductResult(custid, transdecs, extension2, extension1, siteId, bettype, 'CardClub', title);
                 }
                 else if (sporttype === SPORT_SBC || sporttype === SPORT_SBC_FreeBets) {
                     _me.viewSabaClubResult(custid, bettype, extension2, transdecs, title, sporttype);
                 }
                 else if (sporttype === SPORT_SG) {
-                    _me.viewSGResult(custid, extension2, title);
+                    _me.viewThirdPartyProductResult(custid, transdecs, extension2, extension1, siteId, bettype, 'SG', title);
                 }
                 else if (sporttype === SPORT_VRG) {
                     _me.viewVRGResult(refno, defaultPlatform, title);
@@ -509,43 +528,43 @@
                     _me.viewSAGamingResult(transdecs, extension2, bettype, title);
                 }
                 else if (sporttype === SPORT_JK) {
-                    _me.ViewJokerResult(custid, transdecs, extension2, title);
+                    _me.viewThirdPartyProductResult(custid, transdecs, extension2, extension1, siteId, bettype, 'Joker', title);
                 }
                 else if (sporttype === SPORT_GLOBALGAMING) {
                     _me.viewGlobalGamingResult(custid, extension2, title);
                 }
                 else if (sporttype === SPORT_PGS) {
-                    _me.viewPGSResult(custid, transdecs, extension2, title);
+                    _me.viewThirdPartyProductResult(custid, transdecs, extension2, extension1, siteId, bettype, 'PGSoft', title);
                 }
                 else if (sporttype === SPORT_HAPPY5LINKEDGAMES) {
-                    _me.ViewHappy5LinkedGamesResult(extension1, refno, defaultPlatform, title);
+                    _me.viewThirdPartyProductResult(custid, refno, extension2, extension1, siteId, bettype, 'Happy5LinkedGames', title);
                 }
                 else if (sporttype === SPORT_GDG) {
-                    _me.viewGDGResult(custid, transdecs, extension2, league, title);
+                    _me.viewThirdPartyProductResult(custid, transdecs, extension2, extension1, siteId, bettype, 'GDG', title);
                 }
                 else if (sporttype === SPORT_SPORTSLOTTERY) {
-                    _me.viewSportsLotteryResult(custid, transdecs, defaultPlatform, title);
+                    _me.viewThirdPartyProductResult(custid, transdecs, extension2, extension1, siteId, bettype, 'SportsLottery', title);
                 }
                 else if (sporttype === SPORT_HB) {
-                    _me.viewHabaneroResult(custid, transdecs, extension2, extension1, title);
+                    _me.viewThirdPartyProductResult(custid, transdecs, extension2, extension1, siteId, bettype, 'Habanero', title);
                 }
                 else if (sporttype === SPORT_WM) {
                     _me.viewWMResult(transdecs, extension2, bettype, title);
                 }
                 else if (sporttype === SPORT_BGG) {
-                    _me.viewBGGResult(custid, transdecs, league, extension2, title);
+                    _me.viewThirdPartyProductResult(custid, transdecs, extension2, extension1, siteId, bettype, 'BGG', title);
                 }
                 else if (sporttype === SPORT_VGA || sporttype === SPORT_VGA_FreeBets) {
                     _me.viewVGamingResult(custid, bettype, extension2, transdecs, title, sporttype, currency);
                 }
                 else if (sporttype === SPORT_CG) {
-                    _me.viewCGResult(custid, transdecs, extension2, extension1, title);
+                    _me.viewThirdPartyProductResult(custid, transdecs, extension2, extension1, siteId, bettype, 'CG', title);
                 }
                 else if (sporttype === SPORT_AP) {
-                    _me.viewAdvantPlayResult(custid, transdecs, extension2, extension1, title);
+                    _me.viewThirdPartyProductResult(custid, transdecs, extension2, extension1, siteId, bettype, 'AdvantPlay', title);
                 }
                 else if (sporttype === SPORT_APM) {
-                    _me.viewAdvantPlayMiniResult(custid, transdecs, extension2, extension1, title);
+                    _me.viewThirdPartyProductResult(custid, transdecs, extension2, extension1, siteId, bettype, 'AdvantPlayMini', title);
                 }
                 else {
                     const numberBettype = Number(bettype);
