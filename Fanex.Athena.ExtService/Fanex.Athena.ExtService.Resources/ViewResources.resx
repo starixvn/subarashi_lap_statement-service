@@ -443,4 +443,7 @@
   <data name="ProductCG" xml:space="preserve">
     <value>CG</value>
   </data>
+  <data name="ProductVS3" xml:space="preserve">
+    <value>Virtual Sports 3</value>
+  </data>
 </root>

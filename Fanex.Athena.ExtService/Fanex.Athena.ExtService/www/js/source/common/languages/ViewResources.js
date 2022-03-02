@@ -33,5 +33,6 @@
     LicenseeTxId: "TxID",
     JackpotWonDetails: "Jackpot Won Details",
     ProductAP: "AdvantPlay",
-    ProductAPM: "AdvantPlay Mini"
+    ProductAPM: "AdvantPlay Mini",
+    ProductVS3: "Virtual Sports 3"
 };
