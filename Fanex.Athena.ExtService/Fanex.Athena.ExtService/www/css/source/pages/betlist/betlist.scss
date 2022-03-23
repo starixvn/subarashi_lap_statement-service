@@ -8,6 +8,17 @@
 .betlist-container {
     background: #fff;
 
+    .players-choice {
+        color: #000000;
+        font-weight: bold !important;
+        word-break: break-word;
+        white-space: normal;
+    }
+
+    .table.fn-rs .cl-result.home .match-info {
+        color: #000000;
+    }
+
     .ui-jqgrid-hdiv table.ui-jqgrid-htable > thead > tr > th {
         &, &.ui-th-column {
             color: $white;
