@@ -557,6 +557,13 @@ table tbody tr.row-group-level1 td {
   /*ul.h-list li a*/
   /* Link */
   /*to make line-through for void-parlay-ticket*/ }
+  .betlist-container .players-choice {
+    color: #000000;
+    font-weight: bold !important;
+    word-break: break-word;
+    white-space: normal; }
+  .betlist-container .table.fn-rs .cl-result.home .match-info {
+    color: #000000; }
   .betlist-container .ui-jqgrid-hdiv table.ui-jqgrid-htable > thead > tr > th, .betlist-container .ui-jqgrid-hdiv table.ui-jqgrid-htable > thead > tr > th.ui-th-column {
     color: #fff; }
   .betlist-container .content-title {
