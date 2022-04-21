@@ -220,7 +220,8 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
                 currencyId,
                 siteId,
                 betTypeId,
-                languageCode = lang
+                languageCode = lang,
+                clientIp = Request.HttpContext.Connection.RemoteIpAddress.ToString()
             };
 
             return await _betListApiClient.PostAsyncString($"/{productPath}ResultPopup/Index", model, lang).ConfigureAwait(false);
