@@ -341,4 +341,7 @@
   <data name="Viewin" xml:space="preserve">
     <value>以 {0} 查看</value>
   </data>
+  <data name="ProductBTC" xml:space="preserve">
+    <value>比特币</value>
+  </data>
 </root>

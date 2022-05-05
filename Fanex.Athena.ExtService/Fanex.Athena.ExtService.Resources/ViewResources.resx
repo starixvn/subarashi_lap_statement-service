@@ -434,6 +434,9 @@
   <data name="ACCUMULATEDBALANCE" xml:space="preserve">
     <value>ACCUMULATED BALANCE</value>
   </data>
+  <data name="ProductBTC" xml:space="preserve">
+    <value>Bitcoin</value>
+  </data>
   <data name="ProductAP" xml:space="preserve">
     <value>AdvantPlay</value>
   </data>
