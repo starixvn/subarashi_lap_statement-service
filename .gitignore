@@ -9,3 +9,6 @@
 /Fanex.Athena.ExtService/Fanex.Athena.ExtService.UnitTests/coverage.cobertura.xml
 /Fanex.Athena.ExtService/Fanex.Athena.ExtService.UnitTests/coverage.opencover.xml
 /Fanex.Athena.ExtService/Fanex.Athena.ExtService/healthchecksdb
+
+
+/Fanex.Athena.ExtService/Fanex.Athena.ExtService/webpack-stats*
