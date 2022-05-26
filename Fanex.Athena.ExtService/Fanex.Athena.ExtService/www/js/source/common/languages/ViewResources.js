@@ -25,6 +25,7 @@
     ProductWM: "WM",
     ProductVGA: "Vgaming",
     ProductCG: "CG",
+    ProductBTC: "Bitcoin",
     TransactionDetail: "",
     ErrorProcessingMsg: "Sorry, an error occurred while processing your request.",
     Result: "Results",

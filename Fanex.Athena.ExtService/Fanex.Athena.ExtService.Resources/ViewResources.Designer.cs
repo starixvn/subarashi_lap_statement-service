@@ -565,6 +565,15 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bitcoin.
+        /// </summary>
+        public static string ProductBTC {
+            get {
+                return ResourceManager.GetString("ProductBTC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exchange.
         /// </summary>
         public static string ProductBX {

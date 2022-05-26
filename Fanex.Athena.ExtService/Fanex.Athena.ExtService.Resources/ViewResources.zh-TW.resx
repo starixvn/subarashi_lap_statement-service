@@ -319,6 +319,9 @@
   <data name="ACCUMULATEDBALANCE" xml:space="preserve">
     <value>累計餘額</value>
   </data>
+  <data name="ProductBTC" xml:space="preserve">
+    <value>比特幣</value>
+  </data>
   <data name="Activity" xml:space="preserve">
     <value>活動</value>
   </data>
