@@ -19,6 +19,7 @@ namespace Fanex.Athena.ExtService.Core.Services
             _userManagementService = service;
             _tokenManagement = tokenManagementAccessor.Value;
         }
+
         public Tuple<bool, Token> IsAuthenticated(TokenRequest request)
         {
             var token = new Token();

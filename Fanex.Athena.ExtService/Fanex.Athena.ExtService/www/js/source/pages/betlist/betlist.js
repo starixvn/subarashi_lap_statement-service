@@ -3,39 +3,28 @@
     function ($, Site, QueryString, Popup) {
         'use strict';
         const BETTYPE_CASHOUT = 911;
-        const BETTYPE_MIXPARLAY = 9, BETTYPE_SYSTEMPARLAY = 29, BETTYPE_MIXPARLAY_BETRADAR = 2799;
-        const MIN_BETTYPE_FASTMARKET = 221;
-        const MAX_BETTYPE_FASTMARKET = 227;
-        const SPORT_RNG_GAME = 208;
-        const SPORT_RNG_MINIGAME = 209;
-        const SPORT_RNG_MOBILE = 210;
-        const SPORT_ALLBET = 211;
-        const SPORT_VOIDBRIDGE = 212;
-        const SPORT_PP = 248;
-        const SPORT_GLOBALGAMING = 219;
-        const SPORT_CARDCLUB = 165;
-        const SPORT_SG = 247;
-        const SPORT_VRG = 245;
-        const SPORT_SXG = 243;
-        const SPORT_SBC = 200;
-        const SPORT_SBC_FreeBets = 150;
-        const SPORT_SAG = 244;
-        const SPORT_PGS = 232;
-        const SPORT_JK = 234;
-        const SPORT_HAPPY5LINKEDGAMES = 168;
-        const SPORT_GDG = 236;
-        const SPORT_SPORTSLOTTERY = 169;
-        const SPORT_HB = 238;
-        const SPORT_WM = 233;
-        const SPORT_BGG = 239;
-        const SPORT_VGA = 171;
-        const SPORT_VGA_FreeBets = 173;
-        const SPORT_CG = 167;
-        const SPORT_AP = 172;
-        const SPORT_APM = 174;
-        const SPORT_VS3 = 231;
 
         let _sortColumnName, _sortOrder;
+
+        function _beforeShow() {
+            Site.blockUI();
+        }
+
+        function _afterShow() {
+            Site.unBlockUI();
+        }
+
+        function _openPopup(url, title, sporttype) {
+            showResultPopUp(url, { width: ResultWidth, height: 450, title: title });
+        }
+
+        function _getAccessToken() {
+            return $("#access_token").val();
+        }
+
+        function _getLanguage() {
+            return $("#lang").val();
+        }
 
         function showDetailPopUp(url, option) {
             option.id = 'betlist-popup-detail';
@@ -47,29 +36,16 @@
             Popup.openPopupWithIframe(url, option);
         }
 
-        function isFastMarket(bettype) {
-            return bettype >= MIN_BETTYPE_FASTMARKET && bettype <= MAX_BETTYPE_FASTMARKET;
-        }
         function getBaseCurrency() {
             return $('#baseCurrency').val();
         }
 
         function calculatePopupWidth() {
-            return Math.min(890, $(window).width());
-        }
-
-        function resize3rdPartyResultFrame(minHeight) {
-            var $frame = $("#popupFrame");
-
-            if ($frame.length) {
-                var height = $(window).height() - 10;
-                height = Math.max(minHeight, height);
-
-                $frame.height(height);
-            }
+            return Math.min(910, $(window).width());
         }
 
         let DetailsWidth = calculatePopupWidth();
+        let ResultWidth = Math.min(850, $(window).width());
 
         const _me = {
             getSortParams: function () {
@@ -95,637 +71,6 @@
                     var e = $(this);
                     _me.showHideMoreInfo(e);
                 });
-            },
-
-            getMixParlayResultUrl: function (refno, winlostdate, bettype) {
-                let url = Site.resolveClientUrl('ResultReport/ResultPopup');
-                url = QueryString.setParam(url, 'refno', refno);
-                url = QueryString.setParam(url, 'winlossdate', winlostdate);
-                url = QueryString.setParam(url, 'bettype', bettype);
-                url = QueryString.setParam(url, 'matchid', 1);
-                url = QueryString.setParam(url, 'lang', $("#lang").val());
-                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
-
-                return url;
-            },
-
-            getSportBookResultUrl: function (matchid, bettype, raceNo, sporttype, league, isOutright, extension1, extension2) {
-                let url = Site.resolveClientUrl('ResultReport/ResultPopup');
-                url = QueryString.setParam(url, 'matchid', matchid);
-                url = QueryString.setParam(url, 'bettype', bettype);
-                url = QueryString.setParam(url, 'raceno', raceNo);
-                url = QueryString.setParam(url, 'sporttype', sporttype);
-                url = QueryString.setParam(url, 'isoutright', isOutright);
-                url = QueryString.setParam(url, 'lang', $("#lang").val());
-                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
-
-                if (isFastMarket(bettype)) {
-                    url = QueryString.setParam(url, 'handicap1', extension1);
-                    url = QueryString.setParam(url, 'handicap2', extension2);
-                }
-                else {
-                    url = QueryString.setParam(url, 'betid', extension1);
-                    url = QueryString.setParam(url, 'transdesc', extension2);
-                }
-
-                return url;
-            },
-
-            viewRngCasinoResult: function (title, refno) {
-                let url = Site.resolveClientUrl('ResultReport/ShowRngCasinoSingleWalletResult');
-
-                const params = {
-                    'refNo': refno,
-                    'lang': $("#lang").val()
-                };
-
-                $.ajax({
-                    type: 'POST',
-                    contentType: 'application/json',
-                    dataType: 'json',
-                    data: JSON.stringify(params),
-                    cache: false,
-                    url: url,
-                    success: function (response) {
-                        const result = response.Result;
-                        if (response.Success) {
-                            if (result === '') {
-                                return;
-                            }
-
-                            showResultPopUp(result, { width: DetailsWidth, height: 380, title: title });
-                        }
-                        else {
-                            alert(Site.getSingleResource('ErrorProcessingMsg'));
-                        }
-                    },
-                    beforeSend: function () {
-                        Site.blockUI();
-                    },
-                    complete: function () {
-                        Site.unBlockUI();
-                    }
-                });
-            },
-
-            viewVoidbridgeResult: function (custId, gamePlayId, title) {
-                let url = Site.resolveClientUrl('ResultReport/VoidbridgeResult') + '?custid=' + custId + '&gamePlayId=' + gamePlayId;
-                url = QueryString.setParam(url, 'lang', $("#lang").val());
-                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
-
-                Site.blockUI();
-                $.get(url, function (result) {
-                    if (result !== '') {
-                        showResultPopUp(result, { width: DetailsWidth, height: 1200, title: title });
-                        Site.unBlockUI();
-                    }
-                });
-            },
-
-            viewPPResult: function (custId, gamePlayId, title) {
-                let url = Site.resolveClientUrl('ResultReport/PPResultPopup') + '?custid=' + custId + '&gamePlayId=' + gamePlayId;
-                url = QueryString.setParam(url, 'lang', $("#lang").val());
-                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
-
-                Site.blockUI();
-                $.get(url, function (result) {
-                    if (result !== '') {
-                        var height = 450;
-                        showResultPopUp(result, { width: DetailsWidth, height: height, title: title });
-                        resize3rdPartyResultFrame(height);
-                        Site.unBlockUI();
-                    }
-                });
-            },
-
-            viewSGResult: function (custId, gamePlayId, title) {
-                let url = Site.resolveClientUrl('ResultReport/SGResultPopup') + '?custid=' + custId + '&gamePlayId=' + gamePlayId;
-                url = QueryString.setParam(url, 'lang', $("#lang").val());
-                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
-
-                Site.blockUI();
-                $.get(url, function (result) {
-                    if (result !== '') {
-                        showResultPopUp(result, { width: DetailsWidth, height: 380, title: title });
-                        Site.unBlockUI();
-                    }
-                });
-            },
-
-            viewVRGResult: function (gameId, platform, title) {
-                let url = Site.resolveClientUrl('ResultReport/VirtualGamesResultPopup') + '?gameId=' + gameId + '&platform=' + platform;
-                url = QueryString.setParam(url, 'lang', $("#lang").val());
-                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
-
-                Site.blockUI();
-                $.get(url, function (result) {
-                    if (result !== '') {
-                        showResultPopUp(result, { width: DetailsWidth, height: 380, title: title });
-                        Site.unBlockUI();
-                    }
-                });
-            },
-
-            viewCardClubResult: function (custId, gameTypeId, transId3rd, title) {
-                let url = Site.resolveClientUrl('ResultReport/CCResultPopup') + '?custId=' + custId + '&gameTypeId=' + gameTypeId + '&transId3rd=' + transId3rd;
-                url = QueryString.setParam(url, 'lang', $("#lang").val());
-                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
-
-                Site.blockUI();
-                $.get(url, function (result) {
-                    if (result !== '') {
-                        showResultPopUp(result, { width: DetailsWidth, height: 380, title: title });
-                        Site.unBlockUI();
-                    }
-                });
-            },
-
-            viewSabaClubResult: function (custId, gameId, siteId, gameRoundId, title, sporttype) {
-                let url = Site.resolveClientUrl('ResultReport/SBCResultPopup') + '?custId=' + custId + '&gameId=' + gameId + '&siteId=' + siteId + '&gameRoundId=' + gameRoundId + '&sportType=' + sporttype;
-                url = QueryString.setParam(url, 'lang', $("#lang").val());
-                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
-
-                Site.blockUI();
-                $.get(url, function (result) {
-                    if (result !== '') {
-                        showResultPopUp(result, { width: DetailsWidth, height: 380, title: title });
-                        Site.unBlockUI();
-                    }
-                });
-            },
-
-            viewAllBetResult: function (trasdesc, betcheck, bettype, title) {
-                let url = Site.resolveClientUrl('ResultReport/AllBetResult?transdesc=' +
-                    encodeURIComponent(trasdesc) + '&betcheck=' + betcheck + '&bettype=' + bettype);
-                url += "&lang=" + $("#lang").val();
-                url += "&access_token=" + $("#access_token").val();
-
-                Site.blockUI();
-                showResultPopUp(url, { width: DetailsWidth, height: 380, title: title });
-                Site.unBlockUI();
-            },
-
-            viewSexyGamingResult: function (trasdesc, matchCode, bettype, title) {
-                let url = Site.resolveClientUrl('ResultReport/SexyGamingResult?transdesc=' +
-                    encodeURIComponent(trasdesc) + '&matchCode=' + matchCode + '&bettype=' + bettype);
-                url += "&lang=" + $("#lang").val();
-                url += "&access_token=" + $("#access_token").val();
-
-                Site.blockUI();
-                showResultPopUp(url, { width: DetailsWidth, height: 380, title: title });
-                Site.unBlockUI();
-            },
-
-            viewSAGamingResult: function (trasdesc, matchCode, bettype, title) {
-                let url = Site.resolveClientUrl('ResultReport/SAGamingResult?transdesc=' +
-                    encodeURIComponent(trasdesc) + '&matchCode=' + matchCode + '&bettype=' + bettype);
-                url += "&lang=" + $("#lang").val();
-                url += "&access_token=" + $("#access_token").val();
-
-                Site.blockUI();
-                showResultPopUp(url, { width: DetailsWidth, height: 380, title: title });
-                Site.unBlockUI();
-            },
-
-            ViewJokerResult: function (custId, gamePlayId, gameCode, title) {
-                let url = Site.resolveClientUrl('ResultReport/JokerResult?custId=' + custId + '&gamePlayId=' + gamePlayId + '&gameCode=' + gameCode);
-                url += "&lang=" + $("#lang").val();
-                url += "&access_token=" + $("#access_token").val();
-
-                Site.blockUI();
-                $.get(url, function (result) {
-                    if (result !== '') {
-                        showResultPopUp(result, { width: DetailsWidth, height: 380, title: title });
-                        Site.unBlockUI();
-                    }
-                });
-            },
-
-            viewGlobalGamingResult: function (custId, gameId, title) {
-                let url = Site.resolveClientUrl('ResultReport/GlobalGamingResult') + '?custid=' + custId + '&gameId=' + gameId;
-                url = QueryString.setParam(url, 'lang', $("#lang").val());
-                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
-
-                Site.blockUI();
-                $.get(url, function (result) {
-                    if (result !== '') {
-                        showResultPopUp(result, { width: DetailsWidth, height: 380, title: title });
-                        Site.unBlockUI();
-                    }
-                });
-            },
-
-            viewPGSResult: function (custId, gamePlayId, gameId3rd, title) {
-                let url = Site.resolveClientUrl('ResultReport/PGSoftResultPopup') +
-                    '?custid=' + custId +
-                    '&gamePlayId=' + gamePlayId +
-                    '&gameId3rd=' + gameId3rd;
-                url = QueryString.setParam(url, 'lang', $("#lang").val());
-                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
-
-                Site.blockUI();
-                $.get(url, function (result) {
-                    if (result !== '') {
-                        showResultPopUp(result, { width: DetailsWidth, height: 450, title: title });
-                        Site.unBlockUI();
-                    }
-                });
-            },
-
-            viewBGGResult: function (custId, transId3rd, currencyId, siteId, title) {
-                let url = Site.resolveClientUrl('ResultReport/BGGResultPopup') +
-                    '?custid=' + custId +
-                    '&transId3rd=' + transId3rd +
-                    '&currencyId=' + currencyId +
-                    '&siteId=' + siteId;
-                url = QueryString.setParam(url, 'lang', $("#lang").val());
-                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
-
-                Site.blockUI();
-                $.get(url, function (result) {
-                    if (result !== '') {
-                        showResultPopUp(result, { width: DetailsWidth, height: 450, title: title });
-                        Site.unBlockUI();
-                    }
-                });
-            },
-
-            ViewHappy5LinkedGamesResult: function (custId, transId3rd, platform, title) {
-                let url = Site.resolveClientUrl('ResultReport/Happy5LinkedGamesResultPopup?custId=' + custId +
-                    '&transId3rd=' + transId3rd + '&platform=' + platform);
-                url += "&lang=" + $("#lang").val();
-                url += "&access_token=" + $("#access_token").val();
-
-                Site.blockUI();
-                $.get(url, function (result) {
-                    if (result !== '') {
-                        showResultPopUp(result, { width: DetailsWidth, height: 380, title: title });
-                        Site.unBlockUI();
-                    }
-                });
-            },
-
-            viewSportsLotteryResult: function (custId, transId3rd, platform, title) {
-                let url = Site.resolveClientUrl('ResultReport/SportsLotteryResult?custId=' + custId +
-                    '&transId3rd=' + transId3rd + '&platform=' + platform);
-                url += "&lang=" + $("#lang").val();
-                url += "&access_token=" + $("#access_token").val();
-
-                Site.blockUI();
-                $.get(url, function (result) {
-                    if (result !== '') {
-                        showResultPopUp(result, { width: DetailsWidth, height: 380, title: title });
-                        Site.unBlockUI();
-                    }
-                });
-            },
-
-            viewGDGResult: function (custId, transId3rd, gameId3rd, siteId, title) {
-                let url = Site.resolveClientUrl('ResultReport/GDGResult?custId=' + custId + '&transId3rd=' + transId3rd + '&gameId3rd=' + gameId3rd + '&siteId=' + siteId);
-                url += "&lang=" + $("#lang").val();
-                url += "&access_token=" + $("#access_token").val();
-
-                Site.blockUI();
-                $.get(url, function (result) {
-                    if (result !== '') {
-                        showResultPopUp(result, { width: DetailsWidth, height: 380, title: title });
-                        Site.unBlockUI();
-                    }
-                });
-            },
-
-            viewHabaneroResult: function (custId, transId3rd, gameId3rd, siteId, title) {
-                let url = Site.resolveClientUrl('ResultReport/HabaneroResult?custId=' + custId + '&transId3rd=' + transId3rd + '&gameId3rd=' + gameId3rd + '&siteId=' + siteId);
-                url += "&lang=" + $("#lang").val();
-                url += "&access_token=" + $("#access_token").val();
-
-                Site.blockUI();
-                $.get(url, function (result) {
-                    if (result !== '') {
-                        showResultPopUp(result, { width: DetailsWidth, height: 380, title: title });
-                        Site.unBlockUI();
-                    }
-                });
-            },
-
-            viewWMResult: function (transDesc, gameId3rd, betType, title) {
-                let url = Site.resolveClientUrl('ResultReport/WMResult?transDesc=' +
-                    encodeURIComponent(transDesc) + '&gameId3rd=' + gameId3rd + '&betType=' + betType);
-                url += "&lang=" + $("#lang").val();
-                url += "&access_token=" + $("#access_token").val();
-
-                Site.blockUI();
-                showResultPopUp(url, { width: DetailsWidth, height: 380, title: title });
-                Site.unBlockUI();
-            },
-
-            viewVGamingResult: function (custId, gameId, siteId, gameRoundId, title, sporttype, currencyName) {
-                let url = Site.resolveClientUrl('ResultReport/VGamingResultPopup') + '?custId=' + custId + '&gameId=' + gameId + '&siteId=' + siteId + '&gameRoundId=' + gameRoundId + '&sportType=' + sporttype + '&currencyName=' + currencyName;
-                url = QueryString.setParam(url, 'lang', $("#lang").val());
-                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
-
-                Site.blockUI();
-                $.get(url, function (result) {
-                    if (result !== '') {
-                        showResultPopUp(result, { width: DetailsWidth, height: 380, title: title });
-                        Site.unBlockUI();
-                    }
-                });
-            },
-
-            viewCGResult: function (custId, transId3rd, gameId3rd, siteId, title) {
-                let url = Site.resolveClientUrl('ResultReport/CGResult?custId=' + custId + '&transId3rd=' + transId3rd + '&gameId3rd=' + gameId3rd + '&siteId=' + siteId);
-                url += "&lang=" + $("#lang").val();
-                url += "&access_token=" + $("#access_token").val();
-
-                Site.blockUI();
-                $.get(url, function (result) {
-                    if (result !== '') {
-                        showResultPopUp(result, { width: DetailsWidth, height: 380, title: title });
-                        Site.unBlockUI();
-                    }
-                });
-            },
-
-            viewAdvantPlayResult: function (custId, transId3rd, gameId3rd, siteId, title) {
-                let url = Site.resolveClientUrl('ResultReport/AdvantPlayResult?custId=' + custId + '&transId3rd=' + transId3rd + '&gameId3rd=' + gameId3rd + '&siteId=' + siteId);
-                url += "&lang=" + $("#lang").val();
-                url += "&access_token=" + $("#access_token").val();
-
-                Site.blockUI();
-                $.get(url, function (result) {
-                    if (result !== '') {
-                        showResultPopUp(result, { width: DetailsWidth, height: 380, title: title });
-                        Site.unBlockUI();
-                    }
-                });
-            },
-
-            viewAdvantPlayMiniResult: function (custId, transId3rd, gameId3rd, siteId, title) {
-                let url = Site.resolveClientUrl('ResultReport/AdvantPlayMiniResult?custId=' + custId + '&transId3rd=' + transId3rd + '&gameId3rd=' + gameId3rd + '&siteId=' + siteId);
-                url += "&lang=" + $("#lang").val();
-                url += "&access_token=" + $("#access_token").val();
-
-                Site.blockUI();
-                $.get(url, function (result) {
-                    if (result !== '') {
-                        showResultPopUp(result, { width: DetailsWidth, height: 380, title: title });
-                        Site.unBlockUI();
-                    }
-                });
-            },
-
-            viewThirdPartyProductResult: function (custId, transId3rd, gameId3rd, currencyId, siteId, betTypeId, productPath, title) {
-                const param = 'custId=' + custId +
-                    '&transId3rd=' + transId3rd +
-                    '&gameId3rd=' + gameId3rd +
-                    '&siteId=' + siteId +
-                    '&currencyId=' + currencyId +
-                    '&betTypeId=' + betTypeId +
-                    '&productPath=' + productPath;
-                const url = Site.resolveClientUrl('ResultReport/ThirdPartyProduct?' + param);
-                Site.blockUI();
-
-                $.get(url, function (result) {
-                    if (result !== '') {
-                        showResultPopUp(result, { width: 800, height: 380, title: title });
-                        Site.unBlockUI();
-                    }
-                });
-            },
-
-            viewVS3Result: function (transdecs, sporttype, title) {
-                const param = 'transDesc=' + transdecs +
-                    '&sporttype=' + sporttype +
-                    '&lang=' + $("#lang").val() +
-                    '&access_token=' + $("#access_token").val();
-
-                let url = Site.resolveClientUrl('ResultReport/ResultPopup?' + param);
-
-                Site.blockUI();
-                showResultPopUp(url, { width: 800, height: 380, title: title });
-                Site.unBlockUI();
-            },
-
-            viewResult: function (matchid, raceNo, bettype, sporttype, refno,
-                currency, winlostdate, refnoMixParlay, league, isOutright, extension1, extension2, custid, transdecs, siteId) {
-                const title = Site.getSingleResource('Result');
-                const defaultPlatform = 'd';  // desktop
-
-                if (sporttype === SPORT_RNG_GAME || sporttype === SPORT_RNG_MINIGAME || sporttype === SPORT_RNG_MOBILE) {
-                    _me.viewThirdPartyProductResult(custid, transdecs, extension2, extension1, siteId, bettype, 'RNGCasino', title);
-                }
-                else if (sporttype === SPORT_VOIDBRIDGE) {
-                    _me.viewThirdPartyProductResult(custid, transdecs, extension2, extension1, siteId, bettype, 'Voidbridge', title);
-                }
-                else if (sporttype === SPORT_PP) {
-                    _me.viewThirdPartyProductResult(custid, transdecs, extension2, extension1, siteId, bettype, 'PP', title);
-                }
-                else if (sporttype === SPORT_CARDCLUB) {
-                    _me.viewThirdPartyProductResult(custid, transdecs, extension2, extension1, siteId, bettype, 'CardClub', title);
-                }
-                else if (sporttype === SPORT_SBC || sporttype === SPORT_SBC_FreeBets) {
-                    _me.viewSabaClubResult(custid, bettype, extension2, transdecs, title, sporttype);
-                }
-                else if (sporttype === SPORT_SG) {
-                    _me.viewThirdPartyProductResult(custid, transdecs, extension2, extension1, siteId, bettype, 'SG', title);
-                }
-                else if (sporttype === SPORT_VRG) {
-                    _me.viewThirdPartyProductResult(custid, transdecs, extension2, extension1, siteId, bettype, 'VirtualGames', title);
-                }
-                else if (sporttype === SPORT_ALLBET) {
-                    _me.viewAllBetResult(transdecs, extension2, bettype, title);
-                }
-                else if (sporttype === SPORT_SXG) {
-                    _me.viewSexyGamingResult(transdecs, extension2, bettype, title);
-                }
-                else if (sporttype === SPORT_SAG) {
-                    _me.viewSAGamingResult(transdecs, extension2, bettype, title);
-                }
-                else if (sporttype === SPORT_JK) {
-                    _me.viewThirdPartyProductResult(custid, transdecs, extension2, extension1, siteId, bettype, 'Joker', title);
-                }
-                else if (sporttype === SPORT_GLOBALGAMING) {
-                    _me.viewGlobalGamingResult(custid, extension2, title);
-                }
-                else if (sporttype === SPORT_PGS) {
-                    _me.viewThirdPartyProductResult(custid, transdecs, extension2, extension1, siteId, bettype, 'PGSoft', title);
-                }
-                else if (sporttype === SPORT_HAPPY5LINKEDGAMES) {
-                    _me.viewThirdPartyProductResult(custid, refno, extension2, extension1, siteId, bettype, 'Happy5LinkedGames', title);
-                }
-                else if (sporttype === SPORT_GDG) {
-                    _me.viewThirdPartyProductResult(custid, transdecs, extension2, extension1, siteId, bettype, 'GDG', title);
-                }
-                else if (sporttype === SPORT_SPORTSLOTTERY) {
-                    _me.viewThirdPartyProductResult(custid, transdecs, extension2, extension1, siteId, bettype, 'SportsLottery', title);
-                }
-                else if (sporttype === SPORT_HB) {
-                    _me.viewThirdPartyProductResult(custid, transdecs, extension2, extension1, siteId, bettype, 'Habanero', title);
-                }
-                else if (sporttype === SPORT_WM) {
-                    _me.viewWMResult(transdecs, extension2, bettype, title);
-                }
-                else if (sporttype === SPORT_BGG) {
-                    _me.viewThirdPartyProductResult(custid, transdecs, extension2, extension1, siteId, bettype, 'BGG', title);
-                }
-                else if (sporttype === SPORT_VGA || sporttype === SPORT_VGA_FreeBets) {
-                    _me.viewVGamingResult(custid, bettype, extension2, transdecs, title, sporttype, currency);
-                }
-                else if (sporttype === SPORT_CG) {
-                    _me.viewThirdPartyProductResult(custid, transdecs, extension2, extension1, siteId, bettype, 'CG', title);
-                }
-                else if (sporttype === SPORT_AP) {
-                    _me.viewThirdPartyProductResult(custid, transdecs, extension2, extension1, siteId, bettype, 'AdvantPlay', title);
-                }
-                else if (sporttype === SPORT_APM) {
-                    _me.viewThirdPartyProductResult(custid, transdecs, extension2, extension1, siteId, bettype, 'AdvantPlayMini', title);
-                }
-                else if (sporttype === SPORT_VS3) {
-                    _me.viewVS3Result(transdecs, sporttype, title);
-                }
-                else {
-                    const numberBettype = Number(bettype);
-                    const isParlay = numberBettype === BETTYPE_MIXPARLAY || numberBettype === BETTYPE_SYSTEMPARLAY || numberBettype === BETTYPE_MIXPARLAY_BETRADAR;
-                    const url = isParlay
-                        ? _me.getMixParlayResultUrl(refnoMixParlay, winlostdate, numberBettype)
-                        : _me.getSportBookResultUrl(matchid, numberBettype, raceNo, sporttype, league, isOutright, extension1, extension2, custid);
-
-                    const height = 450;
-                    showResultPopUp(url, { width: DetailsWidth, height: height + 70, title: title });
-                }
-            },
-
-            showMixParlayDetail: function (transId, divEvent, custid) {
-                let url = Site.resolveClientUrl('api/MixParlayBetList/Detail?transId=' + transId + '&custId=' + custid);
-                url = QueryString.setParam(url, 'lang', $("#lang").val());
-                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
-
-                if (divEvent.css('display') === 'none') {
-                    $.ajax({
-                        type: 'GET',
-                        contentType: 'application/json',
-                        dataType: 'json',
-                        cache: false,
-                        url: url,
-                        success: function (response) {
-                            let choice = '';
-                            const len = response.length;
-                            $.each(response, function (index, item) {
-                                choice += item;
-                                if (index < len - 1) {
-                                    choice += '<div class="line"></div>';
-                                }
-                            });
-
-                            divEvent.html(choice);
-                            divEvent.css('display', '');
-                        },
-                        beforeSend: function () {
-                            Site.blockUI();
-                        },
-                        complete: function () {
-                            Site.unBlockUI();
-                        }
-                    });
-                }
-                else {
-                    divEvent.css('display', 'none');
-                    divEvent.html('');
-                }
-            },
-
-            showNewParlayDetail: function (transId, transIndex, refNo, handicap1, handicap2, betcheck, betteam, custId) {
-                const $divEvent = $('#divEvent_' + transId + '' + transIndex);
-                const $nameDiv = $('#combinationOfferName_' + transId + transIndex);
-                $divEvent.addClass('mx-parlay'); //to make line-through for void-parlay-ticket
-
-                if ($divEvent.is(':hidden')) {
-                    let url = Site.resolveClientUrl('api/MixParlayBetList/NewParlayDetail');
-                    url = QueryString.setParam(url, 'transId', transId);
-                    url = QueryString.setParam(url, 'refNo', refNo);
-                    url = QueryString.setParam(url, 'handicap1', handicap1);
-                    url = QueryString.setParam(url, 'handicap2', handicap2);
-                    url = QueryString.setParam(url, 'betcheck', betcheck);
-                    url = QueryString.setParam(url, 'betteam', betteam);
-                    url = QueryString.setParam(url, 'custId', custId);
-                    url = QueryString.setParam(url, 'access_token', $("#access_token").val());
-                    url = QueryString.setParam(url, 'lang', $("#lang").val());
-                    $.ajax({
-                        type: 'GET',
-                        contentType: 'application/json',
-                        dataType: 'json',
-                        cache: false,
-                        url: url,
-                        success: function (response) {
-                            let length = response.data === null ? 0 : response.data.length;
-                            if (length > 0) {
-                                let choice = '';
-                                $.each(response.texts, function (index, item) {
-                                    choice += item;
-                                });
-
-                                choice += '<div class="line"></div>';
-
-                                $.each(response.data, function (index, item) {
-                                    choice += item;
-                                    if (index < length - 1) {
-                                        choice += '<div class="line"></div>';
-                                    }
-                                });
-
-                                $divEvent.html(choice).show();
-                                $nameDiv.hide();
-                            }
-                        },
-                        beforeSend: Site.blockUI,
-                        complete: Site.unBlockUI
-                    });
-                }
-                else {
-                    $divEvent.hide().html('');
-                    $nameDiv.show();
-                    $('.ui-jqgrid-bdiv').css('height', 'auto');
-                }
-            },
-
-            showSingleMatchParlayDetail: function (transId, custId, status, transIndex) {
-                const $divEvent = $('#divEvent_' + transId + '' + transIndex);
-
-                if ($divEvent.is(':hidden')) {
-                    let url = Site.resolveClientUrl('api/SingleMatchParlayBetList/Detail');
-                    url = QueryString.setParam(url, 'transId', transId);
-                    url = QueryString.setParam(url, 'custId', custId);
-                    url = QueryString.setParam(url, 'status', status);
-                    url = QueryString.setParam(url, 'access_token', $('#access_token').val());
-                    url = QueryString.setParam(url, 'lang', $('#lang').val());
-
-                    $.ajax({
-                        type: 'GET',
-                        contentType: 'application/json',
-                        dataType: 'json',
-                        cache: false,
-                        url: url,
-                        success: function (response) {
-                            const length = response === null ? 0 : response.length;
-                            if (length > 0) {
-                                let choice = '<div class="single-match-parlay-detail">';
-                                $.each(response, function (index, item) {
-                                    choice += item;
-                                });
-
-                                choice += '</div>';
-                                $divEvent.html(choice).show();
-                            }
-                        },
-                        beforeSend: Site.blockUI,
-                        complete: Site.unBlockUI
-                    });
-                }
-                else {
-                    $divEvent.hide().html('');
-                    $('.ui-jqgrid-bdiv').css('height', 'auto');
-                }
             },
 
             showSystemParlayDetail: function (transId, refNo, betId, custId, betTeam, baseCurrency) {
@@ -1295,28 +640,22 @@
             },
 
             registerBetListGlobalFunctions: function () {
-                window.ViewResult = _me.viewResult;
-                // showMP and showCombMP are only for old tickets
-                window.showMP = function (transId, refNo, custId) {
-                    const divEvent = $('#divEvent_' + transId);
-                    divEvent.addClass('mx-parlay'); //to make line-through for void-parlay-ticket
-                    _me.showMixParlayDetail(transId, divEvent, custId);
-                };
 
-                window.showCombMP = function (transId, index, refNo, custId) {
-                    const divEvent = $('#divEvent_' + transId + '' + index);
-                    divEvent.addClass('mx-parlay'); //to make line-through for void-parlay-ticket
-                    _me.showMixParlayDetail(transId, divEvent, custId);
-                };
+                window.openPopup = _openPopup;
+                window.getResource = null;
+                window.formatDateString = null;
+                window.beforeShow = _beforeShow;
+                window.afterShow = _afterShow;
+                window.getBaseCurrency = null;
+                window.getAccessToken = _getAccessToken;
+                window.getLanguage = _getLanguage;
 
-                window.showNewCombMP = _me.showNewParlayDetail;
                 window.showCombMPDetail = _me.showSystemParlayDetail;
                 window.ViewCashOutHistory = _me.viewCashOutHistory;
                 window.showColossusBetsDetails = _me.showColossusBetsDetails;
                 window.showAGCasinoDetails = _me.showAGCasinoDetails;
                 window.showRnGCasinoDetails = _me.showRnGCasinoDetails;
                 window.showVoidBridgeDetails = _me.showVoidBridgeDetails;
-                window.showVoidbridgeResult = _me.viewVoidbridgeResult;
                 window.showTodayRunningBetsDetails = _me.showAllBetDetails;
                 window.showGlobalGaming = _me.showGlobalGamingDetails;
                 window.ShowBonusDetails = _me.showBonusDetails;
@@ -1325,7 +664,6 @@
                 window.showSabaClubJackpotWonDetails = _me.showSabaClubJackpotWonDetails;
                 window.showSGJackpotWonDetails = _me.showSGJackpotWonDetails;
                 window.showVideoPokerGameDetails = _me.showVideoPokerGameDetails;
-                window.showSingleMatchParlayDetail = _me.showSingleMatchParlayDetail;
                 window.showSGDetails = _me.showSGDetails;
                 window.showSexyGamingBetDetails = _me.showSexyGamingBetDetails;
                 window.showSAGamingDetails = _me.showSAGamingDetails;
@@ -1342,7 +680,6 @@
                 window.showAdvantPlayBetDetails = _me.showAdvantPlayBetDetails;
                 window.showAdvantPlayMiniBetDetails = _me.showAdvantPlayMiniBetDetails;
                 window.ViewNewCashOutHistory = _me.ViewNewCashOutHistory;
-                window.showDetail = _me.showDetail;
 
                 const betList = {
                     ViewCasinoHandHistory: _me.ViewCasinoHandHistory

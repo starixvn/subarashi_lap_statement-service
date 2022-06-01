@@ -23,6 +23,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Attributes
         private readonly Mock<IOptions<ApplicationOptions>> _options;
         private readonly ActionExecutingContext _actionExecutingContext;
         private readonly Mock<HttpContext> _mockHttpContext;
+
         public IPFilterAttributeTest()
         {
             var modelState = new ModelStateDictionary();
@@ -40,6 +41,9 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Attributes
            new Dictionary<string, object>(),
            Mock.Of<Controller>());
             _options = new Mock<IOptions<ApplicationOptions>>();
+            var httpRequest = new Mock<HttpRequest>();
+            httpRequest.Setup(_ => _.Host).Returns(HostString.FromUriComponent("asdsadsadsads.com")); //Make sure not from internal
+            _mockHttpContext.Setup(_ => _.Request).Returns(httpRequest.Object);
         }
 
         [Fact]

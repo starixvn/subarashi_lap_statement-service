@@ -1,32 +1,43 @@
-﻿using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using System;
 
 namespace Fanex.Athena.ExtService
 {
-    public class Program
+    public static class Program
     {
-        protected Program()
-        {
-        }
-
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            Console.Title = "Statement Service";
+
+            CreateHost(args).Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-             .ConfigureAppConfiguration((builderContext, config) =>
-             {
-                 var env = builderContext.HostingEnvironment;
-
-                 config.SetBasePath(env.ContentRootPath);
-                 config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-                 config.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
-                 config.AddEnvironmentVariables();
-             })
-             .UseStartup<Startup>()
-             .UseSentry();
+        public static IHost CreateHost(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+            .ConfigureAppConfiguration((builderContext, config) =>
+            {
+                var env = builderContext.HostingEnvironment;
+                config.SetBasePath(env.ContentRootPath);
+                config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+                config.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
+                var envFromSetting = config.Build().GetValue<string>("AppSettings:Environment");
+                config.AddJsonFile($"App_Data/Users/Users.{envFromSetting}.json", optional: false, reloadOnChange: true);
+                config.AddJsonFile($"App_Data/Whitelist/Whitelist.{envFromSetting}.json", optional: false, reloadOnChange: true);
+                config.AddEnvironmentVariables();
+            })
+            .ConfigureLogging(logging =>
+            {
+                logging.ClearProviders();
+                logging.AddConsole();
+            })
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+                webBuilder.UseSentry();
+            })
+            .Build();
     }
 }

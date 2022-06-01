@@ -5,22 +5,16 @@ var WebpackBuildNotifierPlugin = require('webpack-build-notifier');
 var Visualizer = require('webpack-visualizer-plugin');
 
 var cssRootPath = pathConfig.cssPaths.build;
+var jsRootPath = pathConfig.scriptPaths.build;
 
 function generatePlugins(environment) {
-    var cssBetlistPath = cssRootPath + "/" + environment + "/pages/betlist";
-    var cssPagePath = cssRootPath + "/" + environment + "/pages";
     var commonPlugins = [
         new CleanWebpackPlugin([cssRootPath], {
             root: process.cwd(),
-            exclude: ['fonts', 'images', 'dev', 'pro']
+            exclude: ['fonts']
         }),
-        new CleanWebpackPlugin([cssPagePath], {
-            root: process.cwd(),
-            exclude: ['betlist']
-        }),
-        new CleanWebpackPlugin([cssBetlistPath], {
-            root: process.cwd(),
-            exclude: ['images']
+        new CleanWebpackPlugin([jsRootPath], {
+            root: process.cwd()
         }),
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
         new webpack.ProvidePlugin({
@@ -36,7 +30,7 @@ function generatePlugins(environment) {
              suppressSuccess: true
         }),
         new Visualizer({
-            filename: './webpack-stats-newui.html'
+            filename: './wwwroot/webpack-stats-newui.html'
         })
     ];
 

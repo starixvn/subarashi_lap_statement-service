@@ -108,19 +108,19 @@
     }
 
     .firstGoal {
-        background: url("images/goal-icon.png") no-repeat 0 0;
+        background: url("/images/goal-icon.png") no-repeat 0 0;
     }
 
     .lastGoal {
-        background: url("images/goal-icon.png") no-repeat -18px 0;
+        background: url("/images/goal-icon.png") no-repeat -18px 0;
     }
 
     .fhFirstGoal {
-        background: url("images/goal-icon.png") no-repeat -36px 0;
+        background: url("/images/goal-icon.png") no-repeat -36px 0;
     }
 
     .fhLastGoal {
-        background: url("images/goal-icon.png") no-repeat no-repeat -54px 0;
+        background: url("/images/goal-icon.png") no-repeat no-repeat -54px 0;
     }
 
     .match {
@@ -158,7 +158,7 @@
     }
 
     .detail {
-        background: url("images/q_Icon2_1.png") no-repeat scroll left center transparent;
+        background: url("/images/q_Icon2_1.png") no-repeat scroll left center transparent;
         color: #755200;
         display: inline;
         font-weight: bold;
@@ -168,7 +168,7 @@
         width: 14px;
 
         &:hover {
-            background: url("images/q_Icon_2.png") no-repeat scroll left center transparent;
+            background: url("/images/q_Icon_2.png") no-repeat scroll left center transparent;
             color: #755200;
             cursor: pointer;
             display: inline;
@@ -188,7 +188,7 @@
     }
 
     .scoremapIcon {
-        background: url("Images/ScoreMapWL.png") no-repeat scroll 0 0 transparent;
+        background: url("/Images/ScoreMapWL.png") no-repeat scroll 0 0 transparent;
         height: 18px;
         margin: 3px;
         width: 18px;
@@ -303,7 +303,7 @@
     }
 
     .bonus-icon {
-        background: url(images/bonus.png) no-repeat scroll center center transparent;
+        background: url("/images/bonus.png") no-repeat scroll center center transparent;
         display: inline-block;
         height: 18px;
         width: 18px;
@@ -319,7 +319,7 @@
     }
 
     .rebate-bonus-icon {
-        background: url(images/rebateBonus.png) no-repeat scroll center center transparent;
+        background: url("/images/rebateBonus.png") no-repeat scroll center center transparent;
         display: inline-block;
         height: 14px;
         width: 14px;
@@ -328,7 +328,7 @@
     }
 
     .nph-promotion-icon {
-        background: url(images/nphPromotion.png) no-repeat scroll center center transparent;
+        background: url("/images/nphPromotion.png") no-repeat scroll center center transparent;
         display: inline-block;
         height: 18px;
         width: 18px;
@@ -392,11 +392,11 @@
         .icon-show-more {
             width: 16px;
             height: 16px;
-            background: url(images/minus.png) no-repeat scroll center center transparent;
+            background: url("/images/minus.png") no-repeat scroll center center transparent;
             display: inline-block;
 
             &.collapsed {
-                background: url(images/plus.png) no-repeat scroll center center transparent;
+                background: url("/images/plus.png") no-repeat scroll center center transparent;
             }
         }
 

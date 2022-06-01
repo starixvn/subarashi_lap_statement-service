@@ -49,7 +49,7 @@ namespace Fanex.Athena.ExtService.Common.Services
             }
         }
 
-        public async Task SetAsync<T>(string key, T value, DistributedCacheEntryOptions options, CancellationToken token = default(CancellationToken))
+        public async Task SetAsync<T>(string key, T value, DistributedCacheEntryOptions options, CancellationToken token = default)
             where T : class
         {
             if (value is null)
@@ -61,7 +61,7 @@ namespace Fanex.Athena.ExtService.Common.Services
             await HandleAsync(() => _sourceCache.SetAsync(key, packValue, options, token));
         }
 
-        public async Task<T> GetAsync<T>(string key, CancellationToken token = default(CancellationToken))
+        public async Task<T> GetAsync<T>(string key, CancellationToken token = default)
             where T : class
         {
             var packValue = await HandleAsync(() => _sourceCache.GetAsync(key, token));
@@ -74,12 +74,12 @@ namespace Fanex.Athena.ExtService.Common.Services
             return value;
         }
 
-        public Task RemoveAsync(string key, CancellationToken token = default(CancellationToken))
+        public Task RemoveAsync(string key, CancellationToken token = default)
         {
             return HandleAsync(() => _sourceCache.RemoveAsync(key, token));
         }
 
-        public Task RefreshAsync(string key, CancellationToken token = default(CancellationToken))
+        public Task RefreshAsync(string key, CancellationToken token = default)
         {
             return HandleAsync(() => _sourceCache.RefreshAsync(key, token));
         }

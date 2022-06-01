@@ -227,19 +227,19 @@ body {
                     vertical-align: middle;
 
                     &.first-goal {
-                        background: url("images/goal-icon.png") no-repeat 0 0;
+                        background: url("/images/goal-icon.png") no-repeat 0 0;
                     }
 
                     &.last-goal {
-                        background: url("images/goal-icon.png") no-repeat -18px 0;
+                        background: url("/images/goal-icon.png") no-repeat -18px 0;
                     }
 
                     &.first-half-first-goal {
-                        background: url("images/goal-icon.png") no-repeat -36px 0;
+                        background: url("/images/goal-icon.png") no-repeat -36px 0;
                     }
 
                     &.first-half-last-goal {
-                        background: url("images/goal-icon.png") no-repeat no-repeat -54px 0;
+                        background: url("/images/goal-icon.png") no-repeat no-repeat -54px 0;
                     }
 
                     &.home, &.away {
@@ -258,7 +258,7 @@ body {
         .header, .sub-header {
             color: #024584;
             background-color: #c7e9f5;
-            background-image: url("images/tab_topbg.gif");
+            background-image: url("/images/tab_topbg.gif");
             background-position: center bottom;
             background-repeat: repeat-x;
         }

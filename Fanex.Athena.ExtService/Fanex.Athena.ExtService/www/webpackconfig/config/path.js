@@ -3,7 +3,7 @@
 var projectRoot = path.resolve(__dirname, '../../../');
 
 var cssPaths = {
-    build: "wwwroot/css/build",
+    build: "wwwroot/css",
 
     main: ["./www/css/source/main.scss"],
     error: ["./www/css/source/pages/utility/error.scss"],
@@ -12,12 +12,11 @@ var cssPaths = {
     betlistRefno: ["./www/css/source/pages/betlist/refno.scss"],
     systemparlaydetail: ["./www/css/source/pages/betlist/systemparlaydetail.scss"],
     cashouthistory: ["./www/css/source/pages/betlist/cashouthistory.main.scss", "./www/css/source/extensions/popup-ex.scss"],
-    betlistResult: ["./www/css/source/pages/betlist/result/betlist.result.scss"],
     colossusbetdetail: ["./www/css/source/pages/betlist/colossusbetdetail.scss"]
 };
 
 var scriptPaths = {
-    build: "wwwroot/js/build",
+    build: "wwwroot/js",
     language: "common/languages/ViewResources.js",
     languageCN: "common/languages/ViewResources.zh-CN.js",
     languageTW: "common/languages/ViewResources.zh-TW.js",
