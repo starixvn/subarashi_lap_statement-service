@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
-
+using Fanex.Athena.ExtService.Core.Extensions;
 using Fanex.Athena.ExtService.Core.Models.DTO;
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Options;
@@ -23,6 +22,11 @@ namespace Fanex.Athena.ExtService.Core.Attributes
         }
         public override void OnActionExecuting(ActionExecutingContext context)
         {
+            if(context.HttpContext.Request.FromInternal())
+            {
+                return;
+            }
+
             var ipAddress = context.HttpContext.Connection.RemoteIpAddress;
             var whiteListIPList = _applicationOptions.WhiteList;
 
@@ -38,7 +42,7 @@ namespace Fanex.Athena.ExtService.Core.Attributes
             }
         }
 
-        private static Func<string, IPAddress, bool> IsInRangeIP = (ipRangeString, ipAddress) =>
+        private static readonly Func<string, IPAddress, bool> IsInRangeIP = (ipRangeString, ipAddress) =>
         {
             if (!IPAddressRange.TryParse(ipRangeString, out IPAddressRange ipRange))
             {

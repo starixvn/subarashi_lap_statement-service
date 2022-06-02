@@ -28,7 +28,7 @@ namespace Fanex.Athena.ExtService.BetList.Models.DataDomain
 
         public const string AccumulatedBalance = "Accumulated_Balance";
 
-        public static readonly IDictionary<string, int> MaptoModeView = new Dictionary<string, int>
+        public static readonly IReadOnlyDictionary<string, int> MaptoModeView = new Dictionary<string, int>
         {
             { BetStatement, ModeViewBetStatement },
             { VoidCancell, ModeViewCancell },
@@ -36,7 +36,7 @@ namespace Fanex.Athena.ExtService.BetList.Models.DataDomain
             { PromotionPrize, ModeViewPromotion }
         };
 
-        public static readonly IDictionary<string, Func<string>> RemarkValues = new Dictionary<string, Func<string>>
+        public static readonly IReadOnlyDictionary<string, Func<string>> RemarkValues = new Dictionary<string, Func<string>>
         {
             { BetStatement, () => ViewResources.BettingStatement },
             { VoidCancell,() => ViewResources.Void_CancelledBet },

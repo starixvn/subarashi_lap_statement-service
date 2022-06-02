@@ -7,7 +7,6 @@
 
     var appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
     var langCode = System.Globalization.CultureInfo.CurrentUICulture.IetfLanguageTag;
-    var env = appSettings.Environment.Equals("PROD") ? "pro" : "dev";
 
 }
 @model BaseViewModel
@@ -18,7 +17,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <title>LAP - External service @ViewBag.Title</title>
     <meta name="description" content="The Risk & Forecast System" />
-    <link href="@Url.Content($"~/css/build/{env}/main.css")" rel="stylesheet" />
+    <link href="~/css/main.css" rel="stylesheet" asp-append-version="true"/>
     @RenderSection("pagecss", required: false)
 </head>
 <body>
@@ -41,15 +40,19 @@
     <div class="wrapper">
         @RenderBody()
     </div>
-    <script src="@Url.Content($"~/js/build/{env}/language.chunk.js")"></script>
+    <script src="~/js/language.chunk.js"  asp-append-version="true"></script>
     <script type="text/javascript">
         window._pageLanguage = '@Model.Lang';
     </script>
     @if (langCode != "en-US")
     {
-        <script src="@Url.Content($"~/js/build/{env}/language-" + langCode + ".chunk.js")"></script>
+        <script src="@Url.Content($"~/js/language-" + langCode + ".chunk.js")"  asp-append-version="true"></script>
     }
-    <script src="@Url.Content($"~/js/build/{env}/pages/lib/common.chunk.js")"></script>
+    <script src="@Url.Content($"~/js/pages/lib/common.chunk.js")"  asp-append-version="true"></script>
+    @if (ViewData["IntegrateBetTicketSite"] as bool? == true)
+    {
+        <script src="@appSettings.BetTicketEventBuilderUrl" id="event-builder-script"></script>
+    }
     @RenderSection("Scripts", required: false)
     @if (appSettings.Environment.Equals("PROD", StringComparison.OrdinalIgnoreCase))
     {

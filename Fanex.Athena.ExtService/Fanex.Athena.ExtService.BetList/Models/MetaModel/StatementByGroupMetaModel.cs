@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Fanex.Athena.ExtService.BetList.Models.DataDomain;
 using Microsoft.AspNetCore.Mvc;
 

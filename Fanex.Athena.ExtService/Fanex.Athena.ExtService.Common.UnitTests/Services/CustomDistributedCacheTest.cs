@@ -48,13 +48,14 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
 
             // Assert
             _distributedCache.Verify(m => m.RemoveAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
-            mockLogger.Verify(r =>
-            r.Log(LogLevel.Critical, It.IsAny<EventId>(), It.IsAny<object>(), It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()),
+            
+            mockLogger.Verify(r => r.Log(
+                LogLevel.Critical, It.IsAny<EventId>(), It.IsAny<It.IsAnyType>(), It.IsAny<Exception>(), (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()),
             Times.Once);
         }
 
         [Fact]
-        public async Task Invoke_SetAsync()
+        public async Task Invoke_SetAsync_Exception_WriteLog()
         {
             // Arrange
             var mockLogger = new Mock<ILogger<CustomDistributedCache>>();
@@ -69,7 +70,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             // Assert
             _distributedCache.Verify(m => m.SetAsync(It.IsAny<string>(), It.IsAny<byte[]>(), It.IsAny<DistributedCacheEntryOptions>(), It.IsAny<CancellationToken>()), Times.Once);
             mockLogger.Verify(r =>
-            r.Log(LogLevel.Critical, It.IsAny<EventId>(), It.IsAny<object>(), It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()),
+            r.Log(LogLevel.Critical, It.IsAny<EventId>(), It.IsAny<It.IsAnyType>(), It.IsAny<Exception>(), (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()),
             Times.Once);
         }
     }

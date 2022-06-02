@@ -3,18 +3,18 @@
 @using Fanex.Athena.ExtService.Common.Models.DTO
 @inject IConfiguration Configuration
 @{
-    var appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
-    var env = appSettings.Environment.Equals("PROD") ? "pro" : "dev";
+    ViewData["IntegrateBetTicketSite"] = true;
+
     var isAllowTxIDColumn = (bool)ViewBag.IsEnableSingleWallet;
 }
 @section pagecss
     {
-    <link href="@Url.Content($"~/css/build/{env}/pages/betlist/betlistLayout.css")" rel="stylesheet" />
-    <link href="@Url.Content($"~/css/build/{env}/pages/betlist/betlistRefno.css")" rel="stylesheet" />
+    <link href="~/css/pages/betlist/betlistLayout.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/pages/betlist/betlistRefno.css" rel="stylesheet" asp-append-version="true" />
 }
 @section Scripts
     {
-    <script src="@Url.Content($"~/js/build/{env}/pages/betlist/refno.chunk.js")"></script>
+    <script src="~/js/pages/betlist/refno.chunk.js" asp-append-version="true"></script>
     <script type="text/javascript">
 
     </script>

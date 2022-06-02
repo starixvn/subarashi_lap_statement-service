@@ -3,16 +3,10 @@
 @inject IConfiguration Configuration
 @using Fanex.Athena.ExtService.Resources
 @{
-
-    var appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
-    var langCode = System.Globalization.CultureInfo.CurrentUICulture.IetfLanguageTag;
-    var env = appSettings.Environment.Equals("PROD") ? "pro" : "dev";
-
 }
 
 @section pagecss{
-    <link href="@Url.Content($"~/css/build/{env}/pages/betlist/cashouthistory.css")" rel="stylesheet" type="text/css" />
-
+    <link href="~/css/pages/betlist/cashouthistory.css" rel="stylesheet" type="text/css" asp-append-version="true"/>
 }
 
 @model Fanex.Athena.ExtService.BetList.Models.ViewModel.NewCashOutBetListDetailViewModel

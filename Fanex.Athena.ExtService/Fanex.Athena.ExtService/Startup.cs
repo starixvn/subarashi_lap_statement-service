@@ -3,6 +3,7 @@ using Fanex.Athena.ExtService.Common.Attributes;
 using Fanex.Athena.ExtService.Common.Models.DTO;
 using Fanex.Athena.ExtService.Common.Services;
 using Fanex.Athena.ExtService.Core.Attributes;
+using Fanex.Athena.ExtService.Core.Extensions;
 using Fanex.Athena.ExtService.Core.Middleware;
 using Fanex.Athena.ExtService.Core.Models;
 using Fanex.Athena.ExtService.Core.Models.DTO;
@@ -13,20 +14,14 @@ using Fanex.RemotingRef;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using ONEbook.UM.Configurations;
-using ONEbook.UM.Extensions;
-using ONEbook.UM.Helpers;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
@@ -47,16 +42,21 @@ namespace Fanex.Athena.ExtService
         private const string AppSettingKey = "AppSettings";
         private const int AliveIn180Seconds = 180;
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
             Configuration = configuration;
+            HostingEnvironment = hostingEnvironment;
         }
 
         public IConfiguration Configuration { get; }
 
+        public IWebHostEnvironment HostingEnvironment { get; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllersWithViews();
+
             services.Configure<TokenManagement>(Configuration.GetSection("tokenManagement"));
             services.Configure<ApplicationOptions>(Configuration.GetSection(ApplicationOptionSettingKey));
 
@@ -77,199 +77,77 @@ namespace Fanex.Athena.ExtService
 
             ConfigAuthentication(services);
 
+            services.AddAuthorization(options =>
+            {
+                options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
+                .RequireAuthenticatedUser()
+                .Build();
+            });
+
             services.Configure<ForwardedHeadersOptions>(options =>
             {
-                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost;
                 options.KnownNetworks.Clear();
                 options.KnownProxies.Clear();
             });
 
-            services.AddResponseCompression(options =>
-            {
-                options.Providers.Add<BrotliCompressionProvider>();
-                options.Providers.Add<GzipCompressionProvider>();
-                options.MimeTypes =
-                    ResponseCompressionDefaults.MimeTypes.Concat(
-                        new[] { "image/svg+xml" });
-            });//Only Add if can not use compress module of web server
             services.AddHealthChecks()
                 .AddCheck<WhoAmIHealthCheck>("WhoAmIHealthCheck");
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             RefDataTypeContainer
                 .ConnectTo(new Uri(appSettings["Fanex.RemotingRef.Service.Url"]))
                 .FromApplication("Fanex.Athena.ExtService");
 
+            services.AddHttpContextAccessor();
+            services.AddHttpsRedirection(options =>
+            {
+                const int httpsPort = 443;
+                options.HttpsPort = httpsPort;
+            });
+
             DIRegister(services);
         }
 
-        private void DIRegister(IServiceCollection services)
+        public void Configure(IApplicationBuilder app)
         {
-            services.AddScoped<IAuthenticateService, TokenAuthenticationService>();
-            services.AddScoped<IUserManagementService, UserManagementService>();
-            services.AddScoped<IPFilterAttribute>();
-            services.AddScoped<CheckCustomerAttribute>();
-            services.AddScoped<IBrowserService, BrowserService>();
-            services.AddSingleton<ICommonService, CommonService>();
-
-            ConfigBetListApiClient(services);
-
-            services.AddTransient<ISummaryStatementService, SummaryStatementService>();
-            services.AddTransient<IStatementByGroupService, StatementByGroupService>();
-            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddUMService(Configuration.GetSection("ONEbook.UM").Get<UMClientConfiguration>());
-
-            services.AddSingleton<IUMRestClient, ONEbook.UM.Transport.UMRestClient>();
-        }
-
-        private static void ConfigBetListApiClient(IServiceCollection services)
-        {
-            const string BetListApiClient = "BetListApiClient";
-            const string BetListTokenKey = "BETLIST_TOKEN_KEY";
-
-            services.AddSingleton<IBetListApiClient>(s => new BetListApiClient(
-                BetListApiClient, s.GetService<IHttpClientFactory>()));
-            services.AddHttpClient(BetListApiClient, (serviceProvider, client) =>
-            {
-                var options = serviceProvider.GetService<IOptions<AppSettings>>();
-                client.BaseAddress = new Uri(options.Value.BetListApiHostUrl);
-                client.DefaultRequestHeaders.Add(BetListTokenKey, options.Value.BetListApiTokenValue);
-                client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
-            }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
-            {
-                AllowAutoRedirect = false,
-                AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
-            });
-        }
-
-        private void ConfigAuthentication(IServiceCollection services)
-        {
-            var token = Configuration.GetSection("tokenManagement").Get<TokenManagement>();
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(x =>
-            {
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(token.Secret)),
-                    TokenDecryptionKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(token.Secret)),
-                    ValidIssuer = token.Issuer,
-                    ValidAudience = token.Audience,
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    RoleClaimType = ClaimsIdentity.DefaultNameClaimType,
-                    RequireExpirationTime = true,
-                    ValidateLifetime = true,
-                };
-                x.Events = new JwtBearerEvents
-                {
-                    OnAuthenticationFailed = context =>
-                    {
-                        if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
-                        {
-                            context.Response.Headers.Add("Token-Expired", "true");
-                        }
-                        return Task.CompletedTask;
-                    }
-                };
-            });
-
-            services.AddAuthorization(auth =>
-            {
-                auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
-                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme‌​)
-                    .RequireAuthenticatedUser().Build());
-            });
-        }
-
-        private void ConfigFanexData()
-        {
-            var conns = GetConnectionString();
-
-            DbSettingProviderManager
-              .StartNewSession()
-              .WithSqlServer(resourcePath: "~/SpConfig")
-              .Use(conns)
-              .Run();
-        }
-
-        private Dictionary<string, ConnectionConfiguration> GetConnectionString()
-        {
-            var connectionStrings = new Dictionary<string, ConnectionConfiguration>
-            {
-                {
-                    "DBEXT.bodb02.bodbLicenseeNet",
-                    new ConnectionConfiguration("DBEXT.bodb02.bodbLicenseeNet",
-                Configuration.GetConnectionString("DBEXT.bodb02.bodbLicenseeNet"))
-                },
-                {
-                    "DBACC.bodb02.bodbLicenseeNet",
-                    new ConnectionConfiguration("DBACC.bodb02.bodbLicenseeNet",
-                Configuration.GetConnectionString("DBACC.bodb02.bodbLicenseeNet"))
-                },
-                {
-                    "DBCUST.SiteConfig.bodbLicenseeNet",
-                    new ConnectionConfiguration("DBCUST.SiteConfig.bodbLicenseeNet",
-                Configuration.GetConnectionString("DBCUST.SiteConfig.bodbLicenseeNet"))
-                }
-            };
-            return connectionStrings;
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public static void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
+            app.UsePingCheck();
             app.UseForwardedHeaders();
 
-            if (env.IsDevelopment())
+            if (string.Equals(Configuration["UseErrorHandler"], "1"))
             {
-                app.UseDeveloperExceptionPage();
+                app.UseErrorHandler();
             }
             else
             {
-                app.UseErrorHandler();
-                app.UseHsts();
+                app.UseDeveloperExceptionPage();
             }
-            CustomizeCultureSupport(app);
-            ConfigCacheForStaticResource(app, env);
-            app.UseCustomHealthCheck();
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-            app.UseUMHandler();
-            app.UseJWTokenOnPage();
-            app.UseAuthentication();
-            app.UseResponseCaching();
+
+            app.UseWhoAmICheck();
+
+            if (!HostingEnvironment.IsDevelopment())
+            {
+                app.UseHsts();
+                app.UseWhen(
+                    context => !context.Request.FromInternal(),
+                    builder => builder.UseHttpsRedirection()
+                    );
+            }
+
+            app.UseStaticResource(HostingEnvironment.IsDevelopment());
+            app.UseUnderMaintenance();
             app.UseStatusCodePagesWithReExecute("/Error", "?code={0}");
-            app.UseResponseCompression();
-            app.UseMvc(routes =>
+            app.UseRouting();
+            app.UseJWTokenOnPage();
+            app.UseAuthorization();
+            app.UseResponseCaching();
+            UseRequestLocalization(app);
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}"
-                    ).MapRoute(name: "api", template: "api/{controller}/{action}/{id?}");
+                endpoints.MapDefaultControllerRoute();
             });
         }
 
-        private static void ConfigCacheForStaticResource(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            const int OneDayInSecond = 86400;
-            const int TenMinInSecond = 600;
-            var cachePeriod = env.IsDevelopment() ? TenMinInSecond : OneDayInSecond;
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                OnPrepareResponse = ctx =>
-                {
-                    ctx.Context.Response.Headers.Append("Cache-Control", $"public, max-age={cachePeriod}");
-                }
-            });
-        }
-
-        private static void CustomizeCultureSupport(IApplicationBuilder app)
+        private static void UseRequestLocalization(IApplicationBuilder app)
         {
             var dateformat = new DateTimeFormatInfo
             {
@@ -285,7 +163,8 @@ namespace Fanex.Athena.ExtService
                 new CultureInfo("en-US"){ DateTimeFormat= dateformat },
                 new CultureInfo("zh-TW"){ DateTimeFormat= dateformat },
                 new CultureInfo("zh-Hans"){ DateTimeFormat= dateformat },
-                new CultureInfo("zh-CN"){ DateTimeFormat= dateformat },
+                new CultureInfo("zh-CN"){ DateTimeFormat= dateformat }
+
             };
             var requestLocalizationOptions = new RequestLocalizationOptions
             {
@@ -321,6 +200,92 @@ namespace Fanex.Athena.ExtService
             });
 
             services.AddSingleton<ICustomDistributedCache, CustomDistributedCache>();
+        }
+
+        private void DIRegister(IServiceCollection services)
+        {
+            services.AddScoped<IAuthenticateService, TokenAuthenticationService>();
+            services.AddScoped<IUserManagementService, UserManagementService>();
+            services.AddScoped<IPFilterAttribute>();
+            services.AddScoped<CheckCustomerAttribute>();
+            services.AddScoped<IBrowserService, BrowserService>();
+            services.AddSingleton<ICommonService, CommonService>();
+
+            ConfigBetListApiClient(services);
+
+            services.AddTransient<ISummaryStatementService, SummaryStatementService>();
+            services.AddTransient<IStatementByGroupService, StatementByGroupService>();
+
+            services.AddUnderMaintenance(Configuration);
+        }
+
+        private static void ConfigBetListApiClient(IServiceCollection services)
+        {
+            const string BetListApiClient = "BetListApiClient";
+            const string BetListTokenKey = "BETLIST_TOKEN_KEY";
+
+            services.AddSingleton<IBetListApiClient>(s => new BetListApiClient(
+                BetListApiClient, s.GetService<IHttpClientFactory>()));
+            services.AddHttpClient(BetListApiClient, (serviceProvider, client) =>
+            {
+                var options = serviceProvider.GetService<IOptions<AppSettings>>();
+                client.BaseAddress = new Uri(options.Value.BetListApiHostUrl);
+                client.DefaultRequestHeaders.Add(BetListTokenKey, options.Value.BetListApiTokenValue);
+                client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
+            }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+            {
+                AllowAutoRedirect = false,
+                AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
+            });
+        }
+
+        private void ConfigAuthentication(IServiceCollection services)
+        {
+            var token = Configuration.GetSection("tokenManagement").Get<TokenManagement>();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(token.Secret)),
+                    TokenDecryptionKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(token.Secret)),
+                    ValidIssuer = token.Issuer,
+                    ValidAudience = token.Audience,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    RoleClaimType = ClaimsIdentity.DefaultNameClaimType,
+                    RequireExpirationTime = true,
+                    ValidateLifetime = true,
+                };
+                x.Events = new JwtBearerEvents
+                {
+                    OnAuthenticationFailed = context =>
+                    {
+                        if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                        {
+                            context.Response.Headers.Add("Token-Expired", "true");
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
+            });
+        }
+
+        private void ConfigFanexData()
+        {
+            var listConnectionName = Configuration.GetSection("ConnectionStrings").GetChildren().Select(_ => _.Key);
+            var connectionStrings = new Dictionary<string, ConnectionConfiguration>(listConnectionName
+                .Select(connectionName => new KeyValuePair<string, ConnectionConfiguration>(connectionName,
+                    new ConnectionConfiguration(connectionName, Configuration.GetConnectionString(connectionName)))
+                ));
+            DbSettingProviderManager
+              .StartNewSession()
+              .WithSqlServer(resourcePath: "~/SpConfig/FanexSpName.xml")
+              .Use(connectionStrings)
+              .Run();
         }
     }
 }

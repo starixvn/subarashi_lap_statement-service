@@ -9,8 +9,8 @@ var exposeLoader = require('expose-loader');
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 function generateConfig(environment) {
-    var jsPath = `${pathConfig.scriptPaths.build}/${environment}`;
-    var cssPath = `${pathConfig.cssPaths.build}/${environment}`;
+    var jsPath = pathConfig.scriptPaths.build;
+    var cssPath = pathConfig.cssPaths.build;
 
     var commonConfigs = {
         resolve: {
@@ -35,7 +35,6 @@ function generateConfig(environment) {
             [`${cssPath}/pages/betlist/betlistRefno`]: pathConfig.cssPaths.betlistRefno,
             [`${cssPath}/pages/betlist/systemparlaydetail`]: pathConfig.cssPaths.systemparlaydetail,
             [`${cssPath}/pages/betlist/cashouthistory`]: pathConfig.cssPaths.cashouthistory,
-            [`${cssPath}/pages/betlist/betlistResult`]: pathConfig.cssPaths.betlistResult,
             [`${cssPath}/pages/betlist/colossusbetdetail`]: pathConfig.cssPaths.colossusbetdetail
         },
         output: {

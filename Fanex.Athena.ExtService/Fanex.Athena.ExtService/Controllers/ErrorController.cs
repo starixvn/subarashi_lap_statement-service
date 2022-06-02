@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Fanex.Athena.ExtService.Common.Models.ViewModels;
+﻿using Fanex.Athena.ExtService.Common.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fanex.Athena.ExtService.Controllers

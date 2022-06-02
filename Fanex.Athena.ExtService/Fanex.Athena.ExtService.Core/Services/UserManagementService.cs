@@ -1,4 +1,5 @@
-﻿using Fanex.Athena.ExtService.Core.Models.DTO;
+﻿using Fanex.Athena.ExtService.Core.Extensions;
+using Fanex.Athena.ExtService.Core.Models.DTO;
 
 using Microsoft.Extensions.Options;
 
@@ -15,12 +16,9 @@ namespace Fanex.Athena.ExtService.Core.Services
         {
             _users = userListAccessor.Value;
         }
+
         public bool IsValidUser(string username, string password)
-        {
-            return _users.Any(x => (
-            x.UserName.Equals(username)
-            )
-            && x.Password.Equals(password));
-        }
+            => _users.Any(x => x.UserName.Equals(username)
+            && x.Password.Equals(password.Sha256()));
     }
 }

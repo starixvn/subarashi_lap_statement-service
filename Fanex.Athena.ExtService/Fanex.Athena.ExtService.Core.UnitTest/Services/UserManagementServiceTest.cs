@@ -1,4 +1,5 @@
-﻿using Fanex.Athena.ExtService.Core.Models.DTO;
+﻿using Fanex.Athena.ExtService.Core.Extensions;
+using Fanex.Athena.ExtService.Core.Models.DTO;
 using Fanex.Athena.ExtService.Core.Services;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -11,14 +12,39 @@ namespace Fanex.Athena.ExtService.Core.UnitTest.Services
 {
     public class UserManagementServiceTest
     {
-        private readonly IUserManagementService _userManagementService;
-        private readonly List<User> users = new List<User> { new User { UserName = "alex", Password = "1234" } };
+        private readonly List<User> users = new List<User> { new User { UserName = "alex", Password = "1234".Sha256() } };
+        private readonly Mock<IOptions<List<User>>> _mockUsers;
+
         public UserManagementServiceTest()
         {
-            var mock = new Mock<IOptions<List<User>>>();
-            mock.Setup(x => x.Value).Returns(users);
-            _userManagementService = new UserManagementService(mock.Object);
+            _mockUsers = new Mock<IOptions<List<User>>>();
+            _mockUsers.Setup(x => x.Value).Returns(users);
         }
+
+        [Fact]
+        public void IsValidUser_WhenCalled_GenerateHasedPassword()
+        {
+            //Arrange
+            var rawUser = new User
+            {
+                UserName = "UserName",
+                Password = "Password"
+            };
+
+            var hashedPassword = rawUser.Password.Sha256();
+
+            _mockUsers.Setup(x => x.Value).Returns(new List<User> { new User { UserName = rawUser.UserName, Password = hashedPassword }  });
+            
+            var userManagementService = new UserManagementService(_mockUsers.Object);
+
+            //Action
+            var result = userManagementService.IsValidUser(rawUser.UserName, rawUser.Password);
+
+            //Assert
+
+            Assert.True(result);
+        }
+
 
         [Theory]
         [InlineData("alex", "123", false)]
@@ -28,9 +54,10 @@ namespace Fanex.Athena.ExtService.Core.UnitTest.Services
         public void IsValidUser_WhenCalled_ReturnCorrectResult(string userName, string pass, bool expectedResult)
         {
             //Arrange
+            var userManagementService = new UserManagementService(_mockUsers.Object);
 
             //Action
-            var result = _userManagementService.IsValidUser(userName, pass);
+            var result = userManagementService.IsValidUser(userName, pass);
 
             //Assert
 

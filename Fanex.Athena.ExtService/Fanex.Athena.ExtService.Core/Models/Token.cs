@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Fanex.Athena.ExtService.Core.Models
 {
-    [JsonObject("token")]
     public class Token
     {
-        [JsonProperty("access_token")]
+        [JsonPropertyName("access_token")]
         public string AccessToken { get; set; }
 
-        [JsonProperty("token_type")]
+        [JsonPropertyName("token_type")]
         public string TokenType { get; set; }
 
-        [JsonProperty("expires_in")]
+        [JsonPropertyName("expires_in")]
         public int ExpiresIn { get; set; }
-
     }
 }
