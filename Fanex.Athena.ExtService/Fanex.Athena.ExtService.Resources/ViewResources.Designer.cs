@@ -718,6 +718,15 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to MaxGame.
+        /// </summary>
+        public static string ProductMXG {
+            get {
+                return ResourceManager.GetString("ProductMXG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Number Game.
         /// </summary>
         public static string ProductNG {
