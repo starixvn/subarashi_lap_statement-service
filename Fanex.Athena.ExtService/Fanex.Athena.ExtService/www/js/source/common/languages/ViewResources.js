@@ -37,6 +37,7 @@
     ProductAPM: "AdvantPlay Mini",
     ProductVS3: "Virtual Sports 3",
     CashOutHistory: "Cash Out History",
+    ProductFGGL: "FGG",
     CashOutCancelled: "Cash Out Cancelled",
     CashOutRecovered: "Cash Out Recovered",
     NetworkLatency: "Information is not available due to network latency. Please wait a few minutes and try again.",

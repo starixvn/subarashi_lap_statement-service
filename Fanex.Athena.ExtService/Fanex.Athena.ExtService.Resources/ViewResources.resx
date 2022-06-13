@@ -452,6 +452,9 @@
   <data name="Activity" xml:space="preserve">
     <value>Activity</value>
   </data>
+  <data name="ProductFGGL" xml:space="preserve">
+    <value>FGG</value>
+  </data>
   <data name="CashOutCancelled" xml:space="preserve">
     <value>Cash Out Cancelled</value>
   </data>
