@@ -8,7 +8,7 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 {
     public class SummaryStatementMetaModel : IBaseMetaModel, ICustomerMetaModel
     {
-        const int TotalDaysLimit = 31;
+        private const int MonthsLimit = 2;
 
         [FromQuery(Name = "cid")]
         public int CustId { get; set; }
@@ -40,10 +40,9 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
             get
             {
                 var pagingValidation = PageIndex > 0 && PageSize > 0;
-                var mainValidation = CustId > 0 && FromDate <= ToDate && (ToDate - FromDate).TotalDays <= TotalDaysLimit;
+                var mainValidation = CustId > 0 && FromDate <= ToDate && ((ToDate.Month - FromDate.Month) + 12 * (ToDate.Year - FromDate.Year) + 1) <= MonthsLimit;
 
                 return pagingValidation && mainValidation;
-
             }
         }
     }
