@@ -473,4 +473,7 @@
   <data name="Viewin" xml:space="preserve">
     <value>View in {0}</value>
   </data>
+  <data name="ProductMXG" xml:space="preserve">
+    <value>MaxGame</value>
+  </data>
 </root>

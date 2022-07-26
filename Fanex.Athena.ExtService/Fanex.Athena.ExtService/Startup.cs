@@ -55,7 +55,14 @@ namespace Fanex.Athena.ExtService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            var builder = services.AddControllersWithViews();
+
+#if DEBUG
+            if (HostingEnvironment.IsDevelopment())
+            {
+                builder.AddRazorRuntimeCompilation();
+            }
+#endif
 
             services.Configure<TokenManagement>(Configuration.GetSection("tokenManagement"));
             services.Configure<ApplicationOptions>(Configuration.GetSection(ApplicationOptionSettingKey));
