@@ -16,6 +16,11 @@
         color: #696969;
     }
 
+    .licenseeTxid {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
     .players-choice {
         color: #000000;
         font-weight: bold !important;
