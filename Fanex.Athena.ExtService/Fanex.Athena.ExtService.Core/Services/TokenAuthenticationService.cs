@@ -1,4 +1,5 @@
-﻿using Fanex.Athena.ExtService.Core.Constant;
+﻿using Fanex.Athena.ExtService.Common.Constant;
+using Fanex.Athena.ExtService.Common.Services;
 using Fanex.Athena.ExtService.Core.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -6,21 +7,26 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Fanex.Athena.ExtService.Core.Services
 {
     public class TokenAuthenticationService : IAuthenticateService
     {
         private readonly IUserManagementService _userManagementService;
+        private readonly ICommonService _commonService;
         private readonly TokenManagement _tokenManagement;
+
         public TokenAuthenticationService(IUserManagementService service,
+            ICommonService commonService,
             IOptions<TokenManagement> tokenManagementAccessor)
         {
             _userManagementService = service;
+            _commonService = commonService;
             _tokenManagement = tokenManagementAccessor.Value;
         }
 
-        public Tuple<bool, Token> IsAuthenticated(TokenRequest request)
+        public async Task<Tuple<bool, Token>> IsAuthenticated(TokenRequest request)
         {
             var token = new Token();
             var siteName = request.Username;
@@ -35,14 +41,17 @@ namespace Fanex.Athena.ExtService.Core.Services
 
             if (!_userManagementService.IsValidUser(realUserName, request.Password))
             {
-                return Tuple.Create<bool, Token>(false, token);
+                return Tuple.Create(false, token);
             }
+
+            var siteDBServer = await _commonService.GetSiteDBServer(siteName);
 
             var claim = new[]
             {
                 new Claim(ClaimTypes.Name, siteName),
+                new Claim(CustomClaimType.SiteDBServer, siteDBServer),
                 new Claim(CustomClaimType.IsShowIPVN, request.IsShowIpvn.ToString(), ClaimValueTypes.Boolean)
-             };
+            };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenManagement.Secret));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var encryptCredenction = new EncryptingCredentials(key, JwtConstants.DirectKeyUseAlg,
@@ -58,6 +67,7 @@ namespace Fanex.Athena.ExtService.Core.Services
                   credentials,
                   encryptCredenction
                   );
+
             token.AccessToken = new JwtSecurityTokenHandler().WriteToken(jwtToken);
             return Tuple.Create<bool, Token>(true, token);
         }

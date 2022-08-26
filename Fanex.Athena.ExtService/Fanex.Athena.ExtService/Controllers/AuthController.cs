@@ -3,6 +3,7 @@ using Fanex.Athena.ExtService.Core.Models;
 using Fanex.Athena.ExtService.Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Fanex.Athena.ExtService.Controllers
 {
@@ -18,15 +19,15 @@ namespace Fanex.Athena.ExtService.Controllers
         }
 
         [AllowAnonymous]
-        [Route("api/Auth")]
+        [Route("api/auth")]
         [HttpPost]
-        public ActionResult RequestToken([FromBody] TokenRequest request)
+        public async Task<ActionResult> RequestToken([FromBody] TokenRequest request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest("Invalid Request");
             }
-            var result = _authService.IsAuthenticated(request);
+            var result = await _authService.IsAuthenticated(request);
 
             return result.Item1 ? Ok(result.Item2)
                 : (ActionResult)BadRequest("Wrong username or password");

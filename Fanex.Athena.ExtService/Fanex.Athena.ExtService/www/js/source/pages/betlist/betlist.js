@@ -219,11 +219,12 @@
 
                 showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
             },
-            showPPJackpotWonDetails: function (transId, custId, betTypeId) {
+            showPPJackpotWonDetails: function (transId, custId, betTypeId, winlostDate) {
                 let url = Site.resolveClientUrl('BetListDetailByProduct/Detail');
                 url = QueryString.setParam(url, 'transId', transId);
                 url = QueryString.setParam(url, 'custId', custId);
                 url = QueryString.setParam(url, 'betType', betTypeId);
+                url = QueryString.setParam(url, 'date', winlostDate);
                 url = QueryString.setParam(url, 'BaseCurrency', getBaseCurrency());
                 url = QueryString.setParam(url, 'access_token', $("#access_token").val());
                 url = QueryString.setParam(url, 'lang', $("#lang").val());
@@ -237,11 +238,12 @@
 
                 showDetailPopUp(url, { width: 890, height: popH + 50, title: title });
             },
-            showSabaClubJackpotWonDetails: function (transId, custId, betTypeId) {
+            showSabaClubJackpotWonDetails: function (transId, custId, betTypeId, winlostDate) {
                 let url = Site.resolveClientUrl('BetListDetailByProduct/Detail');
                 url = QueryString.setParam(url, 'transId', transId);
                 url = QueryString.setParam(url, 'custId', custId);
                 url = QueryString.setParam(url, 'betType', betTypeId);
+                url = QueryString.setParam(url, 'date', winlostDate);
                 url = QueryString.setParam(url, 'BaseCurrency', getBaseCurrency());
                 url = QueryString.setParam(url, 'access_token', $("#access_token").val());
                 url = QueryString.setParam(url, 'lang', $("#lang").val());
@@ -255,11 +257,12 @@
 
                 showDetailPopUp(url, { width: 890, height: popH + 50, title: title });
             },
-            showSGJackpotWonDetails: function (transId, custId, betTypeId) {
+            showSGJackpotWonDetails: function (transId, custId, betTypeId, winlostDate) {
                 let url = Site.resolveClientUrl('BetListDetailByProduct/Detail');
                 url = QueryString.setParam(url, 'transId', transId);
                 url = QueryString.setParam(url, 'custId', custId);
                 url = QueryString.setParam(url, 'betType', betTypeId);
+                url = QueryString.setParam(url, 'date', winlostDate);
                 url = QueryString.setParam(url, 'BaseCurrency', getBaseCurrency());
                 url = QueryString.setParam(url, 'access_token', $("#access_token").val());
                 url = QueryString.setParam(url, 'lang', $("#lang").val());
@@ -453,11 +456,12 @@
 
                 showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
             },
-            showVGamingJackpotWonDetails: function (transId, custId, betTypeId) {
+            showVGamingJackpotWonDetails: function (transId, custId, betTypeId, winlostDate) {
                 let url = Site.resolveClientUrl('BetListDetailByProduct/Detail');
                 url = QueryString.setParam(url, 'transId', transId);
                 url = QueryString.setParam(url, 'custId', custId);
                 url = QueryString.setParam(url, 'betType', betTypeId);
+                url = QueryString.setParam(url, 'date', winlostDate);
                 url = QueryString.setParam(url, 'BaseCurrency', getBaseCurrency());
                 url = QueryString.setParam(url, 'access_token', $("#access_token").val());
                 url = QueryString.setParam(url, 'lang', $("#lang").val());

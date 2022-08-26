@@ -231,14 +231,13 @@ namespace Fanex.Athena.ExtService
             const string BetListApiClient = "BetListApiClient";
             const string BetListTokenKey = "BETLIST_TOKEN_KEY";
 
-            services.AddSingleton<IBetListApiClient>(s => new BetListApiClient(
-                BetListApiClient, s.GetService<IHttpClientFactory>()));
+            services.AddTransient<IBetListApiClient, BetListApiClient>();
+
             services.AddHttpClient(BetListApiClient, (serviceProvider, client) =>
             {
                 var options = serviceProvider.GetService<IOptions<AppSettings>>();
                 client.BaseAddress = new Uri(options.Value.BetListApiHostUrl);
                 client.DefaultRequestHeaders.Add(BetListTokenKey, options.Value.BetListApiTokenValue);
-                client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
             }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
             {
                 AllowAutoRedirect = false,

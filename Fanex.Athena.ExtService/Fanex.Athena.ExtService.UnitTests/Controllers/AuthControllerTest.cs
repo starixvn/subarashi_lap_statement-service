@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Fanex.Athena.ExtService.Controllers;
 using Fanex.Athena.ExtService.Core.Models;
 using Fanex.Athena.ExtService.Core.Services;
@@ -13,7 +14,7 @@ namespace Fanex.Athena.ExtService.UnitTests.Controllers
         private Mock<IAuthenticateService> _mockAuthService;
 
         [Fact]
-        public void RequestToken_InvalidModel_ReturnBadRequest()
+        public async Task RequestToken_InvalidModel_ReturnBadRequest()
         {
             // Arrange
             var tokenRequest = new TokenRequest();
@@ -23,7 +24,7 @@ namespace Fanex.Athena.ExtService.UnitTests.Controllers
             controller.ModelState.AddModelError("Error1", "Invalid User name");
 
             // Action
-            var result = controller.RequestToken(tokenRequest) as BadRequestObjectResult;
+            var result = await controller.RequestToken(tokenRequest) as BadRequestObjectResult;
 
             // Assert
             Assert.Equal("Invalid Request", result.Value.ToString());
@@ -31,37 +32,37 @@ namespace Fanex.Athena.ExtService.UnitTests.Controllers
         }
 
         [Fact]
-        public void RequestToken_ValidModelAndAuthenticated_ReturnOk()
+        public async Task RequestToken_ValidModelAndAuthenticated_ReturnOk()
         {
             // Arrange
             var tokenRequest = new TokenRequest();
             var expectedToken = new Token();
             var expectedResult = Tuple.Create(true, expectedToken);
             _mockAuthService = new Mock<IAuthenticateService>();
-            _mockAuthService.Setup(s => s.IsAuthenticated(tokenRequest)).Returns(expectedResult);
+            _mockAuthService.Setup(s => s.IsAuthenticated(tokenRequest)).Returns(Task.FromResult(expectedResult));
 
             var controller = new AuthController(_mockAuthService.Object);
 
             // Action
-            var result = controller.RequestToken(tokenRequest) as OkObjectResult;
+            var result = await controller.RequestToken(tokenRequest) as OkObjectResult;
 
             // Assert
             Assert.Equal(expectedToken, result.Value as Token);
         }
 
         [Fact]
-        public void RequestToken_ValidModelButNotAuthenticated_ReturnBadRequest()
+        public async Task RequestToken_ValidModelButNotAuthenticated_ReturnBadRequest()
         {
             // Arrange
             var tokenRequest = new TokenRequest();
             var expectedResult = Tuple.Create(false, new Token());
             _mockAuthService = new Mock<IAuthenticateService>();
-            _mockAuthService.Setup(s => s.IsAuthenticated(tokenRequest)).Returns(expectedResult);
+            _mockAuthService.Setup(s => s.IsAuthenticated(tokenRequest)).Returns(Task.FromResult(expectedResult));
 
             var controller = new AuthController(_mockAuthService.Object);
 
             // Action
-            var result = controller.RequestToken(tokenRequest) as BadRequestObjectResult;
+            var result = await controller.RequestToken(tokenRequest) as BadRequestObjectResult;
 
             // Assert
             Assert.Equal("Wrong username or password", result.Value.ToString());

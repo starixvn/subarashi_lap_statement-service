@@ -1,5 +1,6 @@
 ﻿using Fanex.Athena.ExtService.Common.Models.DataDomain;
 using Fanex.Athena.ExtService.Common.Models.ViewModels;
+using System;
 
 namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 {
@@ -10,6 +11,8 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
         public long TransType { get; set; }
 
         public int CustId { get; set; }
+
+        public DateTime Date { get; set; }
 
         public string UspKey { get; set; }
 
