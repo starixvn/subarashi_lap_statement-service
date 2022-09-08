@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using ONEbook.UM.Services;
 using System;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Fanex.Athena.ExtService.Core.Middleware
@@ -55,6 +56,7 @@ namespace Fanex.Athena.ExtService.Core.Middleware
                 }
 
                 context.Response.ContentType = contentType;
+                context.Response.StatusCode = (int)HttpStatusCode.ServiceUnavailable;
                 await context.Response.WriteAsync(msg);
             }
             else
