@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Functions SiteId="31" SiteName="LRF">
   <Function Name="Common">
-    <Setting Key="Acc_SiteDBConfigSel" SpName="Acc_SiteDBConfigSel_xtest" DbName="DBEXT.bodb02.bodbLicenseeNet" />
+    <Setting Key="Acc_SiteDBConfigSel" SpName="Acc_SiteDBConfigSel" DbName="DBEXT.bodb02.bodbLicenseeNet" />
     <Setting Key="Lrf_SelBalanceUpDay" SpName="Lrf_SelBalanceUpDay" DbName="DBEXT.bodb02.bodbLicenseeNet" />
     <Setting Key="Lrf_LicenseeSelExtInfo" SpName="Lrf_LicenseeSelExtInfo" DbName="DBEXT.bodb02.bodbLicenseeNet" />
     <Setting Key="Lrf_LicenseeSelBySiteName" SpName="Lrf_LicenseeSelBySiteName_xtest" DbName="DBLIC.bodb_Licensee.bodbLicenseeNet" />
