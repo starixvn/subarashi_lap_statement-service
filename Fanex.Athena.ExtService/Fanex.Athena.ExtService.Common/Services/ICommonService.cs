@@ -8,6 +8,8 @@ namespace Fanex.Athena.ExtService.Common.Services
     {
         Task<LicenseeInfo> GetLicenseeInfoAsync(string siteName, int custId = 0);
 
+        Task<string> GetSiteDBServer(string licenseeName);
+
         Task<BalanceUp> GetBalanceUpAsync();
 
         Task<bool> IsEnableSingleWallet(string siteName);

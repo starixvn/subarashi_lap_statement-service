@@ -4,16 +4,20 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Fanex.Athena.ExtService.Common.Constant;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
 namespace Fanex.Athena.ExtService.Common.Services
 {
     public class BetListApiClient : IBetListApiClient
     {
-        private const string LANGUAGEKEY = "Language";
+        private const string LangHeaderKey = "Language";
+        private const string SiteDBServerHeaderKey = "X-SiteDBServer";
+        private const string HttpClientName = "BetListApiClient";
 
-        private readonly string _betListApiClientName;
         private readonly IHttpClientFactory _clientFactory;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         private static readonly JsonSerializerSettings _serializerSettings = new JsonSerializerSettings
         {
@@ -21,11 +25,13 @@ namespace Fanex.Athena.ExtService.Common.Services
             DateTimeZoneHandling = DateTimeZoneHandling.Unspecified
         };
 
-        public BetListApiClient(string clientName, IHttpClientFactory clientFactory)
+        public BetListApiClient(IHttpClientFactory clientFactory, IHttpContextAccessor httpContextAccessor)
         {
-            _betListApiClientName = clientName;
             _clientFactory = clientFactory;
+            _httpContextAccessor = httpContextAccessor;
         }
+
+        private string SiteDBServer => _httpContextAccessor.HttpContext?.User.FindFirst(CustomClaimType.SiteDBServer)?.Value ?? string.Empty;
 
         private async Task<T> HandleAsync<T>(string path, object value,
            string language, Func<HttpResponseMessage, Task<T>> codeBlock)
@@ -34,21 +40,22 @@ namespace Fanex.Athena.ExtService.Common.Services
             {
                 return await Task.FromResult(default(T));
             }
-            var client = _clientFactory.CreateClient(_betListApiClientName);
-            using (var cancelToken = new CancellationTokenSource())
-            {
-                using (var request = new HttpRequestMessage(HttpMethod.Post, new Uri(client.BaseAddress + path))
-                {
-                    Content = ToJsonContent(value)
-                })
-                {
-                    request.Headers.Add(LANGUAGEKEY, language);
-                    var result = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancelToken.Token);
-                    result?.EnsureSuccessStatusCode();
-                    return await codeBlock(result).ConfigureAwait(false);
 
-                }
-            }
+            var client = _clientFactory.CreateClient(HttpClientName);
+
+            using var cancelToken = new CancellationTokenSource();
+            using var request = new HttpRequestMessage(HttpMethod.Post, new Uri(client.BaseAddress + path))
+            {
+                Content = ToJsonContent(value)
+            };
+
+            request.Headers.Add(LangHeaderKey, language);
+            request.Headers.Add(SiteDBServerHeaderKey, SiteDBServer);
+
+            var result = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancelToken.Token);
+            result?.EnsureSuccessStatusCode();
+            return await codeBlock(result).ConfigureAwait(false);
+
         }
 
         public async Task<string> PostAsyncString(string path, object value, string language)

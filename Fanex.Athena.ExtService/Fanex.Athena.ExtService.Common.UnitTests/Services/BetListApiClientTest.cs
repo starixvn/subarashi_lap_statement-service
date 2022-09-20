@@ -1,5 +1,5 @@
-﻿using Fanex.Athena.ExtService.Common.Models;
-using Fanex.Athena.ExtService.Common.Services;
+﻿using Fanex.Athena.ExtService.Common.Services;
+using Microsoft.AspNetCore.Http;
 using Moq;
 using Moq.Protected;
 using Newtonsoft.Json;
@@ -16,14 +16,18 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
     public class BetListApiClientTest : IDisposable
     {
         private Mock<IHttpClientFactory> _mockClientFactory;
+        private Mock<IHttpContextAccessor> _mockHttpContextAccessor;
+
         private Mock<HttpClient> _mockClient;
         private Mock<HttpMessageHandler> _fakeHttpMessageHandler;
         public BetListApiClientTest()
         {
             _fakeHttpMessageHandler = new Mock<HttpMessageHandler>(MockBehavior.Loose);
             _mockClientFactory = new Mock<IHttpClientFactory>();
+            _mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
             _mockClient = new Mock<HttpClient>(_fakeHttpMessageHandler.Object);
             _mockClientFactory.SetReturnsDefault(_mockClient.Object);
+            _mockHttpContextAccessor.SetReturnsDefault<HttpContext>(null);
             _mockClientFactory.Setup(r => r.CreateClient(It.IsAny<string>())).Returns(_mockClient.Object);
             _mockClient.Object.BaseAddress = new Uri("http://test.com");
         }
@@ -39,7 +43,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             {
                 FakeSendAsyncMethod(httpResponseMessage);
 
-                var apiClient = new BetListApiClient("any", _mockClientFactory.Object);
+                var apiClient = new BetListApiClient(_mockClientFactory.Object, _mockHttpContextAccessor.Object);
 
                 //Action
                 var result = await apiClient.PostAsyncString("/test", "test-data", language).ConfigureAwait(false);
@@ -66,7 +70,6 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
         public async Task HandleAsync_RequestMessage_ConfigCorrectly()
         {
             //Arrange
-            const string BetListApiClientKey = "test-bet-list-api-client";
             var expectedUrl = new Uri("http://test/base-address");
             var requestContent = new { data = "test" };
             using (var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent("any") })
@@ -75,7 +78,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
 
                 FakeSendAsyncMethod(httpResponseMessage);
 
-                var apiClient = new BetListApiClient(BetListApiClientKey, _mockClientFactory.Object);
+                var apiClient = new BetListApiClient(_mockClientFactory.Object, _mockHttpContextAccessor.Object);
 
                 //Action
                 var result = await apiClient.PostAsyncString("/test-path", requestContent, "en-US").ConfigureAwait(false);
@@ -109,7 +112,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             {
                 FakeSendAsyncMethod(httpResponseMessage);
 
-                var apiClient = new BetListApiClient("any", _mockClientFactory.Object);
+                var apiClient = new BetListApiClient(_mockClientFactory.Object, _mockHttpContextAccessor.Object);
 
                 //Action
                 var result = await apiClient.PostAsync<dynamic>("/test", new { data = "test" }, language).ConfigureAwait(false);

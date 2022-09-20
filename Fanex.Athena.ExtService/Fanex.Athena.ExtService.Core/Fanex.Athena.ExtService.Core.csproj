@@ -30,5 +30,9 @@
     <PackageReference Include="ONEbook.UM.Transport" Version="3.1.1" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.17.0" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Fanex.Athena.ExtService.Common\Fanex.Athena.ExtService.Common.csproj" />
+  </ItemGroup>
 
 </Project>

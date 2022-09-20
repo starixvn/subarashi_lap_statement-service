@@ -16,6 +16,8 @@ namespace Fanex.Athena.ExtService.Common.Services
         private const string BalanceUpCacheKey = "EXT_LAP_CACHE_BALANCEUP";
         private const string LicenseeExtInfoCacheKey = "__LicenseeExtInfoCacheKey_";
 
+        private readonly Lazy<IReadOnlyDictionary<int, string>> _siteDBConfig;
+
         private readonly ICustomDistributedCache _cache;
 
         private readonly AppSettings _settings;
@@ -24,6 +26,18 @@ namespace Fanex.Athena.ExtService.Common.Services
         {
             _cache = cache;
             _settings = settings.Value;
+            _siteDBConfig = new Lazy<IReadOnlyDictionary<int, string>>(() =>
+            {
+                const string SpName = "Acc_SiteDBConfigSel";
+                var config = new Dictionary<int, string>();
+                using var db = ObjectDbFactory.CreateInstance(SpName);
+                using var reader = db.ExecuteReader();
+                while (reader.Read())
+                {
+                    config.Add(int.Parse(reader["SiteDBGroupID"].ToString()), reader["AGIP"].ToString());
+                }
+                return config;
+            });
         }
 
         public async Task<bool> IsEnableSingleWallet(string siteName)
@@ -52,6 +66,16 @@ namespace Fanex.Athena.ExtService.Common.Services
             }
 
             return result;
+        }
+
+        public async Task<string> GetSiteDBServer(string licenseeName)
+        {
+            const string UspName = "Lrf_LicenseeSelBySiteName";
+            using var db = ObjectDbFactory.CreateInstance(UspName);
+            using var reader = await db.ExecuteReaderAsync(new { siteName = licenseeName });
+            var siteDBGroupID = reader.Read() ? Convert.ToInt32(reader["SiteDBGroupID"]) : 0;
+            return siteDBGroupID != 0 && _siteDBConfig.Value.TryGetValue(siteDBGroupID, out string dbServer)
+                          ? dbServer : string.Empty;
         }
 
         public bool IsShowIp(string siteName)
