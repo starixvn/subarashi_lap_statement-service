@@ -15,5 +15,7 @@
         public const int Chf = 41;
 
         public const int Hkd = 66;
+
+        public const int Usdt = 142;
     }
 }
