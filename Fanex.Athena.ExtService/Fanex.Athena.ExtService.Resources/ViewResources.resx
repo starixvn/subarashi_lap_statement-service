@@ -476,4 +476,7 @@
   <data name="ProductMXG" xml:space="preserve">
     <value>MaxGame</value>
   </data>
+  <data name="ProductTIP" xml:space="preserve">
+    <value>Player Tips</value>
+  </data>
 </root>
