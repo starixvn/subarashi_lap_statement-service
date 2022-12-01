@@ -27,6 +27,7 @@
     ProductCG: "CG",
     ProductBTC: "Bitcoin",
     ProductMXG: "MaxGame",
+    ProductTIP: "Player Tips",
     TransactionDetail: "",
     ErrorProcessingMsg: "Sorry, an error occurred while processing your request.",
     Result: "Results",

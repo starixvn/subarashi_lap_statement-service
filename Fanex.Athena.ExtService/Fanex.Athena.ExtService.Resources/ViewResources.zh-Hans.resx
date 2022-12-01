@@ -344,4 +344,7 @@
   <data name="ProductBTC" xml:space="preserve">
     <value>比特币</value>
   </data>
+  <data name="ProductTIP" xml:space="preserve">
+    <value>玩家打赏</value>
+  </data>
 </root>

@@ -27,6 +27,7 @@
     ProductVGA: "Vgaming",
     ProductCG: "CG电子",
     ProductBTC: "比特币",
+    ProductTIP: "玩家打赏",
     TransactionDetail: "Transaction Detail",
     ErrorProcessingMsg: "对不起, 处理您的请求时有错误发生。",
     Result: "赛果",

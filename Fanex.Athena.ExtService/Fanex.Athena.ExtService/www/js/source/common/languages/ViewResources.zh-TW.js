@@ -23,6 +23,7 @@
     ProductVGA: "Vgaming",
     ProductCG: "CG電子",
     ProductBTC: "比特幣",
+    ProductTIP: "玩家打賞",
     TransactionDetail: "Transaction Detail",
     ErrorProcessingMsg: "對不起，處理您的請求時有錯誤發生。",
     Result: "賽果",

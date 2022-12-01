@@ -343,4 +343,7 @@
   <data name="Viewin" xml:space="preserve">
     <value>以 {0} 查看</value>
   </data>
+  <data name="ProductTIP" xml:space="preserve">
+    <value>玩家打賞</value>
+  </data>
 </root>
