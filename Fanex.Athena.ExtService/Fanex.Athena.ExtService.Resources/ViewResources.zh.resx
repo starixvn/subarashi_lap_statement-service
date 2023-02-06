@@ -395,4 +395,7 @@
   <data name="ProductTIP" xml:space="preserve">
     <value>玩家打赏</value>
   </data>
+  <data name="ProductJIG" xml:space="preserve">
+    <value>吉利电子</value>
+  </data>
 </root>
