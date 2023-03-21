@@ -57,13 +57,19 @@
     @if (appSettings.Environment.Equals("PROD", StringComparison.OrdinalIgnoreCase))
     {
         <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-93927620-3"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-M09N5LNEH1"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
             function gtag() { dataLayer.push(arguments); }
             gtag('js', new Date());
 
-            gtag('config', 'UA-93927620-3');
+            gtag('config', 'G-M09N5LNEH1'{
+                cookie_flags: 'secure;samesite=none'
+            });
+            gtag('config', 'UA-93927620-1',{
+                cookie_flags: 'secure;samesite=none'
+            });
+
         </script>
 
     }
