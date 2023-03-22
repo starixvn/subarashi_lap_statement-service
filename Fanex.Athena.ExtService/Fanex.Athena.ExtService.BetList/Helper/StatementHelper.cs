@@ -17,10 +17,13 @@ namespace Fanex.Athena.ExtService.BetList.Helper
             {
                 case TransTypeValue.BAL:
                     return item.TotalAmt;
+
                 case TransTypeValue.GP:
                     return previousBalance + item.TotalAmt;
+
                 case TransTypeValue.BET:
                     return GetBalanceForBETTranstype(previousBalance, item);
+
                 default: return previousBalance + item.TotalAmt;
             }
         }
@@ -38,10 +41,13 @@ namespace Fanex.Athena.ExtService.BetList.Helper
             {
                 case TransDescValue.BetStatement:
                     return previousBalance + item.TotalAmt + item.Commission;
+
                 case TransDescValue.Outstanding:
                     return previousBalance - item.TurnOver;
+
                 case TransDescValue.VoidCancell:
                     return previousBalance;
+
                 default:
                     return 0;
             }
@@ -56,10 +62,9 @@ namespace Fanex.Athena.ExtService.BetList.Helper
         public static bool HideBetListLink(string productCode)
         {
             const string AGCasino = "AGC";
-            const string GoldDeluxe = "GD";
             const string Exchange = "BX";
 
-            return productCode == AGCasino || productCode == GoldDeluxe || productCode == Exchange;
+            return productCode == AGCasino || productCode == Exchange;
         }
 
         public static string GetStatementRemark(string transDesc, string transType, int betTypeId = 0)

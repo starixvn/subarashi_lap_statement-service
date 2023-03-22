@@ -141,9 +141,6 @@
   <data name="Choice" xml:space="preserve">
     <value>选择</value>
   </data>
-  <data name="ColossusBetBetListDetailMsg" xml:space="preserve">
-    <value>Member owned {0}% of this ticket&lt;br/&gt;Member sold {1}% of this ticket for {2}</value>
-  </data>
   <data name="Comm" xml:space="preserve">
     <value>佣金</value>
   </data>
@@ -298,9 +295,6 @@
   <data name="ProductSXG" xml:space="preserve">
     <value>AE性感真人</value>
     <comment>#141118</comment>
-  </data>
-  <data name="ProductGDG" xml:space="preserve">
-    <value>金大门</value>
   </data>
   <data name="ProductSLT" xml:space="preserve">
     <value>体育时时彩</value>

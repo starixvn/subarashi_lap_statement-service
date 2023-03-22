@@ -141,9 +141,6 @@
   <data name="Choice" xml:space="preserve">
     <value>選擇</value>
   </data>
-  <data name="ColossusBetBetListDetailMsg" xml:space="preserve">
-    <value>Member owned {0}% of this ticket&lt;br/&gt;Member sold {1}% of this ticket for {2}</value>
-  </data>
   <data name="Comm" xml:space="preserve">
     <value>佣金</value>
   </data>
@@ -297,9 +294,6 @@
   </data>
   <data name="ProductPP" xml:space="preserve">
     <value>PP王者電子</value>
-  </data>
-  <data name="ProductGDG" xml:space="preserve">
-    <value>GDG</value>
   </data>
   <data name="ProductSLT" xml:space="preserve">
     <value>體育時時彩</value>

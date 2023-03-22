@@ -79,7 +79,7 @@
             _statementValue.Setup(x => x.TransType).Returns(TransTypeValue.BET);
             _statementValue.Setup(x => x.TransDesc).Returns(transDesc);
             var expectedValue = GetExpectedValueWithBetTransType();
-            
+
             // Action
             var result = StatementHelper.GetStatementBalance(PreviousBalance, _statementValue.Object);
 
@@ -133,18 +133,17 @@
             // Arrange
             _statementValue.Setup(x => x.TransType).Returns(transType);
             _statementValue.Setup(x => x.TransDesc).Returns(transDesc);
-            
+
             // Action
             var result = StatementHelper.GetCreditDebit(_statementValue.Object);
 
-            // Assert 
+            // Assert
             Assert.Equal(expectedValue, result);
         }
 
         [Theory]
         [InlineData("", false)]
         [InlineData("AGC", true)]
-        [InlineData("GD", true)]
         [InlineData("BX", true)]
         public void HideBetListLink_WhenCall_ReturnCorrectResult(string productCode, bool expectedValue)
         {

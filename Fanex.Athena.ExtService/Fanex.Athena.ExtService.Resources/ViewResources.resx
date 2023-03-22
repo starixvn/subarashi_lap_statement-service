@@ -153,9 +153,6 @@
   <data name="Choice" xml:space="preserve">
     <value>Choice</value>
   </data>
-  <data name="ColossusBetBetListDetailMsg" xml:space="preserve">
-    <value>Member owned {0}% of this ticket&lt;br/&gt;Member sold {1}% of this ticket for {2}</value>
-  </data>
   <data name="Comm" xml:space="preserve">
     <value>Comm</value>
   </data>
@@ -272,10 +269,6 @@
     <value>Exchange</value>
     <comment>88192</comment>
   </data>
-  <data name="ProductCB" xml:space="preserve">
-    <value>Colossus Bets</value>
-    <comment>#63785</comment>
-  </data>
   <data name="ProductCC" xml:space="preserve">
     <value>Arcadia Gaming</value>
     <comment>115449</comment>
@@ -285,14 +278,6 @@
   </data>
   <data name="ProductCS" xml:space="preserve">
     <value>Saba Casino</value>
-    <comment>#49196</comment>
-  </data>
-  <data name="ProductFW" xml:space="preserve">
-    <value>Fishing World</value>
-    <comment>#66737</comment>
-  </data>
-  <data name="ProductGD" xml:space="preserve">
-    <value>Gold Deluxe</value>
     <comment>#49196</comment>
   </data>
   <data name="ProductKN" xml:space="preserve">
@@ -412,9 +397,6 @@
   <data name="ProductJK" xml:space="preserve">
     <value>Joker</value>
     <comment>141408</comment>
-  </data>
-  <data name="ProductGDG" xml:space="preserve">
-    <value>GDG</value>
   </data>
   <data name="ProductSLT" xml:space="preserve">
     <value>Sports Lottery</value>
