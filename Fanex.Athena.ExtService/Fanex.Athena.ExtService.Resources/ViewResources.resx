@@ -479,4 +479,7 @@
   <data name="ProductTIP" xml:space="preserve">
     <value>Player Tips</value>
   </data>
+  <data name="ProductJIG" xml:space="preserve">
+    <value>Jili</value>
+  </data>
 </root>
