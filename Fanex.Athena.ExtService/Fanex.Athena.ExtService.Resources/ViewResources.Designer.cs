@@ -19,7 +19,7 @@ namespace Fanex.Athena.ExtService.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class ViewResources {
@@ -228,15 +228,6 @@ namespace Fanex.Athena.ExtService.Resources {
         public static string Choice {
             get {
                 return ResourceManager.GetString("Choice", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Member owned {0}% of this ticket&lt;br/&gt;Member sold {1}% of this ticket for {2}.
-        /// </summary>
-        public static string ColossusBetBetListDetailMsg {
-            get {
-                return ResourceManager.GetString("ColossusBetBetListDetailMsg", resourceCulture);
             }
         }
         
@@ -583,15 +574,6 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Colossus Bets.
-        /// </summary>
-        public static string ProductCB {
-            get {
-                return ResourceManager.GetString("ProductCB", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Arcadia Gaming.
         /// </summary>
         public static string ProductCC {
@@ -633,33 +615,6 @@ namespace Fanex.Athena.ExtService.Resources {
         public static string ProductFGGL {
             get {
                 return ResourceManager.GetString("ProductFGGL", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Fishing World.
-        /// </summary>
-        public static string ProductFW {
-            get {
-                return ResourceManager.GetString("ProductFW", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Gold Deluxe.
-        /// </summary>
-        public static string ProductGD {
-            get {
-                return ResourceManager.GetString("ProductGD", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to GDG.
-        /// </summary>
-        public static string ProductGDG {
-            get {
-                return ResourceManager.GetString("ProductGDG", resourceCulture);
             }
         }
         

@@ -141,9 +141,6 @@
   <data name="Choice" xml:space="preserve">
     <value>选择</value>
   </data>
-  <data name="ColossusBetBetListDetailMsg" xml:space="preserve">
-    <value>Member owned {0}% of this ticket&lt;br/&gt;Member sold {1}% of this ticket for {2}</value>
-  </data>
   <data name="Comm" xml:space="preserve">
     <value>佣金</value>
   </data>
@@ -313,12 +310,6 @@
   <data name="ProductAB" xml:space="preserve">
     <value>欧博</value>
   </data>
-  <data name="ProductFW" xml:space="preserve">
-    <value>GG捕鱼</value>
-  </data>
-  <data name="ProductGD" xml:space="preserve">
-    <value>GD真人娱乐场</value>
-  </data>
   <data name="ProductLT" xml:space="preserve">
     <value>彩票</value>
   </data>
@@ -346,9 +337,6 @@
   </data>
   <data name="ProductSAG" xml:space="preserve">
     <value>SA真人娱乐场</value>
-  </data>
-  <data name="ProductGDG" xml:space="preserve">
-    <value>金大门</value>
   </data>
   <data name="ProductSLT" xml:space="preserve">
     <value>体育时时彩</value>

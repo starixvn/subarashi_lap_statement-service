@@ -164,42 +164,6 @@
 
                 showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
             },
-            showColossusBetsDetails: function (refNo, winlostDate, transId, custId, betCheck) {
-                let url = Site.resolveClientUrl('ColossusBetBetList/Detail');
-                url = QueryString.setParam(url, 'refNo', refNo);
-                url = QueryString.setParam(url, 'date', winlostDate);
-                url = QueryString.setParam(url, 'transid', transId);
-                url = QueryString.setParam(url, 'custid', custId);
-                url = QueryString.setParam(url, 'betCheck', betCheck);
-                url = QueryString.setParam(url, 'BaseCurrency', getBaseCurrency());
-                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
-                url = QueryString.setParam(url, 'lang', $("#lang").val());
-
-                const popH = Math.min($(window).height() - 100, 550);
-                const title = Site.getSingleResource('TicketDetailOf').replace('{0}', refNo);
-
-                showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
-            },
-            showGlobalGamingDetails: function (transId, winlostDate, custId, transType) {
-                let url = Site.resolveClientUrl('BetListDetailByProduct/Detail');
-                url = QueryString.setParam(url, 'transId', transId);
-                url = QueryString.setParam(url, 'date', winlostDate);
-                url = QueryString.setParam(url, 'custId', custId);
-                url = QueryString.setParam(url, 'transType', transType);
-                url = QueryString.setParam(url, 'BaseCurrency', getBaseCurrency());
-                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
-                url = QueryString.setParam(url, 'lang', $("#lang").val());
-                url = QueryString.setParam(url, 'uspkey', 'Lrf_BetList_RNG_Detail');
-                url = QueryString.setParam(url, 'hastotal', 1);
-                url = QueryString.setParam(url, 'haslicWl', 1);
-                url = QueryString.setParam(url, 'isDesktopViewOnly', $("#isDesktopViewOnly").val() === "1");
-
-                const popH = Math.min($(window).height() - 100, 550);
-                const title = Site.getSingleResource('ProductFW') + ' - ' +
-                    Site.getSingleResource('DetailedBetlist');
-
-                showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
-            },
             showPPDetails: function (transId, winlostDate, custId, transType) {
                 let url = Site.resolveClientUrl('BetListDetailByProduct/Detail');
                 url = QueryString.setParam(url, 'transId', transId);
@@ -380,24 +344,6 @@
                 url = QueryString.setParam(url, 'isDesktopViewOnly', $("#isDesktopViewOnly").val() === "1");
                 const popH = Math.min($(window).height() - 100, 550);
                 const title = Site.getSingleResource('ProductPGS') + ' - ' +
-                    Site.getSingleResource('DetailedBetlist');
-
-                showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
-            },
-            showGDGBetDetails: function (transId, winlostDate, custId, transType) {
-                let url = Site.resolveClientUrl('BetListDetailByProduct/Detail');
-                url = QueryString.setParam(url, 'transId', transId);
-                url = QueryString.setParam(url, 'date', winlostDate);
-                url = QueryString.setParam(url, 'custId', custId);
-                url = QueryString.setParam(url, 'transType', transType);
-                url = QueryString.setParam(url, 'BaseCurrency', getBaseCurrency());
-                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
-                url = QueryString.setParam(url, 'lang', $("#lang").val());
-                url = QueryString.setParam(url, 'uspkey', 'Lrf_BetList_LC_Detail');
-                url = QueryString.setParam(url, 'hastotal', 1);
-                url = QueryString.setParam(url, 'isDesktopViewOnly', $("#isDesktopViewOnly").val() === "1");
-                const popH = Math.min($(window).height() - 100, 550);
-                const title = Site.getSingleResource('ProductGDG') + ' - ' +
                     Site.getSingleResource('DetailedBetlist');
 
                 showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
@@ -709,12 +655,10 @@
 
                 window.showCombMPDetail = _me.showSystemParlayDetail;
                 window.ViewCashOutHistory = _me.viewCashOutHistory;
-                window.showColossusBetsDetails = _me.showColossusBetsDetails;
                 window.showAGCasinoDetails = _me.showAGCasinoDetails;
                 window.showRnGCasinoDetails = _me.showRnGCasinoDetails;
                 window.showVoidBridgeDetails = _me.showVoidBridgeDetails;
                 window.showTodayRunningBetsDetails = _me.showAllBetDetails;
-                window.showGlobalGaming = _me.showGlobalGamingDetails;
                 window.ShowBonusDetails = _me.showBonusDetails;
                 window.showPPDetails = _me.showPPDetails;
                 window.showPPJackpotWonDetails = _me.showPPJackpotWonDetails;
@@ -727,7 +671,6 @@
                 window.showJokerBetDetails = _me.showJokerBetDetails;
                 window.showSabaClubDetails = _me.showSabaClubDetails;
                 window.showPGSoftDetails = _me.showPGSoftDetails;
-                window.showGDGBetDetails = _me.showGDGBetDetails;
                 window.showHabaneroBetDetails = _me.showHabaneroBetDetails;
                 window.showWMBetDetails = _me.showWMBetDetails;
                 window.showBGBetDetails = _me.showBGGDetails;

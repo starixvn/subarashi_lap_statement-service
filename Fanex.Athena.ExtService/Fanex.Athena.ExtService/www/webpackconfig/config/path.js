@@ -11,8 +11,7 @@ var cssPaths = {
     betlistLayout: ["./www/css/source/pages/betlist/betlistcommon.main.scss"],
     betlistRefno: ["./www/css/source/pages/betlist/refno.scss"],
     systemparlaydetail: ["./www/css/source/pages/betlist/systemparlaydetail.scss"],
-    cashouthistory: ["./www/css/source/pages/betlist/cashouthistory.main.scss", "./www/css/source/extensions/popup-ex.scss"],
-    colossusbetdetail: ["./www/css/source/pages/betlist/colossusbetdetail.scss"]
+    cashouthistory: ["./www/css/source/pages/betlist/cashouthistory.main.scss", "./www/css/source/extensions/popup-ex.scss"]
 };
 
 var scriptPaths = {
@@ -22,7 +21,6 @@ var scriptPaths = {
     languageTW: "common/languages/ViewResources.zh-TW.js",
     languageHans: "common/languages/ViewResources.zh-Hans.js",
     betlist_refno: "./www/js/source/pages/betlist/refno.js"
-
 };
 
 module.exports = {
