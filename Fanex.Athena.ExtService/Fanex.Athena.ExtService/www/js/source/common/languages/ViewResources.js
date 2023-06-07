@@ -26,6 +26,7 @@
     ProductBTC: "Bitcoin",
     ProductMXG: "MaxGame",
     ProductJIG: "Jili",
+    ProductYB: "YeeBet",
     ProductTIP: "Player Tips",
     TransactionDetail: "",
     ErrorProcessingMsg: "Sorry, an error occurred while processing your request.",

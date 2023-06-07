@@ -23,6 +23,7 @@
     ProductBTC: "比特幣",
     ProductTIP: "玩家打賞",
     ProductJIG: "吉利電子",
+    ProductYB: "億博",
     TransactionDetail: "Transaction Detail",
     ErrorProcessingMsg: "對不起，處理您的請求時有錯誤發生。",
     Result: "賽果",
