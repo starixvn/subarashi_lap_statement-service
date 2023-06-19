@@ -386,7 +386,8 @@
     <value>Detailed Bet list</value>
   </data>
   <data name="LicenseeTxId" xml:space="preserve">
-    <value>TxID</value>
+    <value>LicTxID</value>
+    <comment>189634</comment>
   </data>
   <data name="JackpotWonDetails" xml:space="preserve">
     <value>Jackpot Won Details</value>
