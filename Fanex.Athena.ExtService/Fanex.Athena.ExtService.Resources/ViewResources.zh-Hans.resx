@@ -344,4 +344,7 @@
   <data name="ProductJIG" xml:space="preserve">
     <value>吉利电子</value>
   </data>
+  <data name="ProductYB" xml:space="preserve">
+    <value>亿博</value>
+  </data>
 </root>
