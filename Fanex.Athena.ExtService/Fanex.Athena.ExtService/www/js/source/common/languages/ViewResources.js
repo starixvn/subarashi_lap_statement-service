@@ -27,6 +27,7 @@
     ProductMXG: "MaxGame",
     ProductJIG: "Jili",
     ProductYB: "YeeBet",
+    ProductMGRNG: "MG-RNG",
     ProductTIP: "Player Tips",
     TransactionDetail: "",
     ErrorProcessingMsg: "Sorry, an error occurred while processing your request.",

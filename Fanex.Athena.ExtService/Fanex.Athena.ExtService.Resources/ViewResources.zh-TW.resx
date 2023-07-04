@@ -346,4 +346,7 @@
   <data name="ProductYB" xml:space="preserve">
     <value>億博</value>
   </data>
+  <data name="ProductMGRNG" xml:space="preserve">
+    <value>MG-RNG</value>
+  </data>
 </root>
