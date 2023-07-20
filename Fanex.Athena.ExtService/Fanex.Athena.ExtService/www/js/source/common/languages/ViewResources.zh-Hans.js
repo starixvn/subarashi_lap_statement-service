@@ -24,6 +24,7 @@
     ProductTIP: "玩家打赏",
     ProductJIG: "吉利电子",
     ProductYB: "亿博",
+    ProductMGRNG: "MG-RNG",
     TransactionDetail: "Transaction Detail",
     ErrorProcessingMsg: "对不起, 处理您的请求时有错误发生。",
     Result: "赛果",
