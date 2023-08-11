@@ -22,7 +22,6 @@ module.exports = merge(baseConfigs,
                 root: process.cwd(),
                 exclude: excludeOption
             }),
-           
 
             new CleanWebpackPlugin([`${cssRootPath}/*.css`,`${cssRootPath}/*.map`,`${cssRootPath}/*.js`], {
                 root: process.cwd(),

@@ -66,6 +66,7 @@
     <None Include="wwwroot\fonts\flags\flags\gb.svg" />
     <None Include="wwwroot\fonts\flags\flags\kr.svg" />
     <None Include="wwwroot\fonts\flags\flags\tw.svg" />
+	<None Include="wwwroot\fonts\flags\flags\vn.svg" />
     <None Include="wwwroot\fonts\font-icon\fonts\icomoon.svg" />
     <None Include="wwwroot\fonts\roboto\Roboto-Regular.woff2" />
   </ItemGroup>

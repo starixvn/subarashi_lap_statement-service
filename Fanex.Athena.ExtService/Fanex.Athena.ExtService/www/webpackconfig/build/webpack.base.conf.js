@@ -25,6 +25,7 @@ function generateConfig(environment) {
             [`${jsPath}/language-zh-CN`]: pathConfig.scriptPaths.languageCN,
             [`${jsPath}/language-zh-TW`]: pathConfig.scriptPaths.languageTW,
             [`${jsPath}/language-zh-Hans`]: pathConfig.scriptPaths.languageHans,
+            [`${jsPath}/language-vi-VN`]: pathConfig.scriptPaths.languageVN,
             [`${jsPath}/pages/betlist/refno`]: [pathConfig.scriptPaths.betlist_refno],
 
             [`${cssPath}/main`]: pathConfig.cssPaths.main,

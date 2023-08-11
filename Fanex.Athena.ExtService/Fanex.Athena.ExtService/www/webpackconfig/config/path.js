@@ -20,6 +20,7 @@ var scriptPaths = {
     languageCN: "common/languages/ViewResources.zh-CN.js",
     languageTW: "common/languages/ViewResources.zh-TW.js",
     languageHans: "common/languages/ViewResources.zh-Hans.js",
+    languageVN: "common/languages/ViewResources.vi-VN.js",
     betlist_refno: "./www/js/source/pages/betlist/refno.js"
 };
 

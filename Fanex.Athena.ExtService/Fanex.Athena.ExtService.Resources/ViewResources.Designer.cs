@@ -151,6 +151,15 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bought Details.
+        /// </summary>
+        public static string BoughtDetails {
+            get {
+                return ResourceManager.GetString("BoughtDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bought Stake.
         /// </summary>
         public static string BoughtStake {
@@ -183,6 +192,15 @@ namespace Fanex.Athena.ExtService.Resources {
         public static string CashOutCancelled {
             get {
                 return ResourceManager.GetString("CashOutCancelled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cash Out Details.
+        /// </summary>
+        public static string CashOutDetails {
+            get {
+                return ResourceManager.GetString("CashOutDetails", resourceCulture);
             }
         }
         
@@ -358,6 +376,15 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sorry, an error occurred while processing your request..
+        /// </summary>
+        public static string ErrorProcessingMsg {
+            get {
+                return ResourceManager.GetString("ErrorProcessingMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to External ID.
         /// </summary>
         public static string ExternalId {
@@ -381,6 +408,24 @@ namespace Fanex.Athena.ExtService.Resources {
         public static string GrandTotal {
             get {
                 return ResourceManager.GetString("GrandTotal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Access denied.
+        /// </summary>
+        public static string HttpError_403 {
+            get {
+                return ResourceManager.GetString("HttpError_403", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Request is not valid.
+        /// </summary>
+        public static string InvalidRequestMsg {
+            get {
+                return ResourceManager.GetString("InvalidRequestMsg", resourceCulture);
             }
         }
         
@@ -925,6 +970,15 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Results.
+        /// </summary>
+        public static string Result {
+            get {
+                return ResourceManager.GetString("Result", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Stake.
         /// </summary>
         public static string Stake {
@@ -979,11 +1033,29 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ticket detail of {0}.
+        /// </summary>
+        public static string TicketDetailOf {
+            get {
+                return ResourceManager.GetString("TicketDetailOf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Total.
         /// </summary>
         public static string Total {
             get {
                 return ResourceManager.GetString("Total", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transaction Detail.
+        /// </summary>
+        public static string TransactionDetail {
+            get {
+                return ResourceManager.GetString("TransactionDetail", resourceCulture);
             }
         }
         
