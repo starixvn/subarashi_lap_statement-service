@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.BetList.Models.ViewModel;
 using Fanex.Athena.ExtService.Common.Models.DataDomain;
+using Fanex.Athena.ExtService.Common.Models.DTO;
 using Fanex.Athena.ExtService.Common.Services;
 using Fanex.Athena.ExtService.Core.Services;
 using Fanex.Athena.ExtService.Resources;
@@ -59,7 +60,11 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             metaModel.IsMobileView = isMobileView;
 
             var licenseeInfo = await _commonService.GetLicenseeInfoAsync(HttpContext.User.Identity.Name);
-            metaModel.CurrencyId = licenseeInfo.Currencies.FirstOrDefault(_ => _.CurrencyName == metaModel.Currency).CurrencyId;
+            var currency = licenseeInfo.Currencies.FirstOrDefault(unknown => unknown.CurrencyName == metaModel.Currency);
+            if (currency != null)
+            {
+                metaModel.CurrencyId = currency.CurrencyId;
+            }
 
             AssignCommonMetaModelValue(metaModel, licenseeInfo);
 
