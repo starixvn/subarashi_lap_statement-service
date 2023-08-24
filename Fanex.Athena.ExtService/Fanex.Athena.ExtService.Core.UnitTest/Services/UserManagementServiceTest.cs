@@ -3,9 +3,7 @@ using Fanex.Athena.ExtService.Core.Models.DTO;
 using Fanex.Athena.ExtService.Core.Services;
 using Microsoft.Extensions.Options;
 using Moq;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace Fanex.Athena.ExtService.Core.UnitTest.Services
@@ -45,11 +43,11 @@ namespace Fanex.Athena.ExtService.Core.UnitTest.Services
             Assert.True(result);
         }
 
-
         [Theory]
         [InlineData("alex", "123", false)]
         [InlineData(null, null, false)]
         [InlineData(null, "1234", false)]
+        [InlineData("alex", null, false)]
         [InlineData("alex", "1234", true)]
         public void IsValidUser_WhenCalled_ReturnCorrectResult(string userName, string pass, bool expectedResult)
         {
@@ -63,7 +61,5 @@ namespace Fanex.Athena.ExtService.Core.UnitTest.Services
 
             Assert.Equal(expectedResult, result);
         }
-
-
     }
 }

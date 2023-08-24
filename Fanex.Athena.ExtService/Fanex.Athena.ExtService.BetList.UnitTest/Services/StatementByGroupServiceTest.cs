@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Fanex.Athena.ExtService.BetList.Models.DTO;
@@ -10,6 +8,7 @@ using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.BetList.Services;
 using Fanex.Athena.ExtService.Common.Models.DTO;
 using Fanex.Athena.ExtService.Common.Services;
+using Fanex.Athena.ExtService.UnitTest.Common.Helpers;
 using Fanex.Data;
 using Moq;
 using Xunit;
@@ -26,7 +25,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Services
         }
 
         [Fact]
-        public async Task QueryAsync_WhenCall_AssignCorrectParrameterAndReturnCorrectResultAsync()
+        public async Task QueryAsync_WhenCall_AssignCorrectParameterAndReturnCorrectResultAsync()
         {
             //Arrange
             var balanceUpInfo = new BalanceUp { BalanceUpDay = DateTime.Now, MoveBetsDay = DateTime.Now };
@@ -37,7 +36,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Services
                 balanceUpInfo
                 ));
 
-            IEnumerable<StatementByGroup> fakeData = new List<StatementByGroup>();
+            IEnumerable<StatementByGroup> fakeData = FakeHelper.CreateMany<StatementByGroup>();
             var mockObjectDB = new Mock<IObjectDb>();
 
             mockObjectDB.Setup(x => x.QueryAsync<StatementByGroup>(It.IsAny<object>()
@@ -50,7 +49,6 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Services
 
             var service = new StatementByGroupService(mockCommonService.Object);
 
-
             //Action
             var result = await service.QueryAsync(metaModel).ConfigureAwait(false);
 
@@ -62,7 +60,6 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Services
             mockObjectDB.Verify(x => x.SetParameterValue("@MoveBetsDay", balanceUpInfo.MoveBetsDay), Times.Once);
             mockObjectDB.Verify(x => x.SetParameterValue("@baseCurrency", metaModel.BaseCurrency), Times.Once);
             mockObjectDB.Verify(x => x.SetParameterValue("@ModeView", metaModel.ModeView), Times.Once);
-
         }
     }
 }

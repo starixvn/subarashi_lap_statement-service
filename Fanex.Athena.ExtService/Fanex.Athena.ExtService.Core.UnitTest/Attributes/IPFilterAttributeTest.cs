@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using Fanex.Athena.ExtService.Core.Attributes;
 using Fanex.Athena.ExtService.Core.Models.DTO;
-
+using Fanex.Athena.ExtService.UnitTest.Common.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -52,7 +52,10 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Attributes
             //Arrange
             var fakeContent = "NOCHANGE";
             var fakeResult = new ContentResult { Content = fakeContent };
-            _options.Setup(x => x.Value).Returns(new ApplicationOptions { WhiteList = new List<string>() });
+            var applicationOption = FakeHelper.Create<ApplicationOptions>(options => options.WhiteList,
+                                                                          new List<string>());
+
+            _options.Setup(x => x.Value).Returns(applicationOption);
             _actionExecutingContext.Result = fakeResult;
             var connectionInfo = new Mock<ConnectionInfo>();
             connectionInfo.Setup(x => x.RemoteIpAddress).Returns(new IPAddress(0x2414188f));
@@ -72,15 +75,18 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Attributes
         public void OnActionExecuting_WhenAllowIP_WhiteListSingle_NoChangeResult()
         {
             //Arrange
-            const int requestIP = 0x2414188f;
-            const string WhitelistIP = "143.24.20.36";
+            const int requestIp = 0x2414188f;
+            const string whitelistIp = "143.24.20.36";
 
             const string fakeContent = "NOCHANGE";
             var fakeResult = new ContentResult { Content = fakeContent };
-            _options.Setup(x => x.Value).Returns(new ApplicationOptions { WhiteList = new List<string> { WhitelistIP } });
+            var applicationOption = FakeHelper.Create<ApplicationOptions>(options => options.WhiteList, 
+                                                                          new List<string>{whitelistIp});
+
+            _options.Setup(x => x.Value).Returns(applicationOption);
             _actionExecutingContext.Result = fakeResult;
             var connectionInfo = new Mock<ConnectionInfo>();
-            connectionInfo.Setup(x => x.RemoteIpAddress).Returns(new IPAddress(requestIP));
+            connectionInfo.Setup(x => x.RemoteIpAddress).Returns(new IPAddress(requestIp));
             _mockHttpContext.Setup(x => x.Connection).Returns(connectionInfo.Object);
             //Action
             var filter = new IPFilterAttribute(_options.Object);
@@ -97,18 +103,19 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Attributes
         public void OnActionExecuting_WhenNotAllowIP_WhiteListSingle_ReturnResultWithDeniedMessage()
         {
             //Arrange
-            const long requestIPNumber = 169003217;
-            const string requestIP = "209.200.18.10";
-            const string WhitelistIP = "143.24.20.36";
+            const long requestIpNumber = 169003217;
+            const string requestIp = "209.200.18.10";
+            const string whitelistIp = "143.24.20.36";
 
-            var expectedResult = $"The IP Address: {requestIP} was blocked";
-            _options.Setup(x => x.Value).Returns(new ApplicationOptions { WhiteList = new List<string> { WhitelistIP } });
+            var expectedResult = $"The IP Address: {requestIp} was blocked";
+            var applicationOption = FakeHelper.Create<ApplicationOptions>(options => options.WhiteList,
+                                                                          new List<string> { whitelistIp });
+            _options.Setup(x => x.Value).Returns(applicationOption);
 
             var connectionInfo = new Mock<ConnectionInfo>();
-            connectionInfo.Setup(x => x.RemoteIpAddress).Returns(new IPAddress(requestIPNumber));
+            connectionInfo.Setup(x => x.RemoteIpAddress).Returns(new IPAddress(requestIpNumber));
 
             _mockHttpContext.Setup(x => x.Connection).Returns(connectionInfo.Object);
-
 
             //Action
             var filter = new IPFilterAttribute(_options.Object);
@@ -129,18 +136,22 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Attributes
         [InlineData("119.81.247.205")]
         [InlineData("119.81.247.206")]
         [InlineData("119.81.247.207")]
-        public void OnActionExecuting_WhenAllowIP_WhiteListRange_NoChangeResult(string requestIP)
+        public void OnActionExecuting_WhenAllowIP_WhiteListRange_NoChangeResult(string requestIp)
         {
             //Arrange
-            const string WhitelistIP = "119.81.247.200/29";
+            const string whitelistIp = "119.81.247.200/29";
 
             const string fakeContent = "NOCHANGE";
             var fakeResult = new ContentResult { Content = fakeContent };
-            _options.Setup(x => x.Value).Returns(new ApplicationOptions { WhiteList = new List<string> { WhitelistIP } });
+
+            var applicationOption = FakeHelper.Create<ApplicationOptions>(options => options.WhiteList,
+                                                                          new List<string> { whitelistIp });
+            _options.Setup(x => x.Value).Returns(applicationOption);
             _actionExecutingContext.Result = fakeResult;
             var connectionInfo = new Mock<ConnectionInfo>();
-            connectionInfo.Setup(x => x.RemoteIpAddress).Returns(IPAddress.Parse(requestIP));
+            connectionInfo.Setup(x => x.RemoteIpAddress).Returns(IPAddress.Parse(requestIp));
             _mockHttpContext.Setup(x => x.Connection).Returns(connectionInfo.Object);
+
             //Action
             var filter = new IPFilterAttribute(_options.Object);
 
@@ -155,19 +166,20 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Attributes
         [Theory]
         [InlineData("119.81.247.199")]
         [InlineData("119.81.247.208")]
-        public void OnActionExecuting_WhenNotAllowIP_WhiteListRange_ReturnResultWithDeniedMessage(string requestIP)
+        public void OnActionExecuting_WhenNotAllowIP_WhiteListRange_ReturnResultWithDeniedMessage(string requestIp)
         {
             //Arrange
-            const string WhitelistIP = "119.81.247.200/29";
+            const string whitelistIp = "119.81.247.200/29";
 
-            var expectedResult = $"The IP Address: {requestIP} was blocked";
-            _options.Setup(x => x.Value).Returns(new ApplicationOptions { WhiteList = new List<string> { WhitelistIP } });
+            var expectedResult = $"The IP Address: {requestIp} was blocked";
+            var applicationOption = FakeHelper.Create<ApplicationOptions>(options => options.WhiteList,
+                                                                          new List<string> { whitelistIp });
+            _options.Setup(x => x.Value).Returns(applicationOption);
 
             var connectionInfo = new Mock<ConnectionInfo>();
-            connectionInfo.Setup(x => x.RemoteIpAddress).Returns(IPAddress.Parse(requestIP));
+            connectionInfo.Setup(x => x.RemoteIpAddress).Returns(IPAddress.Parse(requestIp));
 
             _mockHttpContext.Setup(x => x.Connection).Returns(connectionInfo.Object);
-
 
             //Action
             var filter = new IPFilterAttribute(_options.Object);
@@ -183,13 +195,15 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Attributes
         [Theory]
         [InlineData("119.81.247.256")]
         [InlineData("119.81.247.200/100")]
-        public void OnActionExecuting_WhiteListIPInvalid_ThrowExceptionWithMessage(string whiteListIP)
+        public void OnActionExecuting_WhiteListIPInvalid_ThrowExceptionWithMessage(string whiteListIp)
         {
             //Arrange
             const string requestIP = "119.81.247.200";
 
-            var expectedResult = $"The WhiteList IP: {whiteListIP} was invalid - client IP: ${requestIP}";
-            _options.Setup(x => x.Value).Returns(new ApplicationOptions { WhiteList = new List<string> { whiteListIP } });
+            var expectedResult = $"The WhiteList IP: {whiteListIp} was invalid - client IP: ${requestIP}";
+            var applicationOption = FakeHelper.Create<ApplicationOptions>(options => options.WhiteList,
+                                                                          new List<string> { whiteListIp });
+            _options.Setup(x => x.Value).Returns(applicationOption);
 
             var connectionInfo = new Mock<ConnectionInfo>();
             connectionInfo.Setup(x => x.RemoteIpAddress).Returns(IPAddress.Parse(requestIP));

@@ -3,8 +3,10 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Fanex.Athena.ExtService.UnitTest.Common.Helpers;
 using Xunit;
 
 namespace Fanex.Athena.ExtService.Common.UnitTests.Services
@@ -24,7 +26,8 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             // Arrange
             var mockLogger = new Mock<ILogger<CustomDistributedCache>>();
             var expectedTask = Task.FromResult("expected result");
-            _distributedCache.Setup(x => x.RemoveAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(expectedTask);
+            _distributedCache.Setup(x => x.RemoveAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                             .Returns(expectedTask);
             var customDistributedCache = new CustomDistributedCache(_distributedCache.Object, mockLogger.Object);
 
             // Action
@@ -40,7 +43,8 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             // Arrange
             var mockLogger = new Mock<ILogger<CustomDistributedCache>>();
             var expectedTask = Task.FromException(new Exception("my exception"));
-            _distributedCache.Setup(x => x.RemoveAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(expectedTask);
+            _distributedCache.Setup(x => x.RemoveAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                             .Returns(expectedTask);
             var customDistributedCache = new CustomDistributedCache(_distributedCache.Object, mockLogger.Object);
 
             // Action
@@ -48,10 +52,12 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
 
             // Assert
             _distributedCache.Verify(m => m.RemoveAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
-            
+
             mockLogger.Verify(r => r.Log(
-                LogLevel.Critical, It.IsAny<EventId>(), It.IsAny<It.IsAnyType>(), It.IsAny<Exception>(), (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()),
-            Times.Once);
+                                         LogLevel.Critical, It.IsAny<EventId>(), It.IsAny<It.IsAnyType>(),
+                                         It.IsAny<Exception>(),
+                                         (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()),
+                              Times.Once);
         }
 
         [Fact]
@@ -60,7 +66,9 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             // Arrange
             var mockLogger = new Mock<ILogger<CustomDistributedCache>>();
             var expectedTask = Task.FromException(new Exception("my exception"));
-            _distributedCache.Setup(x => x.SetAsync(It.IsAny<string>(), It.IsAny<byte[]>(), It.IsAny<DistributedCacheEntryOptions>(), It.IsAny<CancellationToken>())).Returns(expectedTask).Verifiable();
+            _distributedCache
+               .Setup(x => x.SetAsync(It.IsAny<string>(), It.IsAny<byte[]>(), It.IsAny<DistributedCacheEntryOptions>(),
+                                      It.IsAny<CancellationToken>())).Returns(expectedTask).Verifiable();
 
             var customDistributedCache = new CustomDistributedCache(_distributedCache.Object, mockLogger.Object);
 
@@ -68,10 +76,117 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             await customDistributedCache.SetAsync("key", "123", new DistributedCacheEntryOptions());
 
             // Assert
-            _distributedCache.Verify(m => m.SetAsync(It.IsAny<string>(), It.IsAny<byte[]>(), It.IsAny<DistributedCacheEntryOptions>(), It.IsAny<CancellationToken>()), Times.Once);
+            _distributedCache
+               .Verify(m => m.SetAsync(It.IsAny<string>(), It.IsAny<byte[]>(), It.IsAny<DistributedCacheEntryOptions>(), It.IsAny<CancellationToken>()),
+                       Times.Once);
             mockLogger.Verify(r =>
-            r.Log(LogLevel.Critical, It.IsAny<EventId>(), It.IsAny<It.IsAnyType>(), It.IsAny<Exception>(), (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()),
-            Times.Once);
+                                  r.Log(LogLevel.Critical, It.IsAny<EventId>(), It.IsAny<It.IsAnyType>(),
+                                        It.IsAny<Exception>(),
+                                        (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()),
+                              Times.Once);
+        }
+
+        [Fact]
+        public async Task Invoke_RefreshAsync()
+        {
+            // Arrange
+            var mockLogger = new Mock<ILogger<CustomDistributedCache>>();
+            var expectedTask = Task.FromResult("expected result");
+            _distributedCache.Setup(x => x.RefreshAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                             .Returns(expectedTask);
+            var customDistributedCache = new CustomDistributedCache(_distributedCache.Object, mockLogger.Object);
+
+            // Action
+            await customDistributedCache.RefreshAsync("key");
+
+            // Assert
+            _distributedCache.Verify(m => m.RefreshAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task Invoke_RefreshAsync_Exception_WriteLog()
+        {
+            // Arrange
+            var mockLogger = new Mock<ILogger<CustomDistributedCache>>();
+            var expectedTask = Task.FromException(new Exception("my exception"));
+            _distributedCache.Setup(x => x.RefreshAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                             .Returns(expectedTask);
+            var customDistributedCache = new CustomDistributedCache(_distributedCache.Object, mockLogger.Object);
+
+            // Action
+            await customDistributedCache.RefreshAsync("key");
+
+            // Assert
+            _distributedCache.Verify(m => m.RefreshAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
+
+            mockLogger.Verify(r => r.Log(
+                                         LogLevel.Critical, It.IsAny<EventId>(), It.IsAny<It.IsAnyType>(),
+                                         It.IsAny<Exception>(),
+                                         (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()),
+                              Times.Once);
+        }
+
+        [Fact]
+        public async Task Invoke_GetAsyncT_EmptySource_ReturnDefaultT()
+        {
+            // Arrange
+            var expectedTask = Task.FromResult<byte[]>(null);
+            _distributedCache.Setup(x => x.GetAsync(It.IsAny<string>(),
+                                                    It.IsAny<CancellationToken>()))
+                             .Returns(expectedTask)
+                             .Verifiable();
+            var mockLogger = new Mock<ILogger<CustomDistributedCache>>();
+            var customDistributedCache = new CustomDistributedCache(_distributedCache.Object, mockLogger.Object);
+
+            // Action
+            var result = await customDistributedCache.GetAsync<SampleObject>(It.IsAny<string>());
+
+            // Assert
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public async Task Invoke_GetAsyncT_WithSource_ReturnT()
+        {
+            // Arrange
+            var value = FakeHelper.Create<SampleObject>();
+            var expectedTask = Task.FromResult(value.Serialize());
+            _distributedCache.Setup(x => x.GetAsync(It.IsAny<string>(),
+                                                    It.IsAny<CancellationToken>()))
+                             .Returns(expectedTask)
+                             .Verifiable();
+            var mockLogger = new Mock<ILogger<CustomDistributedCache>>();
+            var customDistributedCache = new CustomDistributedCache(_distributedCache.Object, mockLogger.Object);
+
+            // Action
+            var result = await customDistributedCache.GetAsync<SampleObject>(It.IsAny<string>());
+
+            // Assert
+            Assert.IsType<SampleObject>(result);
+        }
+
+        public class SampleObject
+        {
+            public int Id { get; }
+            public string Name { get; }
+            public SampleObject(int id, string name)
+            {
+                Id = id;
+                Name = name;
+            }
+
+            public byte[] Serialize()
+            {
+                using var m = new MemoryStream();
+                using (var writer = new BinaryWriter(m))
+                {
+                    writer.Write(Id);
+                    writer.Write(Name);
+                }
+
+                return m.ToArray();
+            }
+
         }
     }
 }

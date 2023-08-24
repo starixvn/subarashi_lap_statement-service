@@ -1,10 +1,9 @@
 ﻿using System.Threading.Tasks;
-using AutoFixture;
 using Fanex.Athena.ExtService.BetList.Controllers;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.BetList.Models.ViewModel;
 using Fanex.Athena.ExtService.Common;
-
+using Fanex.Athena.ExtService.UnitTest.Common.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 using Moq;
@@ -15,13 +14,11 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
 {
     public class SystemParlayBetListControllerTest : BaseControllerTest
     {
-        private static readonly Fixture _fixture = new Fixture();
-
         [Fact]
-        public async Task Detail_WhenCall_RetrunCorrectViewModelAsync()
+        public async Task Detail_WhenCall_ReturnCorrectViewModelAsync()
         {
             //Arrange
-            var metalModel = _fixture.Create<SystemParlayDetailMetaModel>();
+            var metalModel = FakeHelper.Create<SystemParlayDetailMetaModel>();
             metalModel.Lang = "en-US";
             const string fakeResult = "Any Data String";
             IActionResult result = null;
@@ -48,7 +45,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
 
             Assert.NotNull(viewModel);
 
-            Assert.Equal(viewModel.DetailText, fakeResult);
+            Assert.Equal(fakeResult, viewModel.DetailText);
         }
     }
 }

@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Fanex.Athena.ExtService.BetList.Models.DTO;
@@ -10,6 +9,7 @@ using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.BetList.Services;
 using Fanex.Athena.ExtService.Common.Models.DTO;
 using Fanex.Athena.ExtService.Common.Services;
+using Fanex.Athena.ExtService.UnitTest.Common.Helpers;
 using Fanex.Data;
 using Moq;
 using Xunit;
@@ -26,19 +26,19 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Services
         }
 
         [Fact]
-        public async Task QueryAsync_WhenCall_AssignCorrectParrameterAndReturnCorrectResultAsync()
+        public async Task QueryAsync_WhenCall_AssignCorrectParameterAndReturnCorrectResultAsync()
         {
             //Arrange
             const int TotalRow = 100;
             var balanceUpInfo = new BalanceUp { BalanceUpDay = DateTime.Now, MoveBetsDay = DateTime.Now };
-            var metaModel = new SummaryStatementMetaModel();
+            var metaModel = FakeHelper.Create<SummaryStatementMetaModel>();
 
             var mockCommonService = new Mock<ICommonService>();
             mockCommonService.Setup(x => x.GetBalanceUpAsync()).Returns(Task.FromResult(
                balanceUpInfo
                 ));
 
-            IEnumerable<SummaryStatement> fakeData = new List<SummaryStatement>();
+            IEnumerable<SummaryStatement> fakeData = FakeHelper.CreateMany<SummaryStatement>();
             var mockObjectDB = new Mock<IObjectDb>();
 
             mockObjectDB.Setup(x => x.QueryAsync<SummaryStatement>(It.IsAny<object>()
@@ -56,13 +56,12 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Services
 
             var service = new SummaryStatementService(mockCommonService.Object);
 
-
             //Action
             var result = await service.QueryAsync(metaModel).ConfigureAwait(false);
 
             //Assert
-            Assert.Equal(result.DataList, fakeData);
-            Assert.Equal(result.TotalRows, TotalRow);
+            Assert.Equal(fakeData, result.DataList);
+            Assert.Equal(TotalRow, result.TotalRows);
             mockObjectDB.Verify(x => x.SetParameterValue("custId", metaModel.CustId), Times.Once);
             mockObjectDB.Verify(x => x.SetParameterValue("FromDate", metaModel.FromDate), Times.Once);
             mockObjectDB.Verify(x => x.SetParameterValue("@ToDate", metaModel.ToDate), Times.Once);

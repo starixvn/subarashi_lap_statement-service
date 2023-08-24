@@ -4,13 +4,12 @@ using Fanex.Data;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using Moq;
-using MsgPack.Serialization;
 using System;
 using System.Data;
 using System.Data.Common;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Fanex.Athena.ExtService.UnitTest.Common.Helpers;
 using Xunit;
 
 namespace Fanex.Athena.ExtService.Common.UnitTests.Services
@@ -29,6 +28,22 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             _mockCache = new Mock<ICustomDistributedCache>();
             _mockAppSettings = new Mock<IOptions<AppSettings>>();
             DbSettingProviderManager.StartTestingSession().Run();
+        }
+
+        [Theory]
+        [InlineData("Any", true)]
+        [InlineData("", false)]
+        [InlineData(null, false)]
+        public void IsShowIp_WhenCall_ReturnCorrectValue(string siteName, bool expected)
+        {
+            //Arrange
+            var service = new CommonService(_mockCache.Object, _mockAppSettings.Object);
+
+            //Action
+            var result = service.IsShowIp(siteName);
+
+            //Assert
+            Assert.Equal(expected, result);
         }
 
         [Fact]
@@ -116,11 +131,11 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             var result = await service.GetLicenseeInfoAsync(SiteName, custId).ConfigureAwait(false);
 
             ///Assert
-            Assert.Equal(result.SiteName, SiteName);
-            Assert.Equal(result.IsAllowedCustomerComm, HasComm);
-            Assert.Equal(result.Currencies[0].CurrencyId, CurrencyId);
-            Assert.Equal(result.Currencies[0].CurrencyName, CurrencyName);
-            Assert.Equal(result.Currencies[0].AgentId, AgentId);
+            Assert.Equal(SiteName, result.SiteName);
+            Assert.Equal(HasComm, result.IsAllowedCustomerComm);
+            Assert.Equal(CurrencyId, result.Currencies[0].CurrencyId);
+            Assert.Equal(CurrencyName, result.Currencies[0].CurrencyName);
+            Assert.Equal(AgentId, result.Currencies[0].AgentId);
 
             var objectDb = ObjectDbFactory.CreateInstance("mock");
             var mockObjectDB = Mock.Get(objectDb);
@@ -185,11 +200,11 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             var result = await service.GetLicenseeInfoAsync(SiteName, custId).ConfigureAwait(false);
 
             ///Assert
-            Assert.Equal(result.SiteName, SiteName);
-            Assert.Equal(result.IsAllowedCustomerComm, HasComm);
-            Assert.Equal(result.Currencies[0].CurrencyId, CurrencyId);
-            Assert.Equal(result.Currencies[0].CurrencyName, CurrencyName);
-            Assert.Equal(result.Currencies[0].AgentId, AgentId);
+            Assert.Equal(SiteName, result.SiteName);
+            Assert.Equal(HasComm, result.IsAllowedCustomerComm);
+            Assert.Equal(CurrencyId, result.Currencies[0].CurrencyId);
+            Assert.Equal(CurrencyName, result.Currencies[0].CurrencyName);
+            Assert.Equal(AgentId, result.Currencies[0].AgentId);
         }
 
         [Theory]
@@ -201,25 +216,24 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
         {
             //Arrange
             const string SiteName = "12Bet";
-            _mockAppSettings.Setup(_ => _.Value).Returns(new AppSettings
-            {
-                Environment = settingEnv
-            });
+            var appSetting = FakeHelper.Create<AppSettings>();
+            appSetting.Environment = settingEnv;
+            _mockAppSettings.Setup(_ => _.Value).Returns(appSetting);
 
-            var mockObjectDB = new Mock<IObjectDb>();
+            var mockObjectDb = new Mock<IObjectDb>();
             ObjectDbFactory.SwitchToTestingMode();
-            ObjectDbFactory.Mock((x, y) => mockObjectDB.Object);
+            ObjectDbFactory.Mock((_, _) => mockObjectDb.Object);
 
             var service = new CommonService(_mockCache.Object, _mockAppSettings.Object);
 
-            ///Action
+            //Action
             _ = await service.IsEnableSingleWallet(SiteName);
 
-            ///Assert
-            mockObjectDB.Verify(_ => _.SetParameterValue("SiteName", SiteName), Times.Once);
-            mockObjectDB.Verify(_ => _.SetParameterValue("Environment", spParamEnv), Times.Once);
-            mockObjectDB.Verify(_ => _.SetParameterValue("KeyName", "EnableSingleWallet"), Times.Once);
-            mockObjectDB.Verify(_ => _.SetParameterValue("KeyValue", null), Times.Once);
+            //Assert
+            mockObjectDb.Verify(_ => _.SetParameterValue("SiteName", SiteName), Times.Once);
+            mockObjectDb.Verify(_ => _.SetParameterValue("Environment", spParamEnv), Times.Once);
+            mockObjectDb.Verify(_ => _.SetParameterValue("KeyName", "EnableSingleWallet"), Times.Once);
+            mockObjectDb.Verify(_ => _.SetParameterValue("KeyValue", null), Times.Once);
         }
 
         [Theory]
@@ -229,22 +243,20 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
         {
             //Arrange
             const string SiteName = "12Bet";
-            _mockAppSettings.Setup(_ => _.Value).Returns(new AppSettings
-            {
-                Environment = "any"
-            });
+            var appSetting = FakeHelper.Create<AppSettings>();
+            _mockAppSettings.Setup(_ => _.Value).Returns(appSetting);
 
-            var mockObjectDB = new Mock<IObjectDb>();
-            mockObjectDB.Setup(_ => _.GetParameterValue("KeyValue")).Returns(expectedResult);
+            var mockObjectDb = new Mock<IObjectDb>();
+            mockObjectDb.Setup(_ => _.GetParameterValue("KeyValue")).Returns(expectedResult);
             ObjectDbFactory.SwitchToTestingMode();
-            ObjectDbFactory.Mock((x, y) => mockObjectDB.Object);
+            ObjectDbFactory.Mock((_, _) => mockObjectDb.Object);
 
             var service = new CommonService(_mockCache.Object, _mockAppSettings.Object);
 
-            ///Action
+            //Action
             var result = await service.IsEnableSingleWallet(SiteName);
 
-            ///Assert
+            //Assert
             Assert.Equal(expectedResult, result);
         }
 

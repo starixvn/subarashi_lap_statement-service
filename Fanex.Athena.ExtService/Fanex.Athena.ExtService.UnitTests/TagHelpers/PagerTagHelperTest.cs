@@ -1,7 +1,6 @@
 ﻿using Fanex.Athena.ExtService.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Moq;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
@@ -10,8 +9,10 @@ namespace Fanex.Athena.ExtService.UnitTests.TagHelpers
 {
     public class PagerTagHelperTest
     {
-        [Fact]
-        public void PagerTagHelper_WhenCall_ReturnCorrectOutput()
+        [Theory]
+        [InlineData(0, 10)]
+        [InlineData(11, 10)]
+        public void PagerTagHelper_WhenCall_ReturnCorrectOutput(int totalItems, int pageSize)
         {
             // Arrange
             const string TagContent = "";
@@ -27,8 +28,9 @@ namespace Fanex.Athena.ExtService.UnitTests.TagHelpers
             };
 
             var tagHelperTarget = new PagerTagHelper();
+            tagHelperTarget.TotalItems = totalItems;
             tagHelperTarget.PageIndex = 1;
-            tagHelperTarget.PageSize = 10;
+            tagHelperTarget.PageSize = pageSize;
             tagHelperTarget.UrlTemplate = "";
 
             // Action
