@@ -117,7 +117,7 @@ TransactionDetail:"Chi tiết giao dịch",
 TransactionType:"Loại giao dịch",
 TransTime:"Thời gian giao dịch",
 Turnover:"Doanh Thu",
-Viewin:"Xem trong {0}",
+Viewin:"Xem theo {0}",
 Void_CancelledBet:"Cược Vô hiệu/Đã hủy",
 WinLoss:"Thắng Thua"
 };	

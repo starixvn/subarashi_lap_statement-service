@@ -460,7 +460,7 @@
     <value>Doanh Thu</value>
   </data>
   <data name="Viewin" xml:space="preserve">
-    <value>Xem trong {0}</value>
+    <value>Xem theo {0}</value>
   </data>
   <data name="Void_CancelledBet" xml:space="preserve">
     <value>Cược Vô hiệu/Đã hủy</value>
