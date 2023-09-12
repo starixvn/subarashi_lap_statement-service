@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Moq;
 using Xunit;
 
-
 namespace Fanex.Athena.ExtService.Core.UnitTests.Services
 {
     public class BrowserServiceTest

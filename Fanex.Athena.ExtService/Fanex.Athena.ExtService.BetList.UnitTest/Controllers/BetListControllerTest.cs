@@ -1,4 +1,6 @@
-﻿namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
+﻿using Fanex.Athena.ExtService.UnitTest.Common.Helpers;
+
+namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -14,33 +16,34 @@
     public class BetListControllerTest : BaseControllerTest
     {
         [Fact]
-        public async Task RefNo_WhenExecute_AlwayAssignCommonViewModelValue()
+        public async Task RefNo_WhenExecute_AlwaysAssignCommonViewModelValue()
         {
             // Arrange
             const string UserName = "Any";
             const string Title = "Bet List By RefNo";
+            
             var metalModel = new RefNoBetListMetaModel { UserName = UserName };
 
-            IActionResult expectedResult = null;
+            IActionResult result = null;
             var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName, 0);
 
             // Action
             using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
-                expectedResult = await controller.RefNo(metalModel).ConfigureAwait(false);
+                result = await controller.RefNo(metalModel).ConfigureAwait(false);
             }
 
             // Assert
-            var viewResult = Assert.IsType<ViewResult>(expectedResult);
+            var viewResult = Assert.IsType<ViewResult>(result);
             var viewModel = Assert.IsType<RefNoViewModel>(viewResult.Model);
             var title = Assert.IsAssignableFrom<string>(viewResult.ViewData["Title"]);
-            Assert.Equal(viewModel.Info, licenseeInfo);
-            Assert.Equal(viewModel.UserName, UserName);
-            Assert.Equal(viewModel.BaseCurrency, metalModel.BaseCurrency);
-            Assert.Equal(viewModel.Lang, metalModel.Lang);
-            Assert.Equal(viewModel.AccessToken, AccessToken);
-            Assert.Equal(title, Title);
+            Assert.Equal(licenseeInfo, viewModel.Info);
+            Assert.Equal(UserName, viewModel.UserName);
+            Assert.Equal(metalModel.BaseCurrency, viewModel.BaseCurrency);
+            Assert.Equal(metalModel.Lang, viewModel.Lang);
+            Assert.Equal(AccessToken, viewModel.AccessToken);
+            Assert.Equal(Title, title);
         }
 
         [Fact]
@@ -71,10 +74,10 @@
             // Arrange
             const string UserName = "Any";
             var metalModel = new RefNoBetListMetaModel { UserName = UserName, RefNo = 100 };
-            var apiResult = new RefNoDataResult
-            {
-                Data = new List<TicketText> { new TicketText() }
-            };
+            var ticketText = FakeHelper.Create<TicketText>();
+            var apiResult = FakeHelper.Create<RefNoDataResult>(result => result.Data, 
+                                                               new List<TicketText> { ticketText });
+
             _betListApiClient.Setup(x => x.PostAsync<RefNoDataResult>(
                 "/BettingTicketCenter/GetByRefno",
                 It.IsAny<RefNoBetListMetaModel>(),
@@ -97,33 +100,33 @@
         }
 
         [Fact]
-        public async Task TxID_WhenExecute_AlwayAssignCommonViewModelValue()
+        public async Task TxID_WhenExecute_AlwaysAssignCommonViewModelValue()
         {
             // Arrange
             const string UserName = "Any";
             const string Title = "Bet List By TxID";
             var metalModel = new TxIDBetListMetaModel { UserName = UserName };
 
-            IActionResult expectedResult = null;
+            IActionResult result = null;
             var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName, 0);
 
             // Action
             using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
-                expectedResult = await controller.TxID(metalModel).ConfigureAwait(false);
+                result = await controller.TxID(metalModel).ConfigureAwait(false);
             }
 
             // Assert
-            var viewResult = Assert.IsType<ViewResult>(expectedResult);
+            var viewResult = Assert.IsType<ViewResult>(result);
             var viewModel = Assert.IsType<TxIDViewModel>(viewResult.Model);
             var title = Assert.IsAssignableFrom<string>(viewResult.ViewData["Title"]);
-            Assert.Equal(viewModel.Info, licenseeInfo);
-            Assert.Equal(viewModel.UserName, UserName);
-            Assert.Equal(viewModel.BaseCurrency, metalModel.BaseCurrency);
-            Assert.Equal(viewModel.Lang, metalModel.Lang);
-            Assert.Equal(viewModel.AccessToken, AccessToken);
-            Assert.Equal(title, Title);
+            Assert.Equal(licenseeInfo, viewModel.Info);
+            Assert.Equal(UserName, viewModel.UserName);
+            Assert.Equal(metalModel.BaseCurrency, viewModel.BaseCurrency);
+            Assert.Equal(metalModel.Lang, viewModel.Lang);
+            Assert.Equal(AccessToken, viewModel.AccessToken);
+            Assert.Equal(Title, title);
         }
 
         [Fact]
@@ -152,12 +155,12 @@
         public async Task TxID_ValidMetalModel_ReturnCorrectDataList()
         {
             // Arrange
-            const string UserName = "Any";
-            var metalModel = new TxIDBetListMetaModel { UserName = UserName, TxID = "100" };
-            var apiResult = new TxIDDataResult
-            {
-                Data = new List<TicketText> { new TicketText() }
-            };
+            const string userName = "Any";
+            var metalModel = new TxIDBetListMetaModel { UserName = userName, TxID = "100" };
+            var ticketText = FakeHelper.Create<TicketText>();
+            var apiResult = FakeHelper.Create<TxIDDataResult>(result => result.Data, 
+                                                              new List<TicketText> { ticketText });
+
             _betListApiClient.Setup(x => x.PostAsync<TxIDDataResult>(
                 "/BettingTicketCenter/GetByTxID",
                 It.IsAny<TxIDBetListMetaModel>(),
@@ -180,32 +183,32 @@
         }
 
         [Fact]
-        public async Task ByGroup_WhenExecute_AlwayAssignCommonViewModelValue()
+        public async Task ByGroup_WhenExecute_AlwaysAssignCommonViewModelValue()
         {
             // Arrange
             const string Title = "Bet List By Group";
             var metalModel = new BetListByGroupMetaModel();
 
-            IActionResult expectedResult = null;
+            IActionResult result = null;
             var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName, 0);
 
             // Action
             using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
-                expectedResult = await controller.ByGroup(metalModel).ConfigureAwait(false);
+                result = await controller.ByGroup(metalModel).ConfigureAwait(false);
             }
 
             // Assert
-            var viewResult = Assert.IsType<ViewResult>(expectedResult);
+            var viewResult = Assert.IsType<ViewResult>(result);
             var viewModel = Assert.IsType<BetListByProductViewModel>(viewResult.Model);
             var title = Assert.IsAssignableFrom<string>(viewResult.ViewData["Title"]);
-            Assert.Equal(viewModel.Info, licenseeInfo);
-            Assert.Equal(viewModel.BaseCurrency, metalModel.BaseCurrency);
-            Assert.Equal(viewModel.Lang, metalModel.Lang);
-            Assert.Equal(viewModel.AccessToken, AccessToken);
+            Assert.Equal(licenseeInfo, viewModel.Info);
+            Assert.Equal(metalModel.BaseCurrency, viewModel.BaseCurrency);
+            Assert.Equal(metalModel.Lang, viewModel.Lang);
+            Assert.Equal(AccessToken, viewModel.AccessToken);
 
-            Assert.Equal(title, Title);
+            Assert.Equal(Title, title);
         }
 
         [Fact]
@@ -242,16 +245,15 @@
                 CustId = 100,
                 WinlostDate = DateTime.Now
             };
-            var apiResult = new RefNoDataResult
-            {
-                Data = new List<TicketText> { new TicketText() }
-            };
+            var ticketText = FakeHelper.Create<TicketText>();
+            var apiResult = FakeHelper.Create<RefNoDataResult>(result => result.Data, 
+                                                               new List<TicketText> { ticketText });
 
             _betListApiClient.Setup(x => x.PostAsync<RefNoDataResult>(
-                "/BetListByProduct/Index",
-                It.IsAny<BetListByGroupMetaModel>(),
-                It.IsAny<string>()
-                )).Returns(Task.FromResult(apiResult));
+                                                                      "/BetListByProduct/Index",
+                                                                      It.IsAny<BetListByGroupMetaModel>(),
+                                                                      It.IsAny<string>()
+                                                                     )).Returns(Task.FromResult(apiResult));
 
             IActionResult expectedResult = null;
 
@@ -279,16 +281,14 @@
                 PageSize = 500,
                 CustId = 100
             };
-            var apiResult = new RefNoDataResult
-            {
-                Data = new List<TicketText> { new TicketText() }
-            };
+            var ticketText = FakeHelper.Create<TicketText>();
+            var apiResult = FakeHelper.Create<RefNoDataResult>(result => result.Data, new List<TicketText> { ticketText });
 
             _betListApiClient.Setup(x => x.PostAsync<RefNoDataResult>(
-                "/PlayerAdminBetList/GetBetList",
-                It.IsAny<RunningBetListMetaModel>(),
-                It.IsAny<string>()
-             )).Returns(Task.FromResult(apiResult));
+                                                                      "/PlayerAdminBetList/GetBetList",
+                                                                      It.IsAny<RunningBetListMetaModel>(),
+                                                                      It.IsAny<string>()
+                                                                     )).Returns(Task.FromResult(apiResult));
 
             IActionResult expectedResult = null;
 
@@ -327,7 +327,7 @@
         }
 
         [Fact]
-        public async Task Running_WhenExecute_AlwayAssignCommonViewModelValue()
+        public async Task Running_WhenExecute_AlwaysAssignCommonViewModelValue()
         {
             // Arrange
             const string Title = "Running Bet List";
@@ -345,25 +345,25 @@
                 It.IsAny<string>()
                 )).Returns(Task.FromResult(new RefNoDataResult()));
 
-            IActionResult expectedResult = null;
+            IActionResult result = null;
             var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName, 0);
 
             // Action
             using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
-                expectedResult = await controller.Running(metalModel).ConfigureAwait(false);
+                result = await controller.Running(metalModel).ConfigureAwait(false);
             }
 
             // Assert
-            var viewResult = Assert.IsType<ViewResult>(expectedResult);
+            var viewResult = Assert.IsType<ViewResult>(result);
             var viewModel = Assert.IsType<RunningBetListByViewModel>(viewResult.Model);
             var title = Assert.IsAssignableFrom<string>(viewResult.ViewData["Title"]);
-            Assert.Equal(viewModel.Info, licenseeInfo);
-            Assert.Equal(viewModel.BaseCurrency, string.Empty);
-            Assert.Equal(viewModel.Lang, metalModel.Lang);
-            Assert.Equal(viewModel.AccessToken, AccessToken);
-            Assert.Equal(title, Title);
+            Assert.Equal(licenseeInfo, viewModel.Info);
+            Assert.Equal(string.Empty, viewModel.BaseCurrency);
+            Assert.Equal(metalModel.Lang, viewModel.Lang);
+            Assert.Equal(AccessToken, viewModel.AccessToken);
+            Assert.Equal(Title, title);
         }
     }
 }

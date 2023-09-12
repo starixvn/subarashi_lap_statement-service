@@ -7,6 +7,7 @@ using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.BetList.Models.ViewModel;
 using Fanex.Athena.ExtService.BetList.Services;
 using Fanex.Athena.ExtService.Common.Services;
+using Fanex.Athena.ExtService.UnitTest.Common.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 using Moq;
@@ -17,18 +18,19 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
 {
     public class StatementControllerTest : BaseControllerTest
     {
-        [Fact]
-        public async Task Summary_WhenExecute_AlwayAssignCommonViewModelValue()
+        [Theory]
+        [InlineData(0)]
+        [InlineData(100)]
+        public async Task Summary_WhenExecute_AlwaysAssignCommonViewModelValue(int custId)
         {
             //Arrange
-            const int Custid = 100;
             var metalModel = new SummaryStatementMetaModel
             {
-                CustId = Custid,
+                CustId = custId,
                 Lang = "en-US",
                 BaseCurrency = "USD"
             };
-            var fakeData = new SummaryStatementViewModel();
+            var fakeData = FakeHelper.Create<SummaryStatementViewModel>();
             IActionResult expectedResult = null;
             var fakeService = new Mock<ISummaryStatementService>();
             fakeService.Setup(x => x.QueryAsync(It.IsAny<SummaryStatementMetaModel>()))
@@ -41,10 +43,10 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             //Assert
             var viewResult = Assert.IsType<ViewResult>(expectedResult);
             var viewModel = Assert.IsType<SummaryStatementViewModel>(viewResult.Model);
-            Assert.Equal(viewModel.BaseCurrency, metalModel.BaseCurrency);
-            Assert.Equal(viewModel.Lang, metalModel.Lang);
-            Assert.Equal(viewModel.AccessToken, AccessToken);
-            Assert.Equal(viewModel.CustId, Custid);
+            Assert.Equal(metalModel.BaseCurrency, viewModel.BaseCurrency);
+            Assert.Equal(metalModel.Lang, viewModel.Lang);
+            Assert.Equal(AccessToken, viewModel.AccessToken);
+            Assert.Equal(custId, viewModel.CustId);
             Assert.Equal(IsEnableSingleWallet, controller.ViewBag.IsEnableSingleWallet);
         }
 
@@ -73,6 +75,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
                 controller.ControllerContext = _controllerContext.Object;
                 await controller.Summary(fakeService.Object, metalModel).ConfigureAwait(false);
             }
+
             //Assert
             fakeService.Verify(x => x.QueryAsync(metalModel), Times.Once());
         }
@@ -107,12 +110,12 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             //Assert
             var viewResult = Assert.IsType<ViewResult>(expectedResult);
             var viewModel = Assert.IsType<StatementByGroupViewModel>(viewResult.Model);
-            Assert.Equal(viewModel.BaseCurrency, metalModel.BaseCurrency);
-            Assert.Equal(viewModel.Lang, metalModel.Lang);
-            Assert.Equal(viewModel.AccessToken, AccessToken);
-            Assert.Equal(viewModel.CustId, Custid);
-            Assert.Equal(viewModel.ModeView, expectedModelView);
-            Assert.Equal(viewModel.TransDesc, expectedTransDesc);
+            Assert.Equal(metalModel.BaseCurrency, viewModel.BaseCurrency);
+            Assert.Equal(metalModel.Lang, viewModel.Lang);
+            Assert.Equal(AccessToken, viewModel.AccessToken);
+            Assert.Equal(Custid, viewModel.CustId);
+            Assert.Equal(expectedModelView, viewModel.ModeView);
+            Assert.Equal(expectedTransDesc, viewModel.TransDesc);
             Assert.Equal(IsEnableSingleWallet, controller.ViewBag.IsEnableSingleWallet);
         }
 
@@ -128,7 +131,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
                 Lang = "en-US",
                 BaseCurrency = "USD"
             };
-            var fakeData = new StatementByGroupViewModel();
+            var fakeData = FakeHelper.Create<StatementByGroupViewModel>();
             var fakeService = new Mock<IStatementByGroupService>();
             fakeService.Setup(x => x.QueryAsync(It.IsAny<StatementByGroupMetaModel>()))
             .Returns(Task.FromResult(fakeData));

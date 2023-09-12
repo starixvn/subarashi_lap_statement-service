@@ -49,7 +49,6 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
             _mockRequest.Verify(x => x.Headers.Add("Authorization", "Bearer " + Token), Times.Once);
         }
 
-
         [Fact]
         public async Task Invoke_InValidTokenInHeader_NotAddTokenToHeaderAsync()
         {

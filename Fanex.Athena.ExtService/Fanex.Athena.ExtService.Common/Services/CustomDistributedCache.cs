@@ -27,21 +27,28 @@ namespace Fanex.Athena.ExtService.Common.Services
         {
             try
             {
-                var result = await action?.Invoke();
-                return result;
+                if (action != null)
+                {
+                    var result = await action.Invoke();
+                    return result;
+                }
             }
             catch (Exception ex)
             {
                 _logger.LogCritical(ex, ex.Message);
             }
-            return default(T);
+
+            return default;
         }
 
         protected async Task HandleAsync(Func<Task> action)
         {
             try
             {
-                await action?.Invoke();
+                if (action != null)
+                {
+                    await action.Invoke();
+                }
             }
             catch (Exception ex)
             {
