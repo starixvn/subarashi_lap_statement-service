@@ -471,4 +471,28 @@
   <data name="ProductMGRNG" xml:space="preserve">
     <value>MG-RNG</value>
   </data>
+  <data name="BoughtDetails" xml:space="preserve">
+    <value>Bought Details</value>
+  </data>
+  <data name="CashOutDetails" xml:space="preserve">
+    <value>Cash Out Details</value>
+  </data>
+  <data name="ErrorProcessingMsg" xml:space="preserve">
+    <value>Sorry, an error occurred while processing your request.</value>
+  </data>
+  <data name="HttpError_403" xml:space="preserve">
+    <value>Access denied</value>
+  </data>
+  <data name="InvalidRequestMsg" xml:space="preserve">
+    <value>Request is not valid</value>
+  </data>
+  <data name="Result" xml:space="preserve">
+    <value>Results</value>
+  </data>
+  <data name="TicketDetailOf" xml:space="preserve">
+    <value>Ticket detail of {0}</value>
+  </data>
+  <data name="TransactionDetail" xml:space="preserve">
+    <value>Transaction Detail</value>
+  </data>
 </root>

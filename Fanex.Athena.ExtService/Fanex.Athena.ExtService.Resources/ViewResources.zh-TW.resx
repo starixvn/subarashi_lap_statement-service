@@ -349,4 +349,28 @@
   <data name="ProductMGRNG" xml:space="preserve">
     <value>MG-RNG</value>
   </data>
+  <data name="BoughtDetails" xml:space="preserve">
+    <value>買入詳情</value>
+  </data>
+  <data name="CashOutDetails" xml:space="preserve">
+    <value>即時兌現詳情</value>
+  </data>
+  <data name="ErrorProcessingMsg" xml:space="preserve">
+    <value>對不起，處理您的請求時有錯誤發生。</value>
+  </data>
+  <data name="HttpError_403" xml:space="preserve">
+    <value>Access denied</value>
+  </data>
+  <data name="InvalidRequestMsg" xml:space="preserve">
+    <value>Request is not valid</value>
+  </data>
+  <data name="Result" xml:space="preserve">
+    <value>賽果</value>
+  </data>
+  <data name="TicketDetailOf" xml:space="preserve">
+    <value>Ticket detail of {0}</value>
+  </data>
+  <data name="TransactionDetail" xml:space="preserve">
+    <value>Transaction Detail</value>
+  </data>
 </root>

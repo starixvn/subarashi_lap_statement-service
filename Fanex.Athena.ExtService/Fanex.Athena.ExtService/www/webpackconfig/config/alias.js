@@ -10,7 +10,6 @@ var alias = {
     components: projectRoot + "/www/js/source/components",
     helpers: projectRoot + "/www/js/source/helpers",
     pages: projectRoot + "/www/js/source/pages"
-   
 };
 
 module.exports = alias;
