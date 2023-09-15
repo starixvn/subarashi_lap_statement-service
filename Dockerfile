@@ -17,6 +17,7 @@ RUN npm install
 WORKDIR /src
 
 COPY NuGet.Config .
+RUN dotnet nuget add source http://nuget.nexdev.net/api/v2
 
 COPY Fanex.Athena.ExtService/Fanex.Athena.ExtService.Resources/Fanex.Athena.ExtService.Resources.csproj ./
 RUN dotnet restore Fanex.Athena.ExtService.Resources.csproj -v n
