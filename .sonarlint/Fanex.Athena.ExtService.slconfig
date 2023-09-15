@@ -1,7 +1,7 @@
 {
   "ServerUri": "https://sonarqube.nexdev.net/",
   "Organization": null,
-  "ProjectKey": "Sparta_LAP.EXT",
+  "ProjectKey": "LAP.EXT",
   "ProjectName": "Legion / LAP.EXT",
   "Profiles": {
     "CSharp": {
