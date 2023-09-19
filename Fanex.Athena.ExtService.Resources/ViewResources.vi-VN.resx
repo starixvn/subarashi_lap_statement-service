@@ -336,6 +336,9 @@
   <data name="ProductLC" xml:space="preserve">
     <value>Casino trực tiếp</value>
   </data>
+  <data name="ProductLG" xml:space="preserve">
+    <value>Thể Thao Ảo 3</value>
+  </data>
   <data name="ProductLT" xml:space="preserve">
     <value>Xổ số</value>
   </data>

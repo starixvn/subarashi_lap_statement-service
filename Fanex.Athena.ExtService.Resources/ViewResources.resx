@@ -495,4 +495,7 @@
   <data name="TransactionDetail" xml:space="preserve">
     <value>Transaction Detail</value>
   </data>
+  <data name="ProductLG" xml:space="preserve">
+    <value>Virtual Sports 3</value>
+  </data>
 </root>

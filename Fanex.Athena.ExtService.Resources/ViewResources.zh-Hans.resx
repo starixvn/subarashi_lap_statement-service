@@ -374,4 +374,7 @@
   <data name="TransactionDetail" xml:space="preserve">
     <value>Transaction Detail</value>
   </data>
+  <data name="ProductLG" xml:space="preserve">
+    <value>虚拟运动3</value>
+  </data>
 </root>
