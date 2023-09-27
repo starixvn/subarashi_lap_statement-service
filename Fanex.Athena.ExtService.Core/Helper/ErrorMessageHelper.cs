@@ -84,7 +84,7 @@
                 dbInfo["DbName"] = fanexDataException.DbName;
                 dbInfo["SpName"] = fanexDataException.SpName;
                 dbInfo["UserId"] = connString.UserID;
-                dbInfo["Parameters"] = GetParameters(fanexDataException?.Parameters);
+                dbInfo["Parameters"] = GetParameters(fanexDataException.Parameters);
                 dbInfo["CommandTimeout"] = fanexDataException.CommandTimeout;
             }
         }
@@ -113,9 +113,9 @@
                     ? new Dictionary<string, object>()
                     : new Dictionary<string, object>
                     {
-                        [nameof(request.Host)] = request?.Host,
-                        [nameof(request.Path)] = request?.Path,
-                        [nameof(request.Body)] = request?.Body,
+                        [nameof(request.Host)] = request.Host,
+                        [nameof(request.Path)] = request.Path,
+                        [nameof(request.Body)] = request.Body,
                         ["Remote IP"] = context.Connection?.RemoteIpAddress
                     };
         }
