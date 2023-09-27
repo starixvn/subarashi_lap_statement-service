@@ -165,10 +165,12 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             Assert.IsType<SampleObject>(result);
         }
 
+        [Serializable]
         public class SampleObject
         {
             public int Id { get; }
             public string Name { get; }
+
             public SampleObject(int id, string name)
             {
                 Id = id;
@@ -186,7 +188,6 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
 
                 return m.ToArray();
             }
-
         }
     }
 }
