@@ -43,8 +43,6 @@ node_modules
 bower_components
 
 stats.json
-**/package-lock.json
-**/package.json
 /TestReports
 node_modules/
 coverage/
