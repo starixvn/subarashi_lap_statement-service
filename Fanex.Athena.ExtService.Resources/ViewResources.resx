@@ -498,4 +498,7 @@
   <data name="ProductLG" xml:space="preserve">
     <value>Virtual Sports 3</value>
   </data>
+  <data name="ProductSEA" xml:space="preserve">
+    <value>SEAL Entertainment</value>
+  </data>
 </root>
