@@ -40,5 +40,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         public bool IsShowIpvn { get; set; }
 
         public bool IsShowIp { get; set; }
+
+        public int SpecialPlatform { get; set; }
     }
 }

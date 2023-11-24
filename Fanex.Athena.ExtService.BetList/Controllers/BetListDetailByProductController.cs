@@ -40,8 +40,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             metaModel.IsShowIp = isShowIp;
 
             AssignCommonMetaModelValue(metaModel, licenseeInfo);
-            var result =
-                 await _betListApiClient.PostAsync<BetListResultViewModel>("/BetList/GetBetList", metaModel, metaModel.Lang).ConfigureAwait(false);
+            var result = await _betListApiClient.PostAsync<BetListResultViewModel>("/BetList/GetBetList", metaModel, metaModel.Lang).ConfigureAwait(false);
             result.HasTotalRow = metaModel.HasTotal;
             result.HasLicWl = metaModel.HasLicWl;
             result.IsDesktopViewOnly = metaModel.IsDesktopViewOnly;

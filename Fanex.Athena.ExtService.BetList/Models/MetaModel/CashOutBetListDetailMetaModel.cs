@@ -25,5 +25,6 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 
         public bool IsDesktopViewOnly { get; set; }
         public bool IsMobileView { get; set; }
+        public int SpecialPlatform { get; set; }
     }
 }

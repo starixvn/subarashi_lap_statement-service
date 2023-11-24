@@ -1,10 +1,10 @@
-﻿using Fanex.Athena.ExtService.Common.Models.DTO;
-using Fanex.Data;
-using Microsoft.Extensions.Options;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Fanex.Athena.ExtService.Common.Models.DTO;
+using Fanex.Data;
+using Microsoft.Extensions.Options;
 
 namespace Fanex.Athena.ExtService.Common.Services
 {
@@ -81,6 +81,26 @@ namespace Fanex.Athena.ExtService.Common.Services
         public bool IsShowIp(string siteName)
         {
             return !string.IsNullOrEmpty(siteName);
+        }
+
+        public async Task<int> GetSpecialPlatform(string licenseeName)
+        {
+            const string UspName = "Lrf_GetSpecialPlatform";
+
+            using (var db = ObjectDbFactory.CreateInstance(UspName))
+            {
+                using (var reader = await db.ExecuteReaderAsync(new { siteName = licenseeName }))
+                {
+                    var specialPlatform = 0;
+
+                    if (reader.Read())
+                    {
+                        specialPlatform = Convert.ToInt32(reader["SpecialPlatform"]);
+                    }
+
+                    return specialPlatform;
+                }
+            }
         }
 
         private static async Task<LicenseeInfo> GetLicenseeInfoFromDBAsync(string siteName, int custId)
