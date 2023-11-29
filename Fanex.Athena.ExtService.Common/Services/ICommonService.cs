@@ -16,7 +16,6 @@ namespace Fanex.Athena.ExtService.Common.Services
 
         bool IsShowIp(string siteName);
 
-        Task<int> GetSpecialPlatform(string licenseeName);
-
+        int GetSpecialPlatform(string licenseeName);
     }
 }

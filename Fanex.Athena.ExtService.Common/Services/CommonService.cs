@@ -83,24 +83,15 @@ namespace Fanex.Athena.ExtService.Common.Services
             return !string.IsNullOrEmpty(siteName);
         }
 
-        public async Task<int> GetSpecialPlatform(string licenseeName)
+        public int GetSpecialPlatform(string licenseeName)
         {
             const string UspName = "Lrf_GetSpecialPlatform";
+            using var db = ObjectDbFactory.CreateInstance(UspName);
+            using var reader = db.ExecuteReader(new { siteName = licenseeName });
 
-            using (var db = ObjectDbFactory.CreateInstance(UspName))
-            {
-                using (var reader = await db.ExecuteReaderAsync(new { siteName = licenseeName }))
-                {
-                    var specialPlatform = 0;
+            var specialPlatform = reader.Read() ? Convert.ToInt32(reader["SpecialPlatform"]) : 0;
 
-                    if (reader.Read())
-                    {
-                        specialPlatform = Convert.ToInt32(reader["SpecialPlatform"]);
-                    }
-
-                    return specialPlatform;
-                }
-            }
+            return specialPlatform;
         }
 
         private static async Task<LicenseeInfo> GetLicenseeInfoFromDBAsync(string siteName, int custId)

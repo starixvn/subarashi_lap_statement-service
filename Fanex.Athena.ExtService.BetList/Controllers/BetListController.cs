@@ -58,7 +58,7 @@
             };
 
             bool isShowIp = _commonService.IsShowIp(licenseeInfo.SiteName);
-            int specialPlatform = await _commonService.GetSpecialPlatform(licenseeInfo.SiteName);
+            int specialPlatform = _commonService.GetSpecialPlatform(licenseeInfo.SiteName);
 
             if (metaModel.IsValid)
             {
@@ -96,7 +96,7 @@
             };
 
             bool isShowIp = _commonService.IsShowIp(licenseeInfo.SiteName);
-            int specialPlatform = await _commonService.GetSpecialPlatform(licenseeInfo.SiteName);
+            int specialPlatform = _commonService.GetSpecialPlatform(licenseeInfo.SiteName);
 
             if (metaModel.IsValid)
             {
@@ -146,7 +146,7 @@
             };
 
             bool isShowIp = _commonService.IsShowIp(licenseeInfo.SiteName);
-            int specialPlatform = await _commonService.GetSpecialPlatform(licenseeInfo.SiteName);
+            int specialPlatform = _commonService.GetSpecialPlatform(licenseeInfo.SiteName);
 
             if (metaModel.IsValid)
             {
@@ -196,7 +196,7 @@
             };
 
             bool isShowIp = _commonService.IsShowIp(licenseeInfo.SiteName);
-            int specialPlatform = await _commonService.GetSpecialPlatform(licenseeInfo.SiteName);
+            int specialPlatform = _commonService.GetSpecialPlatform(licenseeInfo.SiteName);
 
             if (metaModel.IsValid)
             {
