@@ -58,12 +58,14 @@
             };
 
             bool isShowIp = _commonService.IsShowIp(licenseeInfo.SiteName);
+            int specialPlatform = _commonService.GetSpecialPlatform(licenseeInfo.SiteName);
 
             if (metaModel.IsValid)
             {
                 AssignCommonMetaModelValue(metaModel, licenseeInfo);
                 metaModel.IsShowIpvn = IsShowIpvn() && isShowIp;
                 metaModel.IsShowIp = isShowIp;
+                metaModel.SpecialPlatform = specialPlatform;
 
                 var result = await _betListApiClient.PostAsync<RefNoDataResult>(
                     "/BettingTicketCenter/GetByRefno",
@@ -94,12 +96,14 @@
             };
 
             bool isShowIp = _commonService.IsShowIp(licenseeInfo.SiteName);
+            int specialPlatform = _commonService.GetSpecialPlatform(licenseeInfo.SiteName);
 
             if (metaModel.IsValid)
             {
                 AssignCommonMetaModelValue(metaModel, licenseeInfo);
                 metaModel.IsShowIpvn = IsShowIpvn() && isShowIp;
                 metaModel.IsShowIp = isShowIp;
+                metaModel.SpecialPlatform = specialPlatform;
 
                 var result = await _betListApiClient.PostAsync<TxIDDataResult>(
                     "/BettingTicketCenter/GetByTxID",
@@ -142,6 +146,7 @@
             };
 
             bool isShowIp = _commonService.IsShowIp(licenseeInfo.SiteName);
+            int specialPlatform = _commonService.GetSpecialPlatform(licenseeInfo.SiteName);
 
             if (metaModel.IsValid)
             {
@@ -149,6 +154,7 @@
                 metaModel.IsShowIpvn = IsShowIpvn() && isShowIp;
                 metaModel.IsShowIp = isShowIp;
                 metaModel.ProductCode = GetSubProductCode(metaModel.ProductCode);
+                metaModel.SpecialPlatform = specialPlatform;
 
                 var result = await _betListApiClient.PostAsync<RefNoDataResult>(
                     "/BetListByProduct/Index",
@@ -190,12 +196,14 @@
             };
 
             bool isShowIp = _commonService.IsShowIp(licenseeInfo.SiteName);
+            int specialPlatform = _commonService.GetSpecialPlatform(licenseeInfo.SiteName);
 
             if (metaModel.IsValid)
             {
                 AssignCommonMetaModelValue(metaModel, licenseeInfo);
                 metaModel.IsShowIpvn = IsShowIpvn() && isShowIp;
                 metaModel.IsShowIp = isShowIp;
+                metaModel.SpecialPlatform = specialPlatform;
 
                 var result = await _betListApiClient.PostAsync<RefNoDataResult>(
                     "/PlayerAdminBetList/GetBetList",

@@ -15,5 +15,7 @@ namespace Fanex.Athena.ExtService.Common.Services
         Task<bool> IsEnableSingleWallet(string siteName);
 
         bool IsShowIp(string siteName);
+
+        int GetSpecialPlatform(string licenseeName);
     }
 }
