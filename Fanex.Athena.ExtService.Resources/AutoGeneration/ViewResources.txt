@@ -6,5 +6,7 @@
 // Fanex.Athena.ExtService\www\js\source\common\languages\ViewResources.zh-Hans.js
 // Fanex.Athena.ExtService\www\js\source\common\languages\ViewResources.zh-CN.js
 // Fanex.Athena.ExtService\www\js\source\common\languages\ViewResources.vi-VN.js
+// Fanex.Athena.ExtService\www\js\source\common\languages\ViewResources.th-TH.js
 // Fanex.Athena.ExtService\www\js\source\common\languages\ViewResources.js
+// Fanex.Athena.ExtService\www\js\source\common\languages\ViewResources.id-ID.js
 
