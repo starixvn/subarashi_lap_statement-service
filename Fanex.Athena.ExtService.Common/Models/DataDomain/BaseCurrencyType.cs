@@ -30,6 +30,7 @@
         public const int BDT = -9;
         public const int INR = -10;
         public const int PHP = -11;
+        public const int MP = -12;
 
         public const int USDT = -99;
     }
