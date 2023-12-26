@@ -501,4 +501,7 @@
   <data name="ProductSEA" xml:space="preserve">
     <value>SEAL Entertainment</value>
   </data>
+  <data name="ProductWE" xml:space="preserve">
+    <value>WE Live Casino</value>
+  </data>
 </root>

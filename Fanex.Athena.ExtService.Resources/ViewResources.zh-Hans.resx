@@ -377,4 +377,7 @@
   <data name="ProductLG" xml:space="preserve">
     <value>虚拟运动3</value>
   </data>
+  <data name="ProductWE" xml:space="preserve">
+    <value>WE世界娱乐</value>
+  </data>
 </root>
