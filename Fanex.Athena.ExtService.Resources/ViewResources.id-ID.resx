@@ -328,7 +328,7 @@
     <value>Kasino Langsung</value>
   </data>
   <data name="ProductLG" xml:space="preserve">
-    <value>Virtual Sports 3</value>
+    <value>Olahraga Virtual 3</value>
   </data>
   <data name="ProductLT" xml:space="preserve">
     <value>Togel</value>
@@ -394,7 +394,7 @@
     <value>Olahraga Virtual</value>
   </data>
   <data name="ProductVS2" xml:space="preserve">
-    <value>Virtual Sports 2</value>
+    <value>Olahraga Virtual 2</value>
   </data>
   <data name="ProductWM" xml:space="preserve">
     <value>WM</value>
@@ -451,12 +451,15 @@
     <value>Omset</value>
   </data>
   <data name="Viewin" xml:space="preserve">
-    <value>Tampilan dalam {0}</value>
+    <value>Lihat {0}</value>
   </data>
   <data name="Void_CancelledBet" xml:space="preserve">
     <value>Taruhan Void/Dibatalkan</value>
   </data>
   <data name="WinLoss" xml:space="preserve">
     <value>Menang atau kalah</value>
+  </data>
+  <data name="ProductVS3" xml:space="preserve">
+    <value>Olahraga Virtual 3 (old)</value>
   </data>
 </root>
