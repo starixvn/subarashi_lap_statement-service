@@ -17,6 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="T4.FileManager.VisualStudio" Version="4.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="ViewResources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

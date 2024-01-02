@@ -709,6 +709,15 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Live22.
+        /// </summary>
+        public static string ProductL22 {
+            get {
+                return ResourceManager.GetString("ProductL22", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Live Casino.
         /// </summary>
         public static string ProductLC {
