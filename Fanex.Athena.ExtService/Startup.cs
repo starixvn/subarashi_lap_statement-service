@@ -171,7 +171,9 @@ namespace Fanex.Athena.ExtService
                 new CultureInfo("zh-TW"){ DateTimeFormat= dateformat },
                 new CultureInfo("zh-Hans"){ DateTimeFormat= dateformat },
                 new CultureInfo("zh-CN"){ DateTimeFormat= dateformat },
-                new CultureInfo("vi-VN"){ DateTimeFormat= dateformat }
+                new CultureInfo("vi-VN"){ DateTimeFormat= dateformat },
+                new CultureInfo("id-ID"){ DateTimeFormat= dateformat },
+                new CultureInfo("th-TH"){ DateTimeFormat= dateformat },
             };
             var requestLocalizationOptions = new RequestLocalizationOptions
             {
