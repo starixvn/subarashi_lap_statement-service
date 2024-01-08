@@ -109,6 +109,5 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             Assert.Equal(AccessToken, viewModel.AccessToken);
             Assert.Equal(Title, title);
         }
-
     }
 }

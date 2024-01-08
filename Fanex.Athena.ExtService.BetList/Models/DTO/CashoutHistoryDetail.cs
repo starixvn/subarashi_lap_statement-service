@@ -1,6 +1,6 @@
-﻿using Fanex.Athena.ExtService.Resources;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Fanex.Athena.ExtService.Resources;
 
 namespace Fanex.Athena.ExtService.BetList.Models.DTO
 {

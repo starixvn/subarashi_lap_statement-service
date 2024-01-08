@@ -14,6 +14,7 @@ namespace Fanex.Athena.ExtService.BetList.Models.ViewModel
         public string LeagueName { get; set; }
 
         public bool HasTotalRow { get; set; }
+
         public bool HasLicWl { get; set; }
 
         public bool IsDesktopViewOnly { get; set; }

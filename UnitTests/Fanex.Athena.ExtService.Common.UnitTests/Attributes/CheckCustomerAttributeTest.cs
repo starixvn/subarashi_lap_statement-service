@@ -24,6 +24,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Attributes
         private readonly Mock<ICustomerMetaModel> _mockCustomerMetaModel;
         private const string ResultMsg = "Not found any customers that match your query!";
         private readonly ActionContext _actionContext;
+
         public CheckCustomerAttributeTest()
         {
             var modelState = new ModelStateDictionary();
@@ -63,7 +64,6 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Attributes
             Assert.Equal(ResultMsg, actualResult.Content);
         }
 
-
         [Theory]
         [InlineData(0)]
         [InlineData(-10000)]
@@ -90,6 +90,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Attributes
             _mockCommonService.Verify(x => x.GetLicenseeInfoAsync(It.IsAny<string>(), It.IsAny<int>()), Times.Never);
             Assert.Equal(ResultMsg, actualResult.Content);
         }
+
         [Fact]
         public async Task OnActionExecution_ValidCustomer_ContineToExecuteAction()
         {
@@ -98,7 +99,6 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Attributes
                 .Returns(Task.FromResult(new LicenseeInfo
                 {
                     Currencies = new CurrencyInfo[] { new CurrencyInfo() }
-
                 }));
             _mockCustomerMetaModel.Setup(x => x.CustId).Returns(100);
             var actionExcutingContext = new ActionExecutingContext(

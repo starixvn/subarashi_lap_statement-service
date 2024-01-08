@@ -24,7 +24,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             metalModel.BaseCurrency = "AMY";
             metalModel.Lang = "en-US";
 
-            var fakeResult = FakeHelper.Create<BetListResultViewModel>(result => result.Total, 
+            var fakeResult = FakeHelper.Create<BetListResultViewModel>(result => result.Total,
                                                                        FakeHelper.Create<BetListTotalData>());
 
             IActionResult result = null;
@@ -59,6 +59,5 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             Assert.Equal(AccessToken, viewModel.AccessToken);
             Assert.Equal(Title, title);
         }
-
     }
 }

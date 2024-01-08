@@ -18,11 +18,11 @@ namespace Fanex.Athena.ExtService.Core.Attributes
         public IPFilterAttribute(IOptions<ApplicationOptions> applicationOptionAccessor)
         {
             _applicationOptions = applicationOptionAccessor.Value;
-
         }
+
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            if(context.HttpContext.Request.FromInternal())
+            if (context.HttpContext.Request.FromInternal())
             {
                 return;
             }

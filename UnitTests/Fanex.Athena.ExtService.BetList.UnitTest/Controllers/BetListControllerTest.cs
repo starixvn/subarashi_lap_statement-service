@@ -21,7 +21,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             // Arrange
             const string UserName = "Any";
             const string Title = "Bet List By RefNo";
-            
+
             var metalModel = new RefNoBetListMetaModel { UserName = UserName };
 
             IActionResult result = null;
@@ -75,7 +75,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             const string UserName = "Any";
             var metalModel = new RefNoBetListMetaModel { UserName = UserName, RefNo = 100 };
             var ticketText = FakeHelper.Create<TicketText>();
-            var apiResult = FakeHelper.Create<RefNoDataResult>(result => result.Data, 
+            var apiResult = FakeHelper.Create<RefNoDataResult>(result => result.Data,
                                                                new List<TicketText> { ticketText });
 
             _betListApiClient.Setup(x => x.PostAsync<RefNoDataResult>(
@@ -158,7 +158,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             const string userName = "Any";
             var metalModel = new TxIDBetListMetaModel { UserName = userName, TxID = "100" };
             var ticketText = FakeHelper.Create<TicketText>();
-            var apiResult = FakeHelper.Create<TxIDDataResult>(result => result.Data, 
+            var apiResult = FakeHelper.Create<TxIDDataResult>(result => result.Data,
                                                               new List<TicketText> { ticketText });
 
             _betListApiClient.Setup(x => x.PostAsync<TxIDDataResult>(
@@ -246,7 +246,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
                 WinlostDate = DateTime.Now
             };
             var ticketText = FakeHelper.Create<TicketText>();
-            var apiResult = FakeHelper.Create<RefNoDataResult>(result => result.Data, 
+            var apiResult = FakeHelper.Create<RefNoDataResult>(result => result.Data,
                                                                new List<TicketText> { ticketText });
 
             _betListApiClient.Setup(x => x.PostAsync<RefNoDataResult>(

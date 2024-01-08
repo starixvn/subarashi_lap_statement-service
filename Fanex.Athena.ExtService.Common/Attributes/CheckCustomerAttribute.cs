@@ -14,11 +14,12 @@ namespace Fanex.Athena.ExtService.Common.Attributes
     public class CheckCustomerAttribute : ActionFilterAttribute
     {
         private readonly ICommonService _commonService;
+
         public CheckCustomerAttribute(ICommonService commonService)
         {
             _commonService = commonService;
-
         }
+
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             var siteName = context.HttpContext.User.Identity.Name;
@@ -44,7 +45,6 @@ namespace Fanex.Athena.ExtService.Common.Attributes
                 };
                 context.Result = result;
             }
-
         }
     }
 }

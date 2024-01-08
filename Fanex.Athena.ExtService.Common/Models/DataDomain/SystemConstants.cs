@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Fanex.Athena.ExtService.Common.Models.DataDomain
+﻿namespace Fanex.Athena.ExtService.Common.Models.DataDomain
 {
     public static class SystemConstants
     {

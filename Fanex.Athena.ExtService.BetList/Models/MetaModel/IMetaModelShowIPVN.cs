@@ -1,6 +1,6 @@
 ﻿namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 {
-    interface IMetaModelShowIP
+    internal interface IMetaModelShowIP
     {
         bool IsShowIpvn { get; set; }
 

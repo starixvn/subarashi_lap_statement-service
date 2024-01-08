@@ -1,12 +1,12 @@
-﻿using Fanex.Athena.ExtService.Common.Services;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Logging;
-using Moq;
-using System;
+﻿using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Fanex.Athena.ExtService.Common.Services;
 using Fanex.Athena.ExtService.UnitTest.Common.Helpers;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Logging;
+using Moq;
 using Xunit;
 
 namespace Fanex.Athena.ExtService.Common.UnitTests.Services
@@ -169,6 +169,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
         public class SampleObject
         {
             public int Id { get; }
+
             public string Name { get; }
 
             public SampleObject(int id, string name)

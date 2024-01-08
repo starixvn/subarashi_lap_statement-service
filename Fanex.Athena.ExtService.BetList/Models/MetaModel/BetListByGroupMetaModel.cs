@@ -31,7 +31,8 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         [FromQuery(Name = "sps")]
         public int StatementPageSize { get; set; }
 
-        public int TransType { get { return ModeView; } }
+        public int TransType
+        { get { return ModeView; } }
 
         public bool HasPlayerCom { get; set; }
 

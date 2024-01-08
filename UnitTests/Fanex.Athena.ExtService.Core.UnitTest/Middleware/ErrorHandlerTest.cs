@@ -15,6 +15,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
         private readonly Mock<HttpContext> _mockContext;
         private readonly Mock<ILogger<ErrorHandler>> _mockLogger;
         private readonly Mock<RequestDelegate> _next;
+
         public ErrorHandlerTest()
         {
             _mockContext = new Mock<HttpContext>();
@@ -39,6 +40,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
 
         private const int ServerErrorCode = 500;
         private const string ContentType = "application/json";
+
         [Fact]
         public async Task Invoke_HandleErrorWithException_ResponseError()
         {

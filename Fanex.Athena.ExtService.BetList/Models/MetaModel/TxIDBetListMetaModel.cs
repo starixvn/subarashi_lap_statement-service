@@ -23,7 +23,6 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 
         public int SpecialPlatform { get; set; }
 
-
         public string AgentListXml { get; set; }
 
         [FromQuery(Name = "bc")]

@@ -1,9 +1,9 @@
-﻿using Fanex.Athena.ExtService.Core.Extensions;
+﻿using System.Collections.Generic;
+using Fanex.Athena.ExtService.Core.Extensions;
 using Fanex.Athena.ExtService.Core.Models.DTO;
 using Fanex.Athena.ExtService.Core.Services;
 using Microsoft.Extensions.Options;
 using Moq;
-using System.Collections.Generic;
 using Xunit;
 
 namespace Fanex.Athena.ExtService.Core.UnitTest.Services
@@ -31,8 +31,8 @@ namespace Fanex.Athena.ExtService.Core.UnitTest.Services
 
             var hashedPassword = rawUser.Password.Sha256();
 
-            _mockUsers.Setup(x => x.Value).Returns(new List<User> { new User { UserName = rawUser.UserName, Password = hashedPassword }  });
-            
+            _mockUsers.Setup(x => x.Value).Returns(new List<User> { new User { UserName = rawUser.UserName, Password = hashedPassword } });
+
             var userManagementService = new UserManagementService(_mockUsers.Object);
 
             //Action

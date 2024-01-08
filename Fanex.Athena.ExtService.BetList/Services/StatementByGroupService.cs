@@ -11,10 +11,12 @@ namespace Fanex.Athena.ExtService.BetList.Services
     public class StatementByGroupService : IStatementByGroupService
     {
         private readonly ICommonService _commonService;
+
         public StatementByGroupService(ICommonService commonService)
         {
             _commonService = commonService;
         }
+
         public async Task<StatementByGroupViewModel> QueryAsync(StatementByGroupMetaModel metaModel)
         {
             const string UspName = "LAP_Statement_Mem_Product";

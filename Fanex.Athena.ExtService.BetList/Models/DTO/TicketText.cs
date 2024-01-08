@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Fanex.Athena.ExtService.BetList.Models.DTO
+﻿namespace Fanex.Athena.ExtService.BetList.Models.DTO
 {
     public class TicketText
     {

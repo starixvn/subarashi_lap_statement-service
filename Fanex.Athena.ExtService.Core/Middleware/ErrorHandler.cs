@@ -1,11 +1,10 @@
-﻿using Fanex.Athena.ExtService.Core.Helper;
+﻿using System;
+using System.Threading.Tasks;
+using Fanex.Athena.ExtService.Core.Helper;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-
-using System;
-using System.Threading.Tasks;
 
 namespace Fanex.Athena.ExtService.Core.Middleware
 {
@@ -20,6 +19,7 @@ namespace Fanex.Athena.ExtService.Core.Middleware
             _next = next;
             _logger = logger;
         }
+
         public async Task Invoke(HttpContext context)
         {
             var error = context.Features[typeof(IExceptionHandlerFeature)] as IExceptionHandlerFeature;

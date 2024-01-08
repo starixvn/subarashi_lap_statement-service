@@ -17,7 +17,8 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
         private readonly Mock<HttpRequest> _mockRequest;
         private readonly Mock<IQueryCollection> _mockQueryCollection;
         private readonly Mock<IHeaderDictionary> _mockHeader;
-        const string Token = "ANYTOKEN";
+        private const string Token = "ANYTOKEN";
+
         public JWTokenHandlerTest()
         {
             _mockContext = new Mock<HttpContext>();
@@ -25,6 +26,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
             _mockQueryCollection = new Mock<IQueryCollection>();
             _mockHeader = new Mock<IHeaderDictionary>();
         }
+
         [Fact]
         public async Task Invoke_WithoutTokenHeader_AddTokenToHeaderAsync()
         {
@@ -85,8 +87,10 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
             _mockRequest.Setup(x => x.Query).Returns(_mockQueryCollection.Object);
 
             _mockContext.Setup(x => x.Request).Returns(_mockRequest.Object);
-            var handler = new JWTokenHandler(next: async (context) => {
-                await Task.CompletedTask; });
+            var handler = new JWTokenHandler(next: async (context) =>
+            {
+                await Task.CompletedTask;
+            });
 
             //Arrange
             await handler.Invoke(_mockContext.Object).ConfigureAwait(false);

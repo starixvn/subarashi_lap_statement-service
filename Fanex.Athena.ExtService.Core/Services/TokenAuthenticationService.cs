@@ -1,13 +1,13 @@
-﻿using Fanex.Athena.ExtService.Common.Constant;
-using Fanex.Athena.ExtService.Common.Services;
-using Fanex.Athena.ExtService.Core.Models;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System;
+﻿using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Fanex.Athena.ExtService.Common.Constant;
+using Fanex.Athena.ExtService.Common.Services;
+using Fanex.Athena.ExtService.Core.Models;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Fanex.Athena.ExtService.Core.Services
 {

@@ -80,8 +80,8 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Attributes
 
             const string fakeContent = "NOCHANGE";
             var fakeResult = new ContentResult { Content = fakeContent };
-            var applicationOption = FakeHelper.Create<ApplicationOptions>(options => options.WhiteList, 
-                                                                          new List<string>{whitelistIp});
+            var applicationOption = FakeHelper.Create<ApplicationOptions>(options => options.WhiteList,
+                                                                          new List<string> { whitelistIp });
 
             _options.Setup(x => x.Value).Returns(applicationOption);
             _actionExecutingContext.Result = fakeResult;

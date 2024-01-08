@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Net;
+using Microsoft.AspNetCore.Http;
 
 namespace Fanex.Athena.ExtService.Core.Extensions
 {

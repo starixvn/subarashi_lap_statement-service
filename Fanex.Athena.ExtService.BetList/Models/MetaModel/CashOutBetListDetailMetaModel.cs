@@ -16,15 +16,22 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
         public bool IsCashOut { get; set; }
 
         public string AgentListXml { get; set; }
+
         public string BaseCurrency { get; set; }
+
         public string Lang { get; set; } = SystemConstants.DefaultLangCode;
+
         [JsonProperty("HasPlayerComm")]
         public bool HasPlayerCom { get; set; }
+
         public bool IsShowIpvn { get; set; }
+
         public bool IsShowIp { get; set; }
 
         public bool IsDesktopViewOnly { get; set; }
+
         public bool IsMobileView { get; set; }
+
         public int SpecialPlatform { get; set; }
     }
 }

@@ -1,5 +1,3 @@
-using System;
-
 namespace Fanex.Athena.ExtService.Models
 {
     public class ErrorViewModel

@@ -37,8 +37,8 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             .Returns(Task.FromResult(fakeData));
             //Action
             var controller = new StatementController(_commonService.Object);
-                controller.ControllerContext = _controllerContext.Object;
-                expectedResult = await controller.Summary(fakeService.Object, metalModel).ConfigureAwait(false);
+            controller.ControllerContext = _controllerContext.Object;
+            expectedResult = await controller.Summary(fakeService.Object, metalModel).ConfigureAwait(false);
 
             //Assert
             var viewResult = Assert.IsType<ViewResult>(expectedResult);

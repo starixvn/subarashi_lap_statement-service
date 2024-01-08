@@ -7,7 +7,9 @@ namespace Fanex.Athena.ExtService.BetList.Models.ViewModel
     public class RefNoViewModel : BaseViewModel
     {
         public string UserName { get; set; }
+
         public IList<TicketText> Data { get; set; }
+
         public bool IsDesktopViewOnly { get; set; }
     }
 }

@@ -53,12 +53,16 @@ namespace Fanex.Athena.ExtService.BetList.Models.DataDomain
             {
                 case ModeViewBetStatement:
                     return RemarkValues[BetStatement].Invoke();
+
                 case ModeViewCancell:
                     return RemarkValues[VoidCancell].Invoke();
+
                 case ModeViewOutstanding:
                     return RemarkValues[Outstanding].Invoke();
+
                 case ModeViewPromotion:
                     return RemarkValues[PromotionPrize].Invoke();
+
                 default:
                     return ViewResources.Statement;
             }
