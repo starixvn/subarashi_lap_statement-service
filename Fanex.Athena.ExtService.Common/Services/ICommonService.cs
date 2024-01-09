@@ -19,6 +19,6 @@ namespace Fanex.Athena.ExtService.Common.Services
 
         int GetSpecialPlatform(string licenseeName);
 
-        Task<List<string>> GetWhiteListIPFromDB(string siteName);
+        Task<List<string>> GetWhitelistIPFromDB(string siteName);
     }
 }

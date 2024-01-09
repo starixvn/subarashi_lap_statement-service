@@ -48,10 +48,12 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Attributes
             _actionExecutingDelegate = () => Task.FromResult(new ActionExecutedContext(actionContext, new List<IFilterMetadata>(), Mock.Of<Controller>()));
             _options = new Mock<IOptions<ApplicationOptions>>();
             _commonService = new Mock<ICommonService>();
-            _commonService.Setup(x => x.GetWhiteListIPFromDB(It.IsAny<string>())).Returns(Task.FromResult(new List<string>()));
+            _commonService.Setup(x => x.GetWhitelistIPFromDB(It.IsAny<string>())).Returns(Task.FromResult(new List<string>()));
             var httpRequest = new Mock<HttpRequest>();
             httpRequest.Setup(_ => _.Host).Returns(HostString.FromUriComponent("asdsadsadsads.com")); //Make sure not from internal
+            httpRequest.Setup(_ => _.HttpContext.User.Identity.IsAuthenticated).Returns(false); // Make sure not login
             _mockHttpContext.Setup(_ => _.Request).Returns(httpRequest.Object);
+            _mockHttpContext.Setup(_ => _.User).Returns(httpRequest.Object.HttpContext.User);
         }
 
         [Fact]

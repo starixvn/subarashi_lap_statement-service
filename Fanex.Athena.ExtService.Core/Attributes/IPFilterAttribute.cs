@@ -48,7 +48,7 @@ namespace Fanex.Athena.ExtService.Core.Attributes
             }
 
             var ipAddress = context.HttpContext.Connection.RemoteIpAddress;
-            var whiteListIPListFromDB = await _commonService.GetWhiteListIPFromDB(siteName);
+            var whiteListIPListFromDB = await _commonService.GetWhitelistIPFromDB(siteName);
             var whiteListIPListFromAppSettings = _applicationOptions.WhiteList;
             var whiteListIPList = whiteListIPListFromDB.Concat(whiteListIPListFromAppSettings);
 
@@ -78,7 +78,7 @@ namespace Fanex.Athena.ExtService.Core.Attributes
 
         private static string GetSiteNameFromTokenRequest(TokenRequest request)
         {
-            if (request.Username.Contains("@"))
+            if (!string.IsNullOrEmpty(request.Username) && request.Username.Contains("@"))
             {
                 var temp = request.Username.Split('@');
 
