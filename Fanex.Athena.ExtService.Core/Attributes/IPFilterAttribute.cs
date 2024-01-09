@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
+using Fanex.Athena.ExtService.Common.Services;
 using Fanex.Athena.ExtService.Core.Extensions;
+using Fanex.Athena.ExtService.Core.Models;
 using Fanex.Athena.ExtService.Core.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -14,21 +17,40 @@ namespace Fanex.Athena.ExtService.Core.Attributes
     public sealed class IPFilterAttribute : ActionFilterAttribute
     {
         private readonly ApplicationOptions _applicationOptions;
+        private readonly ICommonService _commonService;
 
-        public IPFilterAttribute(IOptions<ApplicationOptions> applicationOptionAccessor)
+        public IPFilterAttribute(IOptions<ApplicationOptions> applicationOptionAccessor, ICommonService commonService)
         {
             _applicationOptions = applicationOptionAccessor.Value;
+            _commonService = commonService;
         }
 
-        public override void OnActionExecuting(ActionExecutingContext context)
+        public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             if (context.HttpContext.Request.FromInternal())
             {
                 return;
             }
 
+            var siteName = string.Empty;
+
+            if (context.HttpContext.User.Identity.IsAuthenticated)
+            {
+                siteName = context.HttpContext.User.Identity.Name;
+            }
+            else
+            {
+                var tokenRequest = context.ActionArguments.ContainsKey("request")
+                    ? context.ActionArguments["request"] as TokenRequest
+                    : new TokenRequest();
+
+                siteName = GetSiteNameFromTokenRequest(tokenRequest);
+            }
+
             var ipAddress = context.HttpContext.Connection.RemoteIpAddress;
-            var whiteListIPList = _applicationOptions.WhiteList;
+            var whiteListIPListFromDB = await _commonService.GetWhiteListIPFromDB(siteName);
+            var whiteListIPListFromAppSettings = _applicationOptions.WhiteList;
+            var whiteListIPList = whiteListIPListFromDB.Concat(whiteListIPListFromAppSettings);
 
             var isInWhiteListIPList = !whiteListIPList.Any() || whiteListIPList.Any(_ => IsInRangeIP(_, ipAddress));
             if (!isInWhiteListIPList)
@@ -39,7 +61,9 @@ namespace Fanex.Athena.ExtService.Core.Attributes
                 };
 
                 context.Result = result;
+                return;
             }
+            await next();
         }
 
         private static readonly Func<string, IPAddress, bool> IsInRangeIP = (ipRangeString, ipAddress) =>
@@ -51,5 +75,17 @@ namespace Fanex.Athena.ExtService.Core.Attributes
 
             return ipRange.Contains(ipAddress);
         };
+
+        private static string GetSiteNameFromTokenRequest(TokenRequest request)
+        {
+            if (request.Username.Contains("@"))
+            {
+                var temp = request.Username.Split('@');
+
+                return temp[0];
+            }
+
+            return request.Username;
+        }
     }
 }

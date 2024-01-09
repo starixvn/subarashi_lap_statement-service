@@ -145,6 +145,16 @@ namespace Fanex.Athena.ExtService.Common.Services
             return balanceup;
         }
 
+        public async Task<List<string>> GetWhiteListIPFromDB(string siteName)
+        {
+            const string UspName = "Lrf_GetWhitelistIPBySiteName";
+            using var db = ObjectDbFactory.CreateInstance(UspName);
+            db.SetParameterValue("SiteName", siteName);
+            var result = await db.QueryAsync<string>();
+
+            return result.ToList();
+        }
+
         private static async Task<BalanceUp> GetBalanceUpDayFromDb()
         {
             const string UspName = "Lrf_SelBalanceUpDay";
