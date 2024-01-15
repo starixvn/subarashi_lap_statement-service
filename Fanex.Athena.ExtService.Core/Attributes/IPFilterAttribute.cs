@@ -29,6 +29,7 @@ namespace Fanex.Athena.ExtService.Core.Attributes
         {
             if (context.HttpContext.Request.FromInternal())
             {
+                await next();
                 return;
             }
 
