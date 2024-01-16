@@ -1,9 +1,9 @@
-﻿using Fanex.Athena.ExtService.TagHelpers;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Fanex.Athena.ExtService.TagHelpers;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Moq;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Fanex.Athena.ExtService.UnitTests.TagHelpers

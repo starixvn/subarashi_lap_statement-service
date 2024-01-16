@@ -6,6 +6,7 @@ namespace Fanex.Athena.ExtService.Common.Models.DTO
     {
         [JsonProperty("comm")]
         public bool IsAllowedCustomerComm { get; set; }
+
         [JsonProperty("name")]
         public string SiteName { get; set; }
 

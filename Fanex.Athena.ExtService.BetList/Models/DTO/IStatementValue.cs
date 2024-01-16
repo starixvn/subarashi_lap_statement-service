@@ -4,10 +4,14 @@
 
     public interface IStatementValue
     {
-         string TransType { get; set; }
-         string TransDesc { get; set; }
-         Decimal TurnOver { get; set; }
-         Decimal TotalAmt { get; set; }
-         Decimal Commission { get; set; }
+        string TransType { get; set; }
+
+        string TransDesc { get; set; }
+
+        Decimal TurnOver { get; set; }
+
+        Decimal TotalAmt { get; set; }
+
+        Decimal Commission { get; set; }
     }
 }

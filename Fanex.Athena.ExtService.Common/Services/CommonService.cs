@@ -15,6 +15,7 @@ namespace Fanex.Athena.ExtService.Common.Services
         private const int CacheTimeOut30Seconds = 30;
         private const string BalanceUpCacheKey = "EXT_LAP_CACHE_BALANCEUP";
         private const string LicenseeExtInfoCacheKey = "__LicenseeExtInfoCacheKey_";
+        private const string WhitelistIPCacheKey = "WhitelistIP_{0}";
 
         private readonly Lazy<IReadOnlyDictionary<int, string>> _siteDBConfig;
 
@@ -143,6 +144,26 @@ namespace Fanex.Athena.ExtService.Common.Services
             await _cache.SetAsync(BalanceUpCacheKey, balanceup, options);
 
             return balanceup;
+        }
+
+        public async Task<List<string>> GetWhitelistIPFromDB(string siteName)
+        {
+            var cacheKey = string.Format(WhitelistIPCacheKey, siteName);
+            var result = await _cache.GetAsync<List<string>>(cacheKey);
+            if (result != null)
+            {
+                return result;
+            }
+
+            const string UspName = "Lrf_GetWhitelistIPBySiteName";
+            using var db = ObjectDbFactory.CreateInstance(UspName);
+            db.SetParameterValue("SiteName", siteName);
+            var whitelistIP = await db.QueryAsync<string>();
+
+            var options = CustomDistributedCache.WithAbsoluteExpiration(DateTimeOffset.Now.AddSeconds(CacheTimeout300Seconds));
+            await _cache.SetAsync(cacheKey, whitelistIP, options);
+
+            return whitelistIP.ToList();
         }
 
         private static async Task<BalanceUp> GetBalanceUpDayFromDb()

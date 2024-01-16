@@ -1,6 +1,6 @@
-﻿using Fanex.Athena.ExtService.Core.Models;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Fanex.Athena.ExtService.Core.Models;
 
 namespace Fanex.Athena.ExtService.Core.Services
 {

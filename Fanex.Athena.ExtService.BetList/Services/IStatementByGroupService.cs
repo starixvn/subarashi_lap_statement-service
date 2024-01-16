@@ -8,6 +8,5 @@ namespace Fanex.Athena.ExtService.BetList.Services
     public interface IStatementByGroupService
     {
         Task<StatementByGroupViewModel> QueryAsync(StatementByGroupMetaModel metaModel);
-
     }
 }

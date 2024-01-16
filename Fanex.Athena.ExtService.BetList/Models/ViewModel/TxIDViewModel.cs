@@ -8,6 +8,7 @@ namespace Fanex.Athena.ExtService.BetList.Models.ViewModel
     public class TxIDViewModel : BaseViewModel
     {
         public string UserName { get; set; }
+
         public IList<TicketText> Data { get; set; }
     }
 }

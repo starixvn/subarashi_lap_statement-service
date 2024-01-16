@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace Fanex.Athena.ExtService.Common.Services
 {

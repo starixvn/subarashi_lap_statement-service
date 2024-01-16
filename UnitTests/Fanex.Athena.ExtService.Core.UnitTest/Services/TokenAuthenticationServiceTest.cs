@@ -1,9 +1,9 @@
-﻿using Fanex.Athena.ExtService.Common.Services;
+﻿using System.Threading.Tasks;
+using Fanex.Athena.ExtService.Common.Services;
 using Fanex.Athena.ExtService.Core.Models;
 using Fanex.Athena.ExtService.Core.Services;
 using Microsoft.Extensions.Options;
 using Moq;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Fanex.Athena.ExtService.Core.UnitTest.Services
@@ -11,6 +11,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTest.Services
     public class TokenAuthenticationServiceTest
     {
         private readonly IAuthenticateService _authenticateService;
+
         private readonly TokenManagement _tokenManagement = new TokenManagement
         {
             AccessExpiration = 30,
@@ -19,6 +20,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTest.Services
             Secret = "04242b2d1c59118f33c9e3d01a776a7e50b9495b7dffbff6525c6f6cd7755d16",
             RefreshExpiration = 30
         };
+
         private readonly Mock<IUserManagementService> _mockUserManagement = new Mock<IUserManagementService>();
         private readonly Mock<ICommonService> _mockCommonService = new Mock<ICommonService>();
 
@@ -73,7 +75,6 @@ namespace Fanex.Athena.ExtService.Core.UnitTest.Services
             Assert.NotNull(result.Item2);
             Assert.True(result.Item2.ExpiresIn == 0);
             Assert.True(string.IsNullOrEmpty(result.Item2.TokenType));
-
         }
     }
 }

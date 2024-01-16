@@ -8,6 +8,7 @@
     <Setting Key="Lrf_LicenseeSelBySiteName" SpName="Lrf_LicenseeSelBySiteName" DbName="DBLIC.bodb_Licensee.bodbLicenseeNet" />
     <Setting Key="LAP_Statement_Mem" SpName="LAP_Statement_Mem" DbName="DBACC.bodb02.bodbLicenseeNet" />
     <Setting Key="LAP_Statement_Mem_Product" SpName="LAP_Statement_Mem_Product" DbName="DBACC.bodb02.bodbLicenseeNet" />
-    <Setting Key="Lrf_GetConfigDetailByKeyName" SpName="Lrf_GetConfigDetailByKeyName" DbName="DBCUST.SiteConfig.bodbLicenseeNet" />
+	<Setting Key="Lrf_GetConfigDetailByKeyName" SpName="Lrf_GetConfigDetailByKeyName" DbName="DBCUST.SiteConfig.bodbLicenseeNet" />
+	<Setting Key="Lrf_GetWhitelistIPBySiteName" SpName="Lrf_GetWhitelistIPBySiteName" DbName="DBCUST.SiteConfig.bodbLicenseeNet" />
   </Function>
 </Functions>

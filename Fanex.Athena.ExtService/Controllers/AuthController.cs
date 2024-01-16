@@ -1,9 +1,9 @@
-﻿using Fanex.Athena.ExtService.Core.Attributes;
+﻿using System.Threading.Tasks;
+using Fanex.Athena.ExtService.Core.Attributes;
 using Fanex.Athena.ExtService.Core.Models;
 using Fanex.Athena.ExtService.Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace Fanex.Athena.ExtService.Controllers
 {

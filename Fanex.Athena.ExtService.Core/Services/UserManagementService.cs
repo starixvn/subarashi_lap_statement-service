@@ -1,10 +1,8 @@
-﻿using Fanex.Athena.ExtService.Core.Extensions;
-using Fanex.Athena.ExtService.Core.Models.DTO;
-
-using Microsoft.Extensions.Options;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Fanex.Athena.ExtService.Core.Extensions;
+using Fanex.Athena.ExtService.Core.Models.DTO;
+using Microsoft.Extensions.Options;
 
 namespace Fanex.Athena.ExtService.Core.Services
 {

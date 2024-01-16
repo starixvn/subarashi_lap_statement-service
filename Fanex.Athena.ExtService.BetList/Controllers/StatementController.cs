@@ -68,6 +68,5 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             ViewBag.IsEnableSingleWallet = await _commonService.IsEnableSingleWallet(HttpContext.User.Identity.Name);
             return View(viewModel);
         }
-
     }
 }

@@ -12,10 +12,12 @@ namespace Fanex.Athena.ExtService.BetList.Services
     public class SummaryStatementService : ISummaryStatementService
     {
         private readonly ICommonService _commonService;
+
         public SummaryStatementService(ICommonService commonService)
         {
             _commonService = commonService;
         }
+
         public async Task<SummaryStatementViewModel> QueryAsync(SummaryStatementMetaModel metaModel)
         {
             const string UspName = "LAP_Statement_Mem";

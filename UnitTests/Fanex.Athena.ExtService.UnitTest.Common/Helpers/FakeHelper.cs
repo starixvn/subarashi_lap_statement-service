@@ -1,6 +1,4 @@
-﻿
-
-namespace Fanex.Athena.ExtService.UnitTest.Common.Helpers
+﻿namespace Fanex.Athena.ExtService.UnitTest.Common.Helpers
 {
     using System;
     using System.Collections.Generic;
@@ -52,6 +50,7 @@ namespace Fanex.Athena.ExtService.UnitTest.Common.Helpers
     {
         public Expression<Func<T, object>> PropertyPicker;
         public object Value;
+
         public FakeProperty(Expression<Func<T, object>> propertyPicker, object value)
         {
             PropertyPicker = propertyPicker;

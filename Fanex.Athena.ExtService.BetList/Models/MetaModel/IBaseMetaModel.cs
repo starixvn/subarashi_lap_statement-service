@@ -3,6 +3,7 @@
     public interface IBaseMetaModel
     {
         string BaseCurrency { get; set; }
+
         string Lang { get; set; }
     }
 }

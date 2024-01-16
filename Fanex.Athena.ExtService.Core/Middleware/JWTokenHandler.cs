@@ -9,13 +9,14 @@ namespace Fanex.Athena.ExtService.Core.Middleware
     public class JWTokenHandler
     {
         private readonly RequestDelegate _next;
-        const string HeaderAuthKey = "Authorization";
-        const string SuffixTokenValue = "Bearer ";
+        private const string HeaderAuthKey = "Authorization";
+        private const string SuffixTokenValue = "Bearer ";
 
         public JWTokenHandler(RequestDelegate next)
         {
             _next = next;
         }
+
         public async Task Invoke(HttpContext context)
         {
             if (!context.Request.Headers.ContainsKey(HeaderAuthKey))

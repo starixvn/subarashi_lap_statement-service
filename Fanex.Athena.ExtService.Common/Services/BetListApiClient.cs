@@ -55,7 +55,6 @@ namespace Fanex.Athena.ExtService.Common.Services
             var result = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancelToken.Token);
             result?.EnsureSuccessStatusCode();
             return await codeBlock(result).ConfigureAwait(false);
-
         }
 
         public async Task<string> PostAsyncString(string path, object value, string language)

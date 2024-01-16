@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using Fanex.Athena.ExtService.Common.Models.DTO;
 
@@ -17,5 +18,7 @@ namespace Fanex.Athena.ExtService.Common.Services
         bool IsShowIp(string siteName);
 
         int GetSpecialPlatform(string licenseeName);
+
+        Task<List<string>> GetWhitelistIPFromDB(string siteName);
     }
 }

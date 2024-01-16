@@ -1,15 +1,15 @@
-﻿using Fanex.Athena.ExtService.Common.Models.DTO;
-using Fanex.Athena.ExtService.Common.Services;
-using Fanex.Data;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Options;
-using Moq;
-using System;
+﻿using System;
 using System.Data;
 using System.Data.Common;
 using System.Threading;
 using System.Threading.Tasks;
+using Fanex.Athena.ExtService.Common.Models.DTO;
+using Fanex.Athena.ExtService.Common.Services;
 using Fanex.Athena.ExtService.UnitTest.Common.Helpers;
+using Fanex.Data;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Options;
+using Moq;
 using Xunit;
 
 namespace Fanex.Athena.ExtService.Common.UnitTests.Services

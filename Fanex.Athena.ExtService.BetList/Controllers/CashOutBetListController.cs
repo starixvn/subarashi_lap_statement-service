@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
 using Fanex.Athena.ExtService.BetList.Models.ViewModel;
 using Fanex.Athena.ExtService.Common.Models.DataDomain;
-using Fanex.Athena.ExtService.Common.Models.DTO;
 using Fanex.Athena.ExtService.Common.Services;
 using Fanex.Athena.ExtService.Core.Services;
 using Fanex.Athena.ExtService.Resources;

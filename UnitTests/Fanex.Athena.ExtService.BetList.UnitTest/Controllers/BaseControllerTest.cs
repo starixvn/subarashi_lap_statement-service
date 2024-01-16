@@ -22,7 +22,6 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
         protected readonly Mock<IBetListApiClient> _betListApiClient;
         protected readonly Mock<IBrowserService> _browserService;
 
-
         public BaseControllerTest()
         {
             _commonService = new Mock<ICommonService>();
@@ -36,7 +35,6 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
                         AgentId=100
                     } },
                     IsAllowedCustomerComm = true
-
                 }));
             _commonService.Setup(_ => _.IsEnableSingleWallet(It.IsAny<string>())).Returns(Task.FromResult(IsEnableSingleWallet));
 
