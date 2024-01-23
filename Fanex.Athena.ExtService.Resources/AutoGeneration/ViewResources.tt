@@ -1,5 +1,5 @@
 ﻿<#@ template debug="true" hostSpecific="true" #>
-<#@ include file="TemplateFilemanager.CS.ttinclude" #>
+<#@ include file="$(TargetDir)\T4.FileManager.VisualStudio.ttinclude" #>
 <#@ Assembly Name="System.Core.dll" #>
 <#@ Assembly Name="System.Xml.Linq" #>
 <#@ assembly name="System.Xml" #>
@@ -11,17 +11,19 @@
 <#
 	string solutionPath = Host.ResolveAssemblyReference("$(SolutionDir)");
 	Directory.SetCurrentDirectory(solutionPath);
-	var manager = TemplateFileManager.Create(this);	
+	var manager = T4FileManager.Create(this);
+	var outputProject = "Fanex.Athena.ExtService";
+	var outputFolder = "www\\js\\source\\common\\languages";
 	string[] filePaths = Directory.GetFiles(solutionPath, "ViewResources*.resx", SearchOption.AllDirectories);
 	string[] outputPaths = new [] { 
-				$"{solutionPath}\\Fanex.Athena.ExtService\\www\\js\\source\\common\\languages",
+				$"{solutionPath}\\{outputProject}\\{outputFolder}",
 	};
 	foreach(var filePath in filePaths)
 	{        
 		var fileName = Path.GetFileName(filePath.Replace("resx", "js"));
 		foreach (var outputPath in outputPaths)
 		{
-					manager.StartNewFile($"{outputPath}\\{fileName}");
+					manager.StartNewFile(fileName, outputProject, outputFolder);
 					const string ignoreKey = "ignorejs";
 					using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
 						{

@@ -1,0 +1,46 @@
+{
+  "FilesToGenerate": [
+    {
+      "Filename": "ViewResources.id-ID.js",
+      "Project": "Fanex.Athena.ExtService",
+      "Path": "www\\js\\source\\common\\languages",
+      "Properties": {}
+    },
+    {
+      "Filename": "ViewResources.js",
+      "Project": "Fanex.Athena.ExtService",
+      "Path": "www\\js\\source\\common\\languages",
+      "Properties": {}
+    },
+    {
+      "Filename": "ViewResources.th-TH.js",
+      "Project": "Fanex.Athena.ExtService",
+      "Path": "www\\js\\source\\common\\languages",
+      "Properties": {}
+    },
+    {
+      "Filename": "ViewResources.vi-VN.js",
+      "Project": "Fanex.Athena.ExtService",
+      "Path": "www\\js\\source\\common\\languages",
+      "Properties": {}
+    },
+    {
+      "Filename": "ViewResources.zh-CN.js",
+      "Project": "Fanex.Athena.ExtService",
+      "Path": "www\\js\\source\\common\\languages",
+      "Properties": {}
+    },
+    {
+      "Filename": "ViewResources.zh-Hans.js",
+      "Project": "Fanex.Athena.ExtService",
+      "Path": "www\\js\\source\\common\\languages",
+      "Properties": {}
+    },
+    {
+      "Filename": "ViewResources.zh-TW.js",
+      "Project": "Fanex.Athena.ExtService",
+      "Path": "www\\js\\source\\common\\languages",
+      "Properties": {}
+    }
+  ]
+}
