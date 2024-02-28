@@ -166,7 +166,7 @@
     <value>Rincian Penarikan Tunai</value>
   </data>
   <data name="CashOutHistory" xml:space="preserve">
-    <value>Riwayat Cash Out</value>
+    <value>Riwayat Penukaran Instan</value>
   </data>
   <data name="CashOutRecovered" xml:space="preserve">
     <value>Pemulihan Cash Out</value>
@@ -304,7 +304,7 @@
     <value>Permainan Arcadia</value>
   </data>
   <data name="ProductCO" xml:space="preserve">
-    <value>Penarikan Tunai</value>
+    <value>Penukaran Instan</value>
   </data>
   <data name="ProductCS" xml:space="preserve">
     <value>Casino Saba</value>
@@ -457,7 +457,7 @@
     <value>Taruhan Void/Dibatalkan</value>
   </data>
   <data name="WinLoss" xml:space="preserve">
-    <value>Menang atau kalah</value>
+    <value>Menang-Kalah</value>
   </data>
   <data name="ProductVS3" xml:space="preserve">
     <value>Olahraga Virtual 3 (old)</value>
