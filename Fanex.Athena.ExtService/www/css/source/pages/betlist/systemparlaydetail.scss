@@ -8,6 +8,33 @@ body {
 .system-parlay-detail-container {
     padding: 15px;
 
+    span.boostrate {
+        background-color: #FFE713;
+        font-weight: bold;
+        color: #3A28FF;
+        padding: 1px 4px;
+        border-radius: 5px;
+        display: inline-flex;
+        align-items: center;
+        font-size: 12px;
+    }
+
+    span.strikethrough {
+        text-decoration: line-through;
+        color: #bbb;
+        font-weight: bold !important;
+    }
+
+    span.icon-boost {
+        background: url(/images/ico_parlay_boost.svg) no-repeat center center/100%;
+        display: inline-block;
+        height: 15px;
+        width: 15px;
+        position: relative;
+        top: 1px;
+        margin-right: 4px;
+    }
+
     .system-parlay-header th {
         vertical-align: middle;
         text-align: center;
@@ -15,7 +42,6 @@ body {
         border: 1px solid $white;
         color: $white;
         padding: 2px 5px;
-
         /*&:first-child {
             border-left-color: #d1dae1 !important;
         }
