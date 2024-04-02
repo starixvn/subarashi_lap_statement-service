@@ -105,11 +105,11 @@ namespace Fanex.Athena.ExtService
                 .FromApplication("Fanex.Athena.ExtService");
 
             services.AddHttpContextAccessor();
-            services.AddHttpsRedirection(options =>
-            {
-                const int httpsPort = 443;
-                options.HttpsPort = httpsPort;
-            });
+            //services.AddHttpsRedirection(options =>
+            //{
+            //    const int httpsPort = 443;
+            //    options.HttpsPort = httpsPort;
+            //});
 
             DIRegister(services);
         }
@@ -135,8 +135,8 @@ namespace Fanex.Athena.ExtService
                 app.UseHsts();
                 app.UseWhen(
                     context => !context.Request.FromInternal(),
-                    builder => builder.UseHttpsRedirection()
-                    );
+                    //builder => builder.UseHttpsRedirection()
+                    //);
             }
 
             app.UseStaticResource(HostingEnvironment.IsDevelopment());
