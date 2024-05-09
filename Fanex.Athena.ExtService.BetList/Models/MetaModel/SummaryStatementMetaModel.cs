@@ -10,6 +10,9 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
     {
         private const int MonthsLimit = 2;
 
+        [FromQuery(Name = "vt")]
+        public byte ViewType { get; set; } = SystemConstants.DefaultViewType;
+
         [FromQuery(Name = "cid")]
         public int CustId { get; set; }
 

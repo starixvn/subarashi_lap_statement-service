@@ -11,5 +11,7 @@ namespace Fanex.Athena.ExtService.Common.Models.ViewModels
         public string Lang { get; set; }
 
         public string BaseCurrency { get; set; }
+
+        public byte ViewType { get; set; }
     }
 }

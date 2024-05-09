@@ -510,4 +510,7 @@
   <data name="ProductUUSL" xml:space="preserve">
     <value>UU SLOTS</value>
   </data>
+  <data name="SabaCoins" xml:space="preserve">
+    <value>Saba Coins</value>
+  </data>
 </root>

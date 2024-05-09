@@ -24,7 +24,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
 
         [HttpGet]
         [ResponseCache(Duration = SystemConstants.ThirtySecond, NoStore = false,
-            VaryByQueryKeys = new[] { "cid", "fd", "td", "bc", "ps", "pi", "sb", "lang" })]
+            VaryByQueryKeys = new[] { "vt", "cid", "fd", "td", "bc", "ps", "pi", "sb", "lang" })]
         public async Task<IActionResult> Summary([FromServices] ISummaryStatementService service,
             SummaryStatementMetaModel metalModel)
         {
@@ -38,6 +38,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             viewModel.FromDate = metalModel.FromDate;
             viewModel.ToDate = metalModel.ToDate;
             viewModel.IsDesktopViewOnly = metalModel.IsDesktopViewOnly;
+            viewModel.ViewType = metalModel.ViewType;
 
             ViewBag.ShowBreadCrumb = metalModel.ShowBreadCrumb;
             ViewBag.IsEnableSingleWallet = await _commonService.IsEnableSingleWallet(HttpContext.User.Identity.Name);
@@ -45,7 +46,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         }
 
         [ResponseCache(Duration = SystemConstants.ThirtySecond, NoStore = false,
-    VaryByQueryKeys = new[] { "cid", "wd", "bc", "mv", "lang", "ps", "pi", "fd", "td", "sb" })]
+    VaryByQueryKeys = new[] { "vt", "cid", "wd", "bc", "mv", "lang", "ps", "pi", "fd", "td", "sb" })]
 
         [HttpGet]
         public async Task<IActionResult> ByGroup([FromServices] IStatementByGroupService service,
@@ -66,6 +67,8 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             ViewBag.FromDate = metalModel.FromDate;
             ViewBag.ToDate = metalModel.ToDate;
             ViewBag.IsEnableSingleWallet = await _commonService.IsEnableSingleWallet(HttpContext.User.Identity.Name);
+            ViewBag.ViewType = metalModel.ViewType;
+
             return View(viewModel);
         }
     }

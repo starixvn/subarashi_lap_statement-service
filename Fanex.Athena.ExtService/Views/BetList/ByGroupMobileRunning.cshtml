@@ -27,7 +27,7 @@
         {
             var breadcrumbItems = new List<SelectListItem>
 {
-new SelectListItem { Text = ViewResources.Statement, Value = Url.Action("Summary", "Statement", new {
+        new SelectListItem { Text = @ViewResources.Statement, Value = Url.Action("Summary", "Statement", new {
 cid=Model.CustId,
 fd=ViewBag.FromDate.ToString("MM/dd/yyyy"),
 td=ViewBag.ToDate.ToString("MM/dd/yyyy"),

@@ -6,6 +6,7 @@
 @inject IConfiguration Configuration
 @{
     var isEnableSingleWallet = (bool)ViewBag.IsEnableSingleWallet;
+    var title = Model.ViewType == 1 ? @ViewResources.Statement : $"{ViewResources.SabaCoins} {ViewResources.Statement}";
 }
 @section pagecss
     {
@@ -25,7 +26,7 @@
         <div class="betlist-container result-content tbl-statement">
             <div class="report-title-container">
                 <p class="report-title">
-                    @ViewResources.Statement
+                    @title
                 </p>
             </div>
             <div>
@@ -107,6 +108,7 @@
                                                         @if (StatementHelper.ShowBetingStatementLink(item.TransDesc, item.TransType))
                                                         {
                                                             <a class="detail-link" href="@Url.Action("ByGroup","Statement",new {
+                                                                                               vt=Model.ViewType,
                                                                                                bc=Model.BaseCurrency,
                                                                                                lang=Model.Lang,
                                                                                                wd=item.WinLostDate.ToString("MM/dd/yyyy"),
@@ -162,6 +164,7 @@
                    total-items="@Model.TotalRows"
                    custom-class="tbl-statement"
                    url-template="@Url.Action("Summary","Statement",new {
+               vt = Model.ViewType,
                cid=Model.CustId,
                fd=Model.FromDate.ToString("MM/dd/yyyy"),
                td=Model.ToDate.ToString("MM/dd/yyyy"),

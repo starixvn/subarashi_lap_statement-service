@@ -380,4 +380,7 @@
   <data name="ProductWE" xml:space="preserve">
     <value>WE世界娱乐</value>
   </data>
+  <data name="SabaCoins" xml:space="preserve">
+    <value>沙巴点数</value>
+  </data>
 </root>
