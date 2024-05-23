@@ -33,6 +33,7 @@ namespace Fanex.Athena.ExtService.BetList.Services
                 db.SetParameterValue("@PageSize", metaModel.PageSize);
                 db.SetParameterValue("@PageIndex", metaModel.PageIndex);
                 db.SetParameterValue("@baseCurrency", metaModel.BaseCurrency);
+                db.SetParameterValue("@ReportViewType", metaModel.ViewType);
                 db.SetParameterValue("@TotalRows", totalRows);
                 var statementResult = await db.QueryAsync<SummaryStatement>();
                 totalRows = Convert.ToInt32(db.GetOutputParams()["TotalRows"]);

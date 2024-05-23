@@ -6,6 +6,7 @@
     ViewData["IntegrateBetTicketSite"] = true;
 
     var isAllowTxIDColumn = (bool)ViewBag.IsEnableSingleWallet;
+    var title = Model.ViewType == 1 ? @ViewResources.Statement : $"{ViewResources.SabaCoins} {ViewResources.Statement}";
 }
 @section pagecss
     {
@@ -25,7 +26,8 @@
         {
             var breadcrumbItems = new List<SelectListItem>
 {
-new SelectListItem { Text = ViewResources.Statement, Value = Url.Action("Summary", "Statement", new {
+new SelectListItem { Text = title, Value = Url.Action("Summary", "Statement", new {
+vt=Model.ViewType,
 cid =Model.CustId,
 fd =ViewBag.FromDate.ToString("MM/dd/yyyy"),
 td =ViewBag.ToDate.ToString("MM/dd/yyyy"),
@@ -39,6 +41,7 @@ isDesktopViewOnly =Model.IsDesktopViewOnly
 })
 },
 new SelectListItem { Text = ViewResources.BettingStatement, Value = Url.Action("ByGroup", "Statement", new {
+vt=Model.ViewType,
 cid=Model.CustId,
 wd=Model.WinlostDate.ToString("MM/dd/yyyy"),
 mv=Model.TransType,
@@ -102,9 +105,12 @@ new SelectListItem { Text = ViewResources.BetList, Selected = true, Value = "jav
                                             @(Model.Info.IsAllowedCustomerComm ?
                                                                                                                                                     $"{ ViewResources.WinLoss}/{ ViewResources.Comm}" : @ViewResources.WinLoss)
                                         </th>
-                                        <th>
-                                            @ViewResources.LicenseeWL/@ViewResources.Comm
-                                        </th>
+                                        @if (Model.ViewType == 1)
+                                        {
+                                            <th>
+                                                @ViewResources.LicenseeWL/@ViewResources.Comm
+                                            </th>
+                                        }
                                         <th>@ViewResources.Status</th>
                                         <th>@ViewResources.Platform</th>
                                         <th>
@@ -130,7 +136,10 @@ new SelectListItem { Text = ViewResources.BetList, Selected = true, Value = "jav
                                         <td style="width:350px"></td>
                                         <td></td>
                                         <td></td>
-                                        <td></td>
+                                        @if (Model.ViewType == 1)
+                                        {
+                                            <td></td>
+                                        }
                                         <td></td>
                                         <td></td>
                                         <td></td>
@@ -152,7 +161,10 @@ new SelectListItem { Text = ViewResources.BetList, Selected = true, Value = "jav
                                             <td class="right-align">@Html.Raw(item.OddsType)</td>
                                             <td class="right-align"> @Html.Raw(item.Stake)</td>
                                             <td class="right-align">@Html.Raw(item.WinLoss)</td>
-                                            <td class="right-align">@Html.Raw(item.LicenseeWL)</td>
+                                            @if (Model.ViewType == 1)
+                                            {
+                                                    <td class="right-align">@Html.Raw(item.LicenseeWL)</td>
+                                            }                                      
                                             <td class="center-align">@Html.Raw(item.Status)</td>
                                             <td class="center-align">@Html.Raw(item.Platform)</td>
                                             <td class="center-align">@Html.Raw(item.Live)</td>
@@ -172,6 +184,7 @@ new SelectListItem { Text = ViewResources.BetList, Selected = true, Value = "jav
                    total-items="@Model.TotalRows"
                    custom-class="tbl-betlist"
                    url-template="@Url.Action("ByGroup","BetList",new {
+               vt=Model.ViewType,
                cid=Model.CustId,
                lang=Model.Lang,
                bc=Model.BaseCurrency,

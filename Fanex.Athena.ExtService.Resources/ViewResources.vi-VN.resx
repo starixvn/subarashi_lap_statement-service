@@ -426,6 +426,9 @@
   <data name="Result" xml:space="preserve">
     <value>Kết quả</value>
   </data>
+  <data name="SabaCoins" xml:space="preserve">
+    <value>Saba Xu</value>
+  </data>
   <data name="Stake" xml:space="preserve">
     <value>Tiền cược</value>
   </data>

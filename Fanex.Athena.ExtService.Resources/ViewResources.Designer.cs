@@ -1024,6 +1024,15 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Saba Coins.
+        /// </summary>
+        public static string SabaCoins {
+            get {
+                return ResourceManager.GetString("SabaCoins", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Stake.
         /// </summary>
         public static string Stake {

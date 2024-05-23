@@ -7,6 +7,7 @@
 @inject IConfiguration Configuration
 @{
     var isEnableSingleWallet = (bool)ViewBag.IsEnableSingleWallet;
+    var title = ViewBag.ViewType == 1 ? @ViewResources.Statement : $"{ViewResources.SabaCoins} {ViewResources.Statement}";
 }
 @section pagecss
     {
@@ -27,11 +28,12 @@
             var breadcrumbItems = new List<SelectListItem>
 {
 new SelectListItem {
-Text = ViewResources.Statement,
+        Text = title,
 Value = Url.Action(
 "Summary",
 "Statement",
 new {
+vt=ViewBag.ViewType,
 cid=Model.CustId,
 fd=ViewBag.FromDate.ToString("MM/dd/yyyy"),
 td=ViewBag.ToDate.ToString("MM/dd/yyyy"),
@@ -126,6 +128,7 @@ new SelectListItem { Text = ViewResources.BettingStatement, Selected = true, Val
                                                         else
                                                         {
                                                             <a class="detail-link" href="@Url.Action("ByGroup","BetList",new {
+                                                                                        vt = ViewBag.ViewType,
                                                                                         bc = Model.BaseCurrency,
                                                                                         lang = Model.Lang,
                                                                                         wd = item.WinLostDate.ToString("MM/dd/yyyy"),

@@ -6,5 +6,6 @@
         public const string DefaultLangCode = "en-US";
         public const int DefaultPageSize = 500;
         public const int ThirtySecond = 30;
+        public const int DefaultViewType = 1;
     }
 }

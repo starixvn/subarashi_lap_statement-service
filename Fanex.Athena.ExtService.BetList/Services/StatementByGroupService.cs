@@ -29,6 +29,7 @@ namespace Fanex.Athena.ExtService.BetList.Services
                 db.SetParameterValue("@MoveBetsDay", balanceUpInfo.MoveBetsDay);
                 db.SetParameterValue("@baseCurrency", metaModel.BaseCurrency);
                 db.SetParameterValue("@ModeView", metaModel.ModeView);
+                db.SetParameterValue("@ReportViewType", metaModel.ViewType);
                 var statementResult = await db.QueryAsync<StatementByGroup>();
 
                 return new StatementByGroupViewModel

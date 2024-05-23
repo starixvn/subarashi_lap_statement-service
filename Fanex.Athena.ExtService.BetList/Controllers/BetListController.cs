@@ -123,7 +123,7 @@
         [HttpGet]
         [ServiceFilter(typeof(CheckCustomerAttribute))]
         [ResponseCache(Duration = SystemConstants.ThirtySecond, NoStore = false,
-            VaryByQueryKeys = new[] { "cid", "lang", "bc", "wd", "pc", "ps", "pi", "mv", "s", "fd", "td", "sb", "spi", "sps" })]
+            VaryByQueryKeys = new[] { "vt", "cid", "lang", "bc", "wd", "pc", "ps", "pi", "mv", "s", "fd", "td", "sb", "spi", "sps" })]
         public async Task<IActionResult> ByGroup(BetListByGroupMetaModel metaModel)
         {
             var originModeView = metaModel.ModeView;
@@ -142,7 +142,8 @@
                 Sort = metaModel.Sort,
                 WinlostDate = metaModel.WinlostDate,
                 CustId = metaModel.CustId,
-                IsDesktopViewOnly = metaModel.IsDesktopViewOnly
+                IsDesktopViewOnly = metaModel.IsDesktopViewOnly,
+                ViewType = metaModel.ViewType
             };
 
             bool isShowIp = _commonService.IsShowIp(licenseeInfo.SiteName);
