@@ -1,12 +1,18 @@
-﻿@using Microsoft.Extensions.Configuration
+﻿@using Fanex.Athena.ExtService.Common.Services;
+@using Microsoft.AspNetCore.Http;
+@using Microsoft.Extensions.Configuration
 @using Fanex.Athena.ExtService.Common.Models.DTO
 @inject IConfiguration Configuration
+@inject ICommonService CommonService
 @using Fanex.Athena.ExtService.Common.Models.ViewModels
 @{
     Layout = null;
 
     var appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
     var langCode = System.Globalization.CultureInfo.CurrentUICulture.IetfLanguageTag;
+    var siteName = Context.User.Identity.Name;
+    var specialPlatform = CommonService.GetSpecialPlatform(siteName);
+    var isHideSaba = specialPlatform == 2 || specialPlatform == 3;
 
 }
 @model BaseViewModel
@@ -25,6 +31,7 @@
     <input type="hidden" id="access_token" value="@Model.AccessToken" />
     <input type="hidden" id="lang" value="@Model.Lang" />
     <input type="hidden" id="baseCurrency" value="@Model.BaseCurrency" />
+    <input type="hidden" id="IsHideSaba" value="@( isHideSaba ? 1 : 0)" />
 
     <div class="loading" style="display: none">
         <div class="icon-loading">
