@@ -10,10 +10,14 @@
 
     var appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
     var langCode = System.Globalization.CultureInfo.CurrentUICulture.IetfLanguageTag;
-    var siteName = Context.User.Identity.Name;
-    var specialPlatform = CommonService.GetSpecialPlatform(siteName);
-    var isHideSaba = specialPlatform == 2 || specialPlatform == 3;
+    var siteName = Context.User.Identity.Name ?? "";
+    var isHideSaba = false;
 
+    if (!string.IsNullOrEmpty(siteName))
+    {
+        var specialPlatform = CommonService.GetSpecialPlatform(siteName);
+        isHideSaba = specialPlatform == 2 || specialPlatform == 3;
+    }
 }
 @model BaseViewModel
 <!DOCTYPE html>
