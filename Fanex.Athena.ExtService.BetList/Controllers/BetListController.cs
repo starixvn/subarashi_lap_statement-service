@@ -154,7 +154,7 @@
                 AssignCommonMetaModelValue(metaModel, licenseeInfo);
                 metaModel.IsShowIpvn = IsShowIpvn() && isShowIp;
                 metaModel.IsShowIp = isShowIp;
-                metaModel.ProductCode = GetSubProductCode(metaModel.ProductCode);
+                //metaModel.ProductCode = GetSubProductCode(metaModel.ProductCode);
                 metaModel.SpecialPlatform = specialPlatform;
 
                 var result = await _betListApiClient.PostAsync<RefNoDataResult>(
@@ -229,11 +229,11 @@
             return View($"{viewPath}{(isMobileView ? "Mobile" : "")}.cshtml", viewModel);
         }
 
-        private static string GetSubProductCode(string ProductCode)
-        {
-            var subProductList = new List<string> { Product.SLT, Product.BTC };
+        //private static string GetSubProductCode(string ProductCode)
+        //{
+        //    var subProductList = new List<string> { Product.SLT, Product.BTC };
 
-            return ProductCode.Contains(Product.SB, StringComparison.OrdinalIgnoreCase) ? ProductCode + "," + string.Join(',', subProductList) : ProductCode;
-        }
+        //    return ProductCode.Contains(Product.SB, StringComparison.OrdinalIgnoreCase) ? ProductCode + "," + string.Join(',', subProductList) : ProductCode;
+        //}
     }
 }
