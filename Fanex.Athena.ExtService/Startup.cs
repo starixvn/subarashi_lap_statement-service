@@ -100,6 +100,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
             
             services.Configure<IdentitySetting>(Configuration.GetSection("IdentityServerSetting"));
             services.AddUserAccessTokenManagement();
+            services.AddScoped<IContextService, ContextService>();
 
             services.AddAuthorization(options =>
             {
@@ -269,7 +270,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
                 var setting = options.Value;
                 client.BaseAddress = new Uri(options.Value.BetListApiHostUrl);
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", contextService.OAuthAccessToken);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, contextService.OAuthAccessToken);
                 client.DefaultRequestHeaders.Add(BetListTokenKey, options.Value.BetListApiTokenValue);
             }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
             {
@@ -281,6 +282,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
         private void ConfigAuthentication(IServiceCollection services)
         {
             var token = Configuration.GetSection("tokenManagement").Get<TokenManagement>();
+            //Add config for JwtBearerOptions to get session from IdentityServer access token
             services.TryAddEnumerable(ServiceDescriptor.Singleton<IPostConfigureOptions<JwtBearerOptions>, CustomJwtBearerPostConfigureOptions>());
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(x =>

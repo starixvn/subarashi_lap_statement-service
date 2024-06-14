@@ -24,7 +24,8 @@
 
         private readonly Lazy<IReadOnlyDictionary<int, string>> _siteDBConfig;
 
-        public CommonService(ICustomDistributedCache cache, IOptions<AppSettings> settings)
+        public CommonService(ICustomDistributedCache cache, 
+            IOptions<AppSettings> settings)
         {
             _cache = cache;
             _settings = settings.Value;

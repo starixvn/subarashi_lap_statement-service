@@ -26,7 +26,9 @@
         public BetListController(
             ICommonService commonService,
             IBetListApiClient betListApiClient,
-            IBrowserService browserService)
+            IBrowserService browserService,
+            IContextService contextService)
+            : base(contextService)
         {
             _commonService = commonService;
             _betListApiClient = betListApiClient;
@@ -47,7 +49,7 @@
             VaryByQueryKeys = new[] { "refId", "vt", "urs", "lang", "bc" })]
         public async Task<IActionResult> RefNo(RefNoBetListMetaModel metaModel)
         {
-            var siteName = HttpContext.User.Identity.Name;
+            var siteName = _contextService.SiteName;
             var licenseeInfo = await _commonService.GetLicenseeInfoAsync(siteName);
             var viewModel = new RefNoViewModel
             {
@@ -57,20 +59,13 @@
                 IsDesktopViewOnly = metaModel.IsDesktopViewOnly
             };
 
-            bool isShowIp = _commonService.IsShowIp(licenseeInfo.SiteName);
-            int specialPlatform = _commonService.GetSpecialPlatform(licenseeInfo.SiteName);
             ViewBag.IsDisplayLicenseeWLColumn = metaModel.ViewSabaCoins == SystemConstants.DefaultViewType;
-
             if (metaModel.IsValid)
             {
                 AssignCommonMetaModelValue(metaModel, licenseeInfo);
-                metaModel.IsShowIpvn = IsShowIpvn() && isShowIp;
-                metaModel.IsShowIp = isShowIp;
-                metaModel.SpecialPlatform = specialPlatform;
                 metaModel.ViewSabaCoins = --metaModel.ViewSabaCoins;
-
                 var result = await _betListApiClient.PostAsync<RefNoDataResult>(
-                    "/BettingTicketCenter/GetByRefno",
+                    "api/BettingTicketCenter/GetByRefno",
                     metaModel,
                     metaModel.Lang).ConfigureAwait(false);
 
@@ -78,7 +73,7 @@
             }
 
             ViewBag.Title = "Bet List By RefNo";
-            ViewBag.IsEnableSingleWallet = await _commonService.IsEnableSingleWallet(HttpContext.User.Identity.Name);
+            ViewBag.IsEnableSingleWallet = _contextService.IsEnableSingleWallet;
             AssignCommonViewModelData(metaModel, viewModel);
             return GetView(metaModel.IsDesktopViewOnly, $"~/Views/BetList/RefNo", viewModel);
         }
@@ -88,7 +83,7 @@
             VaryByQueryKeys = new[] { "txId", "urs", "cid", "lang", "bc" })]
         public async Task<IActionResult> TxID(TxIDBetListMetaModel metaModel)
         {
-            var siteName = HttpContext.User.Identity.Name;
+            var siteName = _contextService.SiteName;
             var licenseeInfo = await _commonService.GetLicenseeInfoAsync(siteName);
             var viewModel = new TxIDViewModel
             {
@@ -97,18 +92,13 @@
                 Data = new List<TicketText>()
             };
 
-            bool isShowIp = _commonService.IsShowIp(licenseeInfo.SiteName);
-            int specialPlatform = _commonService.GetSpecialPlatform(licenseeInfo.SiteName);
 
             if (metaModel.IsValid)
             {
                 AssignCommonMetaModelValue(metaModel, licenseeInfo);
-                metaModel.IsShowIpvn = IsShowIpvn() && isShowIp;
-                metaModel.IsShowIp = isShowIp;
-                metaModel.SpecialPlatform = specialPlatform;
 
                 var result = await _betListApiClient.PostAsync<TxIDDataResult>(
-                    "/BettingTicketCenter/GetByTxID",
+                    "api/BettingTicketCenter/GetByTxID",
                     metaModel,
                     metaModel.Lang).ConfigureAwait(false);
 
@@ -160,7 +150,7 @@
                 metaModel.SpecialPlatform = specialPlatform;
 
                 var result = await _betListApiClient.PostAsync<RefNoDataResult>(
-                    "/BetListByProduct/Index",
+                    "api/BetListByProduct/Index",
                     metaModel,
                     metaModel.Lang).ConfigureAwait(false);
 

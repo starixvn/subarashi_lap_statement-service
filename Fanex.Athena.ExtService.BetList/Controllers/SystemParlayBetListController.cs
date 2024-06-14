@@ -20,7 +20,9 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         public SystemParlayBetListController(
             ICommonService commonService,
             IBetListApiClient betListApiClient,
-            IBrowserService browserService)
+            IBrowserService browserService,
+            IContextService contextService)
+            : base(contextService)
         {
             _commonService = commonService;
             _betListApiClient = betListApiClient;
