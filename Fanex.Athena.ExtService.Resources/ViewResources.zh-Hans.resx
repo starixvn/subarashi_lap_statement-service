@@ -383,4 +383,7 @@
   <data name="SabaCoins" xml:space="preserve">
     <value>沙巴币</value>
   </data>
+  <data name="ProductFS" xml:space="preserve">
+    <value>FS电子</value>
+  </data>
 </root>
