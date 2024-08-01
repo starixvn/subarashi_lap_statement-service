@@ -431,4 +431,7 @@
   <data name="ProductFS" xml:space="preserve">
     <value>FS电子</value>
   </data>
+  <data name="ProductFAC" xml:space="preserve">
+    <value>发财电子</value>
+  </data>
 </root>
