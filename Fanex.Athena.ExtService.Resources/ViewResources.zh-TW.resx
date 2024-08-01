@@ -373,4 +373,7 @@
   <data name="TransactionDetail" xml:space="preserve">
     <value>Transaction Detail</value>
   </data>
+  <data name="ProductFS" xml:space="preserve">
+    <value>FastSpin</value>
+  </data>
 </root>
