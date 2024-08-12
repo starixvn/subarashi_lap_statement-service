@@ -516,4 +516,7 @@
   <data name="ProductFS" xml:space="preserve">
     <value>FastSpin</value>
   </data>
+  <data name="ProductFAC" xml:space="preserve">
+    <value>FA CHAI</value>
+  </data>
 </root>
