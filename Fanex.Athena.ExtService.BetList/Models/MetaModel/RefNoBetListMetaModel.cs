@@ -11,6 +11,9 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
         [FromQuery(Name = "urs")]
         public string UserName { get; set; } = string.Empty;
 
+        [FromQuery(Name = "vt")]
+        public byte ViewSabaCoins { get; set; } = SystemConstants.DefaultViewType;
+
         public bool HasPlayerCom { get; set; }
 
         public string AgentListXml { get; set; }
