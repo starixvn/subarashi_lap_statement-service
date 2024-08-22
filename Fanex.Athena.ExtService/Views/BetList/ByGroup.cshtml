@@ -1,12 +1,13 @@
 ﻿@using Fanex.Athena.ExtService.Resources
 @using Microsoft.Extensions.Configuration
 @using Fanex.Athena.ExtService.Common.Models.DTO
+@using Fanex.Athena.ExtService.Common.Models.DataDomain
 @inject IConfiguration Configuration
 @{
     ViewData["IntegrateBetTicketSite"] = true;
 
     var isAllowTxIDColumn = (bool)ViewBag.IsEnableSingleWallet;
-    var title = Model.ViewType == 1 ? @ViewResources.Statement : $"{ViewResources.SabaCoins} {ViewResources.Statement}";
+    var title = Model.ViewType == SystemConstants.DefaultViewType ? @ViewResources.Statement : $"{ViewResources.SabaCoins} {ViewResources.Statement}";
 }
 @section pagecss
     {
@@ -105,7 +106,7 @@ new SelectListItem { Text = ViewResources.BetList, Selected = true, Value = "jav
                                             @(Model.Info.IsAllowedCustomerComm ?
                                                                                                                                                     $"{ ViewResources.WinLoss}/{ ViewResources.Comm}" : @ViewResources.WinLoss)
                                         </th>
-                                        @if (Model.ViewType == 1)
+                                        @if (Model.ViewType == SystemConstants.DefaultViewType)
                                         {
                                             <th>
                                                 @ViewResources.LicenseeWL/@ViewResources.Comm
@@ -136,7 +137,7 @@ new SelectListItem { Text = ViewResources.BetList, Selected = true, Value = "jav
                                         <td style="width:350px"></td>
                                         <td></td>
                                         <td></td>
-                                        @if (Model.ViewType == 1)
+                                        @if (Model.ViewType == SystemConstants.DefaultViewType)
                                         {
                                             <td></td>
                                         }
@@ -161,7 +162,7 @@ new SelectListItem { Text = ViewResources.BetList, Selected = true, Value = "jav
                                             <td class="right-align">@Html.Raw(item.OddsType)</td>
                                             <td class="right-align"> @Html.Raw(item.Stake)</td>
                                             <td class="right-align">@Html.Raw(item.WinLoss)</td>
-                                            @if (Model.ViewType == 1)
+                                            @if (Model.ViewType == SystemConstants.DefaultViewType)
                                             {
                                                     <td class="right-align">@Html.Raw(item.LicenseeWL)</td>
                                             }                                      

@@ -59,6 +59,7 @@
 
             bool isShowIp = _commonService.IsShowIp(licenseeInfo.SiteName);
             int specialPlatform = _commonService.GetSpecialPlatform(licenseeInfo.SiteName);
+            ViewBag.IsDisplayLicenseeWLColumn = metaModel.ViewSabaCoins == SystemConstants.DefaultViewType;
 
             if (metaModel.IsValid)
             {
