@@ -389,4 +389,7 @@
   <data name="ProductFAC" xml:space="preserve">
     <value>发财电子</value>
   </data>
+  <data name="ProductNS" xml:space="preserve">
+    <value>虎游</value>
+  </data>
 </root>
