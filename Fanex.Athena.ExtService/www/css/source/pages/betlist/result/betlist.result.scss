@@ -134,6 +134,28 @@ body {
     }
 
     table.fn-rs {
+        &.baseball {
+            .cl-ko-time {
+                width: 110px;
+            }
+
+            .cl-match {
+                min-width: 150px;
+            }
+
+            .cl-s, .cl-ei {
+                width: 4%;
+            }
+
+            .cl-ht-score {
+                width: 5%;
+            }
+
+            .cl-f-score {
+                width: 5%;
+            }
+        }
+
         &.number-game {
             line-height: 15px;
         }
