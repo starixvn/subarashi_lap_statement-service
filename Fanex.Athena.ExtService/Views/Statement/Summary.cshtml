@@ -3,10 +3,11 @@
 @using Fanex.Athena.ExtService.Common.Models.DTO
 @using Fanex.Athena.ExtService.BetList.Helper
 @using Fanex.Athena.ExtService.BetList.Models.DataDomain
+@using Fanex.Athena.ExtService.Common.Models.DataDomain
 @inject IConfiguration Configuration
 @{
     var isEnableSingleWallet = (bool)ViewBag.IsEnableSingleWallet;
-    var title = Model.ViewType == 1 ? @ViewResources.Statement : $"{ViewResources.SabaCoins} {ViewResources.Statement}";
+    var title = Model.ViewType == SystemConstants.DefaultViewType ? @ViewResources.Statement : $"{ViewResources.SabaCoins} {ViewResources.Statement}";
 }
 @section pagecss
     {

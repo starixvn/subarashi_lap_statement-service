@@ -5,6 +5,7 @@
 @{
     ViewData["IntegrateBetTicketSite"] = true;
     var isAllowTxIDColumn = (bool)ViewBag.IsEnableSingleWallet;
+    var isDisplayLicenseeWLColumn = (bool)ViewBag.IsDisplayLicenseeWLColumn;
 }
 @section pagecss
     {
@@ -44,7 +45,10 @@
                                         <td style="width:350px"></td>
                                         <td></td>
                                         <td></td>
-                                        <td></td>
+                                        @if (isDisplayLicenseeWLColumn)
+                                        {
+                                            <td></td>
+                                        }
                                         <td></td>
                                         <td></td>
                                         <td></td>
@@ -65,11 +69,14 @@
                                         <th>@ViewResources.Stake</th>
                                         <th>
                                             @(Model.Info.IsAllowedCustomerComm ?
-                                                                                                                                                         $"{ ViewResources.WinLoss}/{ ViewResources.Comm}" : @ViewResources.WinLoss)
+                                                $"{ ViewResources.WinLoss}/{ ViewResources.Comm}" : @ViewResources.WinLoss)
                                         </th>
-                                        <th>
-                                            @ViewResources.LicenseeWL/@ViewResources.Comm
-                                        </th>
+                                        @if (isDisplayLicenseeWLColumn)
+                                        {
+                                            <th>
+                                                @ViewResources.LicenseeWL/@ViewResources.Comm
+                                            </th>
+                                        }
                                         <th>@ViewResources.Status</th>
                                         <th>@ViewResources.Platform</th>
                                         <th>
@@ -97,7 +104,10 @@
                                         <td style="width:350px"></td>
                                         <td></td>
                                         <td></td>
-                                        <td></td>
+                                        @if (isDisplayLicenseeWLColumn)
+                                        {
+                                            <td></td>
+                                        }
                                         <td></td>
                                         <td></td>
                                         <td></td>
@@ -125,7 +135,10 @@
                                             <td class="right-align">@Html.Raw(item.OddsType)</td>
                                             <td class="right-align"> @Html.Raw(item.Stake)</td>
                                             <td class="right-align">@Html.Raw(item.WinLoss)</td>
-                                            <td class="right-align">@Html.Raw(item.LicenseeWL)</td>
+                                            @if (isDisplayLicenseeWLColumn)
+                                            {
+                                                <td class="right-align">@Html.Raw(item.LicenseeWL)</td>
+                                            }
                                             <td class="center-align">@Html.Raw(item.Status)</td>
                                             <td class="center-align">@Html.Raw(item.Platform)</td>
                                             <td class="center-align">@Html.Raw(item.Live)</td>

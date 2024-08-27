@@ -44,7 +44,7 @@
 
         [HttpGet]
         [ResponseCache(Duration = SystemConstants.ThirtySecond, NoStore = false,
-            VaryByQueryKeys = new[] { "refId", "urs", "lang", "bc" })]
+            VaryByQueryKeys = new[] { "refId", "vt", "urs", "lang", "bc" })]
         public async Task<IActionResult> RefNo(RefNoBetListMetaModel metaModel)
         {
             var siteName = HttpContext.User.Identity.Name;
@@ -59,6 +59,7 @@
 
             bool isShowIp = _commonService.IsShowIp(licenseeInfo.SiteName);
             int specialPlatform = _commonService.GetSpecialPlatform(licenseeInfo.SiteName);
+            ViewBag.IsDisplayLicenseeWLColumn = metaModel.ViewSabaCoins == SystemConstants.DefaultViewType;
 
             if (metaModel.IsValid)
             {
@@ -66,6 +67,7 @@
                 metaModel.IsShowIpvn = IsShowIpvn() && isShowIp;
                 metaModel.IsShowIp = isShowIp;
                 metaModel.SpecialPlatform = specialPlatform;
+                metaModel.ViewSabaCoins = --metaModel.ViewSabaCoins;
 
                 var result = await _betListApiClient.PostAsync<RefNoDataResult>(
                     "/BettingTicketCenter/GetByRefno",

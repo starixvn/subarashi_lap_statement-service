@@ -5,6 +5,7 @@
 @{
     ViewData["IntegrateBetTicketSite"] = true;
     var isAllowTxIDColumn = (bool)ViewBag.IsEnableSingleWallet;
+    var isDisplayLicenseeWLColumn = (bool)ViewBag.IsDisplayLicenseeWLColumn;
 }
 @section pagecss
     {
@@ -102,14 +103,17 @@
                                                         <td class="col-key">@ViewResources.SystemId</td>
                                                         <td class="col-value">@Html.Raw(item.SystemId)</td>
                                                     </tr>
-                                                    <tr>
-                                                        <td class="col-key">
-                                                            @ViewResources.LicenseeWL/
-                                                            <br />
-                                                            @ViewResources.Comm
-                                                        </td>
-                                                        <td class="col-value licensee-wl">@Html.Raw(item.LicenseeWL)</td>
-                                                    </tr>
+                                                    @if (isDisplayLicenseeWLColumn)
+                                                    {
+                                                        <tr>
+                                                            <td class="col-key">
+                                                                @ViewResources.LicenseeWL/
+                                                                <br />
+                                                                @ViewResources.Comm
+                                                            </td>
+                                                            <td class="col-value licensee-wl">@Html.Raw(item.LicenseeWL)</td>
+                                                        </tr>
+                                                    }
                                                     <tr>
                                                         <td class="col-key">@ViewResources.Platform</td>
                                                         <td class="col-value">@Html.Raw(item.Platform)</td>
