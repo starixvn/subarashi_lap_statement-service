@@ -91,8 +91,9 @@
         {
             var siteName = HttpContext.User.Identity.Name;
             var licenseeInfo = await _commonService.GetLicenseeInfoAsync(siteName);
+            var specialPlatform = _commonService.GetSpecialPlatform(siteName);
 
-            AssignCommonMetaModelValue(meaModel, licenseeInfo);
+            AssignCommonMetaModelValue(meaModel, licenseeInfo, specialPlatform);
         }
     }
 }

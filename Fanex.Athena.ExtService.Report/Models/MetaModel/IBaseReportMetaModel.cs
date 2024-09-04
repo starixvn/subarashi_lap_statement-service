@@ -6,6 +6,8 @@
 
         public string AgentListXml { get; set; }
 
+        public int SpecialPlatform { get; set; }
+
         public int PageIndex { get; set; }
 
         public int PageSize { get; set; }

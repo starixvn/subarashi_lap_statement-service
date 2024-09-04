@@ -8,9 +8,10 @@
 
     public abstract class ReportBaseController : Controller
     {
-        protected static void AssignCommonMetaModelValue(IBaseReportMetaModel metaModel, LicenseeInfo licenseeInfo)
+        protected static void AssignCommonMetaModelValue(IBaseReportMetaModel metaModel, LicenseeInfo licenseeInfo, int specialPlatform)
         {
             metaModel.AgentListXml = SystemHelper.GenerateAgentListXml(licenseeInfo, true);
+            metaModel.SpecialPlatform = specialPlatform;
         }
 
         protected ActionResult JsonResult(object data)

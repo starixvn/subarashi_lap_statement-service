@@ -78,6 +78,7 @@
             db.SetParameterValue("@PageIndex", metaModel.PageIndex);
             db.SetParameterValue("@PageSize", metaModel.PageSize);
             db.SetParameterValue("@BaseCurrency", metaModel.BaseCurrency);
+            db.SetParameterValue("@SpecialPlatform", metaModel.SpecialPlatform);
 
             var data = (await db.QueryAsync<PlayerReportByPlatform>()).ToList();
 

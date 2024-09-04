@@ -22,6 +22,8 @@
 
         public string AgentListXml { get; set; }
 
+        public int SpecialPlatform { get; set; }
+
         [Range(1, int.MaxValue, ErrorMessage = "Value for {0} must be greater than 0")]
         public int PageIndex { get; set; } = ReportOptions.DefaultPageIndex;
 
