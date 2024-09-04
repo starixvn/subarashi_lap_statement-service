@@ -11,6 +11,7 @@
 
         public decimal Turnover { get; set; }
 
-        public decimal PlayerWL { get; set; }
+        [JsonProperty(PropertyName = "PlayerWL")]
+        public decimal Winloss { get; set; }
     }
 }

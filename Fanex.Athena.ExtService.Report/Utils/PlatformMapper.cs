@@ -4,7 +4,7 @@
 
     public static class PlatformMapper
     {
-        private const string DefaultPlatformName = "Others";
+        private const string DefaultPlatformName = "New";
 
         private static readonly Dictionary<int, string> PlatformList = new()
         {

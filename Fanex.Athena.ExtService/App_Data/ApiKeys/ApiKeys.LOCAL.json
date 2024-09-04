@@ -1,8 +1,12 @@
 {
   "ApiKeys": [
     {
-      "Key": "c3HoO4R6NUvwu5c0kAAYIHusOjPVxOKv",
+      "Key": "2GZnTV4ncJCrEsB0eRJCF0aCxtviOp1j",
       "SiteName": "Alog"
+    },
+    {
+      "Key": "egUkZJkk4v76bWdWALebzVJnmaQwFkOh",
+      "SiteName": "12Bet"
     }
   ]
 }

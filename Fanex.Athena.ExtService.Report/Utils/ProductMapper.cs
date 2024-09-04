@@ -5,7 +5,7 @@
 
     public static class ProductMapper
     {
-        private const string DefaultPlatformName = "";
+        private const string DefaultPlatformName = "New";
 
         private static readonly Dictionary<string, string> ProductList = new(StringComparer.OrdinalIgnoreCase)
         {
