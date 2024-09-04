@@ -10,7 +10,7 @@
     {
         protected static void AssignCommonMetaModelValue(IBaseReportMetaModel metaModel, LicenseeInfo licenseeInfo)
         {
-            metaModel.AgentListXml = SystemHelper.GenerateAgentListXml(licenseeInfo);
+            metaModel.AgentListXml = SystemHelper.GenerateAgentListXml(licenseeInfo, true);
         }
 
         protected ActionResult JsonResult(object data)
