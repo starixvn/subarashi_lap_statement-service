@@ -12,6 +12,8 @@
 
         public const string DateFormatPattern = "MM/dd/yyyy";
 
+        public const string NumberFormatPattern = "0.00";
+
         public const int MinSupportedDaysFromToday = 1;
 
         public const int MaxSupportedDaysFromToday = 3;
