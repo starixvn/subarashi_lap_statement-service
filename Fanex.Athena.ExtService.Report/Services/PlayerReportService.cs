@@ -1,6 +1,7 @@
 ﻿namespace Fanex.Athena.ExtService.Report.Services
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Data;
@@ -11,7 +12,9 @@
 
     public class PlayerReportService : IPlayerReportService
     {
-        public async Task<ReportResultBaseModel<PlayerClosingBalance>> QueryClosingBalance(QueryClosingBalanceMetaModel metaModel)
+        public async Task<ReportResultBaseModel<PlayerClosingBalance>> QueryClosingBalance(
+            QueryClosingBalanceMetaModel metaModel,
+            Dictionary<int, string> currencies)
         {
             const string spName = "LAP_API_PlayerBalanceSel";
             using var db = ObjectDbFactory.CreateInstance(spName);
@@ -22,6 +25,12 @@
             db.SetParameterValue("@PageSize", metaModel.PageSize);
 
             var data = (await db.QueryAsync<PlayerClosingBalance>()).ToList();
+            // get currency name
+            foreach (var e in data)
+            {
+                e.Currency = currencies.GetValueOrDefault(e.ExchangeId, "");
+            }
+
             var output = db.GetOutputParams();
             var totalRows = Convert.ToInt32(output["TotalRows"]);
 

@@ -7,6 +7,9 @@
         [JsonProperty(PropertyName = "Username")]
         public string Nickname { get; set; }
 
+        [JsonIgnore]
+        public int ExchangeId { get; set; }
+
         public string Currency { get; set; }
 
         public decimal ClosingBalance { get; set; }

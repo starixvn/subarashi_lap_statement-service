@@ -35,8 +35,9 @@
             }
 
             await AssignCommonMetaModel(metaModel);
+            var currencies = await _commonService.GetAllCurrencyInfo();
 
-            var result = await _playerReportService.QueryClosingBalance(metaModel);
+            var result = await _playerReportService.QueryClosingBalance(metaModel, currencies);
 
             return JsonResult(result);
         }
