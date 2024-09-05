@@ -11,5 +11,9 @@
         public const string DefaultBaseCurrency = "USD";
 
         public const string DateFormatPattern = "MM/dd/yyyy";
+
+        public const int MinSupportedDaysFromToday = 1;
+
+        public const int MaxSupportedDaysFromToday = 3;
     }
 }

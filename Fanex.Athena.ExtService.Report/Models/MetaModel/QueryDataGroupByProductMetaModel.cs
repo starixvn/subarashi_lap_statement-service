@@ -3,6 +3,7 @@
     using System;
     using System.ComponentModel.DataAnnotations;
     using System.Globalization;
+    using Attributes;
     using Constant;
 
     public class QueryDataGroupByProductMetaModel : IBaseReportMetaModel
@@ -13,6 +14,7 @@
         public string BaseCurrency { get; } = ReportOptions.DefaultBaseCurrency;
 
         [Required(ErrorMessage = "Date format is incorrect.")]
+        [CheckDate(ErrorMessage = "Value for Date must be between {1:MM/dd/yyyy} and {2:MM/dd/yyyy}")]
         public DateTime? WinLostDate => DateTime.TryParseExact(
             Date,
             ReportOptions.DateFormatPattern,
