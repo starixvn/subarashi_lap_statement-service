@@ -4,6 +4,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.Globalization;
     using Attributes;
+    using Common.Models.DTO;
     using Constant;
 
     public class QueryClosingBalanceMetaModel : IBaseReportMetaModel
@@ -25,6 +26,8 @@
         public string AgentListXml { get; set; }
 
         public int SpecialPlatform { get; set; }
+
+        public BalanceUp BalanceUp { get; set; }
 
         [Range(1, int.MaxValue, ErrorMessage = "Value for {0} must be greater than 0")]
         public int PageIndex { get; set; } = ReportOptions.DefaultPageIndex;

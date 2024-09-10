@@ -5,6 +5,7 @@
     using System.Globalization;
     using Attributes;
     using Constant;
+    using Fanex.Athena.ExtService.Common.Models.DTO;
 
     public class QueryDataGroupByProductMetaModel : IBaseReportMetaModel
     {
@@ -30,6 +31,8 @@
         public string AgentListXml { get; set; }
 
         public int SpecialPlatform { get; set; }
+
+        public BalanceUp BalanceUp { get; set; }
 
         [Range(1, int.MaxValue, ErrorMessage = "Value for {0} must be greater than 0")]
         public int PageIndex { get; set; } = ReportOptions.DefaultPageIndex;

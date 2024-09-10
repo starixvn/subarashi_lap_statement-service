@@ -25,6 +25,7 @@
         }
 
         [HttpPost]
+        [RateLimit(TimeWindowInSeconds = 10, MaxRequests = 10)]
         public async Task<ActionResult> QueryClosingBalance([FromBody] QueryClosingBalanceMetaModel metaModel)
         {
             var (isValid, errorMsg) = IsValidRequest();
@@ -43,6 +44,7 @@
         }
 
         [HttpPost]
+        [RateLimit(TimeWindowInSeconds = 10, MaxRequests = 10)]
         public async Task<ActionResult> QueryDataGroupByProduct([FromBody] QueryDataGroupByProductMetaModel metaModel)
         {
             var (isValid, errorMsg) = IsValidRequest();
@@ -60,6 +62,7 @@
         }
 
         [HttpPost]
+        [RateLimit(TimeWindowInSeconds = 10, MaxRequests = 10)]
         public async Task<ActionResult> QueryDataGroupByPlatform([FromBody] QueryDataGroupByPlatformMetaModel metaModel)
         {
             var (isValid, errorMsg) = IsValidRequest();
@@ -93,8 +96,9 @@
             var siteName = HttpContext.User.Identity.Name;
             var licenseeInfo = await _commonService.GetLicenseeInfoAsync(siteName);
             var specialPlatform = _commonService.GetSpecialPlatform(siteName);
+            var balanceUp = await _commonService.GetBalanceUpAsync();
 
-            AssignCommonMetaModelValue(meaModel, licenseeInfo, specialPlatform);
+            AssignCommonMetaModelValue(meaModel, licenseeInfo, specialPlatform, balanceUp);
         }
     }
 }

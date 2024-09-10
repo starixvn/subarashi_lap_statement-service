@@ -39,9 +39,9 @@
 
     public class Startup
     {
+        private const int AliveIn180Seconds = 180;
         private const string ApplicationOptionSettingKey = "ApplicationOptions";
         private const string AppSettingKey = "AppSettings";
-        private const int AliveIn180Seconds = 180;
 
         public Startup(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
@@ -144,6 +144,7 @@
             app.UseUnderMaintenance();
             app.UseStatusCodePagesWithReExecute("/Error", "?code={0}");
             app.UseRouting();
+            app.UseRateLimit();
             app.UseJWTokenOnPage();
             app.UseAuthorization();
             app.UseResponseCaching();

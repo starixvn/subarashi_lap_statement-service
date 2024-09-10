@@ -1,23 +1,24 @@
-﻿using System;
-using System.Linq;
-using System.Net.Mime;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Newtonsoft.Json;
-using ONEbook.UM.AspNetCore;
-using ONEbook.UM.Configurations;
-using ONEbook.UM.Helpers;
-using ONEbook.UM.Services;
-using ONEbook.UM.Transport;
-
-namespace Fanex.Athena.ExtService.Core.Middleware
+﻿namespace Fanex.Athena.ExtService.Core.Middleware
 {
+    using System;
+    using System.Linq;
+    using System.Net.Mime;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Caching.Memory;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Diagnostics.HealthChecks;
+    using Microsoft.Net.Http.Headers;
+    using Newtonsoft.Json;
+    using ONEbook.UM.AspNetCore;
+    using ONEbook.UM.Configurations;
+    using ONEbook.UM.Helpers;
+    using ONEbook.UM.Services;
+    using ONEbook.UM.Transport;
+
     public static class MiddlewareExtensions
     {
         public static void UsePingCheck(this IApplicationBuilder app)
@@ -28,6 +29,7 @@ namespace Fanex.Athena.ExtService.Core.Middleware
                 {
                     return;
                 }
+
                 await next();
             });
         }
@@ -49,8 +51,7 @@ namespace Fanex.Athena.ExtService.Core.Middleware
                 OnPrepareResponse = ctx =>
                 {
                     const int OneYear = 60 * 60 * 24 * 365;
-                    ctx.Context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.CacheControl] = isDev ?
-                    "no-cache" : "public,max-age=" + OneYear;
+                    ctx.Context.Response.Headers[HeaderNames.CacheControl] = isDev ? "no-cache" : "public,max-age=" + OneYear;
                 }
             });
         }
@@ -69,6 +70,11 @@ namespace Fanex.Athena.ExtService.Core.Middleware
             app.UseMiddleware<UnderMaintenanceHandler>();
         }
 
+        public static void UseRateLimit(this IApplicationBuilder app)
+        {
+            app.UseMiddleware<RateLimitHandler>();
+        }
+
         public static void UseWhoAmICheck(this IApplicationBuilder app)
         {
             Func<HttpContext, HealthReport, Task> customResponseWriter = async (context, report) =>
@@ -77,14 +83,15 @@ namespace Fanex.Athena.ExtService.Core.Middleware
                     new
                     {
                         status = report.Status.ToString(),
-                        monitors = report.Entries.Select(e => new { name = e.Key, status = Enum.GetName(typeof(HealthStatus), e.Value.Status), values = e.Value.Data })
+                        monitors = report.Entries.Select(e => new
+                            { name = e.Key, status = Enum.GetName(typeof(HealthStatus), e.Value.Status), values = e.Value.Data })
                     }, Formatting.Indented);
 
                 context.Response.ContentType = MediaTypeNames.Application.Json;
                 await context.Response.WriteAsync(result);
             };
 
-            app.UseHealthChecks("/whoami", options: new HealthCheckOptions
+            app.UseHealthChecks("/whoami", new HealthCheckOptions
             {
                 AllowCachingResponses = false,
                 Predicate = _ => true,
@@ -95,8 +102,8 @@ namespace Fanex.Athena.ExtService.Core.Middleware
         internal class ContextInMemoryHelper : IHttpContextHelper
         {
             private readonly TimeSpan ByPassUMCacheTime = TimeSpan.FromMinutes(30);
-            private readonly IHttpContextAccessor httpContextAccessor;
             private readonly IMemoryCache cache;
+            private readonly IHttpContextAccessor httpContextAccessor;
 
             public ContextInMemoryHelper(IHttpContextAccessor httpContextAccessor, IMemoryCache cache)
             {
@@ -114,7 +121,7 @@ namespace Fanex.Athena.ExtService.Core.Middleware
                 => cache.Set(BuildKey(key), value, ByPassUMCacheTime);
 
             private string BuildKey(string key)
-                => $"{key}:{httpContextAccessor.HttpContext?.Connection.RemoteIpAddress.ToString()}";
+                => $"{key}:{httpContextAccessor.HttpContext?.Connection.RemoteIpAddress}";
         }
     }
 }
