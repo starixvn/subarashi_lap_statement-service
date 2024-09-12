@@ -2,7 +2,11 @@
 {
     public static class ReportOptions
     {
-        public const int MaxPageSize = 2000;
+        public const int ClosingBalanceMaxPageSize = 10_000;
+
+        public const int ClosingBalanceDefaultPageSize = 1_000;
+
+        public const int MaxPageSize = 2_000;
 
         public const int DefaultPageSize = 500;
 
@@ -16,6 +20,6 @@
 
         public const int MinSupportedDaysFromToday = 1;
 
-        public const int MaxSupportedDaysFromToday = 3;
+        public const int MaxSupportedDaysFromToday = 8;
     }
 }

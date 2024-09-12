@@ -4,8 +4,8 @@
     using System.ComponentModel.DataAnnotations;
     using System.Globalization;
     using Attributes;
+    using Common.Models.DTO;
     using Constant;
-    using Fanex.Athena.ExtService.Common.Models.DTO;
 
     public class QueryDataGroupByPlatformMetaModel : IBaseReportMetaModel
     {

@@ -32,7 +32,7 @@
         [Range(1, int.MaxValue, ErrorMessage = "Value for {0} must be greater than 0")]
         public int PageIndex { get; set; } = ReportOptions.DefaultPageIndex;
 
-        [Range(1, ReportOptions.MaxPageSize, ErrorMessage = "Value for {0} must be between {1} and {2}")]
-        public int PageSize { get; set; } = ReportOptions.DefaultPageSize;
+        [Range(1, ReportOptions.ClosingBalanceMaxPageSize, ErrorMessage = "Value for {0} must be between {1} and {2}")]
+        public int PageSize { get; set; } = ReportOptions.ClosingBalanceDefaultPageSize;
     }
 }

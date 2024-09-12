@@ -144,10 +144,10 @@
             app.UseUnderMaintenance();
             app.UseStatusCodePagesWithReExecute("/Error", "?code={0}");
             app.UseRouting();
-            app.UseRateLimit();
             app.UseJWTokenOnPage();
             app.UseAuthorization();
             app.UseResponseCaching();
+            app.UseRateLimit();
             UseRequestLocalization(app);
             app.UseEndpoints(endpoints => { endpoints.MapDefaultControllerRoute(); });
         }

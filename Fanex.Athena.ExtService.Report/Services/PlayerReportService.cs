@@ -55,7 +55,7 @@
             db.SetParameterValue("@PageIndex", metaModel.PageIndex);
             db.SetParameterValue("@PageSize", metaModel.PageSize);
             db.SetParameterValue("@BaseCurrency", metaModel.BaseCurrency);
-            //db.SetParameterValue("@MoveBetDay", metaModel.BalanceUp.MoveBetsDay);
+            db.SetParameterValue("@MoveBetDay", metaModel.BalanceUp.MoveBetsDay);
 
             var data = (await db.QueryAsync<PlayerReportByProduct>()).ToList();
             var output = db.GetOutputParams();
@@ -89,7 +89,7 @@
             db.SetParameterValue("@PageSize", metaModel.PageSize);
             db.SetParameterValue("@BaseCurrency", metaModel.BaseCurrency);
             db.SetParameterValue("@SpecialPlatform", metaModel.SpecialPlatform);
-            //db.SetParameterValue("@MoveBetDay", metaModel.BalanceUp.MoveBetsDay);
+            db.SetParameterValue("@MoveBetDay", metaModel.BalanceUp.MoveBetsDay);
 
             var data = (await db.QueryAsync<PlayerReportByPlatform>()).ToList();
 
