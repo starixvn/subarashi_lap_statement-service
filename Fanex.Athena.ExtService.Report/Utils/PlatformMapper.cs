@@ -24,7 +24,16 @@
             { 13, "Tablet" },
             { 14, "Deep Link" },
             { 15, "WAP" },
-            { 88, "Others" }
+            { 16, "Chat Room" },
+            { 17, "Desktop Galaxy" },
+            { 18, "Mobile Galaxy" },
+            { 19, "Desktop Compact" },
+            { 88, "Others" },
+
+            // Jollysport
+            { 91, "Desktop" },
+            { 92, "Mobile" },
+            { 99, "Others" }
         };
 
         public static string GetPlatformName(int platformType)
