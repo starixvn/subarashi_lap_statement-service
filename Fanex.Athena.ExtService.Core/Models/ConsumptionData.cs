@@ -13,6 +13,7 @@
         }
 
         public DateTime LastResponse { get; private set; }
+
         public int NumberOfRequests { get; private set; }
 
         public bool HasConsumedAllRequests(int timeWindowInSeconds, int maxRequests)
@@ -20,13 +21,11 @@
 
         public void IncreaseRequests(int maxRequests)
         {
-            LastResponse = DateTime.UtcNow;
-
             if (NumberOfRequests == maxRequests)
             {
+                LastResponse = DateTime.UtcNow;
                 NumberOfRequests = 1;
             }
-
             else
             {
                 NumberOfRequests++;
