@@ -10,5 +10,11 @@
     <Setting Key="LAP_Statement_Mem_Product" SpName="LAP_Statement_Mem_Product" DbName="DBACC.bodb02.wsv_lap" />
 	<Setting Key="Lrf_GetConfigDetailByKeyName" SpName="Lrf_GetConfigDetailByKeyName" DbName="DBCUST.SiteConfig.wsv_lap" />
 	<Setting Key="Lrf_GetWhitelistIPBySiteName" SpName="Lrf_GetWhitelistIPBySiteName" DbName="DBCUST.SiteConfig.wsv_lap" />
+	<Setting Key="Lrf_CurrencySel" SpName="Lrf_CurrencySel" DbName="DBEXT.bodb02.wsv_lap" />
+  </Function>
+  <Function Name="PlayerReport">
+	<Setting Key="LAP_API_PlayerBalanceSel" SpName="LAP_API_PlayerBalanceSel" DbName="DBRPT.bodb_Report.wsv_lap" />
+	<Setting Key="LAP_API_PlayerWinlossByPlatform" SpName="LAP_API_PlayerWinlossByPlatform" DbName="DBRPT.bodb_Report.wsv_lap" />
+	<Setting Key="LAP_API_PlayerWinlossByProduct" SpName="LAP_API_PlayerWinlossByProduct" DbName="DBRPT.bodb_Report.wsv_lap" />
   </Function>
 </Functions>

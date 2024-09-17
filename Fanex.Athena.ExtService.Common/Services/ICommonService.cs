@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-
-using Fanex.Athena.ExtService.Common.Models.DTO;
-
-namespace Fanex.Athena.ExtService.Common.Services
+﻿namespace Fanex.Athena.ExtService.Common.Services
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Models.DTO;
+
     public interface ICommonService
     {
         Task<LicenseeInfo> GetLicenseeInfoAsync(string siteName, int custId = 0);
@@ -20,5 +19,7 @@ namespace Fanex.Athena.ExtService.Common.Services
         int GetSpecialPlatform(string licenseeName);
 
         Task<List<string>> GetWhitelistIPFromDB(string siteName);
+
+        Task<Dictionary<int, string>> GetAllCurrencyInfo();
     }
 }

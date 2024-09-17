@@ -1,27 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Fanex.Athena.ExtService.Common.Models.DTO;
-using Fanex.Data;
-using Microsoft.Extensions.Options;
-
-namespace Fanex.Athena.ExtService.Common.Services
+﻿namespace Fanex.Athena.ExtService.Common.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Data;
+    using Microsoft.Extensions.Options;
+    using Models.DTO;
+
     public class CommonService : ICommonService
     {
         private const int CacheTimeout120Seconds = 120;
         private const int CacheTimeout300Seconds = 300;
         private const int CacheTimeOut30Seconds = 30;
         private const string BalanceUpCacheKey = "EXT_LAP_CACHE_BALANCEUP";
+        private const string CurrencyInfoCacheKey = "EXT_LAP_CACHE_CURRENCY";
         private const string LicenseeExtInfoCacheKey = "__LicenseeExtInfoCacheKey_";
         private const string WhitelistIPCacheKey = "WhitelistIP_{0}";
-
-        private readonly Lazy<IReadOnlyDictionary<int, string>> _siteDBConfig;
 
         private readonly ICustomDistributedCache _cache;
 
         private readonly AppSettings _settings;
+
+        private readonly Lazy<IReadOnlyDictionary<int, string>> _siteDBConfig;
 
         public CommonService(ICustomDistributedCache cache, IOptions<AppSettings> settings)
         {
@@ -37,6 +38,7 @@ namespace Fanex.Athena.ExtService.Common.Services
                 {
                     config.Add(int.Parse(reader["SiteDBGroupID"].ToString()), reader["AGIP"].ToString());
                 }
+
                 return config;
             });
         }
@@ -75,8 +77,9 @@ namespace Fanex.Athena.ExtService.Common.Services
             using var db = ObjectDbFactory.CreateInstance(UspName);
             using var reader = await db.ExecuteReaderAsync(new { siteName = licenseeName });
             var siteDBGroupID = reader.Read() ? Convert.ToInt32(reader["SiteDBGroupID"]) : 0;
-            return siteDBGroupID != 0 && _siteDBConfig.Value.TryGetValue(siteDBGroupID, out string dbServer)
-                          ? dbServer : string.Empty;
+            return siteDBGroupID != 0 && _siteDBConfig.Value.TryGetValue(siteDBGroupID, out var dbServer)
+                ? dbServer
+                : string.Empty;
         }
 
         public bool IsShowIp(string siteName)
@@ -93,42 +96,6 @@ namespace Fanex.Athena.ExtService.Common.Services
             var specialPlatform = reader.Read() ? Convert.ToInt32(reader["SpecialPlatform"]) : 0;
 
             return specialPlatform;
-        }
-
-        private static async Task<LicenseeInfo> GetLicenseeInfoFromDBAsync(string siteName, int custId)
-        {
-            const string UspName = "Lrf_LicenseeSelExtInfo";
-
-            var result = new LicenseeInfo
-            {
-                SiteName = siteName,
-                Currencies = new CurrencyInfo[] { }
-            };
-            using (var db = ObjectDbFactory.CreateInstance(UspName))
-            {
-                db.SetParameterValue(nameof(siteName), siteName);
-                db.SetParameterValue(nameof(custId), custId);
-                using (var reader = await db.ExecuteReaderAsync())
-                {
-                    var currencies = new List<CurrencyInfo>();
-                    while (reader.Read())
-                    {
-                        currencies.Add(new CurrencyInfo
-                        {
-                            CurrencyId = Convert.ToInt32(reader["CurrencyId"]),
-                            AgentId = Convert.ToInt32(reader["AgentId"]),
-                            CurrencyName = Convert.ToString(reader["CurrencyName"])
-                        });
-                    }
-                    result.Currencies = currencies.ToArray();
-                    if (reader.NextResult() && reader.Read())
-                    {
-                        result.IsAllowedCustomerComm = Convert.ToBoolean(reader["IsAllowedCustomerComm"]);
-                    }
-                }
-            }
-
-            return result;
         }
 
         public async Task<BalanceUp> GetBalanceUpAsync()
@@ -164,6 +131,76 @@ namespace Fanex.Athena.ExtService.Common.Services
             await _cache.SetAsync(cacheKey, whitelistIP, options);
 
             return whitelistIP.ToList();
+        }
+
+        public async Task<Dictionary<int, string>> GetAllCurrencyInfo()
+        {
+            var result = await _cache.GetAsync<Dictionary<int, string>>(CurrencyInfoCacheKey);
+            if (result != null)
+            {
+                return result;
+            }
+
+            const string UspName = "Lrf_CurrencySel";
+            using var db = ObjectDbFactory.CreateInstance(UspName);
+
+            using (var reader = await db.ExecuteReaderAsync())
+            {
+                var currencies = new Dictionary<int, string>();
+                while (reader.Read())
+                {
+                    currencies.Add(
+                        Convert.ToInt32(reader["Id"]),
+                        Convert.ToString(reader["Name"])
+                    );
+                }
+
+                if (currencies.Count > 0)
+                {
+                    var options = CustomDistributedCache.WithAbsoluteExpiration(DateTimeOffset.Now.AddSeconds(CacheTimeout300Seconds));
+                    await _cache.SetAsync(CurrencyInfoCacheKey, currencies, options);
+                }
+
+                return currencies;
+            }
+        }
+
+        private static async Task<LicenseeInfo> GetLicenseeInfoFromDBAsync(string siteName, int custId)
+        {
+            const string UspName = "Lrf_LicenseeSelExtInfo";
+
+            var result = new LicenseeInfo
+            {
+                SiteName = siteName,
+                Currencies = new CurrencyInfo[] { }
+            };
+
+            using (var db = ObjectDbFactory.CreateInstance(UspName))
+            {
+                db.SetParameterValue(nameof(siteName), siteName);
+                db.SetParameterValue(nameof(custId), custId);
+                using (var reader = await db.ExecuteReaderAsync())
+                {
+                    var currencies = new List<CurrencyInfo>();
+                    while (reader.Read())
+                    {
+                        currencies.Add(new CurrencyInfo
+                        {
+                            CurrencyId = Convert.ToInt32(reader["CurrencyId"]),
+                            AgentId = Convert.ToInt32(reader["AgentId"]),
+                            CurrencyName = Convert.ToString(reader["CurrencyName"])
+                        });
+                    }
+
+                    result.Currencies = currencies.ToArray();
+                    if (reader.NextResult() && reader.Read())
+                    {
+                        result.IsAllowedCustomerComm = Convert.ToBoolean(reader["IsAllowedCustomerComm"]);
+                    }
+                }
+            }
+
+            return result;
         }
 
         private static async Task<BalanceUp> GetBalanceUpDayFromDb()
