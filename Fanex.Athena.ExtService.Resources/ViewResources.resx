@@ -522,4 +522,7 @@
   <data name="ProductNS" xml:space="preserve">
     <value>Nextspin</value>
   </data>
+  <data name="ProductON" xml:space="preserve">
+    <value>ON Casino</value>
+  </data>
 </root>
