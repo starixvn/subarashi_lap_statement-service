@@ -778,8 +778,8 @@
 
                 showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
             },
-            
-           showNextspinBetDetails: function (transId, winlostDate, custId, transType) {
+
+            showNextspinBetDetails: function (transId, winlostDate, custId, transType) {
                 let url = Site.resolveClientUrl('BetListDetailByProduct/Detail');
                 url = QueryString.setParam(url, 'transId', transId);
                 url = QueryString.setParam(url, 'date', winlostDate);
@@ -793,6 +793,25 @@
 
                 const popH = Math.min($(window).height() - 100, 550);
                 const title = Site.getSingleResource('ProductNS') + ' - ' +
+                    Site.getSingleResource('DetailedBetlist');
+
+                showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
+            },
+
+            showONLiveCasinoBetDetails: function (transId, winlostDate, custId, transType) {
+                let url = Site.resolveClientUrl('BetListDetailByProduct/Detail');
+                url = QueryString.setParam(url, 'transId', transId);
+                url = QueryString.setParam(url, 'date', winlostDate);
+                url = QueryString.setParam(url, 'custId', custId);
+                url = QueryString.setParam(url, 'transType', transType);
+                url = QueryString.setParam(url, 'BaseCurrency', getBaseCurrency());
+                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
+                url = QueryString.setParam(url, 'lang', $("#lang").val());
+                url = QueryString.setParam(url, 'uspkey', 'Lrf_BetList_LC_Detail');
+                url = QueryString.setParam(url, 'isDesktopViewOnly', $("#isDesktopViewOnly").val() === "1");
+
+                const popH = Math.min($(window).height() - 100, 550);
+                const title = Site.getSingleResource('ProductON') + ' - ' +
                     Site.getSingleResource('DetailedBetlist');
 
                 showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
@@ -857,6 +876,7 @@
                 window.showFastSpinBetDetails = _me.showFastSpinBetDetails;
                 window.showFACHAIBetDetails = _me.showFACHAIBetDetails;
                 window.showNextspinBetDetails = _me.showNextspinBetDetails;
+                window.showONLiveCasinoBetDetails = _me.showONLiveCasinoBetDetails;
 
                 const betList = {
                     ViewCasinoHandHistory: _me.ViewCasinoHandHistory

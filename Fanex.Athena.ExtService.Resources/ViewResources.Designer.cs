@@ -799,6 +799,15 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ON Casino.
+        /// </summary>
+        public static string ProductON {
+            get {
+                return ResourceManager.GetString("ProductON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to PG Soft.
         /// </summary>
         public static string ProductPGS {
