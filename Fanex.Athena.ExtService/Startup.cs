@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Net;
     using System.Net.Http;
+    using System.Net.Mime;
     using System.Security.Claims;
     using System.Text;
     using System.Threading.Tasks;
@@ -25,6 +26,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.HttpOverrides;
     using Microsoft.AspNetCore.Localization;
     using Microsoft.AspNetCore.Mvc;
@@ -33,6 +35,7 @@
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
+    using Newtonsoft.Json;
     using RemotingRef;
     using Report.Services;
     using StackExchange.Redis;
@@ -74,6 +77,14 @@
             services.Configure<List<User>>(Configuration.GetSection("Users"));
             services.Configure<List<ApiKey>>(Configuration.GetSection("ApiKeys"));
 
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost;
+                options.KnownNetworks.Clear();
+                options.KnownProxies.Clear();
+                options.ForwardLimit = null;
+            });
+
             var appOption = Configuration.GetSection(ApplicationOptionSettingKey).Get<ApplicationOptions>();
 
             ConfigFanexData();
@@ -91,15 +102,9 @@
                     .Build();
             });
 
-            services.Configure<ForwardedHeadersOptions>(options =>
-            {
-                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost;
-                options.KnownNetworks.Clear();
-                options.KnownProxies.Clear();
-            });
-
             services.AddHealthChecks()
-                .AddCheck<WhoAmIHealthCheck>("WhoAmIHealthCheck");
+                .AddCheck<WhoAmIHealthCheck>("WhoAmIHealthCheck")
+                .AddCheck<WhoAmIHeaderHealthCheck>("WhoAmIHeaderHealthCheck");
 
             RefDataTypeContainer
                 .ConnectTo(new Uri(appSettings["Fanex.RemotingRef.Service.Url"]))
@@ -118,7 +123,20 @@
         public void Configure(IApplicationBuilder app)
         {
             app.UsePingCheck();
+            app.UseHealthChecks("/whoamiheader", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
+            {
+                AllowCachingResponses = false,
+                Predicate = registration => registration.Name == "WhoAmIHeaderHealthCheck",
+                ResponseWriter = async (context, report) =>
+                {
+                    context.Response.ContentType = MediaTypeNames.Application.Json;
+                    var result = JsonConvert.SerializeObject(report, Formatting.Indented);
+                    await context.Response.WriteAsync(result);
+                }
+            });
             app.UseForwardedHeaders();
+            app.UseWhoAmICheck();
+
 
             if (string.Equals(Configuration["UseErrorHandler"], "1"))
             {
@@ -128,8 +146,6 @@
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseWhoAmICheck();
 
             if (!HostingEnvironment.IsDevelopment())
             {
