@@ -817,6 +817,25 @@
                 showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
             },
 
+            showPlaytechBetDetails: function (transId, winlostDate, custId, transType) {
+                let url = Site.resolveClientUrl('BetListDetailByProduct/Detail');
+                url = QueryString.setParam(url, 'transId', transId);
+                url = QueryString.setParam(url, 'date', winlostDate);
+                url = QueryString.setParam(url, 'custId', custId);
+                url = QueryString.setParam(url, 'transType', transType);
+                url = QueryString.setParam(url, 'BaseCurrency', getBaseCurrency());
+                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
+                url = QueryString.setParam(url, 'lang', $("#lang").val());
+                url = QueryString.setParam(url, 'uspkey', 'Lrf_BetList_RNG_Detail');
+                url = QueryString.setParam(url, 'isDesktopViewOnly', $("#isDesktopViewOnly").val() === "1");
+
+                const popH = Math.min($(window).height() - 100, 550);
+                const title = Site.getSingleResource('ProductPTRNG') + ' - ' +
+                    Site.getSingleResource('DetailedBetlist');
+
+                showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
+            },
+
             showDetail: function (id) {
                 var e = document.getElementById(id);
                 if (e.style.display == 'block') {
@@ -877,6 +896,7 @@
                 window.showFACHAIBetDetails = _me.showFACHAIBetDetails;
                 window.showNextspinBetDetails = _me.showNextspinBetDetails;
                 window.showONLiveCasinoBetDetails = _me.showONLiveCasinoBetDetails;
+                window.showPlaytechBetDetails = _me.showPlaytechBetDetails;
 
                 const betList = {
                     ViewCasinoHandHistory: _me.ViewCasinoHandHistory

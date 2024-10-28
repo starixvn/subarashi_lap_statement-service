@@ -525,4 +525,7 @@
   <data name="ProductON" xml:space="preserve">
     <value>ON Casino</value>
   </data>
+  <data name="ProductPTRNG" xml:space="preserve">
+    <value>Playtech</value>
+  </data>
 </root>
