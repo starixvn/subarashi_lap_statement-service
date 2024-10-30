@@ -24,6 +24,7 @@
             {
                 var noOfPage = TotalItems / PageSize + (TotalItems % PageSize == 0 ? 0 : 1);
                 output.Attributes.SetAttribute("class", "pagingContainer center-align " + CustomClass);
+                var pageItems = PageIndex * PageSize;
 
                 AddPageButton(output, "pagingFirst", PageIndex == 1, 1, PageSize);
                 AddPageButton(output, "pagingPrev", PageIndex == 1, PageIndex - 1, PageSize);
@@ -34,7 +35,7 @@
                 AddPageButton(output, "pagingLast", PageIndex == noOfPage, noOfPage, PageSize);
                 AddPageSizeOption(output);
 
-                output.Content.AppendHtml($"<span class=\"paging-info\">View {(PageIndex - 1) * PageSize + 1}-{PageIndex * PageSize} of {TotalItems}</span>");
+                output.Content.AppendHtml($"<span class=\"paging-info\">View {(PageIndex - 1) * PageSize + 1}-{(TotalItems < pageItems ? TotalItems : pageItems)} of {TotalItems}</span>");
             }
         }
 
