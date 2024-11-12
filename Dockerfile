@@ -1,4 +1,14 @@
+ARG CI_REGISTRY_IMAGE
+
+FROM $CI_REGISTRY_IMAGE:builder as deps
+
+RUN mkdir -p /src/packages
+
 FROM hub.nexdev.net/base/dotnet/core/sdk:5.0.102-ca-patch-buster-slim AS builder
+
+ENV NUGET_PACKAGES=/src/packages
+
+COPY --from=deps $NUGET_PACKAGES/. $NUGET_PACKAGES/
 
 RUN apt-get update  \
   && curl --silent --location https://deb.nodesource.com/setup_14.x | bash -  \
@@ -55,6 +65,7 @@ RUN dotnet publish "Fanex.Athena.ExtService.csproj" -c Release -o /publish \
 FROM hub.nexdev.net/base/dotnet/core/aspnet:5.0-alpine
 
 ENV ASPNETCORE_URLS=http://*:5000
+ENV DOTNET_HOSTBUILDER__RELOADCONFIGONCHANGE=false
 EXPOSE 5000
 
 WORKDIR /app

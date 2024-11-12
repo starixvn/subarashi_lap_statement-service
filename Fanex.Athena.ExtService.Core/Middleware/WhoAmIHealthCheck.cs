@@ -58,9 +58,34 @@ namespace Fanex.Athena.ExtService.Core.Middleware
             result.Add("Local Port", context.Connection.LocalPort);
             result.Add("Client Ip", context.Connection.RemoteIpAddress.ToString());
             result.Add("Server Time", DateTime.Now.ToString(CultureInfo.InvariantCulture));
-            result.Add("Last Upadted", File.GetCreationTime(typeof(WhoAmIHealthCheck).Assembly.Location).ToString(CultureInfo.InvariantCulture));
+            result.Add("Last Updated", File.GetCreationTime(typeof(WhoAmIHealthCheck).Assembly.Location).ToString(CultureInfo.InvariantCulture));
             result.Add("Host", context.Request.Host);
             result.Add("Schema", context.Request.Scheme);
+        }
+    }
+
+    public class WhoAmIHeaderHealthCheck : IHealthCheck
+    {
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public WhoAmIHeaderHealthCheck(IHttpContextAccessor httpContextAccessor)
+        {
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+        public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
+        {
+            IDictionary<string, object> result = new Dictionary<string, object>
+            {
+            };
+
+            var httpContext = _httpContextAccessor.HttpContext;
+            result.Add("Header Count", httpContext.Request.Headers.Count);
+            foreach (var header in httpContext.Request.Headers)
+            {
+                result.Add($"HEADER[{header.Key}]", header.Value);
+            }
+            return Task.FromResult(HealthCheckResult.Healthy("Request Header", new ReadOnlyDictionary<string, object>(result)));
         }
     }
 }
