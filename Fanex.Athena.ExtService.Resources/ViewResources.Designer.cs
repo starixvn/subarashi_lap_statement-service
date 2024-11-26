@@ -682,6 +682,15 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to GPI.
+        /// </summary>
+        public static string ProductGPIRNG {
+            get {
+                return ResourceManager.GetString("ProductGPIRNG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Habanero.
         /// </summary>
         public static string ProductHB {
