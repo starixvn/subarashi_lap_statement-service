@@ -4,24 +4,19 @@ FROM $CI_REGISTRY_IMAGE:builder as deps
 
 RUN mkdir -p /src/packages
 
-FROM hub.nexdev.net/base/dotnet/core/sdk:5.0.102-ca-patch-buster-slim AS builder
+FROM hub.nexdev.net/base/dotnet/core/sdk:5.0.102-node14-ca-patch-buster-slim AS builder
 
 ENV NUGET_PACKAGES=/src/packages
 
 COPY --from=deps $NUGET_PACKAGES/. $NUGET_PACKAGES/
-
-RUN apt-get update  \
-  && curl --silent --location https://deb.nodesource.com/setup_14.x | bash -  \
-  && apt-get install -y nodejs
-
-RUN node -v
-RUN npm -v
 
 WORKDIR /src/Fanex.Athena.ExtService
 
 COPY Fanex.Athena.ExtService/package.json ./
 COPY Fanex.Athena.ExtService/package-lock.json ./
 
+RUN node -v
+RUN npm -v
 RUN npm install
 
 WORKDIR /src
