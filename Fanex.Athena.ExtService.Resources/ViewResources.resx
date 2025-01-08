@@ -534,4 +534,7 @@
   <data name="ProductGPILC" xml:space="preserve">
     <value>GPI Live Casino</value>
   </data>
+  <data name="ProductPS" xml:space="preserve">
+    <value>PLAYSTAR</value>
+  </data>
 </root>
