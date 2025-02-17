@@ -21,6 +21,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
         protected readonly Mock<ICommonService> _commonService;
         protected readonly Mock<IBetListApiClient> _betListApiClient;
         protected readonly Mock<IBrowserService> _browserService;
+        protected readonly Mock<IContextService> _contextService;
 
         public BaseControllerTest()
         {
@@ -52,6 +53,9 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
 
             _controllerContext = new Mock<ControllerContext>();
             _controllerContext.Object.HttpContext = _httpContext.Object;
+            _contextService = new Mock<IContextService>();
+
+            _contextService.Setup(x => x.SiteName).Returns(SiteName);
         }
     }
 }

@@ -271,7 +271,6 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
                 var setting = options.Value;
                 client.BaseAddress = new Uri(options.Value.BetListApiHostUrl);
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, contextService.OAuthAccessToken);
-                client.DefaultRequestHeaders.Add(BetListTokenKey, options.Value.BetListApiTokenValue);
             }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
             {
                 AllowAutoRedirect = false,

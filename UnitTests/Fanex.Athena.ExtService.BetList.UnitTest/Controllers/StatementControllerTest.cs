@@ -36,7 +36,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             fakeService.Setup(x => x.QueryAsync(It.IsAny<SummaryStatementMetaModel>()))
             .Returns(Task.FromResult(fakeData));
             //Action
-            var controller = new StatementController(_commonService.Object);
+            var controller = new StatementController(_commonService.Object, _contextService.Object);
             controller.ControllerContext = _controllerContext.Object;
             expectedResult = await controller.Summary(fakeService.Object, metalModel).ConfigureAwait(false);
 
@@ -70,7 +70,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             .Returns(Task.FromResult(fakeData));
 
             //Action
-            using (var controller = new StatementController(Mock.Of<ICommonService>()))
+            using (var controller = new StatementController(Mock.Of<ICommonService>(), _contextService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 await controller.Summary(fakeService.Object, metalModel).ConfigureAwait(false);
@@ -103,7 +103,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             fakeService.Setup(x => x.QueryAsync(It.IsAny<StatementByGroupMetaModel>()))
             .Returns(Task.FromResult(fakeData));
             //Action
-            var controller = new StatementController(_commonService.Object);
+            var controller = new StatementController(_commonService.Object, _contextService.Object);
             controller.ControllerContext = _controllerContext.Object;
             expectedResult = await controller.ByGroup(fakeService.Object, metalModel).ConfigureAwait(false);
 
@@ -137,7 +137,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             .Returns(Task.FromResult(fakeData));
 
             //Action
-            using (var controller = new StatementController(Mock.Of<ICommonService>()))
+            using (var controller = new StatementController(Mock.Of<ICommonService>(), _contextService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 await controller.ByGroup(fakeService.Object, metalModel).ConfigureAwait(false);

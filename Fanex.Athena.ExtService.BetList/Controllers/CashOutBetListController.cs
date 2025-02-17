@@ -42,7 +42,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
 
             AssignCommonMetaModelValue(metaModel, licenseeInfo);
 
-            var viewModel = await _betListApiClient.PostAsync<CashOutBetListDetailViewModel>("api/CashOutBetList/Detail",
+            var viewModel = await _betListApiClient.PostAsync<CashOutBetListDetailViewModel>("/api/CashOutBetList/Detail",
                 metaModel, metaModel.Lang).ConfigureAwait(false);
             viewModel.Info = licenseeInfo;
 
@@ -69,7 +69,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
 
             AssignCommonMetaModelValue(metaModel, licenseeInfo);
 
-            var viewModel = await _betListApiClient.PostAsync<NewCashOutBetListDetailViewModel>("api/CashOutBetList/History",
+            var viewModel = await _betListApiClient.PostAsync<NewCashOutBetListDetailViewModel>("/api/CashOutBetList/History",
                 metaModel, metaModel.Lang).ConfigureAwait(false);
             viewModel.Info = licenseeInfo;
 

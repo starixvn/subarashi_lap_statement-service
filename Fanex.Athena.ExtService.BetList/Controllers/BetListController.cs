@@ -65,7 +65,7 @@
                 AssignCommonMetaModelValue(metaModel, licenseeInfo);
                 metaModel.ViewSabaCoins = --metaModel.ViewSabaCoins;
                 var result = await _betListApiClient.PostAsync<RefNoDataResult>(
-                    "api/BettingTicketCenter/GetByRefno",
+                    "/api/BettingTicketCenter/GetByRefno",
                     metaModel,
                     metaModel.Lang).ConfigureAwait(false);
 
@@ -98,7 +98,7 @@
                 AssignCommonMetaModelValue(metaModel, licenseeInfo);
 
                 var result = await _betListApiClient.PostAsync<TxIDDataResult>(
-                    "api/BettingTicketCenter/GetByTxID",
+                    "/api/BettingTicketCenter/GetByTxID",
                     metaModel,
                     metaModel.Lang).ConfigureAwait(false);
 
@@ -150,7 +150,7 @@
                 metaModel.SpecialPlatform = specialPlatform;
 
                 var result = await _betListApiClient.PostAsync<RefNoDataResult>(
-                    "api/BetListByProduct/Index",
+                    "/api/BetListByProduct/Index",
                     metaModel,
                     metaModel.Lang).ConfigureAwait(false);
 
@@ -199,7 +199,7 @@
                 metaModel.SpecialPlatform = specialPlatform;
 
                 var result = await _betListApiClient.PostAsync<RefNoDataResult>(
-                    "/PlayerAdminBetList/GetBetList",
+                    "/api/PlayerAdminBetList/GetBetList",
                     metaModel,
                     metaModel.Lang).ConfigureAwait(false);
 

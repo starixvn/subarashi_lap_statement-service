@@ -37,7 +37,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
 
             //Action
             using (var controller = new BetListDetailByProductController
-                (_commonService.Object, _betListApiClient.Object, _browserService.Object))
+                (_commonService.Object, _betListApiClient.Object, _browserService.Object, _contextService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 result = await controller.Detail(metalModel).ConfigureAwait(false);

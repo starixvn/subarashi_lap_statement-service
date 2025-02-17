@@ -9,6 +9,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
     using Fanex.Athena.ExtService.BetList.Models.DTO;
     using Fanex.Athena.ExtService.BetList.Models.MetaModel;
     using Fanex.Athena.ExtService.BetList.Models.ViewModel;
+    using Fanex.Athena.ExtService.Common.Models.DTO;
     using Microsoft.AspNetCore.Mvc;
     using Moq;
     using Xunit;
@@ -28,7 +29,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName, 0);
 
             // Action
-            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object))
+            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object, _contextService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 result = await controller.RefNo(metalModel).ConfigureAwait(false);
@@ -56,7 +57,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             IActionResult expectedResult = null;
 
             // Action
-            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object))
+            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object, _contextService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 expectedResult = await controller.RefNo(metalModel).ConfigureAwait(false);
@@ -79,14 +80,14 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
                                                                new List<TicketText> { ticketText });
 
             _betListApiClient.Setup(x => x.PostAsync<RefNoDataResult>(
-                "/BettingTicketCenter/GetByRefno",
+                "/api/BettingTicketCenter/GetByRefno",
                 It.IsAny<RefNoBetListMetaModel>(),
                 It.IsAny<string>()
                )).Returns(Task.FromResult(apiResult));
             IActionResult expectedResult = null;
 
             // Action
-            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object))
+            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object, _contextService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 expectedResult = await controller.RefNo(metalModel).ConfigureAwait(false);
@@ -111,7 +112,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName, 0);
 
             // Action
-            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object))
+            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object, _contextService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 result = await controller.TxID(metalModel).ConfigureAwait(false);
@@ -139,7 +140,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             IActionResult expectedResult = null;
 
             // Action
-            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object))
+            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object, _contextService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 expectedResult = await controller.TxID(metalModel).ConfigureAwait(false);
@@ -162,14 +163,14 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
                                                               new List<TicketText> { ticketText });
 
             _betListApiClient.Setup(x => x.PostAsync<TxIDDataResult>(
-                "/BettingTicketCenter/GetByTxID",
+                "/api/BettingTicketCenter/GetByTxID",
                 It.IsAny<TxIDBetListMetaModel>(),
                 It.IsAny<string>()
                )).Returns(Task.FromResult(apiResult));
             IActionResult expectedResult = null;
 
             // Action
-            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object))
+            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object, _contextService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 expectedResult = await controller.TxID(metalModel).ConfigureAwait(false);
@@ -193,7 +194,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName, 0);
 
             // Action
-            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object))
+            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object, _contextService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 result = await controller.ByGroup(metalModel).ConfigureAwait(false);
@@ -220,7 +221,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             IActionResult expectedResult = null;
 
             // Action
-            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object))
+            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object, _contextService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 expectedResult = await controller.ByGroup(metalModel).ConfigureAwait(false);
@@ -250,7 +251,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
                                                                new List<TicketText> { ticketText });
 
             _betListApiClient.Setup(x => x.PostAsync<RefNoDataResult>(
-                                                                      "/BetListByProduct/Index",
+                                                                      "/api/BetListByProduct/Index",
                                                                       It.IsAny<BetListByGroupMetaModel>(),
                                                                       It.IsAny<string>()
                                                                      )).Returns(Task.FromResult(apiResult));
@@ -258,7 +259,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             IActionResult expectedResult = null;
 
             // Action
-            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object))
+            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object, _contextService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 expectedResult = await controller.ByGroup(metalModel).ConfigureAwait(false);
@@ -285,7 +286,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             var apiResult = FakeHelper.Create<RefNoDataResult>(result => result.Data, new List<TicketText> { ticketText });
 
             _betListApiClient.Setup(x => x.PostAsync<RefNoDataResult>(
-                                                                      "/PlayerAdminBetList/GetBetList",
+                                                                      "/api/PlayerAdminBetList/GetBetList",
                                                                       It.IsAny<RunningBetListMetaModel>(),
                                                                       It.IsAny<string>()
                                                                      )).Returns(Task.FromResult(apiResult));
@@ -293,7 +294,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             IActionResult expectedResult = null;
 
             // Action
-            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object))
+            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object, _contextService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 expectedResult = await controller.Running(metalModel).ConfigureAwait(false);
@@ -314,7 +315,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             IActionResult expectedResult = null;
 
             // Action
-            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object))
+            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object, _contextService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 expectedResult = await controller.Running(metalModel).ConfigureAwait(false);
@@ -340,7 +341,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             };
 
             _betListApiClient.Setup(x => x.PostAsync<RefNoDataResult>(
-                "/PlayerAdminBetList/GetBetList",
+                "/api/PlayerAdminBetList/GetBetList",
                 It.IsAny<RunningBetListMetaModel>(),
                 It.IsAny<string>()
                 )).Returns(Task.FromResult(new RefNoDataResult()));
@@ -349,7 +350,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName, 0);
 
             // Action
-            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object))
+            using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object, _contextService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 result = await controller.Running(metalModel).ConfigureAwait(false);

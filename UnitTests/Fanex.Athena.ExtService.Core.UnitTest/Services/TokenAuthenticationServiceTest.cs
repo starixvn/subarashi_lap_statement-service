@@ -23,6 +23,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTest.Services
 
         private readonly Mock<IUserManagementService> _mockUserManagement = new Mock<IUserManagementService>();
         private readonly Mock<ICommonService> _mockCommonService = new Mock<ICommonService>();
+        private readonly Mock<IOAuthService> _mockOAuthService = new Mock<IOAuthService>();
 
         public TokenAuthenticationServiceTest()
         {
@@ -33,6 +34,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTest.Services
             _authenticateService = new TokenAuthenticationService(
                 _mockUserManagement.Object,
                 _mockCommonService.Object,
+                _mockOAuthService.Object,
                mockTokenManagement.Object);
         }
 
@@ -67,6 +69,8 @@ namespace Fanex.Athena.ExtService.Core.UnitTest.Services
                 Password = pass
             };
             _mockUserManagement.Setup(x => x.IsValidUser(It.IsAny<string>(), token.Password)).Returns(true);
+            _mockOAuthService.Setup(_ => _.RequestTokenAsync(token)).Returns(Task.FromResult("token"));
+
             //Action
             var result = await _authenticateService.IsAuthenticated(token);
             //Assert
