@@ -258,19 +258,22 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
         private static void ConfigBetListApiClient(IServiceCollection services)
         {
             const string BetListApiClient = "BetListApiClient";
-            const string BetListTokenKey = "BETLIST_TOKEN_KEY";
 
             services.AddTransient<IBetListApiClient, BetListApiClient>();
 
             services.AddHttpClient(BetListApiClient, (serviceProvider, client) =>
             {
-                var options = serviceProvider.GetService<IOptions<AppSettings>>();
-                var oAuthService = serviceProvider.GetService<IOAuthService>();
-                var contextService = serviceProvider.GetService<IContextService>();
+                using (var scope = serviceProvider.CreateScope())
+                {
+                    var scopeServiceProvider = scope.ServiceProvider;
+                    var options = scopeServiceProvider.GetService<IOptions<AppSettings>>();
+                    var oAuthService = scopeServiceProvider.GetService<IOAuthService>();
+                    var contextService = scopeServiceProvider.GetService<IContextService>();
 
-                var setting = options.Value;
-                client.BaseAddress = new Uri(options.Value.BetListApiHostUrl);
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, contextService.OAuthAccessToken);
+                    var setting = options.Value;
+                    client.BaseAddress = new Uri(options.Value.BetListApiHostUrl);
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, contextService.OAuthAccessToken);
+                }
             }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
             {
                 AllowAutoRedirect = false,
