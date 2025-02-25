@@ -22,6 +22,7 @@
                     var env = builderContext.HostingEnvironment;
                     config.SetBasePath(env.ContentRootPath);
                     config.AddJsonFile("appsettings.json", false, false);
+                    config.AddJsonFile("appsettings.Vault.json", false, false);
                     config.AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, false);
                     var envFromSetting = config.Build().GetValue<string>("AppSettings:Environment");
                     config.AddJsonFile($"App_Data/Users/Users.{envFromSetting}.json", false, false);

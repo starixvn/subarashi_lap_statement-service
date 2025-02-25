@@ -7,6 +7,7 @@
     using System.Text;
     using Fanex.Data;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.Data.SqlClient;
 
     public static class ErrorMessageHelper
     {
