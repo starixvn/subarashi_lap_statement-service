@@ -16,26 +16,27 @@ namespace Fanex.Athena.ExtService.Core.Services
         private readonly IUserManagementService _userManagementService;
         private readonly ICommonService _commonService;
         private readonly TokenManagement _tokenManagement;
+        private readonly IOAuthService _oAuthService;
 
         public TokenAuthenticationService(IUserManagementService service,
             ICommonService commonService,
+            IOAuthService oAuthService,
             IOptions<TokenManagement> tokenManagementAccessor)
         {
             _userManagementService = service;
             _commonService = commonService;
             _tokenManagement = tokenManagementAccessor.Value;
+            _oAuthService = oAuthService;
         }
 
         public async Task<Tuple<bool, Token>> IsAuthenticated(TokenRequest request)
         {
             var token = new Token();
-            var siteName = request.Username;
             var realUserName = request.Username;
 
             if (request.Username.Contains("@"))
             {
                 var temp = request.Username.Split('@');
-                siteName = temp[0];
                 realUserName = temp[1];
             }
 
@@ -43,14 +44,15 @@ namespace Fanex.Athena.ExtService.Core.Services
             {
                 return Tuple.Create(false, token);
             }
-
-            var siteDBServer = await _commonService.GetSiteDBServer(siteName);
+            var accessToken = await _oAuthService.RequestTokenAsync(request);
+            if (accessToken == null) 
+            {
+                return Tuple.Create(false, token);
+            }
 
             var claim = new[]
             {
-                new Claim(ClaimTypes.Name, siteName),
-                new Claim(CustomClaimType.SiteDBServer, siteDBServer),
-                new Claim(CustomClaimType.IsShowIPVN, request.IsShowIpvn.ToString(), ClaimValueTypes.Boolean)
+                new Claim(CustomClaimType.IdentityAccessToken, accessToken)
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenManagement.Secret));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

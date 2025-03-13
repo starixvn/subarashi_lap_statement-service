@@ -4,13 +4,20 @@
     using Fanex.Athena.ExtService.Common;
     using Fanex.Athena.ExtService.Common.Models.DTO;
     using Fanex.Athena.ExtService.Common.Models.ViewModels;
-
+    using Fanex.Athena.ExtService.Core.Services;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     [Authorize]
     public class BaseController : Controller
     {
+        protected readonly IContextService _contextService;
+
+        protected BaseController(IContextService contextService)
+        {
+            _contextService = contextService;
+        }
+
         protected void AssignCommonViewModelData(IBaseMetaModel metaModel, BaseViewModel viewModel)
         {
             viewModel.BaseCurrency = metaModel.BaseCurrency;
@@ -23,5 +30,12 @@
             metaModel.HasPlayerCom = licenseeInfo.IsAllowedCustomerComm;
             metaModel.AgentListXml = SystemHelper.GenerateAgentListXml(licenseeInfo);
         }
+
+        protected LicenseeInfo GetLicenseeInfo()
+            => new LicenseeInfo
+            {
+                SiteName = _contextService.SiteName,
+                IsAllowedCustomerComm = _contextService.IsAllowedCustomerComm
+            };
     }
 }

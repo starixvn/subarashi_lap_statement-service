@@ -1,5 +1,4 @@
 ﻿using Fanex.Athena.ExtService.Common.Models.DataDomain;
-using Newtonsoft.Json;
 
 namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 {
@@ -21,7 +20,6 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 
         public string Lang { get; set; } = SystemConstants.DefaultLangCode;
 
-        [JsonProperty("HasPlayerComm")]
         public bool HasPlayerCom { get; set; }
 
         public bool IsShowIpvn { get; set; }

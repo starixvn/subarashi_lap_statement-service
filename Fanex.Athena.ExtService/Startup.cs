@@ -7,6 +7,7 @@
     using System.Net;
     using System.Net.Http;
     using System.Net.Mime;
+using System.Net.Http.Headers;
     using System.Security.Claims;
     using System.Text;
     using System.Threading.Tasks;
@@ -16,6 +17,7 @@
     using Common.Services;
     using Core.Attributes;
     using Core.Extensions;
+using Fanex.Athena.ExtService.Core.Configurations;
     using Core.Middleware;
     using Core.Models;
     using Core.Models.DTO;
@@ -32,6 +34,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
@@ -94,6 +97,10 @@
             services.AddResponseCaching(options => { options.UseCaseSensitivePaths = true; });
 
             ConfigAuthentication(services);
+            
+            services.Configure<IdentitySetting>(Configuration.GetSection("IdentityServerSetting"));
+            services.AddUserAccessTokenManagement();
+            services.AddScoped<IContextService, ContextService>();
 
             services.AddAuthorization(options =>
             {
@@ -237,6 +244,7 @@
             services.AddScoped<CheckCustomerAttribute>();
             services.AddScoped<IBrowserService, BrowserService>();
             services.AddSingleton<ICommonService, CommonService>();
+            services.AddSingleton<IOAuthService, OAuthService>();
 
             ConfigBetListApiClient(services);
 
@@ -250,15 +258,22 @@
         private static void ConfigBetListApiClient(IServiceCollection services)
         {
             const string BetListApiClient = "BetListApiClient";
-            const string BetListTokenKey = "BETLIST_TOKEN_KEY";
 
             services.AddTransient<IBetListApiClient, BetListApiClient>();
 
             services.AddHttpClient(BetListApiClient, (serviceProvider, client) =>
             {
-                var options = serviceProvider.GetService<IOptions<AppSettings>>();
-                client.BaseAddress = new Uri(options.Value.BetListApiHostUrl);
-                client.DefaultRequestHeaders.Add(BetListTokenKey, options.Value.BetListApiTokenValue);
+                using (var scope = serviceProvider.CreateScope())
+                {
+                    var scopeServiceProvider = scope.ServiceProvider;
+                    var options = scopeServiceProvider.GetService<IOptions<AppSettings>>();
+                    var oAuthService = scopeServiceProvider.GetService<IOAuthService>();
+                    var contextService = scopeServiceProvider.GetService<IContextService>();
+
+                    var setting = options.Value;
+                    client.BaseAddress = new Uri(options.Value.BetListApiHostUrl);
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, contextService.OAuthAccessToken);
+                }
             }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
             {
                 AllowAutoRedirect = false,
@@ -269,6 +284,8 @@
         private void ConfigAuthentication(IServiceCollection services)
         {
             var token = Configuration.GetSection("tokenManagement").Get<TokenManagement>();
+            //Add config for JwtBearerOptions to get session from IdentityServer access token
+            services.TryAddEnumerable(ServiceDescriptor.Singleton<IPostConfigureOptions<JwtBearerOptions>, CustomJwtBearerPostConfigureOptions>());
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(x =>
                 {
@@ -300,6 +317,7 @@
                         }
                     };
                 });
+          
         }
 
         private void ConfigFanexData()

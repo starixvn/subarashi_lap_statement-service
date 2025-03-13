@@ -34,7 +34,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
 
             IActionResult result = null;
             _betListApiClient.Setup(x => x.PostAsync<CashOutBetListDetailViewModel>(
-                "/CashOutBetList/Detail", It.IsAny<CashOutBetListDetailMetaModel>(),
+                "/api/CashOutBetList/Detail", It.IsAny<CashOutBetListDetailMetaModel>(),
                 It.IsAny<string>()))
                 .Returns(Task.FromResult(fakeResult));
 
@@ -42,7 +42,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
 
             //Action
             using (var controller = new CashOutBetListController(
-                _commonService.Object, _betListApiClient.Object, _browserService.Object))
+                _commonService.Object, _betListApiClient.Object, _browserService.Object, _contextService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 result = await controller.Detail(metalModel).ConfigureAwait(false);
@@ -78,7 +78,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             var fakeResult = new NewCashOutBetListDetailViewModel();
             IActionResult result = null;
             _betListApiClient.Setup(x => x.PostAsync<NewCashOutBetListDetailViewModel>(
-                "/CashOutBetList/History", It.IsAny<NewCashOutBetListDetailMetaModel>(),
+                "/api/CashOutBetList/History", It.IsAny<NewCashOutBetListDetailMetaModel>(),
                 It.IsAny<string>()))
                 .Returns(Task.FromResult(fakeResult));
 
@@ -86,7 +86,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
 
             //Action
             using (var controller = new CashOutBetListController(
-                _commonService.Object, _betListApiClient.Object, _browserService.Object))
+                _commonService.Object, _betListApiClient.Object, _browserService.Object, _contextService.Object))
             {
                 controller.ControllerContext = _controllerContext.Object;
                 result = await controller.NewDetail(metalModel).ConfigureAwait(false);

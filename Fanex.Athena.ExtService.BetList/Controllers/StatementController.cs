@@ -6,6 +6,7 @@ using Fanex.Athena.ExtService.BetList.Services;
 using Fanex.Athena.ExtService.Common.Attributes;
 using Fanex.Athena.ExtService.Common.Models.DataDomain;
 using Fanex.Athena.ExtService.Common.Services;
+using Fanex.Athena.ExtService.Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +18,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
     {
         private readonly ICommonService _commonService;
 
-        public StatementController(ICommonService commonService)
+        public StatementController(ICommonService commonService, IContextService contextService) : base(contextService)
         {
             _commonService = commonService;
         }
