@@ -673,6 +673,15 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Funky Games.
+        /// </summary>
+        public static string ProductFG {
+            get {
+                return ResourceManager.GetString("ProductFG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to FGG.
         /// </summary>
         public static string ProductFGGL {
