@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
@@ -27,8 +26,6 @@ namespace Fanex.Athena.ExtService.Core.Services
         public string OAuthAccessToken => GetClaimValue<string>(CustomClaimType.IdentityAccessToken);
 
         public bool IsAllowedCustomerComm => GetClaimValue<bool>("IsAllowedCustomerComm");
-
-        public bool IsEnableBA => GetClaimValue<bool>("IsEnableBA");
 
         public bool IsEnableSingleWallet => GetClaimValue<bool>("IsEnableSingleWallet");
 

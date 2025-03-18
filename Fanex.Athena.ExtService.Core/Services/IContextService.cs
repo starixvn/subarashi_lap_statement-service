@@ -18,8 +18,6 @@ namespace Fanex.Athena.ExtService.Core.Services
 
         bool IsAllowedCustomerComm { get; }
 
-        bool IsEnableBA { get; }
-
         bool IsEnableSingleWallet { get; }
 
         bool IsFakeLicensee { get; }
