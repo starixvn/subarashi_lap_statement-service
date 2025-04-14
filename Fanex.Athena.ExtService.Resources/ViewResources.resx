@@ -546,4 +546,7 @@
   <data name="ProductHOT" xml:space="preserve">
     <value>HOTDOG</value>
   </data>
+  <data name="ProductMGLC" xml:space="preserve">
+    <value>Microgaming Live</value>
+  </data>
 </root>

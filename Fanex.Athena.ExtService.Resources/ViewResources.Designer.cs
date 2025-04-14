@@ -808,6 +808,15 @@ namespace Fanex.Athena.ExtService.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Microgaming Live.
+        /// </summary>
+        public static string ProductMGLC {
+            get {
+                return ResourceManager.GetString("ProductMGLC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MG-RNG.
         /// </summary>
         public static string ProductMGRNG {
