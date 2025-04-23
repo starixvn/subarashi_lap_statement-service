@@ -97,6 +97,7 @@ ProductPP:"PP",
 ProductPS:"PLAYSTAR",
 ProductPTCS:"Playtech Casino",
 ProductPTRNG:"Playtech",
+ProductPTLC:"Playtech Live",
 ProductSAG:"SA Gaming",
 ProductSB:"Sportsbook",
 ProductSBC:"Saba.club",
@@ -138,4 +139,4 @@ Turnover:"Turnover",
 Viewin:"View in {0}",
 Void_CancelledBet:"Void/Cancelled Bet",
 WinLoss:"Win Loss"
-};	
+};
