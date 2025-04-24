@@ -7,7 +7,7 @@
     using System.Net;
     using System.Net.Http;
     using System.Net.Mime;
-using System.Net.Http.Headers;
+    using System.Net.Http.Headers;
     using System.Security.Claims;
     using System.Text;
     using System.Threading.Tasks;
@@ -17,7 +17,7 @@ using System.Net.Http.Headers;
     using Common.Services;
     using Core.Attributes;
     using Core.Extensions;
-using Fanex.Athena.ExtService.Core.Configurations;
+    using Fanex.Athena.ExtService.Core.Configurations;
     using Core.Middleware;
     using Core.Models;
     using Core.Models.DTO;
@@ -98,7 +98,7 @@ using Fanex.Athena.ExtService.Core.Configurations;
             services.AddResponseCaching(options => { options.UseCaseSensitivePaths = true; });
 
             ConfigAuthentication(services);
-            
+
             services.Configure<IdentitySetting>(Configuration.GetSection("IdentityServerSetting"));
             services.AddUserAccessTokenManagement();
             services.AddScoped<IContextService, ContextService>();
@@ -317,7 +317,6 @@ using Fanex.Athena.ExtService.Core.Configurations;
                         }
                     };
                 });
-          
         }
 
         private void ConfigFanexData(IServiceCollection services)
@@ -325,7 +324,7 @@ using Fanex.Athena.ExtService.Core.Configurations;
             DbSettingProviderManager
                 .StartNewSession()
                 .WithSqlServer(Configuration)
-                .UseDefaultDbSettingProvider("~/SpConfig", true)
+                .UseDefaultDbSettingProvider("~/SpConfig/FanexSpName.xml", true)
                 .Run();
 
             services.TryAddSingleton<VaultDbAliasService, VaultDbAliasServiceImp>();
