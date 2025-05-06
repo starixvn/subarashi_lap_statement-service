@@ -1,6 +1,6 @@
 ﻿var webpack = require('webpack');
-var merge = require('webpack-merge');
-var CleanWebpackPlugin = require('clean-webpack-plugin');
+const { merge } = require('webpack-merge');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 var utils = require('./utils');
 var pathConfig = require('../config/path');
 var baseWebpackConfigGenerator = require('./webpack.base.conf');
@@ -17,21 +17,20 @@ module.exports = merge(baseConfigs,
     {
         mode: 'production',
         plugins: [
-            new CleanWebpackPlugin([`${jsRootPath}`], {
-                root: process.cwd(),
-                exclude: excludeOption
-            }),
-
-            new CleanWebpackPlugin([`${cssRootPath}/*.css`,`${cssRootPath}/*.map`,`${cssRootPath}/*.js`], {
-                root: process.cwd(),
-                exclude: excludeOption
-            }),
-
-            new CleanWebpackPlugin([`${cssRootPath}/pages/*/*.css`,`${cssRootPath}/pages/*/*.js`,`${cssRootPath}/pages/*/*.map`], {
-                root: process.cwd(),
-                exclude: excludeOption
-            }),
-
+            new CleanWebpackPlugin({
+                cleanOnceBeforeBuildPatterns: [
+                    `${jsRootPath}/**/*`,
+                    `${cssRootPath}/*.css`,
+                    `${cssRootPath}/*.map`,
+                    `${cssRootPath}/*.js`,
+                    `${cssRootPath}/pages/*/*.css`,
+                    `${cssRootPath}/pages/*/*.js`,
+                    `${cssRootPath}/pages/*/*.map`
+                ],
+                verbose: true,
+                dry: false,
+                dangerouslyAllowCleanPatternsOutsideProject: false
+            })
         ]
     }
 );

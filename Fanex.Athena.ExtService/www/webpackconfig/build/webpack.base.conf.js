@@ -5,8 +5,7 @@ var pathConfig = require('../config/path');
 var alias = require('../config/alias');
 var rules = require('../config/rule');
 var pluginGenerator = require('../config/plugin');
-var exposeLoader = require('expose-loader');
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
 function generateConfig(environment) {
     var jsPath = pathConfig.scriptPaths.build;
@@ -58,19 +57,18 @@ function generateConfig(environment) {
         },
         optimization: {
             minimizer: [
-                new UglifyJsPlugin({
-                    sourceMap: true
+                new TerserPlugin({
+                    parallel: true,
+                    extractComments: false
                 })
             ],
             splitChunks: {
                 chunks: 'all',
                 minSize: 30000,
-                maxSize: 0,
                 minChunks: 2,
                 maxAsyncRequests: 5,
                 maxInitialRequests: 3,
                 automaticNameDelimiter: '~',
-                name: true,
                 cacheGroups: {
                     // disable default cache group
                     default: false,

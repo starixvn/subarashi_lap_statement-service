@@ -7,7 +7,7 @@
     using System.Net;
     using System.Net.Http;
     using System.Net.Mime;
-using System.Net.Http.Headers;
+    using System.Net.Http.Headers;
     using System.Security.Claims;
     using System.Text;
     using System.Threading.Tasks;
@@ -17,13 +17,14 @@ using System.Net.Http.Headers;
     using Common.Services;
     using Core.Attributes;
     using Core.Extensions;
-using Fanex.Athena.ExtService.Core.Configurations;
+    using Fanex.Athena.ExtService.Core.Configurations;
     using Core.Middleware;
     using Core.Models;
     using Core.Models.DTO;
     using Core.Services;
     using Data;
     using Data.SqlServer;
+    using Fanex.Data.Vault;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Builder;
@@ -34,7 +35,7 @@ using Fanex.Athena.ExtService.Core.Configurations;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+    using Microsoft.Extensions.DependencyInjection.Extensions;
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
@@ -90,14 +91,14 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
             var appOption = Configuration.GetSection(ApplicationOptionSettingKey).Get<ApplicationOptions>();
 
-            ConfigFanexData();
+            ConfigFanexData(services);
 
             ConfigDistributedCache(services, appOption);
 
             services.AddResponseCaching(options => { options.UseCaseSensitivePaths = true; });
 
             ConfigAuthentication(services);
-            
+
             services.Configure<IdentitySetting>(Configuration.GetSection("IdentityServerSetting"));
             services.AddUserAccessTokenManagement();
             services.AddScoped<IContextService, ContextService>();
@@ -143,7 +144,6 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
             });
             app.UseForwardedHeaders();
             app.UseWhoAmICheck();
-
 
             if (string.Equals(Configuration["UseErrorHandler"], "1"))
             {
@@ -317,21 +317,17 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
                         }
                     };
                 });
-          
         }
 
-        private void ConfigFanexData()
+        private void ConfigFanexData(IServiceCollection services)
         {
-            var listConnectionName = Configuration.GetSection("ConnectionStrings").GetChildren().Select(_ => _.Key);
-            var connectionStrings = new Dictionary<string, ConnectionConfiguration>(listConnectionName
-                .Select(connectionName => new KeyValuePair<string, ConnectionConfiguration>(connectionName,
-                    new ConnectionConfiguration(connectionName, Configuration.GetConnectionString(connectionName)))
-                ));
             DbSettingProviderManager
                 .StartNewSession()
-                .WithSqlServer("~/SpConfig/FanexSpName.xml")
-                .Use(connectionStrings)
+                .WithSqlServer(Configuration)
+                .UseDefaultDbSettingProvider("~/SpConfig/FanexSpName.xml", true)
                 .Run();
+
+            services.TryAddSingleton<VaultDbAliasService, VaultDbAliasServiceImp>();
         }
     }
 }

@@ -4,7 +4,7 @@ FROM $CI_REGISTRY_IMAGE:builder as deps
 
 RUN mkdir -p /src/packages
 
-FROM hub.nexdev.net/base/dotnet/core/sdk:5.0.102-node14-ca-patch-buster-slim AS builder
+FROM hub.nexdev.net/base/dotnet/core/sdk:8.0-nodejs-v20 AS builder
 
 ENV NUGET_PACKAGES=/src/packages
 
@@ -54,10 +54,10 @@ WORKDIR /src/Fanex.Athena.ExtService
 RUN npm run build-pro
 
 RUN dotnet publish "Fanex.Athena.ExtService.csproj" -c Release -o /publish \
-  --runtime alpine-x64 \
+  --runtime linux-x64 \
   --self-contained false
 
-FROM hub.nexdev.net/base/dotnet/core/aspnet:5.0-alpine
+FROM hub.nexdev.net/base/dotnet/core/aspnet:8.0-alpine
 
 ENV ASPNETCORE_URLS=http://*:5000
 ENV DOTNET_HOSTBUILDER__RELOADCONFIGONCHANGE=false

@@ -1,22 +1,26 @@
 ﻿var webpack = require('webpack');
 var pathConfig = require('../config/path');
-var CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 var WebpackBuildNotifierPlugin = require('webpack-build-notifier');
-var Visualizer = require('webpack-visualizer-plugin');
 
 var cssRootPath = pathConfig.cssPaths.build;
 var jsRootPath = pathConfig.scriptPaths.build;
 
 function generatePlugins(environment) {
     var commonPlugins = [
-        new CleanWebpackPlugin([cssRootPath], {
-            root: process.cwd(),
-            exclude: ['fonts']
+        new CleanWebpackPlugin({
+            cleanOnceBeforeBuildPatterns: [`${cssRootPath}/**/*`],
+            verbose: true,
+            dry: false,
+            dangerouslyAllowCleanPatternsOutsideProject: false,
         }),
-        new CleanWebpackPlugin([jsRootPath], {
-            root: process.cwd()
+        new CleanWebpackPlugin({
+            cleanOnceBeforeBuildPatterns: [`${jsRootPath}/**/*`],
+            verbose: true,
+            dry: false,
+            dangerouslyAllowCleanPatternsOutsideProject: false,
         }),
-        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+        new webpack.IgnorePlugin({ resourceRegExp: /^\.\/locale$/, contextRegExp: /moment$/ }),
         new webpack.ProvidePlugin({
             $: "jquery",
             jQuery: "jquery",
@@ -25,12 +29,9 @@ function generatePlugins(environment) {
             "window.jQuery": 'jquery',
             "root.jQuery": 'jquery'
         }),
-         new WebpackBuildNotifierPlugin({
-             title: "New UI Webpack Build",
-             suppressSuccess: true
-        }),
-        new Visualizer({
-            filename: './wwwroot/webpack-stats-newui.html'
+        new WebpackBuildNotifierPlugin({
+            title: "New UI Webpack Build",
+            suppressSuccess: true
         })
     ];
 
