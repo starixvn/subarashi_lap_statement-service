@@ -558,4 +558,10 @@
   <data name="ProductWLC" xml:space="preserve">
     <value>W Casino</value>
   </data>
+  <data name="ProductAIG" xml:space="preserve">
+    <value>AI Gaming</value>
+  </data>
+  <data name="ProductCPRNG" xml:space="preserve">
+    <value>ClotPlay</value>
+  </data>
 </root>
