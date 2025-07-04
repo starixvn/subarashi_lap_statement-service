@@ -21,6 +21,8 @@ namespace Fanex.Athena.ExtService.BetList.Services
         {
             const string UspName = "LAP_Statement_Mem_Product";
             var balanceUpInfo = await _commonService.GetBalanceUpAsync().ConfigureAwait(false);
+            var productResources = await _commonService.GetAllProductResource(metaModel.Lang).ConfigureAwait(false);
+
             using (var db = ObjectDbFactory.CreateInstance(UspName))
             {
                 db.SetParameterValue("@CustID", metaModel.CustId);
@@ -35,6 +37,7 @@ namespace Fanex.Athena.ExtService.BetList.Services
                 return new StatementByGroupViewModel
                 {
                     DataList = statementResult,
+                    ProductResources = productResources,
                 };
             }
         }

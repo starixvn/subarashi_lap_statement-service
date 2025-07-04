@@ -247,6 +247,7 @@
             services.AddSingleton<IOAuthService, OAuthService>();
 
             ConfigBetListApiClient(services);
+            ConfigCommonApiClient(services);
 
             services.AddTransient<ISummaryStatementService, SummaryStatementService>();
             services.AddTransient<IStatementByGroupService, StatementByGroupService>();
@@ -273,6 +274,29 @@
                     var setting = options.Value;
                     client.BaseAddress = new Uri(options.Value.BetListApiHostUrl);
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, contextService.OAuthAccessToken);
+                }
+            }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+            {
+                AllowAutoRedirect = false,
+                AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
+            });
+        }
+
+        private static void ConfigCommonApiClient(IServiceCollection services)
+        {
+            const string CommonApiClient = "CommonApiClient";
+
+            services.AddTransient<ICommonApiClient, CommonApiClient>();
+
+            services.AddHttpClient(CommonApiClient, (serviceProvider, client) =>
+            {
+                using (var scope = serviceProvider.CreateScope())
+                {
+                    var scopeServiceProvider = scope.ServiceProvider;
+                    var options = scopeServiceProvider.GetService<IOptions<AppSettings>>();
+
+                    var setting = options.Value;
+                    client.BaseAddress = new Uri(options.Value.CommonApiHostUrl);
                 }
             }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
             {

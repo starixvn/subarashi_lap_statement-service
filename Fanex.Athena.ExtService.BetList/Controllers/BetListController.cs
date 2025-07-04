@@ -92,7 +92,6 @@
                 Data = new List<TicketText>()
             };
 
-
             if (metaModel.IsValid)
             {
                 AssignCommonMetaModelValue(metaModel, licenseeInfo);
@@ -160,9 +159,12 @@
 
             ViewBag.Title = "Bet List By Group";
             AssignCommonViewModelData(metaModel, viewModel);
+            var productResources = await _commonService.GetAllProductResource(metaModel.Lang);
+
             viewModel.TransDesc = StatementHelper.GetBetingStatementRemark(
                 TransDescValue.GetTransactionDescription(metaModel.TransType),
-                        metaModel.ProductCode);
+                        metaModel.ProductCode,
+                        productResources);
             ViewBag.FromDate = metaModel.FromDate;
             ViewBag.ToDate = metaModel.ToDate;
             ViewBag.StatementPageIndex = metaModel.StatementPageIndex;

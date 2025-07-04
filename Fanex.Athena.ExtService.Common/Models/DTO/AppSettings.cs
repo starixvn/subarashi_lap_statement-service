@@ -11,5 +11,7 @@
         public string BetTicketEventBuilderUrl { get; set; }
 
         public string Environment { get; set; }
+
+        public string CommonApiHostUrl { get; set; }
     }
 }

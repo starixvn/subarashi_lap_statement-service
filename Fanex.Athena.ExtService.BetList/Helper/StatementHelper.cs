@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Net.WebSockets;
 using Fanex.Athena.ExtService.BetList.Models.DataDomain;
 using Fanex.Athena.ExtService.BetList.Models.DTO;
 using Fanex.Athena.ExtService.Common;
@@ -96,13 +98,14 @@ namespace Fanex.Athena.ExtService.BetList.Helper
                 ? TransDescValue.RemarkValues[transDesc].Invoke()
                 : string.Empty;
 
-        public static string GetBetingStatementRemark(string transDescText, string productCode)
+        public static string GetBetingStatementRemark(string transDescText, string productCode, Dictionary<string, string> productResources)
         {
             const string SabaPromotion = "SPR";
+            var productName = productResources.GetValueOrDefault(productCode, string.Empty);
 
             return productCode == SabaPromotion
-                ? SystemHelper.GetProductName(productCode)
-                : $"{SystemHelper.GetProductName(productCode)} {transDescText}";
+                ? productName
+                : $"{productName} {transDescText}";
         }
 
         public static bool ShowBetingStatementLink(string transDesc, string transType)

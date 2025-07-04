@@ -17,15 +17,18 @@
         private const string CurrencyInfoCacheKey = "EXT_LAP_CACHE_CURRENCY";
         private const string LicenseeExtInfoCacheKey = "__LicenseeExtInfoCacheKey_";
         private const string WhitelistIPCacheKey = "WhitelistIP_{0}";
+        private const string ProductResourceUrl = "api/productresource";
 
         private readonly ICustomDistributedCache _cache;
+        private readonly ICommonApiClient _commonApiClient;
 
         private readonly AppSettings _settings;
 
         private readonly Lazy<IReadOnlyDictionary<int, string>> _siteDBConfig;
 
-        public CommonService(ICustomDistributedCache cache, 
-            IOptions<AppSettings> settings)
+        public CommonService(ICustomDistributedCache cache,
+            IOptions<AppSettings> settings,
+            ICommonApiClient commonApiClient)
         {
             _cache = cache;
             _settings = settings.Value;
@@ -42,6 +45,7 @@
 
                 return config;
             });
+            _commonApiClient = commonApiClient;
         }
 
         public async Task<bool> IsEnableSingleWallet(string siteName)
@@ -241,5 +245,10 @@
                 return keyValue;
             }
         }
+
+        public async Task<Dictionary<string, string>> GetAllProductResource(string languageCode) =>
+            await _commonApiClient.GetAsync<Dictionary<string, string>>(
+                ProductResourceUrl,
+                languageCode).ConfigureAwait(false);
     }
 }
