@@ -114,7 +114,7 @@
         [HttpGet]
         [ServiceFilter(typeof(CheckCustomerAttribute))]
         [ResponseCache(Duration = SystemConstants.ThirtySecond, NoStore = false,
-            VaryByQueryKeys = new[] { "vt", "cid", "lang", "bc", "wd", "pc", "ps", "pi", "mv", "s", "fd", "td", "sb", "spi", "sps" })]
+            VaryByQueryKeys = new[] { "vt", "cid", "lang", "bc", "wd", "pc", "ps", "pi", "mv", "st", "so", "fd", "td", "sb", "spi", "sps" })]
         public async Task<IActionResult> ByGroup(BetListByGroupMetaModel metaModel)
         {
             var originModeView = metaModel.ModeView;
@@ -130,7 +130,8 @@
                 PageIndex = metaModel.PageIndex,
                 ProductCode = metaModel.ProductCode,
                 TransType = originModeView,
-                Sort = metaModel.Sort,
+                SortOrder = metaModel.SortOrder,
+                SortType = metaModel.SortType,
                 WinlostDate = metaModel.WinlostDate,
                 CustId = metaModel.CustId,
                 IsDesktopViewOnly = metaModel.IsDesktopViewOnly,
