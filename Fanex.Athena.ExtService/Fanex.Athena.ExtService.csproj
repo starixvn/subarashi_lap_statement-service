@@ -72,12 +72,4 @@
     <None Include="wwwroot\fonts\font-icon\fonts\icomoon.svg" />
     <None Include="wwwroot\fonts\roboto\Roboto-Regular.woff2" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="appsettings.PROD_1.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-  </ItemGroup>
 </Project>
