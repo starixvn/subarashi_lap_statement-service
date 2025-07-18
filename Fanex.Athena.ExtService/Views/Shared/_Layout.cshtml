@@ -65,7 +65,8 @@
         <script src="@appSettings.BetTicketEventBuilderUrl" id="event-builder-script"></script>
     }
     @RenderSection("Scripts", required: false)
-    @if (appSettings.Environment.Equals("PROD", StringComparison.OrdinalIgnoreCase))
+    @if (appSettings.Environment.Equals("PROD", StringComparison.OrdinalIgnoreCase) ||
+        appSettings.Environment.Equals("KLPROD", StringComparison.OrdinalIgnoreCase))
     {
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-M09N5LNEH1"></script>
