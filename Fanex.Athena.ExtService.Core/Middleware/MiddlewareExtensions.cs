@@ -84,7 +84,7 @@
                     {
                         status = report.Status.ToString(),
                         monitors = report.Entries.Select(e => new
-                            { name = e.Key, status = Enum.GetName(typeof(HealthStatus), e.Value.Status), values = e.Value.Data })
+                        { name = e.Key, status = Enum.GetName(typeof(HealthStatus), e.Value.Status), values = e.Value.Data })
                     }, Formatting.Indented);
 
                 context.Response.ContentType = MediaTypeNames.Application.Json;

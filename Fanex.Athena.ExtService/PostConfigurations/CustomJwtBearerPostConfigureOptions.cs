@@ -33,7 +33,7 @@ namespace Fanex.Athena.ExtService.Core.Configurations
                 }
 
                 sessionClaims.AddRange(principal.Claims);
-                var newPrincipal = new ClaimsPrincipal(new ClaimsIdentity(sessionClaims, JwtBearerDefaults.AuthenticationScheme, CustomClaimType.SiteName, JwtClaimTypes.Role));            
+                var newPrincipal = new ClaimsPrincipal(new ClaimsIdentity(sessionClaims, JwtBearerDefaults.AuthenticationScheme, CustomClaimType.SiteName, JwtClaimTypes.Role));
                 context.Principal = newPrincipal;
             };
         }

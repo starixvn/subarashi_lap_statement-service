@@ -3,7 +3,6 @@ using System.Text;
 
 using Fanex.Athena.ExtService.Common.Models.DataDomain;
 using Fanex.Athena.ExtService.Common.Models.DTO;
-using Fanex.Athena.ExtService.Resources;
 
 namespace Fanex.Athena.ExtService.Common
 {

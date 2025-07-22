@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.WebSockets;
 using Fanex.Athena.ExtService.BetList.Models.DataDomain;
 using Fanex.Athena.ExtService.BetList.Models.DTO;
-using Fanex.Athena.ExtService.Common;
 using Fanex.Athena.ExtService.Common.Services;
 
 namespace Fanex.Athena.ExtService.BetList.Helper

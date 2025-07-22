@@ -45,7 +45,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Services
                 .Returns(Task.FromResult(fakeData));
 
             ObjectDbFactory.SwitchToTestingMode();
-            ObjectDbFactory.Mock((x, y) => mockObjectDB.Object);
+            ObjectDbFactory.Mock((x, y, z) => mockObjectDB.Object);
 
             var service = new StatementByGroupService(mockCommonService.Object);
 

@@ -45,7 +45,7 @@ namespace Fanex.Athena.ExtService.Core.Services
                 return Tuple.Create(false, token);
             }
             var accessToken = await _oAuthService.RequestTokenAsync(request);
-            if (accessToken == null) 
+            if (accessToken == null)
             {
                 return Tuple.Create(false, token);
             }

@@ -1,22 +1,109 @@
-﻿using Xunit;
+﻿using Fanex.Athena.ExtService.Common.Models.DataDomain;
+using Fanex.Athena.ExtService.Common.Models.DTO;
+using Xunit;
 
 namespace Fanex.Athena.ExtService.Common.UnitTests
 {
     public class SystemHelperTest
     {
-        [Theory]
-        [InlineData("SB", "Sportsbook")]
-        [InlineData("XXX", "")]
-        public void GetProductName_WhenCall_ReturnCorrectResult(string productCode, string expectedValue)
+        [Fact]
+        public void GenerateAgentListXml_WithMultipleCurrencies_ShouldGenerateCorrectXml()
         {
-            //Arrange
+            // Arrange
+            var licenseeInfo = new LicenseeInfo
+            {
+                Currencies = new[]
+                {
+                    new CurrencyInfo { AgentId = 123, CurrencyId = 1 },
+                    new CurrencyInfo { AgentId = 456, CurrencyId = 2 }
+                }
+            };
 
-            //Action
-            var result = SystemHelper.GetProductName(productCode);
+            // Act
+            var result = SystemHelper.GenerateAgentListXml(licenseeInfo);
 
-            //Assert
+            // Assert
+            var expected = "<ROOT><Agent AgentId=\"123\" Currency=\"1\"/><Agent AgentId=\"456\" Currency=\"2\"/></ROOT>";
+            Assert.Equal(expected, result);
+        }
 
-            Assert.Equal(expectedValue, result);
+        [Fact]
+        public void GenerateAgentListXml_WithTestData_ShouldIncludeUusCurrency()
+        {
+            // Arrange
+            var licenseeInfo = new LicenseeInfo
+            {
+                Currencies = new[]
+                {
+                    new CurrencyInfo { AgentId = 123, CurrencyId = 1 },
+                    new CurrencyInfo { AgentId = 999, CurrencyId = CurrencyType.Uus }
+                }
+            };
+
+            // Act
+            var result = SystemHelper.GenerateAgentListXml(licenseeInfo, isExcludeTestData: false);
+
+            // Assert
+            var expected = "<ROOT><Agent AgentId=\"123\" Currency=\"1\"/><Agent AgentId=\"999\" Currency=\"20\"/></ROOT>";
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void GenerateAgentListXml_ExcludeTestData_ShouldNotIncludeUusCurrency()
+        {
+            // Arrange
+            var licenseeInfo = new LicenseeInfo
+            {
+                Currencies = new[]
+                {
+                    new CurrencyInfo { AgentId = 123, CurrencyId = 1 },
+                    new CurrencyInfo { AgentId = 999, CurrencyId = CurrencyType.Uus }
+                }
+            };
+
+            // Act
+            var result = SystemHelper.GenerateAgentListXml(licenseeInfo, isExcludeTestData: true);
+
+            // Assert
+            var expected = "<ROOT><Agent AgentId=\"123\" Currency=\"1\"/></ROOT>";
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void GenerateAgentListXml_WithEmptyCurrencies_ShouldReturnEmptyRootXml()
+        {
+            // Arrange
+            var licenseeInfo = new LicenseeInfo
+            {
+                Currencies = new CurrencyInfo[0]
+            };
+
+            // Act
+            var result = SystemHelper.GenerateAgentListXml(licenseeInfo);
+
+            // Assert
+            var expected = "<ROOT></ROOT>";
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void GenerateAgentListXml_WithSingleCurrency_ShouldGenerateCorrectXml()
+        {
+            // Arrange
+            var licenseeInfo = new LicenseeInfo
+            {
+                Currencies = new[]
+                {
+                    new CurrencyInfo { AgentId = 123, CurrencyId = 1 }
+                }
+            };
+
+            // Act
+            var result = SystemHelper.GenerateAgentListXml(licenseeInfo);
+
+            // Assert
+            var expected = "<ROOT><Agent AgentId=\"123\" Currency=\"1\"/></ROOT>";
+            Assert.Equal(expected, result);
         }
     }
 }
