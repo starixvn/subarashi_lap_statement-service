@@ -23,7 +23,7 @@ namespace Fanex.Athena.ExtService.Core.Services
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IMemoryCache _cache;
 
-        public OAuthService(IHttpClientFactory httpClientFactory, IOptions<IdentitySetting> identityOptions, IOptions<TokenManagement> tokenOptions, IMemoryCache memoryCache) 
+        public OAuthService(IHttpClientFactory httpClientFactory, IOptions<IdentitySetting> identityOptions, IOptions<TokenManagement> tokenOptions, IMemoryCache memoryCache)
         {
             _httpClientFactory = httpClientFactory;
             _identitySetting = identityOptions.Value;

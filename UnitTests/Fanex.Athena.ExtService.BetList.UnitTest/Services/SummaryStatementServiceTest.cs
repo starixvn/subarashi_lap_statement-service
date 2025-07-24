@@ -52,7 +52,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Services
             });
 
             ObjectDbFactory.SwitchToTestingMode();
-            ObjectDbFactory.Mock((x, y) => mockObjectDB.Object);
+            ObjectDbFactory.Mock((x, y, z) => mockObjectDB.Object);
 
             var service = new SummaryStatementService(mockCommonService.Object);
 

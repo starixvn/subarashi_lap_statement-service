@@ -21,5 +21,7 @@
         Task<List<string>> GetWhitelistIPFromDB(string siteName);
 
         Task<Dictionary<int, string>> GetAllCurrencyInfo();
+
+        Task<Dictionary<string, string>> GetAllProductResource(string languageCode);
     }
 }

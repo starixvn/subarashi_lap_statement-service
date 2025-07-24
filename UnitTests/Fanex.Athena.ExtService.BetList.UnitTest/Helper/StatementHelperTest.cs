@@ -4,7 +4,6 @@
     using Fanex.Athena.ExtService.BetList.Helper;
     using Fanex.Athena.ExtService.BetList.Models.DataDomain;
     using Fanex.Athena.ExtService.BetList.Models.DTO;
-    using Fanex.Athena.ExtService.Common;
     using Moq;
     using Xunit;
 
@@ -57,12 +56,13 @@
             {
                 return new[]
                 {
-                    new object[] { string.Empty, SabaPromotion, SystemHelper.GetProductName(SabaPromotion) },
+                    new object[] { string.Empty, SabaPromotion, "Saba Promotion", "Saba Promotion" },
                     new object[]
                     {
                         "transDescText",
                         "Test",
-                        $"{SystemHelper.GetProductName("Test")} transDescText"
+                        "Test",
+                        $"Test transDescText"
                     }
                 };
             }
@@ -193,10 +193,16 @@
 
         [Theory]
         [MemberData(nameof(GetBetingStatementRemarkTestCase))]
-        public void GetBetingStatementRemark_WhenCall_ReturnCorrectResult(string transDescText, string productCode, string expectedValue)
+        public void GetBetingStatementRemark_WhenCall_ReturnCorrectResult(string transDescText, string productCode, string productName, string expectedValue)
         {
+            //Arange
+            var productResources = new Dictionary<string, string>
+            {
+                { productCode, productName }
+            };
+
             // Action
-            var result = StatementHelper.GetBetingStatementRemark(transDescText, productCode);
+            var result = StatementHelper.GetBetingStatementRemark(transDescText, productCode, productResources);
 
             // Assert
             Assert.Equal(expectedValue, result);

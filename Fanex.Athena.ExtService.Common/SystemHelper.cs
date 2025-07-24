@@ -3,7 +3,6 @@ using System.Text;
 
 using Fanex.Athena.ExtService.Common.Models.DataDomain;
 using Fanex.Athena.ExtService.Common.Models.DTO;
-using Fanex.Athena.ExtService.Resources;
 
 namespace Fanex.Athena.ExtService.Common
 {
@@ -22,14 +21,6 @@ namespace Fanex.Athena.ExtService.Common
 
             result.Append("</ROOT>");
             return result.ToString();
-        }
-
-        public static string GetProductName(string productCode)
-        {
-            var resourceKey = "Product" + productCode;
-            var resourceManager = ViewResources.ResourceManager;
-            resourceManager.IgnoreCase = true;
-            return resourceManager.GetString(resourceKey) ?? string.Empty;
         }
     }
 }

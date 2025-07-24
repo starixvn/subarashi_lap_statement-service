@@ -9,7 +9,6 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
     using Fanex.Athena.ExtService.BetList.Models.DTO;
     using Fanex.Athena.ExtService.BetList.Models.MetaModel;
     using Fanex.Athena.ExtService.BetList.Models.ViewModel;
-    using Fanex.Athena.ExtService.Common.Models.DTO;
     using Microsoft.AspNetCore.Mvc;
     using Moq;
     using Xunit;
@@ -188,10 +187,16 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
         {
             // Arrange
             const string Title = "Bet List By Group";
-            var metalModel = new BetListByGroupMetaModel();
+            var metalModel = new BetListByGroupMetaModel
+            {
+                ProductCode = "SB"
+            };
 
             IActionResult result = null;
             var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName, 0);
+
+            _commonService.Setup(_commonService => _commonService.GetAllProductResource(metalModel.Lang))
+                .ReturnsAsync(new Dictionary<string, string> { { "SB", "Sportsbook" } });
 
             // Action
             using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object, _contextService.Object))
@@ -216,9 +221,15 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
         public async Task ByGroup_InValidMetalModel_ReturnEmptyData()
         {
             // Arrange
-            var metalModel = new BetListByGroupMetaModel { };
+            var metalModel = new BetListByGroupMetaModel
+            {
+                ProductCode = "SB"
+            };
 
             IActionResult expectedResult = null;
+
+            _commonService.Setup(_commonService => _commonService.GetAllProductResource(metalModel.Lang))
+                .ReturnsAsync(new Dictionary<string, string> { { "SB", "Sportsbook" } });
 
             // Action
             using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object, _contextService.Object))
@@ -257,6 +268,9 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
                                                                      )).Returns(Task.FromResult(apiResult));
 
             IActionResult expectedResult = null;
+
+            _commonService.Setup(_commonService => _commonService.GetAllProductResource(metalModel.Lang))
+                .ReturnsAsync(new Dictionary<string, string> { { "SB", "Sportsbook" } });
 
             // Action
             using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object, _contextService.Object))

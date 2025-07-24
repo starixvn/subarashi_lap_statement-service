@@ -111,7 +111,7 @@ new SelectListItem { Text = ViewResources.BettingStatement, Selected = true, Val
                                         {
                                             previousBalance = StatementHelper.GetBettingBalance(previousBalance, item);
                                             var transDescText = StatementHelper.GetTransDescText(item.TransDesc);
-                                            var remarkValue = StatementHelper.GetBetingStatementRemark(transDescText, item.ProductCode);
+                                            var remarkValue = StatementHelper.GetBetingStatementRemark(transDescText, item.ProductCode, Model.ProductResources);
                                             <tr>
                                                 <td class="left-align">
                                                     @ViewResources.ResourceManager.GetString($"DateName_{(int)item.WinLostDate.DayOfWeek}")
