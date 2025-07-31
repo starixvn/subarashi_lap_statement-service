@@ -949,7 +949,7 @@
 
                 showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
             },
-            
+
             showMicroGamingLCBetDetails: function (transId, winlostDate, custId, transType) {
                 let url = Site.resolveClientUrl('BetListDetailByProduct/Detail');
                 url = QueryString.setParam(url, 'transId', transId);
@@ -964,6 +964,25 @@
 
                 const popH = Math.min($(window).height() - 100, 550);
                 const title = Site.getSingleResource('ProductMGLC') + ' - ' +
+                    Site.getSingleResource('DetailedBetlist');
+
+                showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
+            },
+
+            showOdinGamingBetDetails: function (transId, winlostDate, custId, transType) {
+                let url = Site.resolveClientUrl('BetListDetailByProduct/Detail');
+                url = QueryString.setParam(url, 'transId', transId);
+                url = QueryString.setParam(url, 'date', winlostDate);
+                url = QueryString.setParam(url, 'custId', custId);
+                url = QueryString.setParam(url, 'transType', transType);
+                url = QueryString.setParam(url, 'BaseCurrency', getBaseCurrency());
+                url = QueryString.setParam(url, 'access_token', $("#access_token").val());
+                url = QueryString.setParam(url, 'lang', $("#lang").val());
+                url = QueryString.setParam(url, 'uspkey', 'Lrf_BetList_RNG_Detail');
+                url = QueryString.setParam(url, 'isDesktopViewOnly', $("#isDesktopViewOnly").val() === "1");
+
+                const popH = Math.min($(window).height() - 100, 550);
+                const title = Site.getSingleResource('ProductODG') + ' - ' +
                     Site.getSingleResource('DetailedBetlist');
 
                 showDetailPopUp(url, { width: DetailsWidth, height: popH + 50, title: title });
@@ -1074,7 +1093,8 @@
                 window.showASKMESLOTBetDetails = _me.showASKMESLOTBetDetails;
                 window.showFunkyGamesBetDetails = _me.showFunkyGamesBetDetails;
                 window.showHotDogBetDetails = _me.showHotDogBetDetails;
-                window.showMicroGamingLCBetDetails  = _me.showMicroGamingLCBetDetails;
+                window.showMicroGamingLCBetDetails = _me.showMicroGamingLCBetDetails;
+                window.showOdinGamingBetDetails = _me.showOdinGamingBetDetails;
                 window.showLiveCasinoBetDetails = _me.showLiveCasinoBetDetails;
                 window.showRNGBetDetails = _me.showRNGBetDetails;
 
