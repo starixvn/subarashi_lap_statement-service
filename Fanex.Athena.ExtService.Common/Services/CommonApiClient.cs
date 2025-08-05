@@ -1,16 +1,15 @@
-using Newtonsoft.Json;
-using System;
-using System.Collections.Specialized;
-using System.IO;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web;
-using Microsoft.AspNetCore.Http;
-
 namespace Fanex.Athena.ExtService.Common.Services
 {
+    using System;
+    using System.Collections.Specialized;
+    using System.IO;
+    using System.Net.Http;
+    using System.Net.Http.Headers;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.Web;
+    using Newtonsoft.Json;
+
     public class ApiResponse<T>
     {
         public int ErrorCode { get; set; }
@@ -23,18 +22,10 @@ namespace Fanex.Athena.ExtService.Common.Services
         private const string LanguageKey = "Language";
         private const string HttpClientName = "CommonApiClient";
         private readonly IHttpClientFactory _clientFactory;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        private static readonly JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings
-        {
-            DateTimeZoneHandling = DateTimeZoneHandling.Unspecified,
-            NullValueHandling = NullValueHandling.Ignore,
-        };
-
-        public CommonApiClient(IHttpClientFactory clientFactory, IHttpContextAccessor httpContextAccessor)
+        public CommonApiClient(IHttpClientFactory clientFactory)
         {
             _clientFactory = clientFactory;
-            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<T> GetAsync<T>(string path, string languageCode = "en-US", object value = null, int timeOut = 100)
@@ -47,23 +38,6 @@ namespace Fanex.Athena.ExtService.Common.Services
             var apiResponse = JsonConvert.DeserializeObject<ApiResponse<T>>(response);
 
             return apiResponse?.ErrorCode == 0 ? apiResponse.Result : default;
-        }
-
-        private static string BuildQueryString(object value)
-        {
-            var properties = value.GetType().GetProperties();
-            var queryParams = new NameValueCollection();
-
-            foreach (var prop in properties)
-            {
-                var propValue = prop.GetValue(value);
-                if (propValue != null)
-                {
-                    queryParams.Add(prop.Name, propValue.ToString());
-                }
-            }
-
-            return string.Join("&", Array.ConvertAll(queryParams.AllKeys, key => $"{HttpUtility.UrlEncode(key)}={HttpUtility.UrlEncode(queryParams[key])}"));
         }
 
         public virtual async Task<string> GetStringAsync(string path, string language, int timeOut = 100)
@@ -92,6 +66,23 @@ namespace Fanex.Athena.ExtService.Common.Services
             } while (readChunkLength > 0);
 
             return textWriter.ToString();
+        }
+
+        private static string BuildQueryString(object value)
+        {
+            var properties = value.GetType().GetProperties();
+            var queryParams = new NameValueCollection();
+
+            foreach (var prop in properties)
+            {
+                var propValue = prop.GetValue(value);
+                if (propValue != null)
+                {
+                    queryParams.Add(prop.Name, propValue.ToString());
+                }
+            }
+
+            return string.Join("&", Array.ConvertAll(queryParams.AllKeys, key => $"{HttpUtility.UrlEncode(key)}={HttpUtility.UrlEncode(queryParams[key])}"));
         }
     }
 }

@@ -1,30 +1,28 @@
-﻿using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using Fanex.Athena.ExtService.Common.Constant;
-using Fanex.Athena.ExtService.Common.Services;
-using Fanex.Athena.ExtService.Core.Models;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-
-namespace Fanex.Athena.ExtService.Core.Services
+﻿namespace Fanex.Athena.ExtService.Core.Services
 {
+    using System;
+    using System.IdentityModel.Tokens.Jwt;
+    using System.Security.Claims;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Common.Constant;
+    using Helper;
+    using Microsoft.Extensions.Options;
+    using Microsoft.IdentityModel.Tokens;
+    using Models;
+
     public class TokenAuthenticationService : IAuthenticateService
     {
-        private readonly IUserManagementService _userManagementService;
-        private readonly ICommonService _commonService;
-        private readonly TokenManagement _tokenManagement;
         private readonly IOAuthService _oAuthService;
+        private readonly TokenManagement _tokenManagement;
+        private readonly IUserManagementService _userManagementService;
 
-        public TokenAuthenticationService(IUserManagementService service,
-            ICommonService commonService,
+        public TokenAuthenticationService(
+            IUserManagementService service,
             IOAuthService oAuthService,
             IOptions<TokenManagement> tokenManagementAccessor)
         {
             _userManagementService = service;
-            _commonService = commonService;
             _tokenManagement = tokenManagementAccessor.Value;
             _oAuthService = oAuthService;
         }
@@ -44,6 +42,7 @@ namespace Fanex.Athena.ExtService.Core.Services
             {
                 return Tuple.Create(false, token);
             }
+
             var accessToken = await _oAuthService.RequestTokenAsync(request);
             if (accessToken == null)
             {
@@ -56,22 +55,22 @@ namespace Fanex.Athena.ExtService.Core.Services
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenManagement.Secret));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var encryptCredenction = new EncryptingCredentials(key, JwtConstants.DirectKeyUseAlg,
+            var encryptingCredentials = new EncryptingCredentials(key, JwtConstants.DirectKeyUseAlg,
                 SecurityAlgorithms.Aes256CbcHmacSha512);
             var handler = new JwtSecurityTokenHandler();
 
             var jwtToken = handler.CreateJwtSecurityToken(_tokenManagement.Issuer,
-                  _tokenManagement.Audience,
-                  new ClaimsIdentity(claim),
-                  DateTime.Now,
-                  DateTime.Now.AddMinutes(_tokenManagement.AccessExpiration),
-                  null,
-                  credentials,
-                  encryptCredenction
-                  );
+                _tokenManagement.Audience,
+                new ClaimsIdentity(claim),
+                DateTimeHelper.Now,
+                DateTimeHelper.Now.AddMinutes(_tokenManagement.AccessExpiration),
+                null,
+                credentials,
+                encryptingCredentials
+            );
 
             token.AccessToken = new JwtSecurityTokenHandler().WriteToken(jwtToken);
-            return Tuple.Create<bool, Token>(true, token);
+            return Tuple.Create(true, token);
         }
     }
 }

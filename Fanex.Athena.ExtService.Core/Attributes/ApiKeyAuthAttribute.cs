@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Net;
     using System.Security.Claims;
     using Microsoft.AspNetCore.Http;
@@ -54,7 +53,7 @@
                 return true;
             }
 
-            var keyConfig = _apiKeyList.FirstOrDefault(x => x.Key.Equals(apiKey));
+            var keyConfig = _apiKeyList.Find(x => x.Key.Equals(apiKey));
 
             if (keyConfig is null)
             {

@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Fanex.Athena.ExtService.Core.Extensions;
-using Fanex.Athena.ExtService.Core.Models.DTO;
-using Microsoft.Extensions.Options;
-
-namespace Fanex.Athena.ExtService.Core.Services
+﻿namespace Fanex.Athena.ExtService.Core.Services
 {
+    using System.Collections.Generic;
+    using Extensions;
+    using Microsoft.Extensions.Options;
+    using Models.DTO;
+
     public class UserManagementService : IUserManagementService
     {
         private readonly List<User> _users;
@@ -16,7 +15,6 @@ namespace Fanex.Athena.ExtService.Core.Services
         }
 
         public bool IsValidUser(string username, string password)
-            => _users.Any(x => x.UserName.Equals(username)
-            && x.Password.Equals(password.Sha256()));
+            => _users.Exists(x => x.UserName.Equals(username) && x.Password.Equals(password.Sha256()));
     }
 }

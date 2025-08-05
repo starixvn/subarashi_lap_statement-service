@@ -6,9 +6,9 @@
     using Models.MetaModel;
     using Newtonsoft.Json;
 
-    public abstract class ReportBaseController : Controller
+    public class ReportBaseController : Controller
     {
-        protected static void AssignCommonMetaModelValue(
+        public static void AssignCommonMetaModelValue(
             IBaseReportMetaModel metaModel,
             LicenseeInfo licenseeInfo,
             int specialPlatform,
@@ -19,7 +19,7 @@
             metaModel.BalanceUp = balanceUp;
         }
 
-        protected ActionResult JsonResult(object data)
+        public ActionResult JsonResult(object data)
         {
             var json = JsonConvert.SerializeObject(data);
 

@@ -26,10 +26,11 @@ namespace Fanex.Athena.ExtService.Core.Configurations
                 await onTokenValidated(context);
                 var principal = context.Principal;
                 var identityAccessToken = principal.FindFirst(CustomClaimType.IdentityAccessToken)?.Value;
-                var sessionClaims = (await _oAuthService.GetUserInfo(identityAccessToken)).ToList();
+                var sessionClaims = (await _oAuthService.GetUserInfo(identityAccessToken))?.ToList();
                 if (sessionClaims == null)
                 {
                     context.Fail("Unauthorized");
+                    return;
                 }
 
                 sessionClaims.AddRange(principal.Claims);

@@ -1,22 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Globalization;
-using System.IO;
-using System.Net;
-using System.Net.Sockets;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
-
-namespace Fanex.Athena.ExtService.Core.Middleware
+﻿namespace Fanex.Athena.ExtService.Core.Middleware
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Globalization;
+    using System.IO;
+    using System.Net;
+    using System.Net.Sockets;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Diagnostics.HealthChecks;
+
     public class WhoAmIHealthCheck : IHealthCheck
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IWebHostEnvironment _env;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public WhoAmIHealthCheck(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment env)
         {
@@ -57,7 +57,7 @@ namespace Fanex.Athena.ExtService.Core.Middleware
             result.Add("Local Ip", context.Connection.LocalIpAddress.ToString());
             result.Add("Local Port", context.Connection.LocalPort);
             result.Add("Client Ip", context.Connection.RemoteIpAddress.ToString());
-            result.Add("Server Time", DateTime.Now.ToString(CultureInfo.InvariantCulture));
+            result.Add("Server Time", DateTimeOffset.Now.LocalDateTime.ToString(CultureInfo.InvariantCulture));
             result.Add("Last Updated", File.GetCreationTime(typeof(WhoAmIHealthCheck).Assembly.Location).ToString(CultureInfo.InvariantCulture));
             result.Add("Host", context.Request.Host);
             result.Add("Schema", context.Request.Scheme);
@@ -75,9 +75,7 @@ namespace Fanex.Athena.ExtService.Core.Middleware
 
         public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
         {
-            IDictionary<string, object> result = new Dictionary<string, object>
-            {
-            };
+            IDictionary<string, object> result = new Dictionary<string, object>();
 
             var httpContext = _httpContextAccessor.HttpContext;
             result.Add("Header Count", httpContext.Request.Headers.Count);
@@ -85,6 +83,7 @@ namespace Fanex.Athena.ExtService.Core.Middleware
             {
                 result.Add($"HEADER[{header.Key}]", header.Value);
             }
+
             return Task.FromResult(HealthCheckResult.Healthy("Request Header", new ReadOnlyDictionary<string, object>(result)));
         }
     }

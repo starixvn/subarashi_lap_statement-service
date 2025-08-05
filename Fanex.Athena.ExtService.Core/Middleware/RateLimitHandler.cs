@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
     using Common.Services;
     using Extensions;
+    using Helper;
     using Microsoft.AspNetCore.Http;
     using Models;
     using Newtonsoft.Json;
@@ -25,7 +26,7 @@
 
         public async Task InvokeAsync(HttpContext context)
         {
-            if (!context.HasRateLimitAttribute(out var decorator))
+            if (!context.TryGetRateLimitAttribute(out var decorator))
             {
                 await _next(context);
                 return;
@@ -51,7 +52,7 @@
             }
             else
             {
-                consumptionData = new ConsumptionData(DateTime.UtcNow, 1);
+                consumptionData = new ConsumptionData(DateTimeHelper.UtcNow, 1);
             }
 
             await _cache.SetAsync(
