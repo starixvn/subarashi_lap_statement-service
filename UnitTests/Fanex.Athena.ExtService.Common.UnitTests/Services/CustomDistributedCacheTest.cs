@@ -9,6 +9,8 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
+using MessagePack;
+
 namespace Fanex.Athena.ExtService.Common.UnitTests.Services
 {
     public class CustomDistributedCacheTest
@@ -150,7 +152,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
         {
             // Arrange
             var value = FakeHelper.Create<SampleObject>();
-            var expectedTask = Task.FromResult(value.Serialize());
+            var expectedTask = Task.FromResult(MessagePackSerializer.Serialize(value));
             _distributedCache.Setup(x => x.GetAsync(It.IsAny<string>(),
                                                     It.IsAny<CancellationToken>()))
                              .Returns(expectedTask)
@@ -164,31 +166,14 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             // Assert
             Assert.IsType<SampleObject>(result);
         }
-
-        [Serializable]
+        [MessagePackObject]
         public class SampleObject
         {
-            public int Id { get; }
+            [Key(0)]
+            public int Id { get; set; }
 
-            public string Name { get; }
-
-            public SampleObject(int id, string name)
-            {
-                Id = id;
-                Name = name;
-            }
-
-            public byte[] Serialize()
-            {
-                using var m = new MemoryStream();
-                using (var writer = new BinaryWriter(m))
-                {
-                    writer.Write(Id);
-                    writer.Write(Name);
-                }
-
-                return m.ToArray();
-            }
+            [Key(1)]
+            public string Name { get; set; }
         }
     }
 }
