@@ -21,7 +21,9 @@ namespace Fanex.Athena.ExtService.BetList.Models.ViewModel
 
         public int TransType { get; set; }
 
-        public string Sort { get; set; }
+        public byte SortType { get; set; }
+
+        public byte SortOrder { get; set; }
 
         public DateTime WinlostDate { get; set; }
 

@@ -2,6 +2,7 @@
 using System.Linq;
 using Fanex.Athena.ExtService.BetList.Models.DataDomain;
 using Fanex.Athena.ExtService.BetList.Models.MetaModel;
+using Fanex.Athena.ExtService.Common.Constant;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fanex.Athena.ExtService.BetList.Controllers
@@ -22,8 +23,11 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
         [FromQuery(Name = "pc")]
         public string ProductCode { get; set; }
 
-        [FromQuery(Name = "s")]
-        public string Sort { get; set; } = "TransDate ASC";
+        [FromQuery(Name = "st")]
+        public byte SortType { get; set; } = (byte)SortTypes.TransDate;
+
+        [FromQuery(Name = "so")]
+        public byte SortOrder { get; set; } = (byte)SortOrders.Ascending;
 
         [FromQuery(Name = "spi")]
         public int StatementPageIndex { get; set; }
