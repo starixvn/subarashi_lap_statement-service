@@ -1,21 +1,18 @@
-﻿using System;
-using System.Threading.Tasks;
-
-using Fanex.Athena.ExtService.BetList.Controllers;
-using Fanex.Athena.ExtService.BetList.Models.DataDomain;
-using Fanex.Athena.ExtService.BetList.Models.MetaModel;
-using Fanex.Athena.ExtService.BetList.Models.ViewModel;
-using Fanex.Athena.ExtService.BetList.Services;
-using Fanex.Athena.ExtService.Common.Services;
-using Fanex.Athena.ExtService.UnitTest.Common.Helpers;
-using Microsoft.AspNetCore.Mvc;
-
-using Moq;
-
-using Xunit;
-
-namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
+﻿namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
 {
+    using System;
+    using System.Threading.Tasks;
+    using BetList.Controllers;
+    using BetList.Models.DataDomain;
+    using BetList.Models.MetaModel;
+    using BetList.Models.ViewModel;
+    using BetList.Services;
+    using Common.Services;
+    using ExtService.UnitTest.Common.Helpers;
+    using Microsoft.AspNetCore.Mvc;
+    using Moq;
+    using Xunit;
+
     public class StatementControllerTest : BaseControllerTest
     {
         [Theory]

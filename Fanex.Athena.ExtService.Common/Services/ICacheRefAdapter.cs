@@ -1,6 +1,6 @@
 ﻿namespace Fanex.Athena.ExtService.Common.Services
 {
-    using Fanex.RemotingRef;
+    using RemotingRef;
 
     public interface ICacheRefAdapter
     {

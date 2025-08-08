@@ -1,8 +1,8 @@
-﻿using Fanex.Athena.ExtService.Core.Models;
-using Microsoft.AspNetCore.Http;
-
-namespace Fanex.Athena.ExtService.Core.Services
+﻿namespace Fanex.Athena.ExtService.Core.Services
 {
+    using Microsoft.AspNetCore.Http;
+    using Models;
+
     public interface IBrowserService
     {
         void SetContext(HttpContext httpContext);

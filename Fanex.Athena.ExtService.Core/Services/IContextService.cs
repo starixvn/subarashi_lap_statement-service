@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace Fanex.Athena.ExtService.Core.Services
+﻿namespace Fanex.Athena.ExtService.Core.Services
 {
+    using System.Collections.Generic;
+
     public interface IContextService
     {
         string OAuthAccessToken { get; }

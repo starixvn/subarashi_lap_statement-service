@@ -1,15 +1,15 @@
-using System;
-using System.IO;
-using System.Net;
-using System.Threading.Tasks;
-using Fanex.Athena.ExtService.Core.Middleware;
-using Microsoft.AspNetCore.Http;
-using Moq;
-using ONEbook.UM.Services;
-using Xunit;
-
 namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
 {
+    using System.IO;
+    using System.Net;
+    using System.Threading.Tasks;
+    using Core.Middleware;
+    using Microsoft.AspNetCore.Http;
+    using Moq;
+    using ONEbook.UM.Models;
+    using ONEbook.UM.Services;
+    using Xunit;
+
     public class UnderMaintenanceHandlerTest
     {
         private readonly Mock<RequestDelegate> _mockNext;
@@ -47,7 +47,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
             
             // Mock the maintenance time - using object to avoid type issues
             _mockMaintenanceService.Setup(x => x.GetUnderMaintenanceTimeAsync())
-                                  .ReturnsAsync(new ONEbook.UM.Models.UnderMaintenanceTime
+                                  .ReturnsAsync(new UnderMaintenanceTime
                                   {
                                       From = "2023-01-01 10:00",
                                       To = "2023-01-01 12:00"

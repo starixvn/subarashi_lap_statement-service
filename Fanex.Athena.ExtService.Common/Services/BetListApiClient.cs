@@ -1,15 +1,15 @@
-﻿using System;
-using System.IO;
-using System.Net.Http;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Fanex.Athena.ExtService.Common.Constant;
-using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-
-namespace Fanex.Athena.ExtService.Common.Services
+﻿namespace Fanex.Athena.ExtService.Common.Services
 {
+    using System;
+    using System.IO;
+    using System.Net.Http;
+    using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Constant;
+    using Microsoft.AspNetCore.Http;
+    using Newtonsoft.Json;
+
     public class BetListApiClient : IBetListApiClient
     {
         private const string LangHeaderKey = "Language";

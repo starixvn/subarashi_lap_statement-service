@@ -1,8 +1,8 @@
-﻿using Fanex.Athena.ExtService.Common.Models.DataDomain;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
+﻿namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 {
+    using Common.Models.DataDomain;
+    using Microsoft.AspNetCore.Mvc;
+
     public class RefNoBetListMetaModel : IBaseBetListMetaModel
     {
         [FromQuery(Name = "refId")]

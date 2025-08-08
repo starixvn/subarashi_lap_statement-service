@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Fanex.Athena.ExtService.TagHelpers;
-using Microsoft.AspNetCore.Razor.TagHelpers;
-using Moq;
-using Xunit;
-
-namespace Fanex.Athena.ExtService.UnitTests.TagHelpers
+﻿namespace Fanex.Athena.ExtService.UnitTests.TagHelpers
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using ExtService.TagHelpers;
+    using Microsoft.AspNetCore.Razor.TagHelpers;
+    using Moq;
+    using Xunit;
+
     public class PagerTagHelperTest
     {
         [Theory]
@@ -22,7 +22,7 @@ namespace Fanex.Athena.ExtService.UnitTests.TagHelpers
             var tagHelperContext = new TagHelperContext(new TagHelperAttributeList(), new Dictionary<object, object>(), string.Empty);
 
             var tagHelperOutput = new TagHelperOutput(string.Empty, new TagHelperAttributeList(),
-                (a, b) => Task.FromResult<TagHelperContent>(mockTagHelperContent.Object))
+                (a, b) => Task.FromResult(mockTagHelperContent.Object))
             {
                 Content = mockTagHelperContent.Object
             };

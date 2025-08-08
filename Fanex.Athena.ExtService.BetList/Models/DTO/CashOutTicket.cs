@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Fanex.Athena.ExtService.BetList.Models.DTO
+﻿namespace Fanex.Athena.ExtService.BetList.Models.DTO
 {
+    using System;
+
     public class CashOutTicket
     {
         public int BetType { get; set; }

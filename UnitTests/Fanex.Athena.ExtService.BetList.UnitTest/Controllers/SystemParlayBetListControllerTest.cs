@@ -1,17 +1,15 @@
-﻿using System.Threading.Tasks;
-using Fanex.Athena.ExtService.BetList.Controllers;
-using Fanex.Athena.ExtService.BetList.Models.MetaModel;
-using Fanex.Athena.ExtService.BetList.Models.ViewModel;
-using Fanex.Athena.ExtService.Common;
-using Fanex.Athena.ExtService.UnitTest.Common.Helpers;
-using Microsoft.AspNetCore.Mvc;
-
-using Moq;
-
-using Xunit;
-
-namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
+﻿namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
 {
+    using System.Threading.Tasks;
+    using BetList.Controllers;
+    using BetList.Models.MetaModel;
+    using BetList.Models.ViewModel;
+    using Common;
+    using ExtService.UnitTest.Common.Helpers;
+    using Microsoft.AspNetCore.Mvc;
+    using Moq;
+    using Xunit;
+
     public class SystemParlayBetListControllerTest : BaseControllerTest
     {
         [Fact]
@@ -27,7 +25,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
                 It.IsAny<SystemParlayDetailMetaModel>(),
                 It.IsAny<string>()))
                 .Returns(Task.FromResult(fakeResult));
-            var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName, 0);
+            var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName);
 
             //Action
             using (var controller =

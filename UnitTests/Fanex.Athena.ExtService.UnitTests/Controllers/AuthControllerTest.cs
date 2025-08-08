@@ -1,14 +1,14 @@
-﻿using System;
-using System.Threading.Tasks;
-using Fanex.Athena.ExtService.Controllers;
-using Fanex.Athena.ExtService.Core.Models;
-using Fanex.Athena.ExtService.Core.Services;
-using Microsoft.AspNetCore.Mvc;
-using Moq;
-using Xunit;
-
-namespace Fanex.Athena.ExtService.UnitTests.Controllers
+﻿namespace Fanex.Athena.ExtService.UnitTests.Controllers
 {
+    using System;
+    using System.Threading.Tasks;
+    using Core.Models;
+    using Core.Services;
+    using ExtService.Controllers;
+    using Microsoft.AspNetCore.Mvc;
+    using Moq;
+    using Xunit;
+
     public class AuthControllerTest
     {
         private Mock<IAuthenticateService> _mockAuthService;

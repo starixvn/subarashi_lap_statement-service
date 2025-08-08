@@ -1,13 +1,7 @@
-﻿@using Fanex.Athena.ExtService.Resources
-@using Microsoft.Extensions.Configuration
-@using Fanex.Athena.ExtService.Common.Models.DTO
-@using Fanex.Athena.ExtService.BetList.Helper
-@using Fanex.Athena.ExtService.BetList.Models.DataDomain
-@using Fanex.Athena.ExtService.Common
-@inject IConfiguration Configuration
+﻿@inject IConfiguration Configuration
 @{
     var isEnableSingleWallet = (bool)ViewBag.IsEnableSingleWallet;
-    var title = ViewBag.ViewType == 1 ? @ViewResources.Statement : $"{ViewResources.SabaCoins} {ViewResources.Statement}";
+    var title = ViewBag.ViewType == 1 ? ViewResources.Statement : $"{ViewResources.SabaCoins} {ViewResources.Statement}";
 }
 @section pagecss
     {
@@ -20,6 +14,9 @@
     <script type="text/javascript">
     </script>
 }
+@using Fanex.Athena.ExtService.BetList.Helper
+@using Fanex.Athena.ExtService.Resources
+@using Microsoft.Extensions.Configuration
 @model Fanex.Athena.ExtService.BetList.Models.ViewModel.StatementByGroupViewModel
 <div id="container" class="container-fluid">
     <div>

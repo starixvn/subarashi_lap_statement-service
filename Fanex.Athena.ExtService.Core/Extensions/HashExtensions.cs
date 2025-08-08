@@ -1,9 +1,9 @@
-﻿using System;
-using System.Security.Cryptography;
-using System.Text;
-
-namespace Fanex.Athena.ExtService.Core.Extensions
+﻿namespace Fanex.Athena.ExtService.Core.Extensions
 {
+    using System;
+    using System.Security.Cryptography;
+    using System.Text;
+
     public static class HashExtensions
     {
         public static string Sha256(this string input)

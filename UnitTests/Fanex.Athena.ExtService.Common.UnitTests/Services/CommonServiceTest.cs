@@ -1,19 +1,19 @@
-﻿using System;
-using System.Data;
-using System.Data.Common;
-using System.Threading;
-using System.Threading.Tasks;
-using Fanex.Athena.ExtService.Common.Models.DTO;
-using Fanex.Athena.ExtService.Common.Services;
-using Fanex.Athena.ExtService.UnitTest.Common.Helpers;
-using Fanex.Data;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Options;
-using Moq;
-using Xunit;
-
-namespace Fanex.Athena.ExtService.Common.UnitTests.Services
+﻿namespace Fanex.Athena.ExtService.Common.UnitTests.Services
 {
+    using System;
+    using System.Data;
+    using System.Data.Common;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Common.Services;
+    using Data;
+    using Microsoft.Extensions.Caching.Distributed;
+    using Microsoft.Extensions.Options;
+    using Models.DTO;
+    using Moq;
+    using UnitTest.Common.Helpers;
+    using Xunit;
+
     public class CommonServiceTest
     {
         private const string BalanceUpCacheKey = "EXT_LAP_CACHE_BALANCEUP";

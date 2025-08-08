@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
+﻿namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 {
+    using System;
+
     public class NewCashOutBetListDetailMetaModel : CashOutBetListDetailMetaModel
     {
         public int CustId { get; set; }

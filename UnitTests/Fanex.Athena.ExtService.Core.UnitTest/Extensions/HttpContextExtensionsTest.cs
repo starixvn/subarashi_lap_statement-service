@@ -1,14 +1,14 @@
-using System.Net;
-using Fanex.Athena.ExtService.Core.Attributes;
-using Fanex.Athena.ExtService.Core.Extensions;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Routing;
-using Moq;
-using Xunit;
-
 namespace Fanex.Athena.ExtService.Core.UnitTests.Extensions
 {
+    using System.ComponentModel.DataAnnotations;
+    using System.Net;
+    using Core.Attributes;
+    using Core.Extensions;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Http.Features;
+    using Moq;
+    using Xunit;
+
     public class HttpContextExtensionsTest
     {
         private readonly Mock<HttpContext> _mockHttpContext;
@@ -133,7 +133,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Extensions
         public void TryGetRateLimitAttribute_WhenEndpointHasOtherAttributes_ReturnsFalseAndNull()
         {
             // Arrange
-            var otherAttribute = new System.ComponentModel.DataAnnotations.RequiredAttribute();
+            var otherAttribute = new RequiredAttribute();
             var mockEndpoint = new Mock<Endpoint>(null, new EndpointMetadataCollection(otherAttribute), null);
             var endpointFeature = new Mock<IEndpointFeature>();
             endpointFeature.Setup(f => f.Endpoint).Returns(mockEndpoint.Object);
@@ -152,7 +152,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Extensions
         {
             // Arrange
             var rateLimitAttribute = new RateLimitAttribute { MaxRequests = 50, TimeWindowInSeconds = 30 };
-            var otherAttribute = new System.ComponentModel.DataAnnotations.RequiredAttribute();
+            var otherAttribute = new RequiredAttribute();
             var mockEndpoint = new Mock<Endpoint>(null, new EndpointMetadataCollection(otherAttribute, rateLimitAttribute), null);
             var endpointFeature = new Mock<IEndpointFeature>();
             endpointFeature.Setup(f => f.Endpoint).Returns(mockEndpoint.Object);

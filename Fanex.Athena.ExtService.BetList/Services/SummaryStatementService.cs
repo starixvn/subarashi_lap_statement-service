@@ -1,14 +1,13 @@
-﻿using System;
-using System.Threading.Tasks;
-
-using Fanex.Athena.ExtService.BetList.Models.DTO;
-using Fanex.Athena.ExtService.BetList.Models.MetaModel;
-using Fanex.Athena.ExtService.BetList.Models.ViewModel;
-using Fanex.Athena.ExtService.Common.Services;
-using Fanex.Data;
-
-namespace Fanex.Athena.ExtService.BetList.Services
+﻿namespace Fanex.Athena.ExtService.BetList.Services
 {
+    using System;
+    using System.Threading.Tasks;
+    using Common.Services;
+    using Data;
+    using Models.DTO;
+    using Models.MetaModel;
+    using Models.ViewModel;
+
     public class SummaryStatementService : ISummaryStatementService
     {
         private readonly ICommonService _commonService;

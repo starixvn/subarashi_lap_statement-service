@@ -1,13 +1,9 @@
-﻿@using Fanex.Athena.ExtService.Resources
-@using Microsoft.Extensions.Configuration
-@using Fanex.Athena.ExtService.Common.Models.DTO
-@using Fanex.Athena.ExtService.Common.Models.DataDomain
-@inject IConfiguration Configuration
+﻿@inject IConfiguration Configuration
 @{
     ViewData["IntegrateBetTicketSite"] = true;
 
     var isAllowTxIDColumn = (bool)ViewBag.IsEnableSingleWallet;
-    var title = Model.ViewType == SystemConstants.DefaultViewType ? @ViewResources.Statement : $"{ViewResources.SabaCoins} {ViewResources.Statement}";
+    var title = Model.ViewType == SystemConstants.DefaultViewType ? ViewResources.Statement : $"{ViewResources.SabaCoins} {ViewResources.Statement}";
 }
 @section pagecss
     {
@@ -20,6 +16,9 @@
     <script type="text/javascript">
     </script>
 }
+@using Fanex.Athena.ExtService.Common.Models.DataDomain
+@using Fanex.Athena.ExtService.Resources
+@using Microsoft.Extensions.Configuration
 @model Fanex.Athena.ExtService.BetList.Models.ViewModel.BetListByProductViewModel
 <div id="container" class="container-fluid">
     <div>
@@ -104,7 +103,7 @@ new SelectListItem { Text = ViewResources.BetList, Selected = true, Value = "jav
                                         <th>@ViewResources.Stake</th>
                                         <th>
                                             @(Model.Info.IsAllowedCustomerComm ?
-                                                                                                                                                    $"{ ViewResources.WinLoss}/{ ViewResources.Comm}" : @ViewResources.WinLoss)
+                                                                                                                                                    $"{ ViewResources.WinLoss}/{ ViewResources.Comm}" : ViewResources.WinLoss)
                                         </th>
                                         @if (Model.ViewType == SystemConstants.DefaultViewType)
                                         {

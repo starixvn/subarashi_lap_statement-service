@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using Fanex.Athena.ExtService.Core.Extensions;
-using Fanex.Athena.ExtService.Core.Models.DTO;
-using Fanex.Athena.ExtService.Core.Services;
-using Microsoft.Extensions.Options;
-using Moq;
-using Xunit;
-
-namespace Fanex.Athena.ExtService.Core.UnitTest.Services
+﻿namespace Fanex.Athena.ExtService.Core.UnitTest.Services
 {
+    using System.Collections.Generic;
+    using Core.Services;
+    using Extensions;
+    using Microsoft.Extensions.Options;
+    using Models.DTO;
+    using Moq;
+    using Xunit;
+
     public class UserManagementServiceTest
     {
         private readonly List<User> users = new List<User> { new User { UserName = "alex", Password = "1234".Sha256() } };

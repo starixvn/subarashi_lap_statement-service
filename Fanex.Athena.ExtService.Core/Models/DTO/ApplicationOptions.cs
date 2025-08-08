@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace Fanex.Athena.ExtService.Core.Models.DTO
+﻿namespace Fanex.Athena.ExtService.Core.Models.DTO
 {
+    using System.Collections.Generic;
+
     public class ApplicationOptions
     {
         public IList<string> WhiteList { get; set; }

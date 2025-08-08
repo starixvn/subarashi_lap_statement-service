@@ -1,21 +1,19 @@
-﻿@using Microsoft.Extensions.Configuration
-@using Fanex.Athena.ExtService.Common.Models.DTO
-@inject IConfiguration Configuration
-@using Fanex.Athena.ExtService.Resources
-@{
-}
+﻿@inject IConfiguration Configuration
 
 @section pagecss{
     <link href="~/css/pages/betlist/cashouthistory.css" rel="stylesheet" type="text/css" asp-append-version="true"/>
 }
 
+@using System.Globalization
+@using Fanex.Athena.ExtService.Resources
+@using Microsoft.Extensions.Configuration
 @model Fanex.Athena.ExtService.BetList.Models.ViewModel.NewCashOutBetListDetailViewModel
 
 <div class="page-results betlist-container">
     <div class="table-content">
         <div class="content-title">
             @ViewResources.RefNo: @Html.Raw(Model.TransId) - <span class="base-currency">
-                @(string.IsNullOrEmpty(Model.BaseCurrency) ? string.Format(ViewResources.Viewin, Model.Currency) : string.Format(ViewResources.Viewin, Model.BaseCurrency.ToUpper()))
+                @(string.IsNullOrEmpty(Model.BaseCurrency) ? string.Format(ViewResources.Viewin, Model.Currency) : string.Format(ViewResources.Viewin, Model.BaseCurrency.ToUpper(CultureInfo.InvariantCulture)))
             </span>
         </div>
 

@@ -1,17 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Security.Claims;
-using Fanex.Athena.ExtService.Common.Constant;
-using Fanex.Athena.ExtService.Core.Services;
-using Microsoft.AspNetCore.Http;
-using Moq;
-using Newtonsoft.Json;
-using Xunit;
-
 namespace Fanex.Athena.ExtService.Core.UnitTests.Services
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Security.Claims;
+    using Common.Constant;
+    using Core.Services;
+    using Microsoft.AspNetCore.Http;
+    using Moq;
+    using Newtonsoft.Json;
+    using Xunit;
+
     public class ContextServiceTest
     {
         private readonly Mock<IHttpContextAccessor> _mockHttpContextAccessor;

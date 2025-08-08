@@ -1,9 +1,9 @@
 ﻿namespace Fanex.Athena.ExtService.BetList.UnitTest.Helper
 {
     using System.Collections.Generic;
-    using Fanex.Athena.ExtService.BetList.Helper;
-    using Fanex.Athena.ExtService.BetList.Models.DataDomain;
-    using Fanex.Athena.ExtService.BetList.Models.DTO;
+    using BetList.Helper;
+    using Models.DataDomain;
+    using Models.DTO;
     using Moq;
     using Xunit;
 
@@ -62,7 +62,7 @@
                         "transDescText",
                         "Test",
                         "Test",
-                        $"Test transDescText"
+                        "Test transDescText"
                     }
                 };
             }

@@ -3,18 +3,18 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Fanex.Athena.ExtService.BetList.Helper;
-    using Fanex.Athena.ExtService.BetList.Models.DataDomain;
-    using Fanex.Athena.ExtService.BetList.Models.DTO;
-    using Fanex.Athena.ExtService.BetList.Models.MetaModel;
-    using Fanex.Athena.ExtService.BetList.Models.ViewModel;
-    using Fanex.Athena.ExtService.Common.Attributes;
-    using Fanex.Athena.ExtService.Common.Constant;
-    using Fanex.Athena.ExtService.Common.Models.DataDomain;
-    using Fanex.Athena.ExtService.Common.Services;
-    using Fanex.Athena.ExtService.Core.Services;
+    using Common.Attributes;
+    using Common.Constant;
+    using Common.Models.DataDomain;
+    using Common.Services;
+    using Core.Services;
+    using Helper;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Models.DataDomain;
+    using Models.DTO;
+    using Models.MetaModel;
+    using Models.ViewModel;
 
     [Authorize]
     public class BetListController : BaseController
@@ -75,7 +75,7 @@
             ViewBag.Title = "Bet List By RefNo";
             ViewBag.IsEnableSingleWallet = _contextService.IsEnableSingleWallet;
             AssignCommonViewModelData(metaModel, viewModel);
-            return GetView(metaModel.IsDesktopViewOnly, $"~/Views/BetList/RefNo", viewModel);
+            return GetView(metaModel.IsDesktopViewOnly, "~/Views/BetList/RefNo", viewModel);
         }
 
         [HttpGet]
@@ -108,7 +108,7 @@
 
             AssignCommonViewModelData(metaModel, viewModel);
 
-            return GetView(metaModel.IsDesktopViewOnly, $"~/Views/BetList/TxID", viewModel);
+            return GetView(metaModel.IsDesktopViewOnly, "~/Views/BetList/TxID", viewModel);
         }
 
         [HttpGet]
@@ -173,7 +173,7 @@
             ViewBag.ShowBreadCrumb = metaModel.ShowBreadCrumb;
             ViewBag.IsEnableSingleWallet = await _commonService.IsEnableSingleWallet(HttpContext.User.Identity.Name);
 
-            return GetView(metaModel.IsDesktopViewOnly, $"~/Views/BetList/ByGroup", viewModel);
+            return GetView(metaModel.IsDesktopViewOnly, "~/Views/BetList/ByGroup", viewModel);
         }
 
         [HttpGet]
@@ -214,7 +214,7 @@
 
             AssignCommonViewModelData(metaModel, viewModel);
 
-            return GetView(metaModel.IsDesktopViewOnly, $"~/Views/BetList/Running", viewModel);
+            return GetView(metaModel.IsDesktopViewOnly, "~/Views/BetList/Running", viewModel);
         }
 
         private ViewResult GetView(bool isDesktopViewOnly, string viewPath, object viewModel)

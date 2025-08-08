@@ -1,15 +1,16 @@
-﻿using System;
-using System.Threading.Tasks;
-using Fanex.Athena.ExtService.Core.Middleware;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using Moq;
-using Xunit;
-using Assert = Xunit.Assert;
+﻿using Assert = Xunit.Assert;
 
 namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
 {
+    using System;
+    using System.Threading.Tasks;
+    using Core.Middleware;
+    using Microsoft.AspNetCore.Diagnostics;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Logging;
+    using Moq;
+    using Xunit;
+
     public class ErrorHandlerTest
     {
         private readonly Mock<HttpContext> _mockContext;

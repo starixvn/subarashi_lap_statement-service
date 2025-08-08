@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Razor.TagHelpers;
-
-namespace Fanex.Athena.ExtService.TagHelpers
+﻿namespace Fanex.Athena.ExtService.TagHelpers
 {
+    using System;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Razor.TagHelpers;
+
     [HtmlTargetElement("money", TagStructure = TagStructure.NormalOrSelfClosing)]
     public class MoneyTagHelper : TagHelper
     {

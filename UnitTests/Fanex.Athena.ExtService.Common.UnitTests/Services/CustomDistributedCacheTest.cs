@@ -1,18 +1,16 @@
-﻿using System;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using Fanex.Athena.ExtService.Common.Services;
-using Fanex.Athena.ExtService.UnitTest.Common.Helpers;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Logging;
-using Moq;
-using Xunit;
-
-using MessagePack;
-
-namespace Fanex.Athena.ExtService.Common.UnitTests.Services
+﻿namespace Fanex.Athena.ExtService.Common.UnitTests.Services
 {
+    using System;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Common.Services;
+    using MessagePack;
+    using Microsoft.Extensions.Caching.Distributed;
+    using Microsoft.Extensions.Logging;
+    using Moq;
+    using UnitTest.Common.Helpers;
+    using Xunit;
+
     public class CustomDistributedCacheTest
     {
         private readonly Mock<IDistributedCache> _distributedCache;

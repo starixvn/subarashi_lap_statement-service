@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-
-namespace Fanex.Athena.ExtService.Common.Models.DTO
+﻿namespace Fanex.Athena.ExtService.Common.Models.DTO
 {
+    using Newtonsoft.Json;
+
     public class CurrencyInfo
     {
         [JsonProperty("Id")]

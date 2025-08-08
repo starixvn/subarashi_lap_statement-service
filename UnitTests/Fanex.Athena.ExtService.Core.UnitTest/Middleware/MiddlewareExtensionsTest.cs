@@ -1,13 +1,14 @@
-using Fanex.Athena.ExtService.Core.Middleware;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Moq;
-using Xunit;
-
 namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
 {
+    using Common.Services;
+    using Core.Middleware;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.DependencyInjection;
+    using Moq;
+    using ONEbook.UM.Services;
+    using Xunit;
+
     public class MiddlewareExtensionsTest
     {
         [Fact]
@@ -16,7 +17,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
             // Arrange
             var services = new ServiceCollection();
             services.AddDistributedMemoryCache();
-            services.AddSingleton<Fanex.Athena.ExtService.Common.Services.ICustomDistributedCache, Fanex.Athena.ExtService.Common.Services.CustomDistributedCache>();
+            services.AddSingleton<ICustomDistributedCache, CustomDistributedCache>();
             services.AddLogging();
             var serviceProvider = services.BuildServiceProvider();
 
@@ -55,7 +56,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
         {
             // Arrange
             var services = new ServiceCollection();
-            var mockMaintenanceService = new Mock<ONEbook.UM.Services.IMaintenanceService>();
+            var mockMaintenanceService = new Mock<IMaintenanceService>();
             services.AddSingleton(mockMaintenanceService.Object);
             var serviceProvider = services.BuildServiceProvider();
 

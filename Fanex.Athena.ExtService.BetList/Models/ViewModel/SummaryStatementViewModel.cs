@@ -2,8 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
-    using Fanex.Athena.ExtService.BetList.Models.DTO;
-    using Fanex.Athena.ExtService.Common.Models.ViewModels;
+    using Common.Models.ViewModels;
+    using DTO;
 
     public class SummaryStatementViewModel : BaseViewModel
     {

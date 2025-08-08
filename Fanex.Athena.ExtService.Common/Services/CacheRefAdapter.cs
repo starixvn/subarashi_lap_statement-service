@@ -2,7 +2,7 @@
 {
     using System;
     using System.Globalization;
-    using Fanex.RemotingRef;
+    using RemotingRef;
 
     public class CacheRefAdapter : ICacheRefAdapter
     {

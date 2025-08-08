@@ -1,23 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Security.Claims;
-using System.Text;
-using Fanex.Athena.ExtService.Core.Attributes;
-using Fanex.Athena.ExtService.Core.Models.DTO;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Abstractions;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Primitives;
-using Moq;
-using Xunit;
-
 namespace Fanex.Athena.ExtService.Core.UnitTests.Attributes
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Security.Claims;
+    using Core.Attributes;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Abstractions;
+    using Microsoft.AspNetCore.Mvc.Filters;
+    using Microsoft.AspNetCore.Mvc.ModelBinding;
+    using Microsoft.AspNetCore.Routing;
+    using Microsoft.Extensions.Options;
+    using Models.DTO;
+    using Moq;
+    using Xunit;
+
     public class ApiKeyAuthAttributeTest
     {
         private readonly Mock<IOptions<List<ApiKey>>> _mockOptions;

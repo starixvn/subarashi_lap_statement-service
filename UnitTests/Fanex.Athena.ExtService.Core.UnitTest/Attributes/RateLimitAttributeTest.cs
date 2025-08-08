@@ -1,8 +1,8 @@
-using Xunit;
-using Fanex.Athena.ExtService.Core.Attributes;
-
 namespace Fanex.Athena.ExtService.Core.UnitTests.Attributes
 {
+    using Core.Attributes;
+    using Xunit;
+
     public class RateLimitAttributeTest
     {
         [Fact]

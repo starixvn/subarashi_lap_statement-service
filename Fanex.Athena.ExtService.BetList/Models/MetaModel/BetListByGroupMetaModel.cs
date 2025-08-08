@@ -1,8 +1,8 @@
 ﻿namespace Fanex.Athena.ExtService.BetList.Controllers
 {
     using System.Linq;
+    using Common.Constant;
     using Core.Helper;
-using Fanex.Athena.ExtService.Common.Constant;
     using Microsoft.AspNetCore.Mvc;
     using Models.DataDomain;
     using Models.MetaModel;

@@ -1,22 +1,19 @@
-using System;
-using System.IO;
-using System.Net;
-using System.Threading.Tasks;
-using Fanex.Athena.ExtService.Common.Services;
-using Fanex.Athena.ExtService.Core.Attributes;
-using Fanex.Athena.ExtService.Core.Extensions;
-using Fanex.Athena.ExtService.Core.Helper;
-using Fanex.Athena.ExtService.Core.Middleware;
-using Fanex.Athena.ExtService.Core.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.Caching.Distributed;
-using Moq;
-using Xunit;
-
 namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
 {
+    using System.IO;
+    using System.Net;
+    using System.Threading.Tasks;
+    using Common.Services;
+    using Core.Attributes;
+    using Core.Middleware;
+    using Helper;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Http.Features;
+    using Microsoft.Extensions.Caching.Distributed;
+    using Models;
+    using Moq;
+    using Xunit;
+
     public class RateLimitHandlerTest
     {
         private readonly Mock<RequestDelegate> _mockNext;

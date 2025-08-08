@@ -1,20 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Fanex.Athena.ExtService.Core.Services;
-using Fanex.Athena.ExtService.Core.Models;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Options;
-using Moq;
-using Moq.Protected;
-using Newtonsoft.Json;
-using Xunit;
-
 namespace Fanex.Athena.ExtService.Core.UnitTests.Services
 {
+    using System;
+    using System.Net;
+    using System.Net.Http;
+    using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Core.Services;
+    using Microsoft.Extensions.Caching.Memory;
+    using Microsoft.Extensions.Options;
+    using Models;
+    using Moq;
+    using Moq.Protected;
+    using Newtonsoft.Json;
+    using Xunit;
+
     public class OAuthServiceTest
     {
         private readonly Mock<IHttpClientFactory> _mockHttpClientFactory;
@@ -71,11 +71,11 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Services
 
             var mockMessageHandler = new Mock<HttpMessageHandler>();
             mockMessageHandler.Protected()
-                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<System.Threading.CancellationToken>())
+                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
                 .ReturnsAsync(new HttpResponseMessage
                 {
                     StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent(responseContent, System.Text.Encoding.UTF8, "application/json")
+                    Content = new StringContent(responseContent, Encoding.UTF8, "application/json")
                 });
 
             var httpClient = new HttpClient(mockMessageHandler.Object) { BaseAddress = new Uri("http://localhost") };
@@ -96,7 +96,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Services
 
             var mockMessageHandler = new Mock<HttpMessageHandler>();
             mockMessageHandler.Protected()
-                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<System.Threading.CancellationToken>())
+                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
                 .ReturnsAsync(new HttpResponseMessage
                 {
                     StatusCode = HttpStatusCode.Unauthorized

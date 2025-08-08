@@ -1,11 +1,10 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Primitives;
-
-namespace Fanex.Athena.ExtService.Core.Middleware
+﻿namespace Fanex.Athena.ExtService.Core.Middleware
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Primitives;
+
     public class JWTokenHandler
     {
         private readonly RequestDelegate _next;

@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Fanex.Athena.ExtService.BetList.Models.DTO
+﻿namespace Fanex.Athena.ExtService.BetList.Models.DTO
 {
+    using System;
+
     public class SummaryStatement : IStatementValue
     {
         public int RowNum { get; set; }

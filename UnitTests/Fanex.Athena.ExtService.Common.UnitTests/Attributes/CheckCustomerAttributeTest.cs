@@ -1,22 +1,20 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Fanex.Athena.ExtService.Common.Attributes;
-using Fanex.Athena.ExtService.Common.Models.DTO;
-using Fanex.Athena.ExtService.Common.Models.ViewModels;
-using Fanex.Athena.ExtService.Common.Services;
-
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Abstractions;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Routing;
-using Moq;
-
-using Xunit;
-
-namespace Fanex.Athena.ExtService.Core.UnitTests.Attributes
+﻿namespace Fanex.Athena.ExtService.Core.UnitTests.Attributes
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Common.Attributes;
+    using Common.Models.DTO;
+    using Common.Models.ViewModels;
+    using Common.Services;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Abstractions;
+    using Microsoft.AspNetCore.Mvc.Filters;
+    using Microsoft.AspNetCore.Mvc.ModelBinding;
+    using Microsoft.AspNetCore.Routing;
+    using Moq;
+    using Xunit;
+
     public class CheckCustomerAttributeTest
     {
         private readonly Mock<ICommonService> _mockCommonService;
@@ -98,7 +96,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Attributes
             _mockCommonService.Setup(x => x.GetLicenseeInfoAsync(It.IsAny<string>(), It.IsAny<int>()))
                 .Returns(Task.FromResult(new LicenseeInfo
                 {
-                    Currencies = new CurrencyInfo[] { new CurrencyInfo() }
+                    Currencies = new[] { new CurrencyInfo() }
                 }));
             _mockCustomerMetaModel.Setup(x => x.CustId).Returns(100);
             var actionExcutingContext = new ActionExecutingContext(

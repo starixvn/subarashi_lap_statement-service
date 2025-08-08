@@ -1,18 +1,17 @@
-using System;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using Fanex.Athena.ExtService.Common.Services;
-using Moq;
-using Moq.Protected;
-using Newtonsoft.Json;
-using Xunit;
-
 namespace Fanex.Athena.ExtService.Common.UnitTests.Services
 {
+    using System;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Common.Services;
+    using Moq;
+    using Moq.Protected;
+    using Newtonsoft.Json;
+    using Xunit;
+
     public class CommonApiClientTest
     {
         private readonly Mock<IHttpClientFactory> _mockHttpClientFactory;
@@ -154,7 +153,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             SetupHttpResponse(HttpStatusCode.OK, jsonResponse);
 
             // Act
-            await _commonApiClient.GetAsync<TestModel>("/test", "en-US", null);
+            await _commonApiClient.GetAsync<TestModel>("/test");
 
             // Assert
             _mockHttpMessageHandler.Protected().Verify(

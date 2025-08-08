@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Fanex.Athena.ExtService.Core.Models.DTO
+﻿namespace Fanex.Athena.ExtService.Core.Models.DTO
 {
+    using System;
+
     [Serializable]
     public class User
     {

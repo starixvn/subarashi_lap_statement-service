@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Fanex.Athena.ExtService.Resources;
-
-namespace Fanex.Athena.ExtService.BetList.Models.DTO
+﻿namespace Fanex.Athena.ExtService.BetList.Models.DTO
 {
+    using System;
+    using System.Collections.Generic;
+    using Resources;
+
     public class CashoutHistoryDetail
     {
         public CashoutHistoryDetail(DateTime changeTime, decimal amount, string actionId)

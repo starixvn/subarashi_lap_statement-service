@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using Fanex.Data;
+    using Data;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Data.SqlClient;
 

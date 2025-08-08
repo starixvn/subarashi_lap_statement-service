@@ -1,19 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Fanex.Athena.ExtService.Common.Constant;
-using Fanex.Athena.ExtService.Core.Configurations;
-using Fanex.Athena.ExtService.Core.Services;
-using IdentityModel;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Http;
-using Moq;
-using Xunit;
-
 namespace Fanex.Athena.ExtService.UnitTests.PostConfigurations
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+    using Common.Constant;
+    using Core.Configurations;
+    using Core.Services;
+    using IdentityModel;
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.AspNetCore.Http;
+    using Moq;
+    using Xunit;
+
     public class CustomJwtBearerPostConfigureOptionsTest
     {
         private readonly Mock<IOAuthService> _mockOAuthService;
@@ -248,7 +248,7 @@ namespace Fanex.Athena.ExtService.UnitTests.PostConfigurations
         private TokenValidatedContext CreateTokenValidatedContext(ClaimsPrincipal principal)
         {
             var httpContext = new DefaultHttpContext();
-            var authenticationScheme = new Microsoft.AspNetCore.Authentication.AuthenticationScheme(
+            var authenticationScheme = new AuthenticationScheme(
                 JwtBearerDefaults.AuthenticationScheme,
                 JwtBearerDefaults.AuthenticationScheme,
                 typeof(JwtBearerHandler)

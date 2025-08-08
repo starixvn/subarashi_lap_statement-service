@@ -1,9 +1,9 @@
-﻿using System.Text.RegularExpressions;
-using Fanex.Athena.ExtService.Core.Models;
-using Microsoft.AspNetCore.Http;
-
-namespace Fanex.Athena.ExtService.Core.Services
+﻿namespace Fanex.Athena.ExtService.Core.Services
 {
+    using System.Text.RegularExpressions;
+    using Microsoft.AspNetCore.Http;
+    using Models;
+
     public class BrowserService : IBrowserService
     {
         private const int mobileVersionLength = 4;

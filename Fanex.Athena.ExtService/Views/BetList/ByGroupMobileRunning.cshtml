@@ -1,7 +1,4 @@
-﻿@using Fanex.Athena.ExtService.Resources
-@using Microsoft.Extensions.Configuration
-@using Fanex.Athena.ExtService.Common.Models.DTO
-@inject IConfiguration Configuration
+﻿@inject IConfiguration Configuration
 @{
     ViewData["IntegrateBetTicketSite"] = true;
     var startIndex = (Model.PageIndex - 1) * Model.PageSize + 1;
@@ -20,6 +17,8 @@
 
     </script>
 }
+@using Fanex.Athena.ExtService.Resources
+@using Microsoft.Extensions.Configuration
 @model Fanex.Athena.ExtService.BetList.Models.ViewModel.BetListByProductViewModel
 <div id="container" class="container-fluid">
     <div>
@@ -27,7 +26,7 @@
         {
             var breadcrumbItems = new List<SelectListItem>
 {
-        new SelectListItem { Text = @ViewResources.Statement, Value = Url.Action("Summary", "Statement", new {
+        new SelectListItem { Text = ViewResources.Statement, Value = Url.Action("Summary", "Statement", new {
 cid=Model.CustId,
 fd=ViewBag.FromDate.ToString("MM/dd/yyyy"),
 td=ViewBag.ToDate.ToString("MM/dd/yyyy"),

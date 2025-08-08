@@ -1,8 +1,8 @@
-﻿using Fanex.Athena.ExtService.Common.Models.ViewModels;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Fanex.Athena.ExtService.Controllers
+﻿namespace Fanex.Athena.ExtService.Controllers
 {
+    using Common.Models.ViewModels;
+    using Microsoft.AspNetCore.Mvc;
+
     public class ErrorController : Controller
     {
         public IActionResult Index(int code)

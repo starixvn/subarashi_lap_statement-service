@@ -1,10 +1,10 @@
-﻿using Fanex.Athena.ExtService.Common.Models.ViewModels;
-using Fanex.Athena.ExtService.Controllers;
-using Microsoft.AspNetCore.Mvc;
-using Xunit;
-
-namespace Fanex.Athena.ExtService.UnitTests.Controllers
+﻿namespace Fanex.Athena.ExtService.UnitTests.Controllers
 {
+    using Common.Models.ViewModels;
+    using ExtService.Controllers;
+    using Microsoft.AspNetCore.Mvc;
+    using Xunit;
+
     public class ErrorControllerTest
     {
         [Theory]
