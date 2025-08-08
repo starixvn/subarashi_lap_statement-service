@@ -1,14 +1,4 @@
-ARG CI_REGISTRY_IMAGE
-
-FROM $CI_REGISTRY_IMAGE:builder AS deps
-
-RUN mkdir -p /src/packages
-
 FROM hub.nexdev.net/base/dotnet/core/sdk:8.0-nodejs-v20 AS builder
-
-ENV NUGET_PACKAGES=/src/packages
-
-COPY --from=deps $NUGET_PACKAGES/. $NUGET_PACKAGES/
 
 WORKDIR /src/Fanex.Athena.ExtService
 
@@ -22,25 +12,31 @@ RUN npm install
 WORKDIR /src
 
 COPY NuGet.Config .
-RUN dotnet nuget add source http://nuget.nexdev.net/api/v2
+RUN dotnet nuget add source https://nuget.nexdev.net/api/v2
 
 COPY Fanex.Athena.ExtService.Resources/Fanex.Athena.ExtService.Resources.csproj ./
-RUN dotnet restore Fanex.Athena.ExtService.Resources.csproj -v n
+RUN --mount=type=cache,target=/root/.nuget/packages \
+	dotnet restore Fanex.Athena.ExtService.Resources.csproj -v n
 
 COPY Fanex.Athena.ExtService.Core/Fanex.Athena.ExtService.Core.csproj ./
-RUN dotnet restore Fanex.Athena.ExtService.Core.csproj -v n
+RUN --mount=type=cache,target=/root/.nuget/packages \
+	dotnet restore Fanex.Athena.ExtService.Core.csproj -v n
 
 COPY Fanex.Athena.ExtService.Common/Fanex.Athena.ExtService.Common.csproj ./
-RUN dotnet restore Fanex.Athena.ExtService.Common.csproj -v n
+RUN --mount=type=cache,target=/root/.nuget/packages \
+	dotnet restore Fanex.Athena.ExtService.Common.csproj -v n
 
 COPY Fanex.Athena.ExtService.BetList/Fanex.Athena.ExtService.BetList.csproj ./
-RUN dotnet restore Fanex.Athena.ExtService.BetList.csproj -v n
+RUN --mount=type=cache,target=/root/.nuget/packages \
+	dotnet restore Fanex.Athena.ExtService.BetList.csproj -v n
 
 COPY Fanex.Athena.ExtService.Report/Fanex.Athena.ExtService.Report.csproj ./
-RUN dotnet restore Fanex.Athena.ExtService.Report.csproj -v n
+RUN --mount=type=cache,target=/root/.nuget/packages \
+	dotnet restore Fanex.Athena.ExtService.Report.csproj -v n
 
 COPY Fanex.Athena.ExtService/Fanex.Athena.ExtService.csproj ./
-RUN dotnet restore Fanex.Athena.ExtService.csproj -v n
+RUN --mount=type=cache,target=/root/.nuget/packages \
+	dotnet restore Fanex.Athena.ExtService.csproj -v n
 
 COPY Fanex.Athena.ExtService.Resources ./Fanex.Athena.ExtService.Resources
 COPY Fanex.Athena.ExtService.Core ./Fanex.Athena.ExtService.Core
