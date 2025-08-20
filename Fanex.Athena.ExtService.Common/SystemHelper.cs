@@ -1,11 +1,10 @@
-﻿using System.Linq;
-using System.Text;
-
-using Fanex.Athena.ExtService.Common.Models.DataDomain;
-using Fanex.Athena.ExtService.Common.Models.DTO;
-
-namespace Fanex.Athena.ExtService.Common
+﻿namespace Fanex.Athena.ExtService.Common
 {
+    using System.Linq;
+    using System.Text;
+    using Models.DataDomain;
+    using Models.DTO;
+
     public static class SystemHelper
     {
         public static string GenerateAgentListXml(LicenseeInfo licenseeInfo, bool isExcludeTestData = false)

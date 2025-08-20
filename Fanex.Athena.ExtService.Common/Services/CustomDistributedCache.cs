@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Logging;
-using MsgPack.Serialization;
-
-namespace Fanex.Athena.ExtService.Common.Services
+﻿namespace Fanex.Athena.ExtService.Common.Services
 {
+    using System;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Microsoft.Extensions.Caching.Distributed;
+    using Microsoft.Extensions.Logging;
+    using MsgPack.Serialization;
+
     public class CustomDistributedCache : ICustomDistributedCache
     {
         private static readonly SerializationContext MsgPackSerializationContext = new SerializationContext

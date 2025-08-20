@@ -1,13 +1,13 @@
-﻿using System;
-using System.Threading.Tasks;
-using Fanex.Athena.ExtService.Core.Helper;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-
-namespace Fanex.Athena.ExtService.Core.Middleware
+﻿namespace Fanex.Athena.ExtService.Core.Middleware
 {
+    using System;
+    using System.Threading.Tasks;
+    using Helper;
+    using Microsoft.AspNetCore.Diagnostics;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Logging;
+    using Newtonsoft.Json;
+
     public class ErrorHandler
     {
         private const int ServerErrorCode = 500;

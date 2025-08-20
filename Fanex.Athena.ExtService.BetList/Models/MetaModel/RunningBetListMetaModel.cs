@@ -1,9 +1,9 @@
 ﻿namespace Fanex.Athena.ExtService.BetList.Controllers
 {
-    using Fanex.Athena.ExtService.BetList.Models.MetaModel;
-    using Fanex.Athena.ExtService.Common.Models.DataDomain;
-    using Fanex.Athena.ExtService.Common.Models.ViewModels;
+    using Common.Models.DataDomain;
+    using Common.Models.ViewModels;
     using Microsoft.AspNetCore.Mvc;
+    using Models.MetaModel;
 
     public class RunningBetListMetaModel : IBaseBetListMetaModel, ICustomerMetaModel
     {

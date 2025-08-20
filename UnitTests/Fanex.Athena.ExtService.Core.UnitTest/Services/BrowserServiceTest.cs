@@ -1,10 +1,10 @@
-﻿using Fanex.Athena.ExtService.Core.Services;
-using Microsoft.AspNetCore.Http;
-using Moq;
-using Xunit;
-
-namespace Fanex.Athena.ExtService.Core.UnitTests.Services
+﻿namespace Fanex.Athena.ExtService.Core.UnitTests.Services
 {
+    using Core.Services;
+    using Microsoft.AspNetCore.Http;
+    using Moq;
+    using Xunit;
+
     public class BrowserServiceTest
     {
         private readonly Mock<HttpContext> _mockHttpContext;

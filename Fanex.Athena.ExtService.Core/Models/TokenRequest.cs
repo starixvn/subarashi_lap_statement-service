@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json;
-
-namespace Fanex.Athena.ExtService.Core.Models
+﻿namespace Fanex.Athena.ExtService.Core.Models
 {
+    using System.ComponentModel.DataAnnotations;
+    using Newtonsoft.Json;
+
     public class TokenRequest
     {
         private const int MaxLengthOfUserName = 50;

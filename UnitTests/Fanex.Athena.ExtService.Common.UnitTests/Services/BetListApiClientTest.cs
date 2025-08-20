@@ -1,18 +1,18 @@
-﻿using System;
-using System.Net;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using Fanex.Athena.ExtService.Common.Services;
-using Microsoft.AspNetCore.Http;
-using Moq;
-using Moq.Protected;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Xunit;
-
-namespace Fanex.Athena.ExtService.Common.UnitTests.Services
+﻿namespace Fanex.Athena.ExtService.Common.UnitTests.Services
 {
+    using System;
+    using System.Net;
+    using System.Net.Http;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Common.Services;
+    using Microsoft.AspNetCore.Http;
+    using Moq;
+    using Moq.Protected;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+    using Xunit;
+
     public class BetListApiClientTest : IDisposable
     {
         private Mock<IHttpClientFactory> _mockClientFactory;

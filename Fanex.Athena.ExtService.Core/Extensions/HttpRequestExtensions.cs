@@ -1,9 +1,9 @@
-﻿using System;
-using System.Net;
-using Microsoft.AspNetCore.Http;
-
-namespace Fanex.Athena.ExtService.Core.Extensions
+﻿namespace Fanex.Athena.ExtService.Core.Extensions
 {
+    using System;
+    using System.Net;
+    using Microsoft.AspNetCore.Http;
+
     public static class HttpRequestExtensions
     {
         private static readonly string HostName = Dns.GetHostName();

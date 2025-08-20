@@ -1,12 +1,12 @@
-﻿using System.Threading.Tasks;
-using Fanex.Athena.ExtService.Core.Attributes;
-using Fanex.Athena.ExtService.Core.Models;
-using Fanex.Athena.ExtService.Core.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Fanex.Athena.ExtService.Controllers
+﻿namespace Fanex.Athena.ExtService.Controllers
 {
+    using System.Threading.Tasks;
+    using Core.Attributes;
+    using Core.Models;
+    using Core.Services;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+
     [ApiController]
     [ServiceFilter(typeof(IPFilterAttribute))]
     public class AuthController : ControllerBase
@@ -30,7 +30,7 @@ namespace Fanex.Athena.ExtService.Controllers
             var result = await _authService.IsAuthenticated(request);
 
             return result.Item1 ? Ok(result.Item2)
-                : (ActionResult)BadRequest("Wrong username or password");
+                : BadRequest("Wrong username or password");
         }
     }
 }

@@ -1,16 +1,16 @@
-﻿using System;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using Fanex.Athena.ExtService.Common.Services;
-using Fanex.Athena.ExtService.UnitTest.Common.Helpers;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Logging;
-using Moq;
-using Xunit;
-
-namespace Fanex.Athena.ExtService.Common.UnitTests.Services
+﻿namespace Fanex.Athena.ExtService.Common.UnitTests.Services
 {
+    using System;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Common.Services;
+    using MessagePack;
+    using Microsoft.Extensions.Caching.Distributed;
+    using Microsoft.Extensions.Logging;
+    using Moq;
+    using UnitTest.Common.Helpers;
+    using Xunit;
+
     public class CustomDistributedCacheTest
     {
         private readonly Mock<IDistributedCache> _distributedCache;
@@ -150,7 +150,7 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
         {
             // Arrange
             var value = FakeHelper.Create<SampleObject>();
-            var expectedTask = Task.FromResult(value.Serialize());
+            var expectedTask = Task.FromResult(MessagePackSerializer.Serialize(value));
             _distributedCache.Setup(x => x.GetAsync(It.IsAny<string>(),
                                                     It.IsAny<CancellationToken>()))
                              .Returns(expectedTask)
@@ -164,31 +164,14 @@ namespace Fanex.Athena.ExtService.Common.UnitTests.Services
             // Assert
             Assert.IsType<SampleObject>(result);
         }
-
-        [Serializable]
+        [MessagePackObject]
         public class SampleObject
         {
-            public int Id { get; }
+            [Key(0)]
+            public int Id { get; set; }
 
-            public string Name { get; }
-
-            public SampleObject(int id, string name)
-            {
-                Id = id;
-                Name = name;
-            }
-
-            public byte[] Serialize()
-            {
-                using var m = new MemoryStream();
-                using (var writer = new BinaryWriter(m))
-                {
-                    writer.Write(Id);
-                    writer.Write(Name);
-                }
-
-                return m.ToArray();
-            }
+            [Key(1)]
+            public string Name { get; set; }
         }
     }
 }

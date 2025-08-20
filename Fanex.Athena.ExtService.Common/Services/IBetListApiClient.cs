@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-
-namespace Fanex.Athena.ExtService.Common.Services
+﻿namespace Fanex.Athena.ExtService.Common.Services
 {
+    using System.Threading.Tasks;
+
     public interface IBetListApiClient
     {
         Task<T> PostAsync<T>(string path, object value, string language);

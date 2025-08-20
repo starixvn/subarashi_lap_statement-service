@@ -1,8 +1,8 @@
-﻿using System;
-using Fanex.Athena.ExtService.BetList.Models.DataDomain;
-
-namespace Fanex.Athena.ExtService.BetList.Models.DTO
+﻿namespace Fanex.Athena.ExtService.BetList.Models.DTO
 {
+    using System;
+    using DataDomain;
+
     public class StatementByGroup : IStatementValue
     {
         public DateTime WinLostDate { get; set; }

@@ -1,9 +1,9 @@
-﻿using System;
-using Fanex.Athena.ExtService.Common.Models.DataDomain;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
+﻿namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 {
+    using System;
+    using Common.Models.DataDomain;
+    using Microsoft.AspNetCore.Mvc;
+
     public class TxIDBetListMetaModel : IBaseBetListMetaModel
     {
         [FromQuery(Name = "txId")]

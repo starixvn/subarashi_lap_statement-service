@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Fanex.Athena.ExtService.Resources;
-
-namespace Fanex.Athena.ExtService.BetList.Models.DataDomain
+﻿namespace Fanex.Athena.ExtService.BetList.Models.DataDomain
 {
+    using System;
+    using System.Collections.Generic;
+    using Resources;
+
     public static class TransDescValue
     {
         public const int ModeViewBetStatement = 1;

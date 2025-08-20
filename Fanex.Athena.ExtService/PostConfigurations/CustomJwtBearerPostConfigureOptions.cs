@@ -1,13 +1,13 @@
-﻿using Fanex.Athena.ExtService.Common.Constant;
-using Fanex.Athena.ExtService.Core.Services;
-using IdentityModel;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Options;
-using System.Linq;
-using System.Security.Claims;
-
-namespace Fanex.Athena.ExtService.Core.Configurations
+﻿namespace Fanex.Athena.ExtService.Core.Configurations
 {
+    using System.Linq;
+    using System.Security.Claims;
+    using Common.Constant;
+    using IdentityModel;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.Extensions.Options;
+    using Services;
+
     public class CustomJwtBearerPostConfigureOptions : IPostConfigureOptions<JwtBearerOptions>
     {
         private readonly IOAuthService _oAuthService;
@@ -26,10 +26,11 @@ namespace Fanex.Athena.ExtService.Core.Configurations
                 await onTokenValidated(context);
                 var principal = context.Principal;
                 var identityAccessToken = principal.FindFirst(CustomClaimType.IdentityAccessToken)?.Value;
-                var sessionClaims = (await _oAuthService.GetUserInfo(identityAccessToken)).ToList();
+                var sessionClaims = (await _oAuthService.GetUserInfo(identityAccessToken))?.ToList();
                 if (sessionClaims == null)
                 {
                     context.Fail("Unauthorized");
+                    return;
                 }
 
                 sessionClaims.AddRange(principal.Claims);

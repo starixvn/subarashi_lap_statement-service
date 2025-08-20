@@ -1,17 +1,17 @@
-﻿using System.Threading.Tasks;
-using Fanex.Athena.ExtService.BetList.Models.DataDomain;
-using Fanex.Athena.ExtService.BetList.Models.MetaModel;
-using Fanex.Athena.ExtService.BetList.Models.ViewModel;
-using Fanex.Athena.ExtService.BetList.Services;
-using Fanex.Athena.ExtService.Common.Attributes;
-using Fanex.Athena.ExtService.Common.Models.DataDomain;
-using Fanex.Athena.ExtService.Common.Services;
-using Fanex.Athena.ExtService.Core.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Fanex.Athena.ExtService.BetList.Controllers
+﻿namespace Fanex.Athena.ExtService.BetList.Controllers
 {
+    using System.Threading.Tasks;
+    using Common.Attributes;
+    using Common.Models.DataDomain;
+    using Common.Services;
+    using Core.Services;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Models.DataDomain;
+    using Models.MetaModel;
+    using Models.ViewModel;
+    using Services;
+
     [Authorize]
     [ServiceFilter(typeof(CheckCustomerAttribute))]
     public class StatementController : BaseController

@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using Fanex.Athena.ExtService.Core.Models;
-
-namespace Fanex.Athena.ExtService.Core.Services
+﻿namespace Fanex.Athena.ExtService.Core.Services
 {
+    using System;
+    using System.Threading.Tasks;
+    using Models;
+
     public interface IAuthenticateService
     {
         Task<Tuple<bool, Token>> IsAuthenticated(TokenRequest request);

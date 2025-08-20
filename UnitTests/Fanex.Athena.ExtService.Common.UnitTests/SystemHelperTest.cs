@@ -1,9 +1,9 @@
-﻿using Fanex.Athena.ExtService.Common.Models.DataDomain;
-using Fanex.Athena.ExtService.Common.Models.DTO;
-using Xunit;
-
-namespace Fanex.Athena.ExtService.Common.UnitTests
+﻿namespace Fanex.Athena.ExtService.Common.UnitTests
 {
+    using Models.DataDomain;
+    using Models.DTO;
+    using Xunit;
+
     public class SystemHelperTest
     {
         [Fact]

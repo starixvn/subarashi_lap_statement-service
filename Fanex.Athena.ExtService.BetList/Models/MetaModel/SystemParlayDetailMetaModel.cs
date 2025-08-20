@@ -1,8 +1,8 @@
-﻿using System;
-using Fanex.Athena.ExtService.Common.Models.DataDomain;
-
-namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
+﻿namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 {
+    using System;
+    using Common.Models.DataDomain;
+
     public class SystemParlayDetailMetaModel : IBaseMetaModel
     {
         public long RefNo { get; set; }

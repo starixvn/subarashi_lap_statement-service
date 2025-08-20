@@ -1,6 +1,7 @@
 ﻿namespace Fanex.Athena.ExtService.Core.Models
 {
     using System;
+    using Helper;
 
     public class ConsumptionData
     {
@@ -17,13 +18,13 @@
         public int NumberOfRequests { get; private set; }
 
         public bool HasConsumedAllRequests(int timeWindowInSeconds, int maxRequests)
-            => DateTime.UtcNow < LastResponse.AddSeconds(timeWindowInSeconds) && NumberOfRequests == maxRequests;
+            => DateTimeHelper.UtcNow < LastResponse.AddSeconds(timeWindowInSeconds) && NumberOfRequests == maxRequests;
 
         public void IncreaseRequests(int maxRequests)
         {
             if (NumberOfRequests == maxRequests)
             {
-                LastResponse = DateTime.UtcNow;
+                LastResponse = DateTimeHelper.UtcNow;
                 NumberOfRequests = 1;
             }
             else

@@ -1,9 +1,9 @@
-﻿using System;
-using Fanex.Athena.ExtService.Common.Models.DataDomain;
-using Fanex.Athena.ExtService.Common.Models.ViewModels;
-
-namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
+﻿namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 {
+    using System;
+    using Common.Models.DataDomain;
+    using Common.Models.ViewModels;
+
     public class BetListDetailByProductMetaModel : IBaseBetListMetaModel, ICustomerMetaModel, IMetaModelShowIP
     {
         public long TransId { get; set; }

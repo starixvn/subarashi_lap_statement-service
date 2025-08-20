@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Fanex.Athena.ExtService.BetList.Models.DTO;
-using Fanex.Athena.ExtService.Common.Models.ViewModels;
-
-namespace Fanex.Athena.ExtService.BetList.Models.ViewModel
+﻿namespace Fanex.Athena.ExtService.BetList.Models.ViewModel
 {
+    using System;
+    using System.Collections.Generic;
+    using Common.Models.ViewModels;
+    using DTO;
+
     public class BetListByProductViewModel : BaseViewModel
     {
         public string ProductCode { get; set; }

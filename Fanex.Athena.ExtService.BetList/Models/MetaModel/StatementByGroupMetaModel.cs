@@ -1,10 +1,11 @@
-﻿using System;
-using System.Linq;
-using Fanex.Athena.ExtService.BetList.Models.DataDomain;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
+﻿namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 {
+    using System;
+    using System.Linq;
+    using Core.Helper;
+    using DataDomain;
+    using Microsoft.AspNetCore.Mvc;
+
     public class StatementByGroupMetaModel : SummaryStatementMetaModel
     {
         [FromQuery(Name = "wd")]
@@ -14,6 +15,6 @@ namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
         public int ModeView { get; set; }
 
         public new bool IsValid => CustId > 0 && TransDescValue.MaptoModeView.Values.Contains(ModeView)
-            && WinlostDate > DateTime.MinValue;
+                                              && WinlostDate > DateTimeHelper.MinValue;
     }
 }

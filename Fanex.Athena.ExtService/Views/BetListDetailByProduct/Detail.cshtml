@@ -1,7 +1,4 @@
-﻿@using Fanex.Athena.ExtService.Resources
-@using Microsoft.Extensions.Configuration
-@using Fanex.Athena.ExtService.Common.Models.DTO
-@inject IConfiguration Configuration
+﻿@inject IConfiguration Configuration
 @{
     ViewData["IntegrateBetTicketSite"] = true;
 }
@@ -17,6 +14,8 @@
 
     </script>
 }
+@using Fanex.Athena.ExtService.Resources
+@using Microsoft.Extensions.Configuration
 @model Fanex.Athena.ExtService.BetList.Models.ViewModel.BetListResultViewModel
 <div id="container" class="container-fluid">
     <div>
@@ -48,7 +47,7 @@
                                         <th>@ViewResources.Stake</th>
                                         <th>
                                             @(Model.Info.IsAllowedCustomerComm ?
-                                                                                                                                        $"{ ViewResources.WinLoss}/{ ViewResources.Comm}" : @ViewResources.WinLoss)
+                                                                                                                                        $"{ ViewResources.WinLoss}/{ ViewResources.Comm}" : ViewResources.WinLoss)
                                         </th>
                                         @if (Model.HasLicWl)
                                         {

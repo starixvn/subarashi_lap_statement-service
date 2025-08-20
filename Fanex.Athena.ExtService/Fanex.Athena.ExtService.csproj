@@ -72,4 +72,10 @@
     <None Include="wwwroot\fonts\font-icon\fonts\icomoon.svg" />
     <None Include="wwwroot\fonts\roboto\Roboto-Regular.woff2" />
   </ItemGroup>
+  <ItemGroup>
+  	<AdditionalFiles Include="..\Dockerfile" Link="Dockerfile" />
+  	<AdditionalFiles Include="..\README.md" Link="README.md" />
+  	<AdditionalFiles Include="..\.dockerignore" Link=".dockerignore" />
+  </ItemGroup>
+
 </Project>

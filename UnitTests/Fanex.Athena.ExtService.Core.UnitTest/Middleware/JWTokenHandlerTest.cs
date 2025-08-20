@@ -1,16 +1,12 @@
-﻿using System.Threading.Tasks;
-
-using Fanex.Athena.ExtService.Core.Middleware;
-
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Primitives;
-
-using Moq;
-
-using Xunit;
-
-namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
+﻿namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
 {
+    using System.Threading.Tasks;
+    using Core.Middleware;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Primitives;
+    using Moq;
+    using Xunit;
+
     public class JWTokenHandlerTest
     {
         private readonly Mock<HttpContext> _mockContext;
@@ -41,7 +37,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
             _mockRequest.Setup(x => x.Query).Returns(_mockQueryCollection.Object);
 
             _mockContext.Setup(x => x.Request).Returns(_mockRequest.Object);
-            var handler = new JWTokenHandler(next: async (context) => { await Task.CompletedTask; }
+            var handler = new JWTokenHandler(next: async context => { await Task.CompletedTask; }
             );
 
             //Arrange
@@ -63,7 +59,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
             _mockRequest.Setup(x => x.Query).Returns(_mockQueryCollection.Object);
 
             _mockContext.Setup(x => x.Request).Returns(_mockRequest.Object);
-            var handler = new JWTokenHandler(next: async (context) =>
+            var handler = new JWTokenHandler(next: async context =>
             {
                 await Task.CompletedTask;
             }
@@ -87,7 +83,7 @@ namespace Fanex.Athena.ExtService.Core.UnitTests.Middleware
             _mockRequest.Setup(x => x.Query).Returns(_mockQueryCollection.Object);
 
             _mockContext.Setup(x => x.Request).Returns(_mockRequest.Object);
-            var handler = new JWTokenHandler(next: async (context) =>
+            var handler = new JWTokenHandler(next: async context =>
             {
                 await Task.CompletedTask;
             });

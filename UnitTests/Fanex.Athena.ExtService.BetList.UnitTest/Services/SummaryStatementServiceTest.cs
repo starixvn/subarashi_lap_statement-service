@@ -1,21 +1,21 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Threading;
-using System.Threading.Tasks;
-using Fanex.Athena.ExtService.BetList.Models.DTO;
-using Fanex.Athena.ExtService.BetList.Models.MetaModel;
-using Fanex.Athena.ExtService.BetList.Services;
-using Fanex.Athena.ExtService.Common.Models.DTO;
-using Fanex.Athena.ExtService.Common.Services;
-using Fanex.Athena.ExtService.UnitTest.Common.Helpers;
-using Fanex.Data;
-using Moq;
-using Xunit;
-
-namespace Fanex.Athena.ExtService.BetList.UnitTests.Services
+﻿namespace Fanex.Athena.ExtService.BetList.UnitTests.Services
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Data.Common;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using BetList.Models.DTO;
+    using BetList.Models.MetaModel;
+    using BetList.Services;
+    using Common.Models.DTO;
+    using Common.Services;
+    using Data;
+    using ExtService.UnitTest.Common.Helpers;
+    using Moq;
+    using Xunit;
+
     public class SummaryStatementServiceTest
     {
         public SummaryStatementServiceTest()

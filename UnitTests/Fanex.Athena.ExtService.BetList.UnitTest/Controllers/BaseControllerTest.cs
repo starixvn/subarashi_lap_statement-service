@@ -1,15 +1,15 @@
-﻿using System.Security.Claims;
-using System.Security.Principal;
-using System.Threading.Tasks;
-using Fanex.Athena.ExtService.Common.Models.DTO;
-using Fanex.Athena.ExtService.Common.Services;
-using Fanex.Athena.ExtService.Core.Services;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Moq;
-
-namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
+﻿namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
 {
+    using System.Security.Claims;
+    using System.Security.Principal;
+    using System.Threading.Tasks;
+    using Common.Models.DTO;
+    using Common.Services;
+    using Core.Services;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Moq;
+
     public class BaseControllerTest
     {
         protected readonly Mock<HttpContext> _httpContext;
@@ -30,7 +30,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
                 .Returns(Task.FromResult(new LicenseeInfo
                 {
                     SiteName = SiteName,
-                    Currencies = new CurrencyInfo[] { new CurrencyInfo {
+                    Currencies = new[] { new CurrencyInfo {
                         CurrencyId =1,
                         CurrencyName="UUS",
                         AgentId=100

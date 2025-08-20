@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Fanex.Athena.ExtService.TagHelpers;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Razor.TagHelpers;
-using Moq;
-using Xunit;
-
-namespace Fanex.Athena.ExtService.UnitTests.TagHelpers
+﻿namespace Fanex.Athena.ExtService.UnitTests.TagHelpers
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using ExtService.TagHelpers;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.AspNetCore.Razor.TagHelpers;
+    using Moq;
+    using Xunit;
+
     public class BreadcrumbTagHelperTest
     {
         [Fact]
@@ -21,7 +21,7 @@ namespace Fanex.Athena.ExtService.UnitTests.TagHelpers
             var tagHelperContext = new TagHelperContext(new TagHelperAttributeList(), new Dictionary<object, object>(), string.Empty);
 
             var tagHelperOutput = new TagHelperOutput(string.Empty, new TagHelperAttributeList(),
-                (a, b) => Task.FromResult<TagHelperContent>(mockTagHelperContent.Object))
+                (a, b) => Task.FromResult(mockTagHelperContent.Object))
             {
                 Content = mockTagHelperContent.Object
             };
@@ -49,13 +49,13 @@ namespace Fanex.Athena.ExtService.UnitTests.TagHelpers
             var tagHelperContext = new TagHelperContext(new TagHelperAttributeList(), new Dictionary<object, object>(), string.Empty);
 
             var tagHelperOutput = new TagHelperOutput(string.Empty, new TagHelperAttributeList(),
-                (a, b) => Task.FromResult<TagHelperContent>(mockTagHelperContent.Object))
+                (a, b) => Task.FromResult(mockTagHelperContent.Object))
             {
                 Content = mockTagHelperContent.Object
             };
 
             var tagHelperTarget = new BreadcrumbTagHelper();
-            tagHelperTarget.Items = new List<SelectListItem>() { new SelectListItem { Selected = true, Value = "1", Text = "Test" } };
+            tagHelperTarget.Items = new List<SelectListItem> { new SelectListItem { Selected = true, Value = "1", Text = "Test" } };
 
             // Action
             tagHelperTarget.Process(tagHelperContext, tagHelperOutput);
@@ -77,13 +77,13 @@ namespace Fanex.Athena.ExtService.UnitTests.TagHelpers
             var tagHelperContext = new TagHelperContext(new TagHelperAttributeList(), new Dictionary<object, object>(), string.Empty);
 
             var tagHelperOutput = new TagHelperOutput(string.Empty, new TagHelperAttributeList(),
-                (a, b) => Task.FromResult<TagHelperContent>(mockTagHelperContent.Object))
+                (a, b) => Task.FromResult(mockTagHelperContent.Object))
             {
                 Content = mockTagHelperContent.Object
             };
 
             var tagHelperTarget = new BreadcrumbTagHelper();
-            tagHelperTarget.Items = new List<SelectListItem>() { new SelectListItem { Selected = false, Value = "1", Text = "Test" } };
+            tagHelperTarget.Items = new List<SelectListItem> { new SelectListItem { Selected = false, Value = "1", Text = "Test" } };
 
             // Action
             tagHelperTarget.Process(tagHelperContext, tagHelperOutput);

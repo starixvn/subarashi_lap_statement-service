@@ -1,9 +1,10 @@
-﻿using Fanex.Athena.ExtService.Common.Services;
-using Xunit;
-using static System.String;
+﻿using static System.String;
 
 namespace Fanex.Athena.ExtService.Common.UnitTests.Services
 {
+    using Common.Services;
+    using Xunit;
+
     public class CacheRefAdapterTest
     {
         [Theory]

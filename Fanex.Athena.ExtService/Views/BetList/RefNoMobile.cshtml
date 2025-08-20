@@ -1,7 +1,4 @@
-﻿@using Fanex.Athena.ExtService.Resources
-@using Microsoft.Extensions.Configuration
-@using Fanex.Athena.ExtService.Common.Models.DTO
-@inject IConfiguration Configuration
+﻿@inject IConfiguration Configuration
 @{
     ViewData["IntegrateBetTicketSite"] = true;
     var isAllowTxIDColumn = (bool)ViewBag.IsEnableSingleWallet;
@@ -19,6 +16,8 @@
 
     </script>
 }
+@using Fanex.Athena.ExtService.Resources
+@using Microsoft.Extensions.Configuration
 @model Fanex.Athena.ExtService.BetList.Models.ViewModel.RefNoViewModel
 <div id="container" class="container-fluid">
     <div>
@@ -43,7 +42,7 @@
                                         <th class="text-left">@ViewResources.Details</th>
                                         <th class="text-right">@ViewResources.Stake</th>
                                         <th class="text-right">
-                                            @(Model.Info.IsAllowedCustomerComm ? $"{ ViewResources.WinLoss}/{ ViewResources.Comm}" : @ViewResources.WinLoss)
+                                            @(Model.Info.IsAllowedCustomerComm ? $"{ ViewResources.WinLoss}/{ ViewResources.Comm}" : ViewResources.WinLoss)
                                         </th>
                                         <th></th>
                                     </tr>

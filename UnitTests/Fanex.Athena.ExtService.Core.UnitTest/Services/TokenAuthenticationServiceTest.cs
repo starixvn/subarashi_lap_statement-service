@@ -1,18 +1,22 @@
-﻿using System.Threading.Tasks;
-using Fanex.Athena.ExtService.Common.Services;
-using Fanex.Athena.ExtService.Core.Models;
-using Fanex.Athena.ExtService.Core.Services;
-using Microsoft.Extensions.Options;
-using Moq;
-using Xunit;
-
-namespace Fanex.Athena.ExtService.Core.UnitTest.Services
+﻿namespace Fanex.Athena.ExtService.Core.UnitTest.Services
 {
+    using System.Threading.Tasks;
+    using Common.Services;
+    using Core.Services;
+    using Microsoft.Extensions.Options;
+    using Models;
+    using Moq;
+    using Xunit;
+
     public class TokenAuthenticationServiceTest
     {
         private readonly IAuthenticateService _authenticateService;
+        private readonly Mock<ICommonService> _mockCommonService = new();
+        private readonly Mock<IOAuthService> _mockOAuthService = new();
 
-        private readonly TokenManagement _tokenManagement = new TokenManagement
+        private readonly Mock<IUserManagementService> _mockUserManagement = new();
+
+        private readonly TokenManagement _tokenManagement = new()
         {
             AccessExpiration = 30,
             Audience = "test",
@@ -20,10 +24,6 @@ namespace Fanex.Athena.ExtService.Core.UnitTest.Services
             Secret = "04242b2d1c59118f33c9e3d01a776a7e50b9495b7dffbff6525c6f6cd7755d16",
             RefreshExpiration = 30
         };
-
-        private readonly Mock<IUserManagementService> _mockUserManagement = new Mock<IUserManagementService>();
-        private readonly Mock<ICommonService> _mockCommonService = new Mock<ICommonService>();
-        private readonly Mock<IOAuthService> _mockOAuthService = new Mock<IOAuthService>();
 
         public TokenAuthenticationServiceTest()
         {
@@ -33,9 +33,8 @@ namespace Fanex.Athena.ExtService.Core.UnitTest.Services
 
             _authenticateService = new TokenAuthenticationService(
                 _mockUserManagement.Object,
-                _mockCommonService.Object,
                 _mockOAuthService.Object,
-               mockTokenManagement.Object);
+                mockTokenManagement.Object);
         }
 
         [Theory]

@@ -1,7 +1,7 @@
-﻿using Fanex.Athena.ExtService.Common.Models.DataDomain;
-
-namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
+﻿namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 {
+    using Common.Models.DataDomain;
+
     public class CashOutBetListDetailMetaModel : IBaseBetListMetaModel, IMetaModelShowIP
     {
         public long TransId { get; set; }

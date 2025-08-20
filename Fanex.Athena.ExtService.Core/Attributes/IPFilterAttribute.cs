@@ -1,18 +1,18 @@
-﻿using System;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Fanex.Athena.ExtService.Common.Services;
-using Fanex.Athena.ExtService.Core.Extensions;
-using Fanex.Athena.ExtService.Core.Models;
-using Fanex.Athena.ExtService.Core.Models.DTO;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Options;
-using NetTools;
-
-namespace Fanex.Athena.ExtService.Core.Attributes
+﻿namespace Fanex.Athena.ExtService.Core.Attributes
 {
+    using System;
+    using System.Linq;
+    using System.Net;
+    using System.Threading.Tasks;
+    using Common.Services;
+    using Extensions;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Filters;
+    using Microsoft.Extensions.Options;
+    using Models;
+    using Models.DTO;
+    using NetTools;
+
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
     public sealed class IPFilterAttribute : ActionFilterAttribute
     {

@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Xml.Linq;
-using Fanex.Athena.ExtService.BetList.Models.DTO;
-using Fanex.Athena.ExtService.Common.Models.ViewModels;
-
-namespace Fanex.Athena.ExtService.BetList.Models.ViewModel
+﻿namespace Fanex.Athena.ExtService.BetList.Models.ViewModel
 {
+    using System.Collections.Generic;
+    using System.Xml.Linq;
+    using Common.Models.ViewModels;
+    using Core.Helper;
+    using DTO;
+
     public class NewCashOutBetListDetailViewModel : BaseViewModel
     {
         public long TransId { get; set; }
@@ -30,7 +30,7 @@ namespace Fanex.Athena.ExtService.BetList.Models.ViewModel
                         var amount = item.Attribute("w").Value;
                         var action = item.Attribute("s").Value;
 
-                        detailHistory.Add(new CashoutHistoryDetail(DateTime.Parse(time), decimal.Parse(amount) * Rate, action));
+                        detailHistory.Add(new CashoutHistoryDetail(DateTimeHelper.Parse(time), decimal.Parse(amount) * Rate, action));
                     }
                 }
 

@@ -1,9 +1,9 @@
-﻿using Fanex.Athena.ExtService.BetList.Models.ViewModel;
-using Fanex.Athena.ExtService.UnitTest.Common.Helpers;
-using Xunit;
-
-namespace Fanex.Athena.ExtService.BetList.UnitTests.Models.ViewModel
+﻿namespace Fanex.Athena.ExtService.BetList.UnitTests.Models.ViewModel
 {
+    using BetList.Models.ViewModel;
+    using ExtService.UnitTest.Common.Helpers;
+    using Xunit;
+
     public class NewCashOutBetListDetailViewModelTest
     {
         [Fact]

@@ -1,7 +1,7 @@
-﻿using Fanex.Athena.ExtService.Common.Models.DTO;
-
-namespace Fanex.Athena.ExtService.Common.Models.ViewModels
+﻿namespace Fanex.Athena.ExtService.Common.Models.ViewModels
 {
+    using DTO;
+
     public class BaseViewModel
     {
         public LicenseeInfo Info { get; set; }

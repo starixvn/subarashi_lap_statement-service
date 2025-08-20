@@ -1,22 +1,22 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Fanex.Athena.ExtService.BetList.Models.MetaModel;
-using Fanex.Athena.ExtService.BetList.Models.ViewModel;
-using Fanex.Athena.ExtService.Common.Models.DataDomain;
-using Fanex.Athena.ExtService.Common.Services;
-using Fanex.Athena.ExtService.Core.Services;
-using Fanex.Athena.ExtService.Resources;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Fanex.Athena.ExtService.BetList.Controllers
+﻿namespace Fanex.Athena.ExtService.BetList.Controllers
 {
+    using System;
+    using System.Threading.Tasks;
+    using Common.Models.DataDomain;
+    using Common.Services;
+    using Core.Services;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Models.MetaModel;
+    using Models.ViewModel;
+    using Resources;
+
     [Authorize]
     public class CashOutBetListController : BaseController
     {
-        private readonly ICommonService _commonService;
         private readonly IBetListApiClient _betListApiClient;
         private readonly IBrowserService _browserService;
+        private readonly ICommonService _commonService;
 
         public CashOutBetListController(
             ICommonService commonService,
@@ -61,7 +61,7 @@ namespace Fanex.Athena.ExtService.BetList.Controllers
             metaModel.IsMobileView = isMobileView;
 
             var licenseeInfo = await _commonService.GetLicenseeInfoAsync(HttpContext.User.Identity.Name);
-            var currency = licenseeInfo.Currencies.FirstOrDefault(unknown => unknown.CurrencyName == metaModel.Currency);
+            var currency = Array.Find(licenseeInfo.Currencies, unknown => unknown.CurrencyName == metaModel.Currency);
             if (currency != null)
             {
                 metaModel.CurrencyId = currency.CurrencyId;

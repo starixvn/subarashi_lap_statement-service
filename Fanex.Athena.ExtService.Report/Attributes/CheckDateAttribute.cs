@@ -4,6 +4,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.Globalization;
     using Constant;
+    using Core.Helper;
 
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
     public class CheckDateAttribute : ValidationAttribute
@@ -25,16 +26,16 @@
 
         private static DateTime GetMaxDate()
         {
-            var date = DateTime.UtcNow.AddHours(-4).AddDays(-ReportOptions.MinSupportedDaysFromToday);
+            var date = DateTimeHelper.UtcNow.AddHours(-4).AddDays(-ReportOptions.MinSupportedDaysFromToday);
 
-            return new DateTime(date.Year, date.Month, date.Day, 0, 0, 0);
+            return DateTimeHelper.CreateDateTime(date.Year, date.Month, date.Day);
         }
 
         private static DateTime GetMinDate()
         {
-            var date = DateTime.UtcNow.AddHours(-4).AddDays(-ReportOptions.MaxSupportedDaysFromToday);
+            var date = DateTimeHelper.UtcNow.AddHours(-4).AddDays(-ReportOptions.MaxSupportedDaysFromToday);
 
-            return new DateTime(date.Year, date.Month, date.Day, 0, 0, 0);
+            return DateTimeHelper.CreateDateTime(date.Year, date.Month, date.Day);
         }
     }
 }

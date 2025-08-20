@@ -5,8 +5,8 @@
     using System.Globalization;
     using System.Net;
     using System.Net.Http;
-    using System.Net.Mime;
     using System.Net.Http.Headers;
+    using System.Net.Mime;
     using System.Security.Claims;
     using System.Text;
     using System.Threading.Tasks;
@@ -15,18 +15,19 @@
     using Common.Models.DTO;
     using Common.Services;
     using Core.Attributes;
+    using Core.Configurations;
     using Core.Extensions;
-    using Fanex.Athena.ExtService.Core.Configurations;
     using Core.Middleware;
     using Core.Models;
     using Core.Models.DTO;
     using Core.Services;
     using Data;
     using Data.SqlServer;
-    using Fanex.Data.Vault;
+    using Data.Vault;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Diagnostics.HealthChecks;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.HttpOverrides;
@@ -130,7 +131,7 @@
         public void Configure(IApplicationBuilder app)
         {
             app.UsePingCheck();
-            app.UseHealthChecks("/whoamiheader", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
+            app.UseHealthChecks("/whoamiheader", new HealthCheckOptions
             {
                 AllowCachingResponses = false,
                 Predicate = registration => registration.Name == "WhoAmIHeaderHealthCheck",
@@ -267,12 +268,11 @@
                 {
                     var scopeServiceProvider = scope.ServiceProvider;
                     var options = scopeServiceProvider.GetService<IOptions<AppSettings>>();
-                    var oAuthService = scopeServiceProvider.GetService<IOAuthService>();
                     var contextService = scopeServiceProvider.GetService<IContextService>();
 
-                    var setting = options.Value;
                     client.BaseAddress = new Uri(options.Value.BetListApiHostUrl);
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, contextService.OAuthAccessToken);
+                    client.DefaultRequestHeaders.Authorization =
+                        new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, contextService.OAuthAccessToken);
                 }
             }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
             {
@@ -294,7 +294,6 @@
                     var scopeServiceProvider = scope.ServiceProvider;
                     var options = scopeServiceProvider.GetService<IOptions<AppSettings>>();
 
-                    var setting = options.Value;
                     client.BaseAddress = new Uri(options.Value.CommonApiHostUrl);
                 }
             }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler

@@ -1,15 +1,10 @@
-﻿@using Fanex.Athena.ExtService.Common.Services;
-@using Microsoft.AspNetCore.Http;
-@using Microsoft.Extensions.Configuration
-@using Fanex.Athena.ExtService.Common.Models.DTO
-@inject IConfiguration Configuration
+﻿@inject IConfiguration Configuration
 @inject ICommonService CommonService
-@using Fanex.Athena.ExtService.Common.Models.ViewModels
 @{
     Layout = null;
 
     var appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
-    var langCode = System.Globalization.CultureInfo.CurrentUICulture.IetfLanguageTag;
+    var langCode = CultureInfo.CurrentUICulture.IetfLanguageTag;
     var siteName = Context.User.Identity.Name ?? "";
     var isHideSaba = false;
 
@@ -19,7 +14,11 @@
         isHideSaba = specialPlatform == 2 || specialPlatform == 3;
     }
 }
-@model BaseViewModel
+@using System.Globalization
+@using Fanex.Athena.ExtService.Common.Models.DTO
+@using Fanex.Athena.ExtService.Common.Services
+@using Microsoft.Extensions.Configuration
+@model Fanex.Athena.ExtService.Common.Models.ViewModels.BaseViewModel
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,9 +56,9 @@
     </script>
     @if (langCode != "en-US")
     {
-        <script src="@Url.Content($"~/js/language-" + langCode + ".chunk.js")"  asp-append-version="true"></script>
+        <script src="@Url.Content("~/js/language-" + langCode + ".chunk.js")"  asp-append-version="true"></script>
     }
-    <script src="@Url.Content($"~/js/pages/lib/common.chunk.js")"  asp-append-version="true"></script>
+    <script src="@Url.Content("~/js/pages/lib/common.chunk.js")"  asp-append-version="true"></script>
     @if (ViewData["IntegrateBetTicketSite"] as bool? == true)
     {
         <script src="@appSettings.BetTicketEventBuilderUrl" id="event-builder-script"></script>

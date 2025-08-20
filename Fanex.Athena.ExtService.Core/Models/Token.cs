@@ -1,7 +1,7 @@
-﻿using System.Text.Json.Serialization;
-
-namespace Fanex.Athena.ExtService.Core.Models
+﻿namespace Fanex.Athena.ExtService.Core.Models
 {
+    using System.Text.Json.Serialization;
+
     public class Token
     {
         [JsonPropertyName("access_token")]

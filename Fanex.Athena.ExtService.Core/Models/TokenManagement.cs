@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-
-namespace Fanex.Athena.ExtService.Core.Models
+﻿namespace Fanex.Athena.ExtService.Core.Models
 {
+    using Newtonsoft.Json;
+
     [JsonObject("tokenManagement")]
     public class TokenManagement
     {

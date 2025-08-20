@@ -1,15 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-
-using Fanex.Athena.ExtService.Common.Models.ViewModels;
-using Fanex.Athena.ExtService.Common.Services;
-
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-
-namespace Fanex.Athena.ExtService.Common.Attributes
+﻿namespace Fanex.Athena.ExtService.Common.Attributes
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Filters;
+    using Models.ViewModels;
+    using Services;
+
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
     public class CheckCustomerAttribute : ActionFilterAttribute
     {

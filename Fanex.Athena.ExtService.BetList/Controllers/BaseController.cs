@@ -1,12 +1,12 @@
 ﻿namespace Fanex.Athena.ExtService.BetList.Controllers
 {
-    using Fanex.Athena.ExtService.BetList.Models.MetaModel;
-    using Fanex.Athena.ExtService.Common;
-    using Fanex.Athena.ExtService.Common.Models.DTO;
-    using Fanex.Athena.ExtService.Common.Models.ViewModels;
-    using Fanex.Athena.ExtService.Core.Services;
+    using Common;
+    using Common.Models.DTO;
+    using Common.Models.ViewModels;
+    using Core.Services;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Models.MetaModel;
 
     [Authorize]
     public class BaseController : Controller

@@ -1,14 +1,13 @@
-﻿using Fanex.Athena.ExtService.UnitTest.Common.Helpers;
-
-namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
+﻿namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
 {
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Fanex.Athena.ExtService.BetList.Controllers;
-    using Fanex.Athena.ExtService.BetList.Models.DTO;
-    using Fanex.Athena.ExtService.BetList.Models.MetaModel;
-    using Fanex.Athena.ExtService.BetList.Models.ViewModel;
+    using BetList.Controllers;
+    using BetList.Models.DTO;
+    using BetList.Models.MetaModel;
+    using BetList.Models.ViewModel;
+    using ExtService.UnitTest.Common.Helpers;
     using Microsoft.AspNetCore.Mvc;
     using Moq;
     using Xunit;
@@ -25,7 +24,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             var metalModel = new RefNoBetListMetaModel { UserName = UserName };
 
             IActionResult result = null;
-            var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName, 0);
+            var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName);
 
             // Action
             using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object, _contextService.Object))
@@ -108,7 +107,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             var metalModel = new TxIDBetListMetaModel { UserName = UserName };
 
             IActionResult result = null;
-            var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName, 0);
+            var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName);
 
             // Action
             using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object, _contextService.Object))
@@ -193,7 +192,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
             };
 
             IActionResult result = null;
-            var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName, 0);
+            var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName);
 
             _commonService.Setup(_commonService => _commonService.GetAllProductResource(metalModel.Lang))
                 .ReturnsAsync(new Dictionary<string, string> { { "SB", "Sportsbook" } });
@@ -325,7 +324,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
         public async Task Running_InValidMetalModel_ReturnEmptyData()
         {
             // Arrange
-            var metalModel = new RunningBetListMetaModel { };
+            var metalModel = new RunningBetListMetaModel();
             IActionResult expectedResult = null;
 
             // Action
@@ -361,7 +360,7 @@ namespace Fanex.Athena.ExtService.BetList.UnitTests.Controllers
                 )).Returns(Task.FromResult(new RefNoDataResult()));
 
             IActionResult result = null;
-            var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName, 0);
+            var licenseeInfo = await _commonService.Object.GetLicenseeInfoAsync(SiteName);
 
             // Action
             using (var controller = new BetListController(_commonService.Object, _betListApiClient.Object, _browserService.Object, _contextService.Object))

@@ -1,11 +1,10 @@
-﻿using System;
-
-using Fanex.Athena.ExtService.Common.Models.DataDomain;
-using Fanex.Athena.ExtService.Common.Models.ViewModels;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
+﻿namespace Fanex.Athena.ExtService.BetList.Models.MetaModel
 {
+    using System;
+    using Common.Models.DataDomain;
+    using Common.Models.ViewModels;
+    using Microsoft.AspNetCore.Mvc;
+
     public class SummaryStatementMetaModel : IBaseMetaModel, ICustomerMetaModel
     {
         private const int MonthsLimit = 2;

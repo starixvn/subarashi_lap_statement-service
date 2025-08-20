@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Fanex.Athena.ExtService.BetList.Models.DataDomain;
-using Fanex.Athena.ExtService.BetList.Models.DTO;
-using Fanex.Athena.ExtService.Common.Services;
-
-namespace Fanex.Athena.ExtService.BetList.Helper
+﻿namespace Fanex.Athena.ExtService.BetList.Helper
 {
+    using System;
+    using System.Collections.Generic;
+    using Common.Services;
+    using Models.DataDomain;
+    using Models.DTO;
+
     public static class StatementHelper
     {
         private const int DDEPBettypeId = 22001;

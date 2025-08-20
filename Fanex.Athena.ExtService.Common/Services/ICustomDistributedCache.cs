@@ -1,9 +1,9 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Caching.Distributed;
-
-namespace Fanex.Athena.ExtService.Common.Services
+﻿namespace Fanex.Athena.ExtService.Common.Services
 {
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Microsoft.Extensions.Caching.Distributed;
+
     public interface ICustomDistributedCache
     {
         Task SetAsync<T>(string key, T value, DistributedCacheEntryOptions options, CancellationToken token = default(CancellationToken))

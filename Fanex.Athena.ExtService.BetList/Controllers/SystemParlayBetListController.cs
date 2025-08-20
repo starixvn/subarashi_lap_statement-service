@@ -1,15 +1,15 @@
-﻿using System.Threading.Tasks;
-using Fanex.Athena.ExtService.BetList.Models.MetaModel;
-using Fanex.Athena.ExtService.BetList.Models.ViewModel;
-using Fanex.Athena.ExtService.Common;
-using Fanex.Athena.ExtService.Common.Models.DataDomain;
-using Fanex.Athena.ExtService.Common.Services;
-using Fanex.Athena.ExtService.Core.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Fanex.Athena.ExtService.BetList.Controllers
+﻿namespace Fanex.Athena.ExtService.BetList.Controllers
 {
+    using System.Threading.Tasks;
+    using Common;
+    using Common.Models.DataDomain;
+    using Common.Services;
+    using Core.Services;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Models.MetaModel;
+    using Models.ViewModel;
+
     [Authorize]
     public class SystemParlayBetListController : BaseController
     {

@@ -1,14 +1,10 @@
-﻿@using Microsoft.Extensions.Configuration
-@using Fanex.Athena.ExtService.Common.Models.DTO
-@inject IConfiguration Configuration
-@using Fanex.Athena.ExtService.Resources
-@{
+﻿@inject IConfiguration Configuration
 
-    var langCode = System.Globalization.CultureInfo.CurrentUICulture.IetfLanguageTag;
-}
 @section pagecss{
     <link href="~/css/pages/betlist/cashouthistory.css" rel="stylesheet" type="text/css" asp-append-version="true" />
 }
+@using Fanex.Athena.ExtService.Resources
+@using Microsoft.Extensions.Configuration
 @model Fanex.Athena.ExtService.BetList.Models.ViewModel.CashOutBetListDetailViewModel
 <div class="page-results betlist-container mobile">
     <div class="table-content">
@@ -25,7 +21,6 @@
             </thead>
             <tbody>
                 @{
-                    var tdClass = Model.IsHighlightOriginalTicket ? "highlight" : null;
                     var ticket = Model.OriginalTicketText;
                 }
                 <tr>
@@ -69,7 +64,7 @@
             <tbody>
                 @foreach (var item in Model.CashOutTicketTextList)
                 {
-                    tdClass = item.IsHighlight ? "highlight" : null;
+                    var tdClass = item.IsHighlight ? "highlight" : null;
                     <tr>
                         <td class="@tdClass center-align @tdClass">@Html.Raw(item.TransTime)</td>
                         <td class="@tdClass right-align @tdClass">@Html.Raw(item.Stake)</td>

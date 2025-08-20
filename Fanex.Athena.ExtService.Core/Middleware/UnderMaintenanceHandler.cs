@@ -1,14 +1,14 @@
-﻿using System;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Primitives;
-using Newtonsoft.Json;
-using ONEbook.UM.Services;
-
-namespace Fanex.Athena.ExtService.Core.Middleware
+﻿namespace Fanex.Athena.ExtService.Core.Middleware
 {
+    using System;
+    using System.Linq;
+    using System.Net;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Primitives;
+    using Newtonsoft.Json;
+    using ONEbook.UM.Services;
+
     public class UnderMaintenanceHandler
     {
         private const string AjaxRequestMsgFormat = "System is currently unavailable due to scheduled maintenance. This downtime will last from {0} to {1} (HK Time GMT +8)";
