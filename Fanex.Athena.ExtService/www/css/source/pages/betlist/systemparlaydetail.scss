@@ -15,7 +15,6 @@ body {
         border: 1px solid $white;
         color: $white;
         padding: 2px 5px;
-
         /*&:first-child {
             border-left-color: #d1dae1 !important;
         }
@@ -53,4 +52,10 @@ body {
     p {
         margin: 0;
     }
+}
+
+span.strikethrough {
+    text-decoration: line-through;
+    color: #bbb;
+    font-weight: bold !important;
 }
