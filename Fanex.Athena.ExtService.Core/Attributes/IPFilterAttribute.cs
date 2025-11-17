@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Net;
     using System.Threading.Tasks;
+    using Common.Models.DTO;
     using Common.Services;
     using Extensions;
     using Microsoft.AspNetCore.Mvc;
@@ -18,11 +19,13 @@
     {
         private readonly ApplicationOptions _applicationOptions;
         private readonly ICommonService _commonService;
+        private readonly AppSettings _settings;
 
-        public IPFilterAttribute(IOptions<ApplicationOptions> applicationOptionAccessor, ICommonService commonService)
+        public IPFilterAttribute(IOptions<ApplicationOptions> applicationOptionAccessor, ICommonService commonService, IOptions<AppSettings> appSettings)
         {
             _applicationOptions = applicationOptionAccessor.Value;
             _commonService = commonService;
+            _settings = appSettings.Value;
         }
 
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -53,7 +56,9 @@
             var whiteListIPListFromAppSettings = _applicationOptions.WhiteList;
             var whiteListIPList = whiteListIPListFromDB.Concat(whiteListIPListFromAppSettings);
 
-            var isInWhiteListIPList = !whiteListIPList.Any() || whiteListIPList.Any(_ => IsInRangeIP(_, ipAddress));
+            var isInWhiteListIPList = !string.IsNullOrEmpty(_settings?.Environment) && _settings.Environment.Contains("LOCAL")
+                || !whiteListIPList.Any()
+                || whiteListIPList.Any(_ => IsInRangeIP(_, ipAddress));
             if (!isInWhiteListIPList)
             {
                 var result = new ContentResult

@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Net;
     using System.Threading.Tasks;
+    using Common.Models.DTO;
     using Common.Services;
     using Core.Attributes;
     using ExtService.UnitTest.Common.Helpers;
@@ -22,6 +23,7 @@
     {
         private readonly Mock<IOptions<ApplicationOptions>> _options;
         private readonly Mock<ICommonService> _commonService;
+        private readonly Mock<IOptions<AppSettings>> _appSettings;
         private readonly ActionExecutingContext _actionExecutingContext;
         private readonly ActionExecutionDelegate _actionExecutingDelegate;
         private readonly Mock<HttpContext> _mockHttpContext;
@@ -47,6 +49,8 @@
             _options = new Mock<IOptions<ApplicationOptions>>();
             _commonService = new Mock<ICommonService>();
             _commonService.Setup(x => x.GetWhitelistIPFromDB(It.IsAny<string>())).Returns(Task.FromResult(new List<string>()));
+            _appSettings = new Mock<IOptions<AppSettings>>();
+            _appSettings.Setup(x => x.Value).Returns(new AppSettings { Environment = "PROD" });
             var httpRequest = new Mock<HttpRequest>();
             httpRequest.Setup(_ => _.Host).Returns(HostString.FromUriComponent("asdsadsadsads.com")); //Make sure not from internal
             httpRequest.Setup(_ => _.HttpContext.User.Identity.IsAuthenticated).Returns(false); // Make sure not login
@@ -68,7 +72,7 @@
             connectionInfo.Setup(x => x.RemoteIpAddress).Returns(new IPAddress(0x2414188f));
             _mockHttpContext.Setup(x => x.Connection).Returns(connectionInfo.Object);
             //Action
-            var filter = new IPFilterAttribute(_options.Object, _commonService.Object);
+            var filter = new IPFilterAttribute(_options.Object, _commonService.Object, _appSettings.Object);
 
             await filter.OnActionExecutionAsync(_actionExecutingContext, _actionExecutingDelegate);
 
@@ -95,7 +99,7 @@
             connectionInfo.Setup(x => x.RemoteIpAddress).Returns(new IPAddress(requestIp));
             _mockHttpContext.Setup(x => x.Connection).Returns(connectionInfo.Object);
             //Action
-            var filter = new IPFilterAttribute(_options.Object, _commonService.Object);
+            var filter = new IPFilterAttribute(_options.Object, _commonService.Object, _appSettings.Object);
 
             await filter.OnActionExecutionAsync(_actionExecutingContext, _actionExecutingDelegate);
 
@@ -123,7 +127,7 @@
             _mockHttpContext.Setup(x => x.Connection).Returns(connectionInfo.Object);
 
             //Action
-            var filter = new IPFilterAttribute(_options.Object, _commonService.Object);
+            var filter = new IPFilterAttribute(_options.Object, _commonService.Object, _appSettings.Object);
 
             await filter.OnActionExecutionAsync(_actionExecutingContext, _actionExecutingDelegate);
 
@@ -157,7 +161,7 @@
             _mockHttpContext.Setup(x => x.Connection).Returns(connectionInfo.Object);
 
             //Action
-            var filter = new IPFilterAttribute(_options.Object, _commonService.Object);
+            var filter = new IPFilterAttribute(_options.Object, _commonService.Object, _appSettings.Object);
 
             await filter.OnActionExecutionAsync(_actionExecutingContext, _actionExecutingDelegate);
 
@@ -185,7 +189,7 @@
             _mockHttpContext.Setup(x => x.Connection).Returns(connectionInfo.Object);
 
             //Action
-            var filter = new IPFilterAttribute(_options.Object, _commonService.Object);
+            var filter = new IPFilterAttribute(_options.Object, _commonService.Object, _appSettings.Object);
 
             await filter.OnActionExecutionAsync(_actionExecutingContext, _actionExecutingDelegate);
 
@@ -213,12 +217,73 @@
             _mockHttpContext.Setup(x => x.Connection).Returns(connectionInfo.Object);
 
             //Action
-            var filter = new IPFilterAttribute(_options.Object, _commonService.Object);
+            var filter = new IPFilterAttribute(_options.Object, _commonService.Object, _appSettings.Object);
 
             var ex = await Assert.ThrowsAsync<Exception>(() => filter.OnActionExecutionAsync(_actionExecutingContext, _actionExecutingDelegate));
 
             //Assert
             Assert.Equal(expectedResult, ex.Message);
+        }
+
+        [Fact]
+        public async Task OnActionExecuting_WhenEnvironmentContainsLOCAL_AllowAnyIP_NoChangeResultAsync()
+        {
+            //Arrange
+            const long requestIpNumber = 169003217;
+            const string whitelistIp = "143.24.20.36";
+
+            const string fakeContent = "NOCHANGE";
+            var fakeResult = new ContentResult { Content = fakeContent };
+            var applicationOption = FakeHelper.Create<ApplicationOptions>(options => options.WhiteList, new List<string> { whitelistIp });
+            _options.Setup(x => x.Value).Returns(applicationOption);
+            _appSettings.Setup(x => x.Value).Returns(new AppSettings { Environment = "LOCAL" });
+            _actionExecutingContext.Result = fakeResult;
+
+            var connectionInfo = new Mock<ConnectionInfo>();
+            connectionInfo.Setup(x => x.RemoteIpAddress).Returns(new IPAddress(requestIpNumber));
+            _mockHttpContext.Setup(x => x.Connection).Returns(connectionInfo.Object);
+
+            //Action
+            var filter = new IPFilterAttribute(_options.Object, _commonService.Object, _appSettings.Object);
+
+            await filter.OnActionExecutionAsync(_actionExecutingContext, _actionExecutingDelegate);
+
+            //Assert
+            var actualResult = Assert.IsAssignableFrom<ContentResult>(_actionExecutingContext.Result);
+            Assert.Equal(fakeContent, actualResult.Content);
+        }
+
+        [Theory]
+        [InlineData("LOCAL")]
+        [InlineData("LOCAL_1")]
+        [InlineData("LOCAL_2")]
+        [InlineData("LOCAL_3")]
+        [InlineData("LOCAL_4")]
+        public async Task OnActionExecuting_WhenEnvironmentContainsLOCAL_VariousEnvironments_AllowAnyIP_NoChangeResultAsync(string environment)
+        {
+            //Arrange
+            const long requestIpNumber = 169003217;
+            const string whitelistIp = "143.24.20.36";
+
+            const string fakeContent = "NOCHANGE";
+            var fakeResult = new ContentResult { Content = fakeContent };
+            var applicationOption = FakeHelper.Create<ApplicationOptions>(options => options.WhiteList, new List<string> { whitelistIp });
+            _options.Setup(x => x.Value).Returns(applicationOption);
+            _appSettings.Setup(x => x.Value).Returns(new AppSettings { Environment = environment });
+            _actionExecutingContext.Result = fakeResult;
+
+            var connectionInfo = new Mock<ConnectionInfo>();
+            connectionInfo.Setup(x => x.RemoteIpAddress).Returns(new IPAddress(requestIpNumber));
+            _mockHttpContext.Setup(x => x.Connection).Returns(connectionInfo.Object);
+
+            //Action
+            var filter = new IPFilterAttribute(_options.Object, _commonService.Object, _appSettings.Object);
+
+            await filter.OnActionExecutionAsync(_actionExecutingContext, _actionExecutingDelegate);
+
+            //Assert
+            var actualResult = Assert.IsAssignableFrom<ContentResult>(_actionExecutingContext.Result);
+            Assert.Equal(fakeContent, actualResult.Content);
         }
     }
 }
