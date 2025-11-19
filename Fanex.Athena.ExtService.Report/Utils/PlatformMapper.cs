@@ -29,6 +29,7 @@
             { 18, "Mobile Galaxy" },
             { 19, "Desktop Compact" },
             { 20, "Quick Bet Widget" },
+            { 21, "Casino Royale" },
             { 88, "Others" },
 
             // Jollysport
